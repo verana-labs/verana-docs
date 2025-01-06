@@ -13,7 +13,12 @@ const sidebars = {
     {
       type: 'category',
       label: 'Getting Started',
-      items: ['getting-started/setup-chain', 'getting-started/multi-validator'],
+      items: [
+        'getting-started/overview',
+        'getting-started/local-node-isolated',
+        'getting-started/remote-cli',
+        'getting-started/local-node-join-network',
+      ],
     },
     {
       type: 'category',
