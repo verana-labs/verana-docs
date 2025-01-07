@@ -6,7 +6,7 @@ This section lists all the available environments for the Verana blockchain, inc
 |--------------------------|--------------|------------------------------|-----------------------------|
 | Development Environment  | `vna-devnet-main`  | `https://api.vna-devnet-main.devnet.verana.network` | `https://rpc.vna-devnet-main.devnet.verana.network` |
 | Test Environment         | `vna-testnet-1` | `https://api.testnet.verana.network` | `https://rpc.testnet.verana.network` |
-| Production Environment   | `vna-mainnet-1` | `https://api.verana.io`        | `https://rpc.verana.io`        |
+| Production Environment   | `vna-mainnet-1` | `https://api.verana.network`        | `https://rpc.verana.network`        |
 
 ---
 
