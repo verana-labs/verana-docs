@@ -38,7 +38,11 @@ const sidebars = {
     {
       type: 'category',
       label: 'Testing and Debugging',
-      items: ['testing/testing-chain', 'testing/debugging-cli'],
+      items: [
+        'testing/testing-chain',
+        'testing/debugging-cli',
+        'testing/test-harness'
+      ],
     },
   ],
 };

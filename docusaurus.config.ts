@@ -39,6 +39,15 @@ const config: Config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.ts'),
           editUrl: 'https://github.com/verana-labs/verana-docs/edit/main/',
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+          includeCurrentVersion: true, // Ensure the latest docs are included
+          versions: {
+            current: {
+              label: 'Next', // The default latest version
+              path: 'next',
+            },
+          },
         },
         blog: {
           showReadingTime: true,
@@ -58,16 +67,20 @@ const config: Config = {
       title: 'Verana',
       logo: {
         alt: 'Verana Logo',
-        src: 'img/logo.svg', // Replace with your logo file
+        src: 'img/logo.svg',
       },
       items: [
+        {
+          type: 'docsVersionDropdown', // This enables the version dropdown
+          position: 'right',
+        },
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
           label: 'Docs',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
+        { to: '/blog', label: 'Blog', position: 'left' },
         {
           href: 'https://github.com/verana-labs/verana-docs',
           label: 'GitHub',
