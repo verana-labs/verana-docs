@@ -4,8 +4,9 @@ This section lists all the available environments for the Verana blockchain, inc
 
 | Environment Name         | Chain ID     | API Endpoint                 | RPC Endpoint                |
 |--------------------------|--------------|------------------------------|-----------------------------|
-| Development Environment  | `vna-local-1`  | `https://localhost:1317` | `https://localhost:26657` |
-| Development Environment  | `vna-devnet-1`  | `https://api.vna-devnet-main.devnet.verana.network` | `https://rpc.vna-devnet-main.devnet.verana.network` |
+| Local Development Environment  | `vna-local-1`  | `http://localhost:1317` | `http://localhost:26657` |
+| betanet Environment  | `vna-betanet-1`  | `https://api.vna-betanet-1.devnet.verana.network` | `https://rpc.vna-betanet-1.devnet.verana.network` |
+| devnet Environment  | `vna-devnet-main`  | `https://api.vna-devnet-main.devnet.verana.network` | `https://rpc.vna-devnet-main.devnet.verana.network` |
 | Test Environment         | `vna-testnet-1` | `https://api.testnet.verana.network` | `https://rpc.testnet.verana.network` |
 | Production Environment   | `vna-mainnet-1` | `https://api.verana.network`        | `https://rpc.verana.network`        |
 
@@ -20,3 +21,4 @@ This section lists all the available environments for the Verana blockchain, inc
 - **gRPC Endpoint**: The gRPC endpoint for advanced client interaction.
 
 Use these attributes to configure your CLI or client applications to interact with the appropriate Verana blockchain environment.
+

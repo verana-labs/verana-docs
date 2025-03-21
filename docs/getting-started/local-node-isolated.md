@@ -64,3 +64,15 @@ Your node is now running locally! Use the CLI to interact with it:
 veranad q bank balances $(veranad keys show cooluser -a --keyring-backend test)
 ```
 
+Create a Trust Registry:
+```bash
+veranad tx trustregistry create-trust-registry \
+    did:example:123456789abcdefghi en \
+    https://example.com/framework.pdf "sha256-315f5bdb76d078c43b8ac00641b2a6ea241e27fcb60e23f9e6acfa2c05b9e36a" \
+    --from cooluser --keyring-backend test --chain-id vna-local-1 --fees 600000uvna
+```
+
+List Trust Registries:
+```bash
+veranad q trustregistry list-trust-registries
+```
