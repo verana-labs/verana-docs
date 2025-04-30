@@ -40,8 +40,8 @@ devnet environmnet
 ```
 FAUCET_ACC="faucet"
 FAUCET_ACC_LIT=verana167vrykn5vhp8v9rng69xf0jzvqa3v79etmr0t2
-CHAIN_ID="vna-devnet-main"
-NODE_RPC=https://rpc.vna-devnet-main.devnet.verana.network
+CHAIN_ID="vna-devnet-1"
+NODE_RPC=http://node1.devnet.verana.network:26657
 ```
 
 Testnet environmnet
@@ -49,7 +49,7 @@ Testnet environmnet
 FAUCET_ACC="faucet"
 FAUCET_ACC_LIT=verana167vrykn5vhp8v9rng69xf0jzvqa3v79etmr0t2
 CHAIN_ID="vna-testnet-1"
-NODE_RPC=https://rpc.testnet.verana.network
+NODE_RPC=http://node1.devnet.verana.network:26657
 ```
 
 ## Example Commands
