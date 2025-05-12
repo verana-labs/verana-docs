@@ -4,8 +4,9 @@
 | Parameters | Value                          |
 |------------|--------------------------------|
 | Chain ID  | `vna-testnet-1`               |
-| API       | `https://api.testnet.verana.network` |
-| RPC       | `https://rpc.testnet.verana.network` |
+| API       | `http://node1.testnet.verana.network:1317` |
+| RPC       | `http://node1.testnet.verana.network:26657` |
+| Explorer  | `http://node3.testnet.verana.network:5173` |
 
 ## Consensus Parameters
 
