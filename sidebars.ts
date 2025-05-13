@@ -8,7 +8,10 @@ const sidebars = {
     {
       type: 'category',
       label: 'Environments',
-      items: ['environments/environments'],
+      items: ['environments/environments',
+        'environments/testnet',
+        'environments/mainnet',
+      ],
     },
     {
       type: 'category',
