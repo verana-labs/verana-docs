@@ -93,3 +93,29 @@
 |-----------|-------|
 | Term Requested Timeout Days | 7 |
 | Credential Schema Validity Periods | 3650 days (10 years) |
+
+## Account Configuration
+
+### Genesis Accounts
+| Account Type | Address | Initial Balance | Vesting Period |
+|--------------|---------|-----------------|----------------|
+| Community Pool | `vna1...` | 100,000,000 VNA | N/A |
+| Team Treasury | `vna1...` | 50,000,000 VNA | 24 months cliff, 36 months vesting |
+| Foundation Treasury | `vna1...` | 30,000,000 VNA | 12 months cliff, 24 months vesting |
+| Ecosystem Development | `vna1...` | 20,000,000 VNA | 6 months cliff, 18 months vesting |
+
+### Multi-Signature Accounts
+| Account Purpose | Address | Signers Required | Total Signers |
+|-----------------|---------|------------------|---------------|
+| Genesis Governance | `vna1...` | 3 of 5 | 5 |
+| Team Treasury | `vna1...` | 2 of 3 | 3 |
+| Foundation Treasury | `vna1...` | 2 of 3 | 3 |
+
+### Vesting Schedules
+| Account Type | Cliff Period | Vesting Period | Total Duration |
+|--------------|--------------|----------------|----------------|
+| Team Tokens | 24 months | 36 months | 60 months |
+| Foundation Tokens | 12 months | 24 months | 36 months |
+| Ecosystem Development | 6 months | 18 months | 24 months |
+
+Note: All vesting schedules follow a linear vesting model after the cliff period. Multi-signature accounts are implemented using Cosmos SDK's multi-sig module with appropriate threshold configurations.
