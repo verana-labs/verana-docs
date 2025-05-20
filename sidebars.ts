@@ -21,6 +21,8 @@ const sidebars = {
         'getting-started/local-node-isolated',
         'getting-started/remote-cli',
         'getting-started/local-node-join-network',
+        'getting-started/join-testnet',
+        'getting-started/join-validator',
       ],
     },
     {
