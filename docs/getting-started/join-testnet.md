@@ -9,7 +9,8 @@ This guide provides comprehensive instructions for joining the Verana testnet as
 | Chain ID | `vna-testnet-1` |
 | API | `http://node1.testnet.verana.network:1317` |
 | RPC | `http://node1.testnet.verana.network:26657` |
-| Explorer | `http://node3.testnet.verana.network:5173` |
+| Explorer | `https://explorer.vna-testnet-1.testnet.verana.network` |
+| Faucet | `https://faucet.vna-testnet-1.devnet.verana.network` |
 | Block Time | ~5 seconds |
 | Max Validators | 100 |
 
@@ -37,14 +38,20 @@ sudo apt install -y build-essential git curl wget jq
 
 #### For Linux
 ```bash
+# Fetch the binary manifest
+curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/binaries/manifest.json > manifest.json
+
+# Get the binary filename for your architecture
+BINARY_FILE=$(jq -r '.["linux-amd64"]' manifest.json)
+
 # Download the binary
-wget https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/binaries/veranad-v0.5-dev.1-linux-amd64
+wget https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/binaries/$BINARY_FILE
 
 # Make it executable
-chmod +x veranad-v0.5-dev.1-linux-amd64
+chmod +x $BINARY_FILE
 
 # Move to system path
-sudo mv veranad-v0.5-dev.1-linux-amd64 /usr/local/bin/veranad
+sudo mv $BINARY_FILE /usr/local/bin/veranad
 
 # Verify installation
 veranad version
@@ -52,14 +59,20 @@ veranad version
 
 #### For macOS
 ```bash
+# Fetch the binary manifest
+curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/binaries/manifest.json > manifest.json
+
+# Get the binary filename for your architecture
+BINARY_FILE=$(jq -r '.["darwin-amd64"]' manifest.json)
+
 # Download the binary
-curl -O https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/binaries/veranad-v0.5-dev.1-darwin-amd64
+curl -O https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/binaries/$BINARY_FILE
 
 # Make it executable
-chmod +x veranad-v0.5-dev.1-darwin-amd64
+chmod +x $BINARY_FILE
 
 # Move to system path
-sudo mv veranad-v0.5-dev.1-darwin-amd64 /usr/local/bin/veranad
+sudo mv $BINARY_FILE /usr/local/bin/veranad
 
 # Verify installation
 veranad version
@@ -92,15 +105,40 @@ veranad validate-genesis
 
 ### 5. Configure Seeds and Peers
 
+Create a script to fetch and set persistent peers and seeds:
+
+```bash
+# Create a script to fetch and set persistent peers and seeds
+cat > ~/update-peers.sh << 'EOF'
+#!/bin/bash
+
+# Fetch persistent peers from the manifest
+PEERS=$(curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/persistent_peers/persistent_peers.json | jq -r '.persistent_peers')
+
+# Update config.toml with the fetched peers
+sed -i.bak "s/persistent_peers = .*/persistent_peers = \"$PEERS\"/" ~/.verana/config/config.toml
+
+# Use the same peers as seeds
+sed -i.bak "s/seeds = .*/seeds = \"$PEERS\"/" ~/.verana/config/config.toml
+
+# Update mempool settings with correct numeric values
+sed -i.bak "s/experimental_max_gossip_connections_to_persistent_peers = .*/experimental_max_gossip_connections_to_persistent_peers = 10/" ~/.verana/config/config.toml
+sed -i.bak "s/experimental_max_gossip_connections_to_non_persistent_peers = .*/experimental_max_gossip_connections_to_non_persistent_peers = 10/" ~/.verana/config/config.toml
+
+echo "Updated persistent peers and seeds to: $PEERS"
+echo "Updated mempool settings with recommended values"
+EOF
+
+# Make the script executable
+chmod +x ~/update-peers.sh
+
+# Run the script
+~/update-peers.sh
+```
+
 Edit `~/.verana/config/config.toml`:
 
 ```toml
-# Add seeds
-seeds = "node1.testnet.verana.network:26656,node2.testnet.verana.network:26656"
-
-# Add persistent peers
-persistent_peers = "node1.testnet.verana.network:26656,node2.testnet.verana.network:26656"
-
 # Configure P2P settings
 [p2p]
 max_num_inbound_peers = 40

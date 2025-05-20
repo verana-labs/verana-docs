@@ -21,6 +21,16 @@ Validators are responsible for committing new blocks to the blockchain through a
   - Static IP address
   - 99.9% uptime
 
+## Environment Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Chain ID | `vna-testnet-1` |
+| API | `http://node1.testnet.verana.network:1317` |
+| RPC | `http://node1.testnet.verana.network:26657` |
+| Explorer | `https://explorer.vna-testnet-1.testnet.verana.network` |
+| Faucet | `https://faucet.vna-testnet-1.devnet.verana.network` |
+
 ## Security Considerations
 
 ### Sentry Node Architecture
@@ -63,7 +73,7 @@ Save the mnemonic phrase securely. You'll need it to recover your account.
 
 ### 2. Get Testnet Tokens
 
-Request testnet tokens from the [Verana Faucet](http://node3.testnet.verana.network:5173/faucet).
+Request testnet tokens from the [Verana Faucet](https://faucet.vna-testnet-1.devnet.verana.network).
 
 ### 3. Create Validator Transaction
 
