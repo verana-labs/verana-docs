@@ -245,7 +245,4 @@ veranad start --halt-height <height>
 
 ## Next Steps
 
-- [Join Testnet](./join-testnet.md)
-- [Interact with the Node](./interact-node.md)
-- [Validator FAQ](./validator-faq.md)
-- [Security Best Practices](./security.md) 
+- [Join Testnet](./join-testnet.md) 

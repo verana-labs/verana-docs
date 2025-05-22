@@ -313,7 +313,4 @@ tar -xzf verana-backup.tar.gz -C ~/
 
 ## Next Steps
 
-- [Join as a Validator](./join-validator.md)
-- [Interact with the Node](./interact-node.md)
-- [Node Security Guide](./node-security.md)
-- [Troubleshooting Guide](./troubleshooting.md) 
+- [Join as a Validator](./join-validator.md) 
