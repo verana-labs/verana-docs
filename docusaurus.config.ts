@@ -67,7 +67,7 @@ const config: Config = {
       title: 'Verana',
       logo: {
         alt: 'Verana Logo',
-        src: 'img/logo.svg',
+        src: 'img/verana.io.svg',
       },
       items: [
         {
