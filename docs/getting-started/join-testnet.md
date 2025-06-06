@@ -310,10 +310,3 @@ tar -czf verana-backup.tar.gz ~/.verana
 # Restore from backup
 tar -xzf verana-backup.tar.gz -C ~/
 ```
-
-## Next Steps
-
-- [Join as a Validator](./join-validator.md)
-- [Interact with the Node](./interact-node.md)
-- [Node Security Guide](./node-security.md)
-- [Troubleshooting Guide](./troubleshooting.md) 
