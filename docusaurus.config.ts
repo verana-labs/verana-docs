@@ -1,12 +1,13 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import { remarkKroki } from 'remark-kroki';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'Verana',
-  tagline: 'Providing the Proof Of Trust (PoT)',
+  title: 'Explore the SDK',
+  tagline: 'Verana is an open initiative providing specifications, public infrastructure, and governance to build a decentralized, verifiable trust layer for the Internet using verifiable credentials and trust registries.',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -48,11 +49,22 @@ const config: Config = {
               path: 'next',
             },
           },
+          remarkPlugins: [
+            [
+              remarkKroki,
+              {
+                // ...options here
+                alias: ['plantuml'],
+                target: 'mdx3',
+                server: 'https://kroki.io'
+              }
+            ]
+          ]
         },
-        blog: {
-          showReadingTime: true,
-          editUrl: 'https://github.com/verana-labs/verana-docs/edit/main/',
-        },
+        //blog: {
+        //  showReadingTime: true,
+        //  editUrl: 'https://github.com/verana-labs/verana-docs/edit/main/',
+        //},
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -62,12 +74,18 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
+    
+    
+    prism: {
+      theme: prismThemes.github,
+      darkTheme: prismThemes.dracula,
+    },
     image: 'img/verana-social-card.jpg', // Replace with your social card
     navbar: {
       title: 'Verana',
       logo: {
         alt: 'Verana Logo',
-        src: 'img/logo.svg',
+        src: 'img/verana.io.svg',
       },
       items: [
         {
@@ -80,7 +98,7 @@ const config: Config = {
           position: 'left',
           label: 'Docs',
         },
-        { to: '/blog', label: 'Blog', position: 'left' },
+        
         {
           href: 'https://github.com/verana-labs/verana-docs',
           label: 'GitHub',
@@ -91,6 +109,20 @@ const config: Config = {
     footer: {
       style: 'dark',
       links: [
+        {
+          title: 'Specifications',
+          items: [
+            {
+              label: 'Verifiable Trust',
+              href: 'https://verana-labs.github.io/verifiable-trust-spec/',
+            },
+            {
+              label: 'Verifiable Public Registry',
+              href: 'https://verana-labs.github.io/verifiable-trust-vpr-spec/',
+            },
+          ],
+        },
+        
         {
           title: 'Docs',
           items: [
@@ -104,39 +136,20 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Linkedin',
+              href: 'https://www.linkedin.com/company/verana-verifiable-trust-network',
             },
             {
               label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
-            },
+              href: 'https://discord.gg/edjaFn252q',
+            }
           ],
         },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/verana-labs/verana-blockchain',
-            },
-          ],
-        },
+        
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `©${new Date().getFullYear()} the Verana Foundation`,
     },
-    prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
-    },
+   
   } satisfies Preset.ThemeConfig,
 };
 
