@@ -1,4 +1,14 @@
 const sidebars = {
+
+  learnSidebar: [
+    {
+      type: 'category',
+      label: 'Learn',
+      items: [
+        'learn/intro'
+      ],
+    },
+  ],
   tutorialSidebar: [
     {
       type: 'category',
