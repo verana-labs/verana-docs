@@ -77,18 +77,18 @@ object "Trust Registry" as tra #3fbdb6 {
 
 ### Credential Schemas and Permissions
 
-[[ref: Credential schemas]] are created and managed by trust registry controller ([[ref: ecosystems]]). Each [[ref: Credential schema]] includes, at a minimum:
+[[ref: Credential schemas]] are created and managed by trust registry controller **ecosystems**. Each **credential schema** includes, at a minimum:
 
-- A **JSON Schema** that defines the structure of the corresponding [[ref: verifiable credential]]
+- A **JSON Schema** that defines the structure of the corresponding **verifiable credential**
 - A **PermissionManagementMode** for **issuance policy**, which determines how `ISSUER` permissions are granted. Modes include:
   - `OPEN`: `ISSUER` permissions can be created by anyone.
-  - `ECOSYSTEM`: `ISSUER` permissions are granted directly by the [[ref: ecosystem]], the trust registry controller
-  - `GRANTOR`: `ISSUER` permissions are granted by one or several [[ref: issuer grantor]](s) (trust registry operator(s) responsible for selecting issuers for the credential schema of this [[ref: ecosystem]]), selected by the [[ref: ecosystem]].
+  - `ECOSYSTEM`: `ISSUER` permissions are granted directly by the **ecosystem**, the trust registry controller
+  - `GRANTOR`: `ISSUER` permissions are granted by one or several issuer grantor(s) (trust registry operator(s) responsible for selecting issuers for the credential schema of this **ecosystem**), selected by the **ecosystem**.
 - A **PermissionManagementMode** for **verification policy**, which determines how `VERIFIER` permissions are granted. Modes include:
   - `OPEN`: `VERIFIER` permissions can be created by anyone.
-  - `ECOSYSTEM`: `VERIFIER` permissions are granted directly by the [[ref: ecosystem]], the Trust Registry controller
-  - `GRANTOR`: `VERIFIER` permissions are granted by one or several [[ref: verifier grantor]](s) (trust registry operator(s) responsible for selecting verifiers for the credential schema of this [[ref: ecosystem]]), selected by the [[ref: ecosystem]].
-- A **Permission tree** that defines the roles and relationships involved in managing the schema’s lifecycle. Each created permission in the tree can define business rules, see below [Business Models](#business-models).
+  - `ECOSYSTEM`: `VERIFIER` permissions are granted directly by the **ecosystem**, the Trust Registry controller
+  - `GRANTOR`: `VERIFIER` permissions are granted by one or several verifier grantor(s) (trust registry operator(s) responsible for selecting verifiers for the credential schema of this **ecosystem**), selected by the **ecosystem**.
+- A **Permission tree** that defines the roles and relationships involved in managing the schema’s lifecycle. Each created permission in the tree can define business rules, see below Business Models.
 
 ```plantuml
 
