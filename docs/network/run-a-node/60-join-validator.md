@@ -11,7 +11,7 @@ Validators are responsible for committing new blocks to the blockchain through a
 
 ## Prerequisites
 
-- A running full node (see [Join Testnet](./join-testnet.md))
+- A running full node (see [Join Testnet](./50-join-testnet.md))
 - At least 1,000,000 VNA tokens for self-delegation
 - A secure server with the following specifications:
   - 32GB RAM

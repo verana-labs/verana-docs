@@ -2,8 +2,8 @@
 
 The Trust Registry module lets you manage governance frameworks.
 
-Refer to the [Environments section](../environments/environments.md) for details on RPC endpoints to target the correct network.
-Setup [Environments variable](../getting-started/remote-cli.md) for specific RPC endpoints to target the correct network.
+Refer to the [Environments section](../environments/10-environments.md) for details on RPC endpoints to target the correct network.
+Setup [Environments variable](../run-a-node/30-remote-cli.md) for specific RPC endpoints to target the correct network.
 
 ### Create a Trust Registry
 ```bash
