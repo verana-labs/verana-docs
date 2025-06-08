@@ -183,7 +183,7 @@ const config: Config = {
         },
         
       ],
-      copyright: `©${new Date().getFullYear()} the Verana Foundation`,
+      copyright: `©${new Date().getFullYear()} Verana Foundation`,
     },
    
   } satisfies Preset.ThemeConfig,
