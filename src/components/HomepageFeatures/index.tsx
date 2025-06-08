@@ -10,31 +10,56 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
+    title: 'Intro to Verana',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Verana was designed from the ground up to be easily installed and
-        used to get your trusted service up and running quickly.
+        Discover how Verana provides an open, verifiable trust layer for the Internet, enabling privacy-first ecosystems, verifiable AI agents, ethical monetization, and decentralized governance through public trust registries.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Ecosystem Builders',
+    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    description: (
+      <>
+        Create your Trust Registry, define credential schemas, authorize trust registry operators, issuers, verifiers, and implement privacy-preserving verifiable credential monetization in your ecosystem.
+      </>
+    ),
+  },
+  {
+    title: 'App Builders',
+    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    description: (
+      <>
+        Create your Trust Registry, define credential schemas, authorize trust registry operators, issuers, verifiers, and implement privacy-preserving verifiable credential monetization in your ecosystem.
+      </>
+    ),
+  },
+  {
+    title: 'Verifiable Service Builders',
+    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    description: (
+      <>
+        Create your Trust Registry, define credential schemas, authorize trust registry operators, issuers, verifiers, and implement privacy-preserving verifiable credential monetization in your ecosystem.
+      </>
+    ),
+  },
+  {
+    title: 'Learn',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Verana lets you focus on the proof of trust.
+        Learn how Verifiable Trust empowers user-centric privacy, verifiable credentials, decentralized governance, and ethical monetization, enabling verifiable services and ecosystems built on transparency, not surveillance.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Run a Verana Network Node',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Learn how to run a Verana Verifiable Trust Network (VVTN) node. This section guides validators and community members who want to operate nodes and help secure and grow the network.
       </>
     ),
   },
