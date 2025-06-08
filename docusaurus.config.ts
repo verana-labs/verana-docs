@@ -6,7 +6,7 @@ import { remarkKroki } from 'remark-kroki';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'Explore the SDK',
+  title: 'Explore Verana',
   tagline: 'Verana is an open initiative providing specifications, public infrastructure, and governance to build a decentralized, verifiable trust layer for the Internet using verifiable credentials and trust registries.',
   favicon: 'img/favicon.ico',
 
@@ -94,13 +94,25 @@ const config: Config = {
         },
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'learnSidebar',
           position: 'left',
-          label: 'Docs',
+          label: 'Learn',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'useSidebar',
+          position: 'left',
+          label: 'Use',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'networkSidebar',
+          position: 'left',
+          label: 'Network',
         },
         
         {
-          href: 'https://github.com/verana-labs/verana-docs',
+          href: 'https://github.com/verana-labs',
           label: 'GitHub',
           position: 'right',
         },
