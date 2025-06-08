@@ -19,7 +19,7 @@ A VPR offers:
 
 @startuml
 scale max 800 width
- 
+
 package "Verifiable Public Registry" as vpr {
 
     object "Trust Registry of Ecosystem #A" as tra #3fbdb6 {

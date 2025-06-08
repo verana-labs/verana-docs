@@ -149,6 +149,16 @@ const config: Config = {
             }
           ],
         },
+        {
+          title: 'Verana Foundation',
+          items: [
+            {
+              label: 'Website',
+              href: 'https://verana.foundation',
+            }
+            
+          ],
+        },
         
       ],
       copyright: `©${new Date().getFullYear()} the Verana Foundation`,

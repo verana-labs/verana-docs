@@ -1,62 +1,42 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
+import Link from "@docusaurus/Link";
 
 type FeatureItem = {
   title: string;
   Svg: React.ComponentType<React.ComponentProps<'svg'>>;
   description: JSX.Element;
+  to?: string; 
 };
 
 const FeatureList: FeatureItem[] = [
-  {
-    title: 'Intro to Verana',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Discover how Verana provides an open, verifiable trust layer for the Internet, enabling privacy-first ecosystems, verifiable AI agents, ethical monetization, and decentralized governance through public trust registries.
-      </>
-    ),
-  },
-  {
-    title: 'Ecosystem Builders',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Create your Trust Registry, define credential schemas, authorize trust registry operators, issuers, verifiers, and implement privacy-preserving verifiable credential monetization in your ecosystem.
-      </>
-    ),
-  },
-  {
-    title: 'App Builders',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Create your Trust Registry, define credential schemas, authorize trust registry operators, issuers, verifiers, and implement privacy-preserving verifiable credential monetization in your ecosystem.
-      </>
-    ),
-  },
-  {
-    title: 'Verifiable Service Builders',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Create your Trust Registry, define credential schemas, authorize trust registry operators, issuers, verifiers, and implement privacy-preserving verifiable credential monetization in your ecosystem.
-      </>
-    ),
-  },
+  
   {
     title: 'Learn',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('@site/static/img/learn.svg').default,
+    to: '/docs/next/learn/intro',
     description: (
       <>
         Learn how Verifiable Trust empowers user-centric privacy, verifiable credentials, decentralized governance, and ethical monetization, enabling verifiable services and ecosystems built on transparency, not surveillance.
       </>
     ),
+    
+  },
+  {
+    title: 'Use',
+    Svg: require('@site/static/img/use.svg').default,
+    to: '/docs/next/use/intro',
+    description: (
+      <>
+        Create your Trust Registry, define credential schemas, authorize trust registry operators, issuers, verifiers, and implement privacy-preserving verifiable credential monetization in your ecosystem.
+      </>
+    ),
   },
   {
     title: 'Run a Verana Network Node',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('@site/static/img/run-a-node.svg').default,
+    to: '/docs/next/network/intro',
     description: (
       <>
         Learn how to run a Verana Verifiable Trust Network (VVTN) node. This section guides validators and community members who want to operate nodes and help secure and grow the network.
@@ -65,12 +45,14 @@ const FeatureList: FeatureItem[] = [
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({title, to, Svg, description}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
+      <Link to={to}>
+        <div className="text--center">
+          <Svg className={styles.featureSvg} role="img" />
+        </div>
+      </Link>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>
         <p>{description}</p>
