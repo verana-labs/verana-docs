@@ -81,19 +81,19 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
-    image: 'img/verana-og.jpg', // Replace with your social card
+    image: 'img/verana-docs-og.jpg', // Replace with your social card
 
     metadata: [
       {name: 'twitter:card', content: 'summary_large_image'},
       {name: 'twitter:title', content: 'Verana'},
       {name: 'twitter:description', content: 'Building an open, decentralized trust layer for the Internet'},
-      {name: 'twitter:image', content: 'https://docs.verana.io/img/verana-og.jpg'},
+      {name: 'twitter:image', content: 'https://docs.verana.io/img/verana-docs-og.jpg'},
   
       {property: 'og:title', content: 'Verana'},
       {property: 'og:description', content: 'Building an open, decentralized trust layer for the Internet'},
       {property: 'og:type', content: 'website'},
       {property: 'og:url', content: 'https://docs.verana.io'},
-      {property: 'og:image', content: 'https://docs.verana.io/img/verana-og.jpg'},
+      {property: 'og:image', content: 'https://docs.verana.io/img/verana-docs-og.jpg'},
     ],
 
     docs: {
