@@ -172,10 +172,14 @@ const config: Config = {
           ],
         },
         {
-          title: 'Verana Foundation',
+          title: 'About Verana',
           items: [
             {
-              label: 'Website',
+              label: 'Verana Verifiable Trust Network',
+              href: 'https://verana.io',
+            },
+            {
+              label: 'Foundation Website',
               href: 'https://verana.foundation',
             }
             
