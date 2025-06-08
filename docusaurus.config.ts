@@ -135,23 +135,7 @@ const config: Config = {
           ],
         },
         
-        {
-          title: 'Documentation',
-          items: [
-            {
-              label: 'Learn',
-              to: '/docs/learn/intro',
-            },
-            {
-              label: 'Use',
-              to: '/docs/use/intro',
-            },
-            {
-              label: 'Network',
-              to: '/docs/network/intro',
-            },
-          ],
-        },
+        
         {
           title: 'Community',
           items: [
