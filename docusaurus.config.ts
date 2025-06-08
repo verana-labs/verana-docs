@@ -39,14 +39,15 @@ const config: Config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.ts'),
-          editUrl: 'https://github.com/verana-labs/verana-docs/edit/main/',
-          showLastUpdateAuthor: true,
-          showLastUpdateTime: true,
+          editUrl: undefined,
+          showLastUpdateAuthor: false,
+          showLastUpdateTime: false,
           includeCurrentVersion: true, // Ensure the latest docs are included
           versions: {
             current: {
               label: 'Next', // The default latest version
               path: 'next',
+              banner: 'unreleased',
             },
           },
           remarkPlugins: [
@@ -81,6 +82,14 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
     image: 'img/verana-social-card.jpg', // Replace with your social card
+
+    
+    docs: {
+      sidebar: {
+        hideable: true,
+        autoCollapseCategories: true,
+      },
+    },
     navbar: {
       title: 'Verana',
       logo: {
