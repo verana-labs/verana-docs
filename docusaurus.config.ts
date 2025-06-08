@@ -136,11 +136,19 @@ const config: Config = {
         },
         
         {
-          title: 'Docs',
+          title: 'Documentation',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
+              label: 'Learn',
+              to: '/docs/learn/intro',
+            },
+            {
+              label: 'Use',
+              to: '/docs/use/intro',
+            },
+            {
+              label: 'Network',
+              to: '/docs/network/intro',
             },
           ],
         },

@@ -90,4 +90,4 @@ veranad q block 100 --type=height \
   --node $NODE_RPC
 ```
 
-Refer to the [Environments section](../environments/environments.md) for details on RPC endpoints for other networks.
+Refer to the [Environments section](../environments/10-environments.md) for details on RPC endpoints for other networks.

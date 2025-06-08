@@ -22,7 +22,7 @@ Set up environment variables for the test harness:
 export VNA_CHAIN_ID="vna-local-1"
 ```
 
-To run a local development node, follow the [Isolated Local Node Guide](../getting-started/local-node-isolated.md).
+To run a local development node, follow the [Isolated Local Node Guide](../run-a-node/20-local-node-isolated.md).
 
 ## Usage
 To run a specific journey, use:
