@@ -87,13 +87,13 @@ const config: Config = {
       {name: 'twitter:card', content: 'summary_large_image'},
       {name: 'twitter:title', content: 'Verana'},
       {name: 'twitter:description', content: 'Building an open, decentralized trust layer for the Internet'},
-      {name: 'twitter:image', content: 'https://verana.io/img/verana-og.jpg'},
+      {name: 'twitter:image', content: 'https://docs.verana.io/img/verana-og.jpg'},
   
       {property: 'og:title', content: 'Verana'},
       {property: 'og:description', content: 'Building an open, decentralized trust layer for the Internet'},
       {property: 'og:type', content: 'website'},
-      {property: 'og:url', content: 'https://verana.io'},
-      {property: 'og:image', content: 'https://verana.io/img/verana-og.jpg'},
+      {property: 'og:url', content: 'https://docs.verana.io'},
+      {property: 'og:image', content: 'https://docs.verana.io/img/verana-og.jpg'},
     ],
 
     docs: {
