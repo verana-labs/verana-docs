@@ -47,7 +47,7 @@ const config: Config = {
             current: {
               label: 'Next', // The default latest version
               path: 'next',
-              banner: 'unreleased',
+              banner: 'none',
             },
           },
           remarkPlugins: [

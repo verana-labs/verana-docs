@@ -1,15 +1,15 @@
 # Verifiable Trust Credential
 
-Data stored in a VPR is not verified at the time of storage, nor does it need to be. Verification happens outside the scope of the VPR.
+Data stored in the Verana Verifiable Trust Network (VVTN) is not verified at the time of storage, nor does it need to be. Verification happens outside the scope of the VVTN.
 
-This is not a limitation, it’s a feature. For example, any DID method can be used, and the VPR will never attempt to resolve or validate DIDs itself.
+This is not a limitation, it’s a feature. For example, any DID method can be used, and the VVTN will never attempt to resolve or validate DIDs itself.
 
 The VPR provides registrations, not validations, leaving trust decisions and verification where they belong: **with the relying parties**.
 
 To make things verifiable, for a given credential schema:
 
-- Ecosystem creates a Credential Json Schema in a VPR, linked to its Ecosystem DID.
-- Ecosystem issues, with its DID, a **Json Schema Credential** linked to its credential **Json Schema** in the VPR
+- Ecosystem creates a Credential Json Schema in the VVTN, linked to its Ecosystem DID.
+- Ecosystem issues, with its DID, a **Json Schema Credential** linked to its credential **Json Schema** in the VVTN
 - Then, authorized issuers can issue **Verifiable Trust Credentials** linked to the **Json Schema Credential** issued by Ecosystem DID.
 
 .
@@ -18,10 +18,10 @@ To make things verifiable, for a given credential schema:
 
 @startuml
 scale max 800 width
-object "Ecosystem Trust Registry (created in VPR)" as es {
+object "Ecosystem Trust Registry (created in the VVTN)" as es {
   ecosystem did: did:example:ecosystem
 }
-object "CredentialSchema (in VPR)" as cs {
+object "CredentialSchema (in VVTN)" as cs {
   id: 12345678
   json_schema: { "$id": ... "title": "ExampleCredential"}
 }
@@ -45,11 +45,11 @@ es --> cs : creates a CredentialSchema (in VPR)
 
 ```
 
-#### Json Schema Credentials
+## Json Schema Credentials
 
 *This section is non-normative.*
 
-To prove that data stored in a VPR, such as a credential json schema, is authentic, after creating the JSON Schema, the **Ecosystem owner** of the Trust Registry issues a [JSON Schema Credential](https://www.w3.org/TR/vc-json-schema/) using the **DID registered as the Trust Registry’s Ecosystem identifier** in the VPR.
+To prove that data stored in a VPR, such as a credential json schema, is authentic, after creating the JSON Schema, the **Ecosystem owner** of the Trust Registry issues a [JSON Schema Credential](https://www.w3.org/TR/vc-json-schema/) using the **DID registered as the Trust Registry’s Ecosystem identifier** in the VVTN.
 
 This credential serves as a verifiable proof of:
 

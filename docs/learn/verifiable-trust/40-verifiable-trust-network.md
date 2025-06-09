@@ -1,10 +1,8 @@
-# Verifiable Public Registry
+# Verana Verifiable Trust Network
 
-A **Verifiable Public Registry (VPR)** is a **“registry of registries”**, a public service that provides foundational infrastructure for decentralized trust ecosystems.
+The **Verana Verifiable Trust Network (VVTN)** is an *implementation* of a [Verifiable Public Registry](https://verana-labs.github.io/verifiable-trust-vpr-spec/). A **Verifiable Public Registry (VPR)** is a **“registry of registries”**, a public service that provides foundational infrastructure for decentralized trust ecosystems.
 
-The **Verana Verifiable Trust Network** is an *implementation* of a Verifiable Public Registry.
-
-A VPR offers:
+The **Verana Verifiable Trust Network (VVTN)** offers:
 
 - **Trust Registry Management**:  
   Ecosystems can create and manage their own **Trust Registries**, each with:
@@ -13,14 +11,14 @@ A VPR offers:
   - Custom **business models** and permission policies
 
 - **Query API for Trust Resolution**:  
-  A standardized API used by **Verifiable Services (VSs)** and **Verifiable User Agents (VUAs)** to perform trust resolution, enabling them to query registry data and validate roles and permissions in real time. Query API must include support for the [TRQP](https://trustoverip.github.io/tswg-trust-registry-protocol/).
+  A standardized API used by **Verifiable Services (VSs)** and **Verifiable User Agents (VUAs)** to perform trust resolution, enabling them to query registry data and validate roles and permissions in real time. Query includes support for the [TRQP](https://trustoverip.github.io/tswg-trust-registry-protocol/).
 
 ```plantuml
 
 @startuml
 scale max 800 width
 
-package "Verifiable Public Registry" as vpr {
+package "Verana Verifiable Trust Network" as vpr {
 
     object "Trust Registry of Ecosystem #A" as tra #3fbdb6 {
     }
@@ -48,7 +46,7 @@ package "Verifiable Public Registry" as vpr {
 
 ```
 
-#### Trust Registries
+## Trust Registries
 
 *This section is non-normative.*
 
@@ -58,7 +56,7 @@ Each **Trust Registry** must provide, at a minimum:
 - One or more **Governance Framework** document(s)
 - Zero or more **Credential Schemas**
 
-The **Verifiable Public Registry (VPR)** is agnostic to the specific **DID methods** used. Trust resolution is performed externally, outside the VPR, allowing flexibility and interoperability across ecosystems.
+The **Verana Verifiable Trust Network (VVTN)** is agnostic to the specific **DID methods** used. Trust resolution is performed externally, outside the VPR, allowing flexibility and interoperability across ecosystems.
 
 ```plantuml
 
@@ -75,7 +73,7 @@ object "Trust Registry" as tra #3fbdb6 {
 
 ```
 
-### Credential Schemas and Permissions
+## Credential Schemas and Permissions
 
 [[ref: Credential schemas]] are created and managed by trust registry controller **ecosystems**. Each **credential schema** includes, at a minimum:
 
