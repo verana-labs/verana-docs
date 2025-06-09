@@ -8,3 +8,5 @@ As part of this process, the VUA must perform trust resolution by:
 - Querying Verifiable Public Registries (VPRs) to confirm that these credentials were issued by recognized and authorized issuers.
 
 This ensures that all connections are based on verifiable trust, not assumptions.
+
+[Hologram Messaging](https://hologram.zone), a chatbot and AI Agent browser, is the first known **Verifiable User Agent**.

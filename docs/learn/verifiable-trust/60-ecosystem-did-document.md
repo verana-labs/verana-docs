@@ -1,6 +1,6 @@
 # Ecosystem DID Document
 
-Finally, the Ecosystem must publish both the **JSON Schema Credential** and the **location of the Trust Registry** within the **DID Document** associated with the declared **Trust Registry Ecosystem DID** in the VPR.
+Finally, the Ecosystem must publish both the **JSON Schema Credential** and the **location of the Trust Registry** within the **DID Document** associated with the declared **Trust Registry Ecosystem DID** in the VVTN.
 
 This ensures that the Credential Schema and its controlling Trust Registry are publicly discoverable and cryptographically verifiable.
 
