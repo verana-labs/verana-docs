@@ -1,1 +1,1 @@
-# Mainnet
+# Verana Mainnet
