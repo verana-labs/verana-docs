@@ -5,9 +5,8 @@ This section lists all the available environments for the Verana blockchain, inc
 | Environment Name         | Chain ID     | API Endpoint                 | RPC Endpoint                |
 |--------------------------|--------------|------------------------------|-----------------------------|
 | Local Development Environment  | `vna-local-1`  | `http://localhost:1317` | `http://localhost:26657` |
-| betanet Environment  | `vna-betanet-1`  | `https://api.vna-betanet-1.devnet.verana.network` | `https://rpc.vna-betanet-1.devnet.verana.network` |
-| devnet Environment  | `vna-devnet-main`  | `https://api.vna-devnet-main.devnet.verana.network` | `https://rpc.vna-devnet-main.devnet.verana.network` |
-| Test Environment         | `vna-testnet-1` | `https://api.testnet.verana.network` | `https://rpc.testnet.verana.network` |
+| devnet Environment  | `vna-devnet-1`  | `http://node1.devnet.verana.network:1317` | `http://node1.devnet.verana.network:26657` |
+| Testnet Environment         | `vna-testnet-1` | `https://api1.testnet.verana.network` | `http://node1.testnet.verana.network:26657` |
 | Production Environment   | `vna-mainnet-1` | `https://api.verana.network`        | `https://rpc.verana.network`        |
 
 ---

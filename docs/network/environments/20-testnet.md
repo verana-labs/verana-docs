@@ -10,7 +10,6 @@
 | Endpoint Type | URL(s) |
 |---------------|--------|
 | **RPC** | http://node1.testnet.verana.network:26657 |
-| **RPC Proxies** | http://node1.testnet.verana.network:26657 |
 | **REST API** | http://node1.testnet.verana.network:1317 |
 | **API Proxies** | https://node1.testnet.verana.network |
 |               | https://api1.testnet.verana.network |
