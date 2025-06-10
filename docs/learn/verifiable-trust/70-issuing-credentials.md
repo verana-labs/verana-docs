@@ -2,7 +2,7 @@
 
 Once the Ecosystem has:
 
-- Created its **Credential Schemas** in the VVTN
+- Created its **Credential Schemas** in the Verana Verifiable Trust Network
 - Issued the corresponding **JSON Schema Credentials**
 - Properly configured the `"service"` section of its **Ecosystem DID Document**
 

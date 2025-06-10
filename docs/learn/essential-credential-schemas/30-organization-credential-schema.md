@@ -1,10 +1,10 @@
 # Organization Credential Schema
 
-Used to identify Verifiable Services run by Organizations.
+Used to identify Organizations.
 
-Credential subject object of schema MUST contain the following attributes:
+Credential subject object of schema must contain the following attributes:
 
-- `id` (string) (*mandatory*): the [[ref: DID]] of the service the credential has been issued to, which is the subject of the [[ref: verifiable credential]].
+- `id` (string) (*mandatory*): the DID of the service the credential has been issued to, which is the subject of the [[ref: verifiable credential]].
 - `name` (string) (*mandatory*): name of the organization.
 - `logo` (image) (*mandatory*): the logo of the organization, as it will be shown in browsers and search engines.
 - `registryId` (string) (*mandatory*): registry id of the organization.
