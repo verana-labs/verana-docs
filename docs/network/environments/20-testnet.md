@@ -1,12 +1,23 @@
-# Testnet
 
+## Verana Testnet
 
-| Parameters | Value                          |
-|------------|--------------------------------|
-| Chain ID  | `vna-testnet-1`               |
-| API       | `http://node1.testnet.verana.network:1317` |
-| RPC       | `http://node1.testnet.verana.network:26657` |
-| Explorer  | `http://node3.testnet.verana.network:5173` |
+**Chain ID:** `vna-testnet-1`  
+**Status:** Live  
+**Token:** VNA
+
+### Endpoints
+
+| Endpoint Type | URL(s) |
+|---------------|--------|
+| **RPC** | http://node1.testnet.verana.network:26657 |
+| **RPC Proxies** | http://node1.testnet.verana.network:26657 |
+|               | https://rpc1.testnet.verana.network |
+| **REST API** | http://node1.testnet.verana.network:1317 |
+| **API Proxies** | https://node1.testnet.verana.network |
+|               | https://api1.testnet.verana.network |
+| **Faucet** | https://faucet-vs.testnet.verana.network/invitation |
+| **Explorer** | https://explorer.testnet.verana.network |
+| **Front-End** | https://app.testnet.verana.network |
 
 ## Consensus Parameters
 
