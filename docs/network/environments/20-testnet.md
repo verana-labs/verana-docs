@@ -10,8 +10,11 @@
 | Endpoint Type | URL(s) |
 |---------------|--------|
 | **RPC** | http://node1.testnet.verana.network:26657 |
-| **REST API** | http://node1.testnet.verana.network:1317 |
+| **API** | http://node1.testnet.verana.network:1317 |
+| **RPC Proxies** | https://rpc.testnet.verana.network |
+|               | https://rpc1.testnet.verana.network |
 | **API Proxies** | https://node1.testnet.verana.network |
+|               | https://api.testnet.verana.network |
 |               | https://api1.testnet.verana.network |
 | **Faucet** | https://faucet-vs.testnet.verana.network/invitation |
 | **Explorer** | https://explorer.testnet.verana.network |
