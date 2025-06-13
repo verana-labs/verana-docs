@@ -1,12 +1,12 @@
 # Credential Schemas
 
-When an ecosystem has created its `Trust Registry` in the VVTN, it can create and manage credential schemas.
+When an ecosystem has created its `Trust Registry` in a VPR, it can create and manage credential schemas.
 
 Here is the process for publishing a given credential schema, and make it usable by ecosystem participants:
 
-1. Ecosystem creates and configure a `Credential Schema` entry in the VVTN, linked to its `Trust Registry`. Entry includes a **JSON schema**.
-2. Ecosystem issues, with its ecosystem DID, a **verifiable trust JSON schema credential**, which is a [json schema credential](https://www.w3.org/TR/vc-json-schema/) linked to the **JSON schema** created in the VVTN.
-3. Ecosystem presents, in its DID document the **verifiable trust JSON schema credential** as a [linked verifiable presentation](https://identity.foundation/linked-vp/), and declares the VVTN in a "service" section.
+1. Ecosystem creates and configure a `Credential Schema` entry in a VPR, linked to its `Trust Registry`. Entry includes a **JSON schema**.
+2. Ecosystem issues, with its ecosystem DID, a **verifiable trust JSON schema credential**, which is a [json schema credential](https://www.w3.org/TR/vc-json-schema/) linked to the **JSON schema** created in the VPR.
+3. Ecosystem presents, in its DID document the **verifiable trust JSON schema credential** as a [linked verifiable presentation](https://identity.foundation/linked-vp/), and declares the VPR in a "service" section.
 
 Then, authorized issuers can issue **verifiable trust credentials** linked to the **verifiable trust JSON schema credential** issued by ecosystem DID.
 
@@ -14,10 +14,10 @@ Then, authorized issuers can issue **verifiable trust credentials** linked to th
 
 @startuml
 scale max 800 width
-object "Ecosystem Trust Registry (created in VVTN)" as es {
+object "Ecosystem Trust Registry (created in VPR)" as es {
   ecosystem did: did:example:ecosystem
 }
-object "CredentialSchema (in VVTN)" as cs {
+object "CredentialSchema (in VPR)" as cs {
   id: 12345678
   json_schema: { "$id": ... "title": "ExampleCredential"}
 }
@@ -42,16 +42,16 @@ es --> cs : creates a CredentialSchema (in VPR)
 ```
 
 :::note
-Data stored in the VVTN is not verified at the time of storage, nor does it need to be. Verification happens outside the scope of the VVTN.
+Data stored in the VPR is not verified at the time of storage, nor does it need to be. Verification happens outside the scope of the VPR.
 
 This is not a limitation, it’s a feature. For example, any DID method can be used, and the VPR will never attempt to resolve or validate DIDs itself.
 
-The VVTN provides registrations, not validations, leaving trust decisions and verification where they belong: **with the relying parties**.
+The VPR provides registrations, not validations, leaving trust decisions and verification where they belong: **with the relying parties**.
 :::
 
 ## 1. Creating the Credential Schema Entry
 
-In the VVTN, each created `Credential Schema` includes a **JSON schema** that defines the structure of its corresponding **verifiable credential**.
+In a VPR, each created `Credential Schema` includes a **JSON schema** that defines the structure of its corresponding **verifiable credential**.
 
 Here is an example of a JSON schema:
 
@@ -104,11 +104,11 @@ Here is an example of a JSON schema:
 
 ## 2. Creating the JSON Schema Credential
 
-Ecosystem issues, with its ecosystem DID, a **verifiable trust JSON schema credential**, which is a [json schema credential](https://www.w3.org/TR/vc-json-schema/) linked to the **JSON schema** created in the VVTN.
+Ecosystem issues, with its ecosystem DID, a **verifiable trust JSON schema credential**, which is a [json schema credential](https://www.w3.org/TR/vc-json-schema/) linked to the **JSON schema** created in the VPR.
 
 This credential serves as a verifiable proof of:
 
-- Ownership of the `Credential Schema` created in the VVTN;
+- Ownership of the `Credential Schema` created in the VPR;
 - Control over the corresponding `Trust Registry` ecosystem DID.
 
 ```json
@@ -138,7 +138,7 @@ This credential serves as a verifiable proof of:
 
 ## 3. Updating the Ecosystem DID Document
 
-Finally, ecosystem presents, in its DID document, the **verifiable trust JSON schema credential** as a [linked verifiable presentation](https://identity.foundation/linked-vp/), and declares the VVTN in a "service" section.
+Finally, ecosystem presents, in its DID document, the **verifiable trust JSON schema credential** as a [linked verifiable presentation](https://identity.foundation/linked-vp/), and declares the VPR in a "service" section.
 
 This ensures that the credential schema and its controlling trust registry are publicly discoverable and cryptographically verifiable.
 

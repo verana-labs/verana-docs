@@ -1,4 +1,4 @@
-# Trust Registries
+# Introduction to Verifiable Public Registry
 
 ## What is a Trust Registry?
 
@@ -10,18 +10,18 @@ A trust registry typically expose APIs that are consumed by services that would 
 - can participant #1 issue credential for schema ABC of ecosystem E1?
 - can participant #2 request credential presentation of credential issued by issuer DEF from schema GHI of ecosystem E2 in context CONTEXT?
 
-## Trust Registries in Verana
+## Verifiable Public Registry
 
-Ecosystems creates their trust registry(ies) in the Verana Verifiable Trust Network (VVTN).
+Ecosystems creates their trust registry(ies) in the Verana Verifiable Trust Network (VPR), a verifiable public registry (VPR).
 
-The VVTN is a **“registry of registries”**, a public, permissionless service that provides foundational infrastructure for decentralized trust ecosystems, based on the [Verifiable Public Registry (VPR) specification](https://verana-labs.github.io/verifiable-trust-vpr-spec/).
+A VPR is a **“registry of registries”**, a public, permissionless service that provides foundational infrastructure for decentralized trust ecosystems, as specified in the [Verifiable Public Registry (VPR) specification](https://verana-labs.github.io/verifiable-trust-vpr-spec/).
 
 ```plantuml
 
 @startuml
 scale max 800 width
 
-package "Verana Verifiable Trust Network" as vpr {
+package "Verifiable Public Registry" as vpr {
 
     object "Trust Registry of Ecosystem #A" as tra #3fbdb6 {
     }
@@ -49,7 +49,7 @@ package "Verana Verifiable Trust Network" as vpr {
 
 ```
 
-In the VVTN, each created `Trust Registry` specifies:
+In a VPR, each created `Trust Registry` specifies:
 
 - an ecosystem controlled resolvable DID
 - One or more ecosystem governance framework document(s)
@@ -70,4 +70,4 @@ object "Trust Registry of Ecosystem #A" as tra #3fbdb6 {
 
 ```
 
-The VVTN is agnostic to the specific DID methods used. Trust resolution is performed externally, outside the VVTN, allowing flexibility and interoperability across ecosystems.
+A VPR is agnostic to the specific DID methods used. Trust resolution is performed externally, outside the VPR, allowing flexibility and interoperability across ecosystems.

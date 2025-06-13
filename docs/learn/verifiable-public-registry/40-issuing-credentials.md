@@ -2,7 +2,7 @@
 
 Once the ecosystem has published its credential schema:
 
-- Created its `Credential Schema` in the VVTN
+- Created its `Credential Schema` in the VPR
 - Issued the corresponding **verifiable trust JSON schema credential**
 - Properly configured the "service" section of its ecosystem DID Document
 

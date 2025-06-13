@@ -1,6 +1,8 @@
 # Onboarding Participants
 
-For each credential schema, ecosystems define how they want to onboard participants. Configuration is set when creating the `Credential Schema` in the VVTN. Each `Credential Schema` entry includes:
+## Credential Schema Configuration
+
+For each credential schema, ecosystems define how they want to onboard participants. Configuration is set when creating the `Credential Schema` in the VPR. Each `Credential Schema` entry includes:
 
 - The **JSON schema**
 - A **PermissionManagementMode** for **issuance policy**, which determines how ISSUER permissions are granted. Modes include:
@@ -14,6 +16,8 @@ For each credential schema, ecosystems define how they want to onboard participa
   - `GRANTOR`: VERIFIER permissions are granted by one or several verifier grantor(s) (trust registry operator(s) responsible for selecting verifiers for the credential schema of this **ecosystem**), selected by the **ecosystem**.
 
 - A **permission tree** that defines the roles and relationships involved in managing the schema’s lifecycle. Each created permission in the tree can define business rules - we will talk about business models later.
+
+## Permission Tree Example
 
 Participants can be represented by the below example permission tree:
 
@@ -64,13 +68,15 @@ issuer --> holder: granted schema permission
 
 ```
 
+## Permission Types
+
 Permission types are defined in the table below:
 
 | **Permission Type**   | **Description**                                                  |
 |-----------------------|------------------------------------------------------------------|
 | ECOSYSTEM    | Create and control trust registries and credential schemas. Recognize other participants by granting permission(s) to them.        |
-| ISSUER_GRANTOR    | Trust Registry operator that grants ISSUER permissions to candidate issuers.                   |
-| VERIFIER_GRANTOR  | Trust Registry operator that grants VERIFIER permissions to candidate verifiers.               |
+| ISSUER_GRANTOR    | trust registry operator that grants ISSUER permissions to candidate issuers.                   |
+| VERIFIER_GRANTOR  | trust registry operator that grants VERIFIER permissions to candidate verifiers.               |
 | ISSUER            | Can issue credentials of this schema.                            |
 | VERIFIER          | Can request presentation of credentials of this schema.          |
 | HOLDER            | Holds a credential.   |
@@ -81,12 +87,14 @@ To participate in an ecosystem and assume a role associated with a specific cred
 
 - if schema is not `OPEN` for issuance and/or verification: an entity must complete a validation process to join the ecosystem and obtain the required permission.
 
+## Validation Process
+
 The validation process involves two parties:
 
 - The **applicant** — the entity requesting permission for a credential schema within the ecosystem.  
 - The **validator** — an entity that already holds permission for the same credential schema and has been delegated authority to validate applicants and manage permissions.
 
-Running a validation process **typically involves the payment of trust fees**. Trust fee amount to be paid by the applicant is defined in the permission of the validator involved in the validation process (here specified in trust units - TUs):
+Running a validation process may involves the payment of trust fees. Trust fee amount to be paid by the applicant is defined in the permission of the validator involved in the validation process (here specified in trust units - TUs). Example:
 
 ```plantuml
 
@@ -126,10 +134,6 @@ vg --> verifier : granted schema permission
 
 ```
 
-When a new validation process is started, validation costs can be set (proposed) by the applicant. Validator execute a set of validations as specified by the ecosystem governance framework. If applicant complies with the requirement for being granted the permission, then the validation process finishes and permission is granted to applicant.
-
-Permissions may be revoked at any time by the validator or voluntarily terminated by the applicant.
-
 The table below summarizes the possible combinations of applicants and validators:
 
 | Payee → Payer ↓  | Ecosystem                      | Issuer Grantor                        | Verifier Grantor                    | Issuer                              | Verifier | Holder                                  |
@@ -155,11 +159,11 @@ actor "Applicant\n(issuer candidate)\nVUA" as ApplicantBrowser
 actor "Validator\n(issuer grantor)\nVS" as ValidatorVS
 actor "Validator\n(issuer grantor)\nAccount" as ValidatorAccount
 
-participant "Verana Verifiable Trust Network" as VVTN #3fbdb6
+participant "Verifiable Public Registry" as VPR #3fbdb6
 
-ApplicantAccount --> VVTN: create new validation with Validator 
-VVTN <-- VVTN: create validation entry.
-ApplicantAccount <-- VVTN: validation entry created
+ApplicantAccount --> VPR: create new validation with Validator 
+VPR <-- VPR: create validation entry.
+ApplicantAccount <-- VPR: validation entry created
 ApplicantBrowser --> ValidatorVS: connect to validator VS DID found in validation.perm\nby creating a DIDComm connection
 ApplicantBrowser <-- ValidatorVS: DIDComm connection established.
 ApplicantBrowser --> ValidatorVS: I want to proceed with validation.id=...
@@ -178,7 +182,87 @@ ApplicantBrowser <-- ValidatorVS: Are you a legitimate issuer?\nProve it, by fil
 ApplicantBrowser --> ValidatorVS: perform requested tasks...
 note over ApplicantBrowser, ValidatorVS #EEEEEE: tasks completed
 ApplicantBrowser <-- ValidatorVS: Your are a legitimate candidate. I'll now create an ISSUER permission for your account and DID.
-ValidatorAccount --> VVTN #3fbdb6: set validation.state to VALIDATED\ncreate permission(s) for applicant.
-VVTN --> ValidatorAccount: Receive trust fees.
+ValidatorAccount --> VPR #3fbdb6: set validation.state to VALIDATED\ncreate permission(s) for applicant.
+VPR --> ValidatorAccount: Receive trust fees.
 ApplicantBrowser <-- ValidatorVS: notify ISSUER permission created for your account and DID.\nDID can now issue credentials of this schema.
+```
+
+If defined, the applicant is required to pay validation fees, as set in the issuer grantor's permission configuration.
+
+During the validation process, the applicant must:
+
+- Prove ownership of its DID and VPR key;
+- Provide any additional information required by the validator to assess and accept the applicant as an issuer.
+
+The specific requirements and process execution rules must be defined within the **ecosystem governance framework (EGF)** of the ecosystem which is the `Trust Registry` controller.
+
+## Fees
+
+The **total fees** paid by the applicant consists of:
+
+- The validation fees defined in the permission of the validator participating in the validation process, **plus**
+- An additional amount equal to the `trust_deposit_rate` of that validation fees, which is **allocated to the applicant’s trust deposit** when the validation process begins.
+- network fees (not part of the escrowed amount).
+
+:::tip
+Trust deposit is explained in another section
+:::
+
+Example, using 20% for `trust_deposit_rate`:
+
+```plantuml
+
+@startuml
+scale max 1200 width
+ 
+
+
+package "Applicant" as issuer #7677ed {
+    object "A Account" as issuera {
+         \t-1200 TUs
+    }
+    object "A Trust Deposit" as issuertd {
+         \t+200 TUs
+    }
+
+}
+
+object "Escrow Account" as escrow
+
+issuera -r-> escrow: \t+1000 TUs
+issuera --> issuertd:  \t+200 TUs
+
+
+@enduml
+
+```
+
+Upon completion of the validation process, **escrowed trust fees are distributed to the validator** as follows:
+
+- A portion defined by `trust_deposit_rate` is allocated to the **validator’s trust deposit**.  
+- The remaining amount is **transferred directly to the validator’s wallet**.
+
+```plantuml
+
+@startuml
+scale max 1200 width
+
+package "Issuer Grantor B" as ig {
+    object "IG Account" as iga {
+        \t+800 TUs
+    }
+    object "IG Trust Deposit" as igtd {
+        \t+200 TUs
+    }
+}
+object "Escrow Account" as escrow
+
+
+
+escrow -r-> ig: \t+1000 TUs \t\t\t\t\t
+ig --> iga: \t+800 TUs
+ig --> igtd: \t+200 TUs
+
+@enduml
+
 ```
