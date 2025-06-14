@@ -9,8 +9,8 @@ This guide provides comprehensive instructions for joining the Verana testnet as
 | Chain ID | `vna-testnet-1` |
 | API | `http://node1.testnet.verana.network:1317` |
 | RPC | `http://node1.testnet.verana.network:26657` |
-| Explorer | `https://explorer.vna-testnet-1.testnet.verana.network` |
-| Faucet | `https://faucet.vna-testnet-1.devnet.verana.network` |
+| Explorer | `https://explorer.testnet.verana.network` |
+| Faucet | `https://faucet-vs.testnet.verana.network/invitation` |
 | Block Time | ~5 seconds |
 | Max Validators | 100 |
 

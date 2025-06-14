@@ -1,7 +1,7 @@
 
-# Verana Testnet
+# Verana Devnet
 
-**Chain ID:** `vna-testnet-1`  
+**Chain ID:** `vna-devnet-1`  
 **Status:** Live  
 **Token:** VNA
 
@@ -9,22 +9,12 @@
 
 | Endpoint Type | URL(s) |
 |---------------|--------|
-| **RPC** | http://node1.testnet.verana.network:26657 |
-| **API** | http://node1.testnet.verana.network:1317 |
-| **RPC Proxies** | https://rpc.testnet.verana.network |
-|               | https://rpc1.testnet.verana.network |
-| **API Proxies** | https://node1.testnet.verana.network |
-|               | https://api.testnet.verana.network |
-|               | https://api1.testnet.verana.network |
-| **Faucet** | https://faucet-vs.testnet.verana.network/invitation |
-| **Explorer** | https://explorer.testnet.verana.network |
-| **Front-End** | https://app.testnet.verana.network |
-| **persistent peers list**| `2732c9c7b613102b7bf81249a9b8a5128168ad67@node1.testnet.verana.network:26656` |
-
-## Query the latest persistent peers list
-```
-curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/persistent_peers/persistent_peers.json | jq -r '.persistent_peers'
-```
+| **RPC** | http://node1.devnet.verana.network:26657 |
+| **REST API** | http://node1.devnet.verana.network:1317 |
+| **API Proxies** | https://node1.devnet.verana.network |
+| **Faucet** | https://faucet-vs.devnet.verana.network/invitation |
+| **Explorer** | https://explorer.devnet.verana.network |
+| **Front-End** | https://app.devnet.verana.network |
 
 ## Consensus Parameters
 
