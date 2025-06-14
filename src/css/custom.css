@@ -111,3 +111,10 @@
 .menu__link {
   font-weight: 500;
 }
+
+
+.figcaption {
+  text-align: center;
+  font-style: italic;
+  color: #AA5577;
+}
