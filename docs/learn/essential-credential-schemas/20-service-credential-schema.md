@@ -1,10 +1,10 @@
 # Service Credential Schema
 
-Used to identify Services.
+This essential schema is provided for service identification.
 
-Credential subject object of schema MUST contain the following attributes:
+Credential subject object of schema must contain the following attributes:
 
-- `id` (string) (*mandatory*): the [[ref: DID]] of the service the credential will be issued to.
+- `id` (string) (*mandatory*): the DID of the service the credential will be issued to.
 - `name` (string) (*mandatory*): service name. UTF8 charset, max length: 512 bytes.
 - `type` (string) (*mandatory*): service type. UTF8 charset, max length: 128 bytes. Service types will be defined later.
 - `description` (string) (*mandatory*): service description. UTF8 charset, max length: 4096 bytes.

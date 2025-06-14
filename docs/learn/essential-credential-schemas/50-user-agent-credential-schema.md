@@ -1,6 +1,6 @@
 # User Agent Credential Schema
 
-Credential subject object of schema MUST contain the following attributes:
+Credential subject object of schema contains the following attributes:
 
 - `id` (string) (*mandatory*): the [[ref: DID]] of the user agent the credential will be issued to.
 - `name` (string) (*mandatory*): agent name. UTF8 charset, max length: 512 bytes.

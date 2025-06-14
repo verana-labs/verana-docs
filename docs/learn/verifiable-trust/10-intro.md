@@ -1,6 +1,6 @@
 # Intro to Verifiable Trust
 
-When a user is invited to connect to a service, a verifiable trust-compliant user agent performs *trust resolution* on the service, presents the resulting Proof-of-Trust to the user, and prompts them to either accept or refuse the connection.
+When a user is invited to connect to a service, a **verifiable user agent** performs *trust resolution* on the service, presents the resulting Proof-of-Trust to the user, and prompts them to either accept or refuse the connection.
 
 ![proof-of-trust](/img/proof-of-trust.png)
 
