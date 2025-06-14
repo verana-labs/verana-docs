@@ -158,7 +158,23 @@ trust_hash = "<block_hash>"
 trust_period = "168h0m0s"
 ```
 
-### 7. Configure Pruning (Optional)
+### 7. Download Snapshot (Optional)
+
+```bash
+SNAPSHOT_MANIFEST="/tmp/verana-snapshot-manifest.json"
+wget https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/snapshots/manifest.json -O "$SNAPSHOT_MANIFEST" || true
+
+if [ -s $SNAPSHOT_MANIFEST ]; then
+    latest_snapshot=$(jq -r '.latestSnapshot' $SNAPSHOT_MANIFEST)
+    wget -O ~/.verana/data.tar.gz https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/snapshots/$latest_snapshot
+    tar -xzvf ~/.verana/data.tar.gz -C ~/.verana
+else
+    wget -O ~/.verana/data.tar.gz https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/snapshots/data.tar.gz
+    tar -xzvf ~/.verana/data.tar.gz -C ~/.verana
+fi
+```
+
+### 8. Configure Pruning (Optional)
 
 Edit `~/.verana/config/app.toml`:
 
