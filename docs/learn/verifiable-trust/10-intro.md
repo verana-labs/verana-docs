@@ -1,5 +1,3 @@
-import Image from '@site/src/components/Image';
-
 # Intro to Verifiable Trust
 
 When a user is invited to connect to a service, a **verifiable user agent** performs *trust resolution* on the service, presents the resulting Proof-of-Trust to the user, and prompts them to either accept or refuse the connection.
@@ -53,7 +51,7 @@ and receive a response similar to this one:
 
 Let's explain how the Verifiable Trust does it.
 
-<Image url="/img/vt-creds-explained.png" floating="none" caption="Verifiable Service" />
+<Image url="/img/vt-creds-explained.png" floating="none" caption="Proof-of-Trust and Trust Resolution" />
 
 The core idea behind Verifiable Trust is simple: trust should not be implicit, but it should be verifiable, transparent, and decentralized.
 
