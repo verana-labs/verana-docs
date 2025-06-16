@@ -1,6 +1,6 @@
 # .github/workflows/deploy.yml
 
-name: Deploy Docusaurus to GitHub Pages
+name: Build Docusaurus
 
 on:
   push:
