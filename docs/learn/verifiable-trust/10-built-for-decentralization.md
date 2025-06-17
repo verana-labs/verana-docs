@@ -1,0 +1,247 @@
+# Built for Decentralization
+
+## Verifiable Service (VS)
+
+A verifiable service (VS) is a service, uniquely identified by a DID, that can authenticate itself to a peer by presenting verifiable credentials before any connection is initiated.
+
+```plantuml
+@startuml
+
+object "Verifiable Service" as vsa #3fbdb6 {
+    *Public DID
+    *Linked-VP credentials
+    +VC wallet
+    +Crypto wallet
+    +Keys
+    +Connections
+}
+```
+
+Peers wishing to connect to a VS can **review the verifiable credentials presented by the service**, verify their legitimacy through trust resolution, and **decide whether to proceed with the connection based on the outcome**.
+
+A VS is also required to verify the trustworthiness of peers attempting to connect to it, whether those peers are other verifiable services (VS) or verifiable user agents (VUAs), and must reject connections from non-verifiable peers.
+
+Furthermore, if a verifiable service wants to issue credentials or request credential presentation, **it must first prove that it is authorized to perform these actions**. Otherwise, the peer must refuse the request.
+
+Examples of verifiable services include:
+
+- chatbot services, such as services built for [Hologram Messaging](https://hologram.zone)
+- decentralized social channels;
+- etc...
+
+## Verifiable User Agent (VUA)
+
+A verifiable user agent (VUA) is software, such as a browser, app, or wallet, designed to connect with verifiable services (VS) and other VUAs. When establishing connections, a VUA must verify the identity and trustworthiness of its peers and allow connections only to compliant VS or VUA peers.
+
+```plantuml
+@startuml
+
+object "Verifiable User Agent Instance" as hi1 #b99bce {
+    *Keys
+    *Connections
+    +VC wallet
+    +Crypto wallet
+    
+}
+```
+
+As part of this process, the verifiable user agent (VUA) must perform trust resolution by:
+
+- Verifying the verifiable credentials presented by peers;
+
+- Querying verifiable public registries (VPRs) to confirm that the credentials were issued by recognized and authorized issuers.
+
+This ensures that all connections are established on the basis of verifiable trust, rather than assumptions.
+
+In addition, VUAs can query an index that catalogs all known verifiable services (VSs), to search VSs compatible with the VUA or VSs that present a certain type of credential. This enables:
+
+- users to search for and discover relevant services: for example, within a social browser VUA, a user could search for a social channel VS by querying the index for an influencer’s name.
+
+- VUA vendors to require VSs to present a certain type of credential (free or paid) for being listed in the VUA, of for having specific features in the VUA (premium, etc).
+
+```plantuml
+@startuml
+
+[Verifiable Public Registry (VPR)] as VPR #BC5A91
+
+
+package "Verifiable Service #1 (VS1)" as VS1  {
+  [Service Agent] as VS1sa #3fbdb6
+    [Trust Resolver] as VS1tr
+    [Indexer] as VS1idx
+    VS1sa --> VS1tr
+    VS1sa --> VS1idx
+}
+
+interface VS2 #3fbdb6
+interface VS3 #3fbdb6
+interface VS4 #3fbdb6
+
+
+package "Verifiable User Agent (VUA)" as App1 {
+    actor "User #1" as user1
+actor "User #2" as user2
+  [VUA Instance #1-1] as VUA11 #b99bce
+  [VUA Instance #1-2] as VUA12 #b99bce
+    [Trust Resolver] as VUAtr
+    [Indexer] as VUAidx
+
+}
+
+VUAtr --> VS2
+
+VUAtr --> VPR
+VUAidx --> VPR
+
+VS1tr --> VPR
+VS1tr --> VS3
+VS1tr --> VS4
+
+VS1idx --> VPR
+
+
+VUA12 --> VUAtr
+VUA11 --> VUAtr
+VUA12 --> VUAidx : queries
+VUA11 --> VUAidx : queries
+
+VUA12 <--> VUA11 : p2p
+
+user1 ..> VUA11 : use
+user2 ..> VUA12 : use
+
+VUA12 -->  VS1sa
+
+@enduml
+
+```
+
+[Hologram Messaging](https://hologram.zone), a chatbot and AI agent browser, is the **first known verifiable user agent**.
+
+## Verifiable Public Registry (VPR)
+
+A VPR is a **“registry of registries”**, a public, permissionless service that provides foundational infrastructure for decentralized trust ecosystems, as specified in the [Verifiable Public Registry (VPR) specification](https://verana-labs.github.io/verifiable-trust-vpr-spec/).
+
+It is used by ecosystems that want to define credential schemas and who can issue or verify credentials of these schemas.
+
+Purpose of a VPR is to answer these questions:
+
+- is participant #1 recognized by ecosystem E1?
+- can participant #1 issue credential for schema ABC of ecosystem E1?
+- can participant #2 request credential presentation of credential issued by issuer DEF from schema GHI of ecosystem E2 in context CONTEXT?
+
+VPRs are detailed [here](../verifiable-public-registry/20-trust-registries.md);
+
+## Build for decentralization
+
+Connections between verifiable services (VSs) and/or verifiable user agents (VUAs) are fully decentralized and verifiable.
+
+In the example below, we have two verifiable user agents #1 and #2 from different vendors. Instances of these compliant VUAs can establish connections with other instances, and with verifiable services from all organizations. Verifiable services can connect to other verifiable services.
+
+```plantuml
+@startuml
+
+package "Verifiable Public Registry (VPR)" as VPR {
+  [VPR Node #N1] as VPR1 #3fbdb6 
+    [VPR Node #N2] as VPR2 #3fbdb6
+    [VPR Node #Nn] as VPRn #3fbdb6
+
+    VPR1 <--> VPR2
+    VPR1 <--> VPRn
+    VPR2 <--> VPRn
+}
+
+package "Verifiable Services (VSs)" as VSs {
+  cloud "Hosting Organization #A" as hostingA #f0f0f0{
+    [VS Instance #A1] as AVS1 #3fbdb6
+    [VS Instance #A2] as AVS2 #3fbdb6
+    [VS Instance #A3] as AVS3 #3fbdb6
+    [Trust Resolver] as AVStr
+    }
+
+    cloud "Hosting Organization #B" as hostingB #f0f0f0 {
+    [VS Instance #B1] as BVS1 #3fbdb6
+    [VS Instance #B2] as BVS2 #3fbdb6
+    [Trust Resolver] as BVStr
+    
+    }
+
+    cloud "Hosting Person #C" as hostingC #f0f0f0 {
+    [VS Instance #C1] as CVS1 #3fbdb6
+      [Trust Resolver] as CVStr
+
+    
+    }
+}
+
+package "Verifiable User Agent (VUA) #1" as App1 {
+    actor "User #1" as user1
+actor "User #2" as user2
+actor "User #n" as usern
+  [VUA Instance #1-1] as VUA11 #b99bce
+  [VUA Instance #1-2] as VUA12 #b99bce
+  [VUA Instance #1-n] as VUA1n #b99bce
+    [Trust Resolver] as VUA1tr
+    [Indexer] as VUA1idx
+
+}
+
+package "Verifiable User Agent (VUA) #2" as App2 {
+    actor "User #4" as user4
+actor "User #k" as userk
+  [VUA Instance #2-1] as VUA21 #BC5A91
+  [VUA Instance #2-n] as VUA2n #BC5A91
+  [Trust Resolver] as VUA2tr
+  [Indexer] as VUA2idx
+}
+
+VUA1tr --> VPR
+VUA2tr --> VPR
+VUA1idx --> VPR
+VUA2idx --> VPR
+AVStr --> VPR
+BVStr --> VPR
+CVStr --> VPR
+
+
+VUA11 <--> AVS1 : p2p
+VUA11 <--> BVS2 : p2p
+
+VUA21 <--> AVS3 : p2p
+
+VUA12 <--> AVS1 : p2p
+VUA12 <--> CVS1 : p2p
+
+CVStr <-- CVS1 : resolve trust
+BVStr <-- BVS1 : resolve trust
+BVStr <-- BVS2 : resolve trust
+AVStr <-- AVS1 : resolve trust
+AVStr <-- AVS2 : resolve trust
+AVStr <-- AVS3 : resolve trust
+
+VUA1n <--> AVS3 : p2p
+
+VUA12 <--> VUA1n : p2p
+
+VUA21 <--> VUA2n : p2p
+
+user1 ..> VUA11 : use
+user2 ..> VUA12 : use
+usern ..> VUA1n : use
+user4 ..> VUA21 : use
+userk ..> VUA2n : use
+
+
+VUA2n <--> VUA1n : p2p
+
+VUA2n <--> CVS1 : p2p
+
+BVS1 <--> CVS1 : p2p
+
+@enduml
+
+```
+
+:::tip
+Verifiable services can be hosted anywhere, based on service provider (organization, person) decision.
+:::
