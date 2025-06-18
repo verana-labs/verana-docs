@@ -49,7 +49,7 @@ Testnet environmnet
 FAUCET_ACC="faucet"
 FAUCET_ACC_LIT=verana167vrykn5vhp8v9rng69xf0jzvqa3v79etmr0t2
 CHAIN_ID="vna-testnet-1"
-NODE_RPC=http://node1.devnet.verana.network:26657
+NODE_RPC=http://node1.testnet.verana.network:26657
 ```
 
 ## Example Commands
