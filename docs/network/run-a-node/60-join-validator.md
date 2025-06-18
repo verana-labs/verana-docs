@@ -2,12 +2,31 @@
 
 This guide provides comprehensive instructions for joining the Verana testnet as a validator.
 
+---
+
+## Table of Contents
+
+1. [What is a Validator?](#what-is-a-validator)
+2. [Prerequisites](#prerequisites)
+3. [Environment Parameters](#environment-parameters)
+4. [Security Considerations](#security-considerations)
+5. [Create Validator](#create-validator)
+6. [Validator Operations](#validator-operations)
+7. [System Configuration](#system-configuration)
+8. [Maintenance](#maintenance)
+9. [Troubleshooting](#troubleshooting)
+10. [Best Practices](#best-practices)
+
+---
+
 ## What is a Validator?
 
 Validators are responsible for committing new blocks to the blockchain through an automated voting process. They participate in consensus by voting on blocks and are rewarded for their service. A validator's stake can be slashed if they:
 - Become unavailable
 - Sign blocks at the same height (double-signing)
 - Violate network rules
+
+---
 
 ## Prerequisites
 
@@ -21,6 +40,8 @@ Validators are responsible for committing new blocks to the blockchain through a
   - Static IP address
   - 99.9% uptime
 
+---
+
 ## Environment Parameters
 
 | Parameter | Value |
@@ -28,14 +49,16 @@ Validators are responsible for committing new blocks to the blockchain through a
 | Chain ID | `vna-testnet-1` |
 | API | `http://node1.testnet.verana.network:1317` |
 | RPC | `http://node1.testnet.verana.network:26657` |
-| Explorer | `https://explorer.vna-testnet-1.testnet.verana.network` |
-| Faucet | `https://faucet.vna-testnet-1.devnet.verana.network` |
+| Explorer | `https://explorer.testnet.verana.network` |
+| Faucet | `https://faucet-vs.testnet.verana.network/invitation` |
+
+---
 
 ## Security Considerations
 
 ### Sentry Node Architecture
 
-We strongly recommend implementing a sentry node architecture to protect your validator from DDoS attacks:
+**We strongly recommend implementing a sentry node architecture to protect your validator from DDoS attacks:**
 
 ```
                     +----------------+
@@ -55,10 +78,12 @@ We strongly recommend implementing a sentry node architecture to protect your va
 
 ### Key Management
 
-1. **Separate Keys**: Keep your validator key separate from your node
-2. **Hardware Security**: Use a hardware wallet for the validator key
-3. **Backup**: Regularly backup your keys and configuration
-4. **Access Control**: Implement strict access controls to your validator server
+1. **Separate Keys:** Keep your validator key separate from your node.
+2. **Hardware Security:** Use a hardware wallet for the validator key.
+3. **Backup:** Regularly backup your keys and configuration.
+4. **Access Control:** Implement strict access controls to your validator server.
+
+---
 
 ## Create Validator
 
@@ -68,52 +93,68 @@ We strongly recommend implementing a sentry node architecture to protect your va
 # Create a new key
 veranad keys add <key-name>
 ```
-
-Save the mnemonic phrase securely. You'll need it to recover your account.
+> **Note:** Save the mnemonic phrase securely. You'll need it to recover your account.
 
 ### 2. Get Testnet Tokens
 
-Request testnet tokens from the [Verana Faucet](https://faucet.vna-testnet-1.devnet.verana.network).
+Request testnet tokens from the [Verana Faucet](https://faucet-vs.testnet.verana.network/invitation).
 
-### 3. Create Validator Transaction
+### 3. Set Environment Variables
+
+Set the following variables for convenience (replace values as needed):
 
 ```bash
-veranad tx staking create-validator \
-  --amount=1000000uvna \
-  --pubkey=$(veranad tendermint show-validator) \
-  --moniker="<your-moniker>" \
-  --chain-id=vna-testnet-1 \
-  --commission-rate="0.10" \
-  --commission-max-rate="0.20" \
-  --commission-max-change-rate="0.01" \
-  --min-self-delegation="1000000" \
-  --gas="auto" \
-  --gas-adjustment=1.5 \
-  --from=<key-name>
+export validatorName=<key-name>
+export NODE_RPC=http://node1.testnet.verana.network:26657
+export CHAIN_ID=vna-testnet-1
 ```
 
-Note: The commission-max-change-rate is used to measure % point change over the commission-rate. For example, 1% to 2% is a 100% rate increase, but only 1 percentage point.
+### 4. Prepare Validator Transaction
+
+```bash
+# Fetch the validator operator address
+validatorOperatorAddress=$(veranad keys show $validatorName --keyring-backend test --bech val --address)
+
+# Check if the validator exists
+validatorStatus=$(veranad q staking validator $validatorOperatorAddress --node $NODE_RPC 2>&1)
+
+# Use provided pubkey or fetch from local tendermint
+pubkey_json=$(veranad tendermint show-validator)
+pubkey=$(echo $pubkey_json | jq -r '.key')
+
+# Create the JSON file for joining the validator
+echo '{
+"pubkey": {
+   "@type": "/cosmos.crypto.ed25519.PubKey",
+   "key": "'"$pubkey"'"
+},
+"amount": "990000000uvna",
+"moniker": "'"${validatorName}"'",
+"commission-rate": "0.1",
+"commission-max-rate": "0.2",
+"commission-max-change-rate": "0.01",
+"min-self-delegation": "1000000"
+}' > joiningvalidator.json
+```
+
+### 5. Create Validator Transaction
+
+> **Note:** The `commission-max-change-rate` is the maximum percentage point change per day. For example, 1% to 2% is a 1 percentage point change.
+
+```bash
+# Execute the create-validator transaction
+veranad tx staking create-validator ./joiningvalidator.json --from $validatorName --fees 600000uvna --chain-id $CHAIN_ID --node $NODE_RPC --keyring-backend test --yes
+```
+
+---
 
 ## Validator Operations
 
-### Edit Validator Description
-
-```bash
-veranad tx staking edit-validator \
-  --moniker="<new-moniker>" \
-  --website="https://your-website.com" \
-  --identity="<keybase-identity>" \
-  --details="Your validator description" \
-  --commission-rate="0.10" \
-  --from=<key-name> \
-  --chain-id=vna-testnet-1
-```
-
-### View Validator Information
+### 1. View Validator Information
 
 ```bash
 # View validator details
-veranad query staking validator $(veranad keys show <key-name> --bech val -a)
+veranad query staking validator $(veranad keys show $validatorName --bech val -a)
 
 # Check voting power
 veranad status | grep voting_power
@@ -122,13 +163,15 @@ veranad status | grep voting_power
 veranad query slashing signing-info $(veranad tendermint show-validator)
 ```
 
-### Unjail Validator
+### 2. Unjail Validator
 
 If your validator gets jailed:
 
 ```bash
-veranad tx slashing unjail --from=<key-name> --chain-id=vna-testnet-1
+veranad tx slashing unjail --from=$validatorName --chain-id=$CHAIN_ID
 ```
+
+---
 
 ## System Configuration
 
@@ -165,9 +208,11 @@ Create or edit `/etc/security/limits.conf`:
 * hard nofile 65535
 ```
 
+---
+
 ## Maintenance
 
-### Backup
+### 1. Backup
 
 Regularly backup your validator's state:
 
@@ -176,18 +221,18 @@ Regularly backup your validator's state:
 tar -czf validator-backup.tar.gz ~/.verana
 
 # Backup keys
-veranad keys export <key-name> --unarmored-hex --unsafe > validator-key.txt
+veranad keys export $validatorName --unarmored-hex --unsafe > validator-key.txt
 ```
 
-### Updates
+### 2. Updates
 
 When network upgrades are announced:
 
-1. Monitor the [Verana Discord](https://discord.gg/verana) for announcements
-2. Update your node software
-3. Restart your validator
+1. Monitor the [Verana Discord](https://discord.gg/verana) for announcements.
+2. Update your node software.
+3. Restart your validator.
 
-### Graceful Shutdown
+### 3. Graceful Shutdown
 
 To halt your validator at a specific height:
 
@@ -195,50 +240,54 @@ To halt your validator at a specific height:
 veranad start --halt-height <height>
 ```
 
+---
+
 ## Troubleshooting
 
 ### Common Issues
 
 1. **Validator Not in Active Set**
-   - Check if you have enough voting power
-   - Verify your commission rate is competitive
-   - Ensure your node is fully synced
-   - Check if you're in the top 100 validators by voting power
+   - Check if you have enough voting power.
+   - Verify your commission rate is competitive.
+   - Ensure your node is fully synced.
+   - Check if you're in the top 100 validators by voting power.
 
 2. **Node Not Syncing**
-   - Check your internet connection
-   - Verify your peers are connected
-   - Check system resources (CPU, RAM, disk space)
+   - Check your internet connection.
+   - Verify your peers are connected.
+   - Check system resources (CPU, RAM, disk space).
    - Review logs for errors: `journalctl -u veranad -f`
 
 3. **Validator Jailed**
-   - Check for double-signing
-   - Verify uptime
-   - Check system time synchronization
-   - Review slashing parameters
+   - Check for double-signing.
+   - Verify uptime.
+   - Check system time synchronization.
+   - Review slashing parameters.
 
 4. **High Resource Usage**
-   - Monitor system resources
-   - Check for memory leaks
-   - Verify disk I/O performance
-   - Review network bandwidth usage
+   - Monitor system resources.
+   - Check for memory leaks.
+   - Verify disk I/O performance.
+   - Review network bandwidth usage.
+
+---
 
 ## Best Practices
 
 1. **Regular Maintenance**
-   - Monitor system resources
-   - Check validator status
-   - Review logs for errors
-   - Update software regularly
+   - Monitor system resources.
+   - Check validator status.
+   - Review logs for errors.
+   - Update software regularly.
 
 2. **Security**
-   - Keep software updated
-   - Use strong passwords
-   - Implement firewall rules
-   - Regular security audits
+   - Keep software updated.
+   - Use strong passwords.
+   - Implement firewall rules.
+   - Regular security audits.
 
 3. **Performance**
-   - Monitor voting power
-   - Track missed blocks
-   - Check commission rates
-   - Review delegations
+   - Monitor voting power.
+   - Track missed blocks.
+   - Check commission rates.
+   - Review delegations.
