@@ -36,7 +36,7 @@ const FeatureList: FeatureItem[] = [
   {
     title: 'Run a Verana Network Node',
     Svg: require('@site/static/img/run-a-node.svg').default,
-    to: '/docs/next/network/intro',
+    to: '/docs/next/network/introduction/verana-verifiable-trust-network',
     description: (
       <>
         Learn how to run a Verana Verifiable Trust Network (VVTN) node. This section guides validators and community members who want to operate nodes and help secure and grow the network.
