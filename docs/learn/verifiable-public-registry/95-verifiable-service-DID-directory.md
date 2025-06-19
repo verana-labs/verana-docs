@@ -15,11 +15,11 @@ Any participant can register a DID in the DID directory by submitting a transact
 @startuml
 scale max 800 width
 object "DID Directory" as didd
-object "Crawler" as crawler #3fbdb6
-object "Index" as index #3fbdb6
-object "VS #1" as dts1 #7677ed
-object "VS #2" as dts2 #7677ed
-object "VUA" as browser #00b0f0
+object "Crawler" as crawler #D88AB3
+object "Index" as index #D88AB3
+object "VS #1" as dts1 #3fbdb6
+object "VS #2" as dts2 #3fbdb6
+object "VUA" as browser #b99bce
 object "User" as user
 didd <|-- crawler : iterate over DID Directory
 crawler --|> dts1 : resolve DID, get linked-vps, index data

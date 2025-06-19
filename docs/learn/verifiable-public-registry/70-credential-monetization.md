@@ -23,7 +23,7 @@ package "Ecosystem #A - Credential Schema #1" as cs {
         issuance cost: 5 TUs
         verification cost: 5 TUs
     }
-    object "Issuer #C - Credential Schema #1 Permission" as issuer #7677ed  {
+    object "Issuer #C - Credential Schema #1 Permission" as issuer #b99bce  {
         did:example:iC
         verification cost: 30 TUs
     }
@@ -31,7 +31,7 @@ package "Ecosystem #A - Credential Schema #1" as cs {
         did:example:vgD
         verification cost: 2 TUs
     }
-    object "Verifier #E - Credential Schema #1 Permission" as verifier #00b0f0 {
+    object "Verifier #E - Credential Schema #1 Permission" as verifier #D88AB3 {
         did:example:vE
     }
 }
@@ -106,7 +106,7 @@ package "Issuer Grantor #B" as ig {
         \t+1 TUs
     }
 }
-package "Issuer #C" as issuer #7677ed {
+package "Issuer #C" as issuer #b99bce {
     object "I Account" as issuera {
          \t-21 TUs
     }
@@ -173,7 +173,7 @@ package "Issuer Grantor #B" as ig {
         \t+1 TUs
     }
 }
-package "Issuer #C" as issuer #7677ed {
+package "Issuer #C" as issuer #b99bce {
     object "I Account" as issuera {
          \t+24 TUs
     }
@@ -191,7 +191,7 @@ package "Verifier Grantor #D" as vg {
     }
 
 }
-package "Verifier #E" as verifier #00b0f0 {
+package "Verifier #E" as verifier #D88AB3 {
     object "V Account" as verifiera {
         \t-79.8 TUs
     }

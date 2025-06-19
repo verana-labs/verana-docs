@@ -36,7 +36,7 @@ package "Example Credential Schema Permission Tree" as cs {
         permissionType: ISSUER_GRANTOR
         did:example:igB
     }
-    object "Issuer C" as issuer #7677ed  {
+    object "Issuer C" as issuer #b99bce  {
         permissionType: ISSUER
         did:example:iC
     }
@@ -44,12 +44,12 @@ package "Example Credential Schema Permission Tree" as cs {
         permissionType: VERIFIER_GRANTOR
         did:example:vgD
     }
-    object "Verifier E" as verifier #00b0f0 {
+    object "Verifier E" as verifier #D88AB3 {
         permissionType: VERIFIER
         did:example:vE
     }
 
-    object "Holder Z " as holder #FFB073 {
+    object "Holder Z " as holder #b5b5b5 {
         permissionType: HOLDER
     }
 }
@@ -111,7 +111,7 @@ package "Pay per validation Fee Structure" as cs {
         did:example:igB
         Issuer applicant validation cost: 1000 TUs
     }
-    object "Issuer C - Credential Schema Permission" as issuer #7677ed  {
+    object "Issuer C - Credential Schema Permission" as issuer #b99bce  {
         did:example:iC
         Holder applicant validation cost: 10 TUs
     }
@@ -119,7 +119,7 @@ package "Pay per validation Fee Structure" as cs {
         did:example:vgD
         Verifier applicant validation cost: 200 TUs
     }
-    object "Verifier E - Credential Schema Permission" as verifier #00b0f0 {
+    object "Verifier E - Credential Schema Permission" as verifier #D88AB3 {
         did:example:vE
     }
 }
@@ -217,7 +217,7 @@ scale max 1200 width
  
 
 
-package "Applicant" as issuer #7677ed {
+package "Applicant" as issuer #b99bce {
     object "A Account" as issuera {
          \t-1200 TUs
     }

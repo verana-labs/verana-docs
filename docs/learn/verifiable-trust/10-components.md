@@ -26,7 +26,7 @@ Furthermore, if a verifiable service wants to issue credentials or request crede
 ```plantuml
 @startuml
 
-[Verifiable Public Registry (VPR)] as VPR #BC5A91
+[Verifiable Public Registry (VPR)] as VPR #D88AB3
 
 
 package "Verifiable Service #1 (VS1)" as VS1  {
@@ -97,7 +97,7 @@ In addition, VUAs can query an index (the DID directory, managed by the VPR - se
 ```plantuml
 @startuml
 
-[Verifiable Public Registry (VPR)] as VPR #BC5A91
+[Verifiable Public Registry (VPR)] as VPR #D88AB3
 
 
 package "Verifiable Service #1 (VS1)" as VS1  {
@@ -224,8 +224,8 @@ actor "User #n" as usern
 package "Verifiable User Agent (VUA) #2" as VUA2 {
     actor "User #4" as user4
 actor "User #k" as userk
-  [VUA Instance #2-1] as VUA21 #BC5A91
-  [VUA Instance #2-n] as VUA2n #BC5A91
+  [VUA Instance #2-1] as VUA21 #D88AB3
+  [VUA Instance #2-n] as VUA2n #D88AB3
 }
 
 
