@@ -1,4 +1,4 @@
-# Introduction
+# Trust Resolution
 
 When a user is invited to connect to a service, a **verifiable user agent** performs *trust resolution* on the service, presents the resulting Proof-of-Trust to the user, and prompts them to either accept or refuse the connection.
 
