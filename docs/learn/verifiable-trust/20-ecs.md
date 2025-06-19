@@ -7,7 +7,9 @@
 - is the User Agent trying to connect to a Verifiable Service a Verifiable User Agent?
 - ...
 
-[The Verana Foundation](https://verana.foundation) created a defined an Ecosystem Governance Framework and created a Trust Registry in the Verana Verifiable Trust Network (VVTN) for providing Essential Credential Schemas (ECS) to the community. There are 4 kinds of ECS:
+[The Verana Foundation](https://verana.foundation) defined an Ecosystem Governance Framework and created a Trust Registry in the Verana Verifiable Trust Network (VVTN) for providing Essential Credential Schemas (ECS) to the community. Governance framework will be published in the [foundation website](https://verana.foundation).
+
+There are 4 kinds of ECS:
 
 - Service;
 - Organization;
