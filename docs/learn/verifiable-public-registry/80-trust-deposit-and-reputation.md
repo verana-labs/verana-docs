@@ -63,7 +63,7 @@ package "Verifier Grantor #D" as vg {
     }
 
 }
-package "Verifier #E" as verifier #00b0f0 {
+package "Verifier #E" as verifier #D88AB3 {
     object "V Account" as verifiera {
         \t-79.8 TUs
     }
