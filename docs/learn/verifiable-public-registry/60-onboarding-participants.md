@@ -49,7 +49,7 @@ package "Example Credential Schema Permission Tree" as cs {
         did:example:vE
     }
 
-    object "Holder Z " as holder #b5b5b5 {
+    object "Holder Z " as holder #3D7DC2 {
         permissionType: HOLDER
     }
 }
