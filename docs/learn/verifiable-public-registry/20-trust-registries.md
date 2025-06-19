@@ -12,7 +12,7 @@ A trust registry typically expose APIs that are consumed by services that would 
 
 ## Verifiable Public Registry
 
-Ecosystems creates their trust registry(ies) in the Verana Verifiable Trust Network (VPR), a verifiable public registry (VPR).
+Ecosystems creates their trust registry(ies) in the **Verana Verifiable Trust Network (VPR)**, a verifiable public registry (VPR).
 
 A VPR is a **“registry of registries”**, a public, permissionless service that provides foundational infrastructure for decentralized trust ecosystems, as specified in the [Verifiable Public Registry (VPR) specification](https://verana-labs.github.io/verifiable-trust-vpr-spec/).
 

@@ -1,4 +1,4 @@
-# Introduction
+# Essential Credential Schemas
 
 **Essential Credential Schemas (ECSs)** are the Verifiable Trust basic needed schemas for **enabling a minimum trust resolution** in Services and User Agents by answering these questions:
 

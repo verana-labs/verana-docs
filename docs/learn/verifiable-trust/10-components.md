@@ -88,7 +88,7 @@ As part of this process, the verifiable user agent (VUA) must perform trust reso
 
 This ensures that all connections are established on the basis of verifiable trust, rather than assumptions.
 
-In addition, VUAs can query an index that catalogs all known verifiable services (VSs), to search VSs compatible with the VUA or VSs that present a certain type of credential. This enables:
+In addition, VUAs can query an index (the DID directory, managed by the VPR - see below) that catalogs all known verifiable services (VSs), to search VSs compatible with the VUA or VSs that present a certain type of credential. This enables:
 
 - users to search for and discover relevant services: for example, within a social browser VUA, a user could search for a social channel VS by querying the index for an influencer’s name.
 
@@ -155,17 +155,23 @@ VUA12 -->  VS1sa
 
 ## Verifiable Public Registry (VPR)
 
+### Trust Registries
+
 A VPR is a **“registry of registries”**, a public, permissionless service that provides foundational infrastructure for decentralized trust ecosystems, as specified in the [Verifiable Public Registry (VPR) specification](https://verana-labs.github.io/verifiable-trust-vpr-spec/).
 
 It is used by ecosystems that want to define credential schemas and who can issue or verify credentials of these schemas.
 
 Purpose of a VPR is to answer these questions:
 
-- is participant #1 recognized by ecosystem E1?
-- can participant #1 issue credential for schema ABC of ecosystem E1?
-- can participant #2 request credential presentation of credential issued by issuer DEF from schema GHI of ecosystem E2 in context CONTEXT?
+- is participant #1 **recognized** by ecosystem E1?
+- can participant #1 **issue credential** for schema ABC of ecosystem E1?
+- can participant #2 request **credential presentation** of credential issued by issuer DEF from schema GHI of ecosystem E2 in context CONTEXT?
 
-VPRs are detailed [here](../verifiable-public-registry/20-trust-registries.md);
+[VPRs are detailed here](../verifiable-public-registry/20-trust-registries.md)
+
+### DID Directory
+
+Added to trust registry features, the VPR provides a **DID directory**: a public database of [DIDs](https://www.w3.org/TR/did-1.0/). It allows crawlers and search engines to index metadata associated with **verifiable services (VSs)** provided by these DIDs.
 
 ## Build for decentralization
 
