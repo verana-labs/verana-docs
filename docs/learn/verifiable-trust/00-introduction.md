@@ -58,7 +58,7 @@ A user employs a VUA-based social browser, establishing a trusted connection wit
 
 ## Roadmap
 
-- **Phase 1 (completed):** Deploy testnet of the Verana Verifiable Trust Network, including DID Directory and foundational credential schemas.
+- **Phase 1 (completed):** Deploy [testnet of the Verana Verifiable Trust Network](https://explorer.testnet.verana.network/), including DID Directory and foundational credential schemas.
 - **Phase 2:** Verana Foundation establishes a trust registry for Essential Credential Schemas (Organization, Person, UserAgent, Service), selects trusted issuers, and develops SDKs, VS libraries, and standardized query APIs.
 - **Phase 3:** Mainnet launch of the Verana Verifiable Trust Network, accelerated ecosystem onboarding, decentralized governance, and expanded support for decentralized AI, content provenance, and advanced user-to-user trust scenarios.
 
