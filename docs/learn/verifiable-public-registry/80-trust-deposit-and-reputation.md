@@ -129,7 +129,7 @@ The **trust deposit** mechanism is designed to ensure that participants within a
 | **Ecosystem-Specific Control**       | Each ecosystem can only slash the portion of a participant’s deposit that corresponds to activity within that ecosystem. |
 | **Non-Custodial**                    | Trust Deposits are held on-chain within a VPR and are not under the control of any centralized authority. |
 
-![example of trust reputation](/img/verifiable-service.png)
+<Image url="/img/verifiable-service.png" floating="none" caption="Example of trust reputation" maxWidth="300px"/>
 
 ### Slash
 

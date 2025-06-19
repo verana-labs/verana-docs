@@ -23,10 +23,6 @@ A VS is also required to verify the trustworthiness of peers attempting to conne
 
 Furthermore, if a verifiable service wants to issue credentials or request credential presentation, **it must first prove that it is authorized to perform these actions**. Otherwise, the peer must refuse the request.
 
-:::note
-All the verifications are performed by the VS by using the trust resolver. Indexer is used for service discovery.
-:::
-
 ```plantuml
 @startuml
 
@@ -57,6 +53,10 @@ VS1idx --> VPR
 @enduml
 
 ```
+
+:::tip
+All the verifications are performed by the VS by using the trust resolver. Indexer is used for service discovery.
+:::
 
 Examples of verifiable services include:
 
