@@ -7,7 +7,7 @@
 - is the User Agent trying to connect to a Verifiable Service a Verifiable User Agent?
 - ...
 
-**The Verana Foundation** created a defined an Ecosystem Governance Framework and created a Trust Registry in the Verana Verifiable Trust Network (VVTN) for providing Essential Credential Schemas (ECS) to the community. There are 4 kinds of ECS:
+[The Verana Foundation**](https://verana.foundation) created a defined an Ecosystem Governance Framework and created a Trust Registry in the Verana Verifiable Trust Network (VVTN) for providing Essential Credential Schemas (ECS) to the community. There are 4 kinds of ECS:
 
 - Service;
 - Organization;
@@ -18,4 +18,4 @@ Service schema is `OPEN` to anyone. Participants that want to obtain an Organiza
 
 Remember the popup presented by a Verifiable Service: in this example you can see that information comes from Organization and Service Verifiable Trust Credentials (VTCs).
 
-![Verifiable Service](/img/vt-creds-explained.png)
+<Image url="/img/vt-creds-explained.png" floating="none" caption="Verifiable Service" maxWidth="300px"/>
