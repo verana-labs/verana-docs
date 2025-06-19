@@ -1,4 +1,4 @@
-# Built for Decentralization
+# Verifiable Trust Components
 
 ## Verifiable Service (VS)
 
@@ -10,9 +10,9 @@ A verifiable service (VS) is a service, uniquely identified by a DID, that can a
 object "Verifiable Service" as vsa #3fbdb6 {
     *Public DID
     *Linked-VP credentials
-    +VC wallet
+    *VC wallet
+    *Keys
     +Crypto wallet
-    +Keys
     +Connections
 }
 ```
@@ -22,6 +22,41 @@ Peers wishing to connect to a VS can **review the verifiable credentials present
 A VS is also required to verify the trustworthiness of peers attempting to connect to it, whether those peers are other verifiable services (VS) or verifiable user agents (VUAs), and must reject connections from non-verifiable peers.
 
 Furthermore, if a verifiable service wants to issue credentials or request credential presentation, **it must first prove that it is authorized to perform these actions**. Otherwise, the peer must refuse the request.
+
+:::note
+All the verifications are performed by the VS by using the trust resolver. Indexer is used for service discovery.
+:::
+
+```plantuml
+@startuml
+
+[Verifiable Public Registry (VPR)] as VPR #BC5A91
+
+
+package "Verifiable Service #1 (VS1)" as VS1  {
+  [Service Agent] as VS1sa #3fbdb6
+    [Trust Resolver] as VS1tr
+    [Indexer] as VS1idx
+    VS1sa --> VS1tr
+    VS1sa --> VS1idx
+}
+
+interface VS3 #3fbdb6
+interface VS4 #3fbdb6
+
+
+
+
+VS1tr --> VPR
+VS1tr --> VS3
+VS1tr --> VS4
+
+VS1idx --> VPR
+
+
+@enduml
+
+```
 
 Examples of verifiable services include:
 
@@ -153,56 +188,44 @@ package "Verifiable Public Registry (VPR)" as VPR {
 
 package "Verifiable Services (VSs)" as VSs {
   cloud "Hosting Organization #A" as hostingA #f0f0f0{
-    [VS Instance #A1] as AVS1 #3fbdb6
-    [VS Instance #A2] as AVS2 #3fbdb6
-    [VS Instance #A3] as AVS3 #3fbdb6
-    [Trust Resolver] as AVStr
+    interface [VS Instance #A1] as AVS1 #3fbdb6
+    interface [VS Instance #A2] as AVS2 #3fbdb6
+    interface [VS Instance #A3] as AVS3 #3fbdb6
+    
     }
 
     cloud "Hosting Organization #B" as hostingB #f0f0f0 {
-    [VS Instance #B1] as BVS1 #3fbdb6
-    [VS Instance #B2] as BVS2 #3fbdb6
-    [Trust Resolver] as BVStr
+    interface [VS Instance #B1] as BVS1 #3fbdb6
+    interface [VS Instance #B2] as BVS2 #3fbdb6
     
     }
 
     cloud "Hosting Person #C" as hostingC #f0f0f0 {
-    [VS Instance #C1] as CVS1 #3fbdb6
-      [Trust Resolver] as CVStr
-
-    
+    interface [VS Instance #C1] as CVS1 #3fbdb6
     }
 }
 
-package "Verifiable User Agent (VUA) #1" as App1 {
+package "Verifiable User Agent (VUA) #1" as VUA1 {
     actor "User #1" as user1
 actor "User #2" as user2
 actor "User #n" as usern
   [VUA Instance #1-1] as VUA11 #b99bce
   [VUA Instance #1-2] as VUA12 #b99bce
   [VUA Instance #1-n] as VUA1n #b99bce
-    [Trust Resolver] as VUA1tr
-    [Indexer] as VUA1idx
 
 }
 
-package "Verifiable User Agent (VUA) #2" as App2 {
+package "Verifiable User Agent (VUA) #2" as VUA2 {
     actor "User #4" as user4
 actor "User #k" as userk
   [VUA Instance #2-1] as VUA21 #BC5A91
   [VUA Instance #2-n] as VUA2n #BC5A91
-  [Trust Resolver] as VUA2tr
-  [Indexer] as VUA2idx
 }
 
-VUA1tr --> VPR
-VUA2tr --> VPR
-VUA1idx --> VPR
-VUA2idx --> VPR
-AVStr --> VPR
-BVStr --> VPR
-CVStr --> VPR
 
+VUA1 --> VPR
+VUA2 --> VPR
+VSs --> VPR
 
 VUA11 <--> AVS1 : p2p
 VUA11 <--> BVS2 : p2p
@@ -211,13 +234,6 @@ VUA21 <--> AVS3 : p2p
 
 VUA12 <--> AVS1 : p2p
 VUA12 <--> CVS1 : p2p
-
-CVStr <-- CVS1 : resolve trust
-BVStr <-- BVS1 : resolve trust
-BVStr <-- BVS2 : resolve trust
-AVStr <-- AVS1 : resolve trust
-AVStr <-- AVS2 : resolve trust
-AVStr <-- AVS3 : resolve trust
 
 VUA1n <--> AVS3 : p2p
 

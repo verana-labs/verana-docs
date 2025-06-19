@@ -1,4 +1,6 @@
-# Verana Whitepaper: Verifiable Trust and Public Registries
+# Whitepaper
+
+**Verana Whitepaper**: Verifiable Trust and Public Registries
 
 ## Abstract
 
@@ -6,15 +8,15 @@ The internet today faces critical issues related to trust, identity fraud, phish
 
 ## Problem Statement
 
-Traditional internet services utilize public identifiers such as emails or usernames, which are inherently vulnerable to misuse. Users lack reliable methods to verify service identities, exposing them to fraud and phishing attacks. Centralized authentication processes empower large intermediaries, limit user control, and compromise privacy. Additionally, direct service-to-service interactions, including AI-to-AI communications, lack standardized authentication mechanisms, resulting in fragmented and insecure trust models.
+Traditional internet services utilize **public identifiers** such as emails or usernames, which are inherently vulnerable to misuse. Users **lack reliable methods** to verify service identities, exposing them to **fraud** and **phishing attacks**. Centralized authentication processes empower large intermediaries, limit user control, and compromise privacy. Additionally, direct service-to-service interactions, including AI-to-AI communications, lack standardized authentication mechanisms, resulting in **fragmented and insecure trust models**.
 
 ## Solution: Verifiable Trust
 
-Verifiable Trust provides an open, decentralized trust layer using cryptographic verification via Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs). VT replaces implicit trust with explicit, verifiable cryptographic proofs, creating secure, interoperable connections across users, services, and decentralized AI agents. It also enables content provenance by integrating with the C2PA standard, allowing content signed by DIDs to reveal ownership upon trust resolution.
+Verifiable Trust provides an open, **decentralized trust** layer using cryptographic verification via Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs). VT replaces **implicit trust with explicit**, **verifiable cryptographic proofs**, creating **secure**, **interoperable connections** across users, services, and decentralized AI agents. It also enables content provenance by integrating with the C2PA standard, allowing content signed by DIDs to reveal ownership upon trust resolution.
 
 ### Components of Verifiable Trust
 
-- **Verifiable Services (VS):** Decentralized services, including AI agents, identified by resolvable DIDs, providing verifiable credentials in their DID Documents for proving claims to peers, serving as the basis for establishing connections.
+- **Verifiable Services (VS):** Decentralized services, including AI agents, identified by resolvable DIDs, providing verifiable credentials in their DID Documents for proving claims to peers, serving as the basis for identifying providers and establishing connections.
 - **Verifiable User Agents (VUA):** User-facing software (e.g., browsers, wallets) establishing connections with peers (VSs or other VUAs) and presenting verifiable credentials upon peer requests after establishing a trusted communication channel. VUAs themselves verify peer credentials and perform trust resolution.
 - **Proof-of-Trust:** A verification summary evaluated directly by VSs or presented visually by VUAs, detailing peer legitimacy, ownership, and credentials.
 
@@ -45,18 +47,18 @@ The VPR employs a tokenized model comprising:
 
 ## Governance
 
-The VPR features a dual-layer governance system:
+Verana features a dual-layer governance system:
 
 - **Global Governance Framework (GF):** Governs overarching network rules, fee allocations, penalties, and operational policies.
 - **Ecosystem Governance Frameworks (EGFs):** Allow ecosystems to independently define and enforce their specific governance rules, enhancing autonomy while ensuring global interoperability.
 
 ## Use Case Example
 
-A user employs a VUA-based social browser, establishing a trusted connection with a VS, such as an influencer channel. The VUA resolves the DID of the VS, performs trust resolution by checking the VS credentials presented in the DID Document and performing VPR queries, and presents a Proof-of-Trust to validate identity and reputation. Similarly, decentralized AI agents operating as VSs authenticate each other through essential credential verification, enabling secure inter-agent collaboration.
+A user employs a VUA-based social browser, establishing a trusted connection with a VS, such as an influencer channel. The VUA resolves the DID of the VS, performs trust resolution by checking the VS credentials presented in the DID Document and performing VPR queries, and presents a Proof-of-Trust to users so they can verify channel owner identity and its reputation. Similarly, decentralized AI agents operating as VSs authenticate each other through essential credential verification, enabling secure inter-agent collaboration.
 
 ## Roadmap
 
-- **Phase 1:** Deploy testnet of the Verana Verifiable Trust Network, including DID Directory and foundational credential schemas.
+- **Phase 1 (completed):** Deploy testnet of the Verana Verifiable Trust Network, including DID Directory and foundational credential schemas.
 - **Phase 2:** Verana Foundation establishes a trust registry for Essential Credential Schemas (Organization, Person, UserAgent, Service), selects trusted issuers, and develops SDKs, VS libraries, and standardized query APIs.
 - **Phase 3:** Mainnet launch of the Verana Verifiable Trust Network, accelerated ecosystem onboarding, decentralized governance, and expanded support for decentralized AI, content provenance, and advanced user-to-user trust scenarios.
 
