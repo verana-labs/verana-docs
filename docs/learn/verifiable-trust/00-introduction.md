@@ -1,4 +1,4 @@
-# Whitepaper
+# Introduction
 
 **Verana Whitepaper**: Verifiable Trust and Public Registries
 
