@@ -15,7 +15,7 @@ const FeatureList: FeatureItem[] = [
   {
     title: 'Learn',
     Svg: require('@site/static/img/learn.svg').default,
-    to: '/docs/next/learn/intro',
+    to: '/docs/next/learn/verifiable-trust/introduction',
     description: (
       <>
         Learn how Verifiable Trust empowers user-centric privacy, verifiable credentials, decentralized governance, and ethical monetization, enabling verifiable services and ecosystems built on transparency, not surveillance.
