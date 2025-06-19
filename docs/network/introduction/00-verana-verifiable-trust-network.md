@@ -1,6 +1,6 @@
 # Verana Verifiable Trust Network
 
-Welcome 👋🏻! The **Verana Verifiable Trust Network (VVTN)** is a Cosmos SDK based implementation of the [Verifiable Public Registry (VPR) specification](https://verana-labs.github.io/verifiable-trust-vpr-spec/).
+👋🏻 Welcome! The **Verana Verifiable Trust Network (VVTN)** is a Cosmos SDK based implementation of the [Verifiable Public Registry (VPR) specification](https://verana-labs.github.io/verifiable-trust-vpr-spec/).
 
 This documentation will guide you through:
 
