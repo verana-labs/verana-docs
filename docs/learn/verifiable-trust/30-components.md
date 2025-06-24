@@ -2,7 +2,7 @@
 
 ## Verifiable Service (VS)
 
-A verifiable service (VS) is a service, uniquely identified by a DID, that can authenticate itself to a peer by presenting verifiable credentials before any connection is initiated.
+A verifiable service (VS) is a service, uniquely identified by a [DID](https://www.w3.org/TR/did-1.0/), that can authenticate itself to a peer by presenting [verifiable credentials](https://www.w3.org/TR/vc-data-model-2.0/) before any connection is initiated.
 
 ```plantuml
 @startuml
@@ -16,6 +16,10 @@ object "Verifiable Service" as vsa #3fbdb6 {
     +Connections
 }
 ```
+
+:::tip
+Verifiable services can be hosted anywhere, based on service provider (organization, person) decision.
+:::
 
 Peers wishing to connect to a VS can **review the verifiable credentials presented by the service**, verify their legitimacy through trust resolution, and **decide whether to proceed with the connection based on the outcome**.
 
@@ -55,7 +59,7 @@ VS1idx --> VPR
 ```
 
 :::tip
-All the verifications are performed by the VS by using the trust resolver. Indexer is used for service discovery.
+All the verifications are performed by the VS by using the trust resolver component. Indexer component is used for service discovery.
 :::
 
 Examples of verifiable services include:
@@ -173,97 +177,22 @@ Purpose of a VPR is to answer these questions:
 
 Added to trust registry features, the VPR provides a **DID directory**: a public database of [DIDs](https://www.w3.org/TR/did-1.0/). It allows crawlers and search engines to index metadata associated with **verifiable services (VSs)** provided by these DIDs.
 
-## Build for decentralization
+## Trust Resolver
 
-Connections between verifiable services (VSs) and/or verifiable user agents (VUAs) are fully decentralized and verifiable.
+The Trust Resolver recursively processes the credentials listed in a DID Document, consults relevant VPRs, and returns a concise Proof-of-Trust summary. Callers can then decide whether the resolved [DIDs](https://www.w3.org/TR/did-1.0/) and the services it represents are trustworthy.
 
-In the example below, we have two verifiable user agents #1 and #2 from different vendors. Instances of these compliant VUAs can establish connections with other instances, and with verifiable services from all organizations. Verifiable services can connect to other verifiable services.
+## Indexer
 
-```plantuml
-@startuml
+A VPR records its state on-ledger, where storage is expensive. Consequently, on-chain entries are kept minimal.
+The Indexer bridges that gap:
 
-package "Verifiable Public Registry (VPR)" as VPR {
-  [VPR Node #N1] as VPR1 #3fbdb6 
-    [VPR Node #N2] as VPR2 #3fbdb6
-    [VPR Node #Nn] as VPRn #3fbdb6
+- Listens to ledger events and fetches every new or updated record.
+- Enriches the raw data (e.g., resolves DIDs, verifies credentials).
+- Builds a compact off-chain index that powers fast, user-friendly queries.
 
-    VPR1 <--> VPR2
-    VPR1 <--> VPRn
-    VPR2 <--> VPRn
-}
+The resulting index lets you search across all ecosystem metadata, including:
 
-package "Verifiable Services (VSs)" as VSs {
-  cloud "Hosting Organization #A" as hostingA #f0f0f0{
-    interface [VS Instance #A1] as AVS1 #3fbdb6
-    interface [VS Instance #A2] as AVS2 #3fbdb6
-    interface [VS Instance #A3] as AVS3 #3fbdb6
-    
-    }
+- Ecosystem & Trust Registry details: names, governance-framework versions, credential-schema summaries...
+- DID indexing: every DID found on-ledger is trust-resolved; if it meets the Verifiable Trust spec, its verifiable credential metadata are added to the index.
 
-    cloud "Hosting Organization #B" as hostingB #f0f0f0 {
-    interface [VS Instance #B1] as BVS1 #3fbdb6
-    interface [VS Instance #B2] as BVS2 #3fbdb6
-    
-    }
-
-    cloud "Hosting Person #C" as hostingC #f0f0f0 {
-    interface [VS Instance #C1] as CVS1 #3fbdb6
-    }
-}
-
-package "Verifiable User Agent (VUA) #1" as VUA1 {
-    actor "User #1" as user1
-actor "User #2" as user2
-actor "User #n" as usern
-  [VUA Instance #1-1] as VUA11 #b99bce
-  [VUA Instance #1-2] as VUA12 #b99bce
-  [VUA Instance #1-n] as VUA1n #b99bce
-
-}
-
-package "Verifiable User Agent (VUA) #2" as VUA2 {
-    actor "User #4" as user4
-actor "User #k" as userk
-  [VUA Instance #2-1] as VUA21 #D88AB3
-  [VUA Instance #2-n] as VUA2n #D88AB3
-}
-
-
-VUA1 --> VPR
-VUA2 --> VPR
-VSs --> VPR
-
-VUA11 <--> AVS1 : p2p
-VUA11 <--> BVS2 : p2p
-
-VUA21 <--> AVS3 : p2p
-
-VUA12 <--> AVS1 : p2p
-VUA12 <--> CVS1 : p2p
-
-VUA1n <--> AVS3 : p2p
-
-VUA12 <--> VUA1n : p2p
-
-VUA21 <--> VUA2n : p2p
-
-user1 ..> VUA11 : use
-user2 ..> VUA12 : use
-usern ..> VUA1n : use
-user4 ..> VUA21 : use
-userk ..> VUA2n : use
-
-
-VUA2n <--> VUA1n : p2p
-
-VUA2n <--> CVS1 : p2p
-
-BVS1 <--> CVS1 : p2p
-
-@enduml
-
-```
-
-:::tip
-Verifiable services can be hosted anywhere, based on service provider (organization, person) decision.
-:::
+This approach keeps the blockchain lean while still delivering rich, searchable insight to wallets, services, and analytics tools.

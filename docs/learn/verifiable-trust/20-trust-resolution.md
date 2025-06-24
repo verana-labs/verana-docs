@@ -1,15 +1,12 @@
 # Trust Resolution
 
-When a user is invited to connect to a service, a **verifiable user agent** performs *trust resolution* on the service, presents the resulting Proof-of-Trust to the user, and prompts them to either accept or refuse the connection.
+## Understanding Trust Resolution
 
-<Image url="/img/proof-of-trust.png" floating="none" caption="Proof of Trust" maxWidth="300px"/>
+Trust Resolution is as simple as calling a method passing the [DID](https://www.w3.org/TR/did-1.0/) of the service we want to resolve, to display a **Proof-of-Trust** to the end-user:
 
-Trust Resolution is as simple as calling a method passing the DID of the service we want to resolve, to display a **Proof-of-Trust** to the end-user:
-
-```json
+```
 resolve_trust("did:example:gaia")
 ```
-
 and receive a response similar to this one:
 
 ```json
@@ -51,7 +48,11 @@ and receive a response similar to this one:
 
 Let's explain how the Verifiable Trust does it.
 
-<Image url="/img/vt-creds-explained.png" floating="none" caption="Proof-of-Trust and Trust Resolution" />
+## Proof-of-Trust
+
+The **Don't Trust, Verify** principle applied here:
+
+<Image url="/img/vt-creds-explained.png" floating="none" caption="Proof-of-Trust and Trust Resolution" border="1px solid #DDDDDD" align="center"/>
 
 The core idea behind Verifiable Trust is simple: trust should not be implicit, but it should be verifiable, transparent, and decentralized.
 
@@ -63,7 +64,7 @@ In this example, a Verifiable Service (VS) presents several Verifiable Credentia
 
 Additionally, the Verifiable Service presents computed reputation information (data shown in black). While this reputation data may support trust decisions, it is not directly defined by this specification. Refer to the [VPR Spec](https://verana-labs.github.io/verifiable-trust-vpr-spec/) for more information.
 
-Verifiable Trust introduces the following core concepts:
+Verifiable Trust introduces the following core concepts, concepts that are fully presented in this documentation:
 
 - Verifiable Service (VS)
 - Verifiable User Agent (VUA)
