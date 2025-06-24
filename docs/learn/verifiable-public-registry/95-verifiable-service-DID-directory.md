@@ -35,6 +35,6 @@ user <|-- browser : show result
 
 Indexer can be run as a container with a locally deployed VPR node for total **unlinkability**. It is then easy to deploy the search engine and provide a fancy familiar prompt:
 
-![verana search](/img/verana-search.png)
+<Image url="/img/verana-search.png" floating="none" align="center" maxWidth="500px"/>
 
 **Great to know**: results are not biased nor manipulable 😀, because **they rely on verifiable data**.

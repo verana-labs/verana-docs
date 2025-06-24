@@ -91,8 +91,8 @@ To participate in an ecosystem and assume a role associated with a specific cred
 
 The validation process involves two parties:
 
-- The **applicant** — the entity requesting permission for a credential schema within the ecosystem.  
-- The **validator** — an entity that already holds permission for the same credential schema and has been delegated authority to validate applicants and manage permissions.
+- The **applicant** - the entity requesting permission for a credential schema within the ecosystem.  
+- The **validator** - an entity that already holds permission for the same credential schema and has been delegated authority to validate applicants and manage permissions.
 
 Running a validation process may involves the payment of trust fees. Trust fee amount to be paid by the applicant is defined in the permission of the validator involved in the validation process (here specified in trust units - TUs). Example:
 
