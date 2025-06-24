@@ -20,4 +20,4 @@ Service schema is `OPEN` to anyone. Participants that want to obtain an Organiza
 
 Remember the popup presented by a Verifiable Service: in this example you can see that information comes from Organization and Service Verifiable Trust Credentials (VTCs).
 
-<Image url="/img/vt-creds-explained.png" floating="none" caption="Verifiable Service"/>
+<Image url="/img/vt-creds-explained.png" floating="none" caption="Verifiable Service" border="1px solid #DDDDDD" align="center"/>
