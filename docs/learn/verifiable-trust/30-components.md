@@ -110,6 +110,7 @@ package "Verifiable Service #1 (VS1)" as VS1  {
     [Indexer] as VS1idx
     VS1sa --> VS1tr
     VS1sa --> VS1idx
+    VS1idx --> VS1tr
 }
 
 interface VS2 #3fbdb6
@@ -131,6 +132,8 @@ VUAtr --> VS2
 
 VUAtr --> VPR
 VUAidx --> VPR
+
+VUAidx --> VUAtr
 
 VS1tr --> VPR
 VS1tr --> VS3
