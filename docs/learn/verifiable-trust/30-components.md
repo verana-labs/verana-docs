@@ -35,11 +35,14 @@ Furthermore, if a verifiable service wants to issue credentials or request crede
 
 package "Verifiable Service #1 (VS1)" as VS1  {
   [Service Agent] as VS1sa #3fbdb6
-    [Trust Resolver] as VS1tr
+   
+}
+[Trust Resolver] as VS1tr
     [Indexer] as VS1idx
     VS1sa --> VS1tr
     VS1sa --> VS1idx
-}
+    VS1tr --> VS1idx
+
 
 interface VS3 #3fbdb6
 interface VS4 #3fbdb6
@@ -104,13 +107,18 @@ In addition, VUAs can query an index (the DID directory, managed by the VPR - se
 [Verifiable Public Registry (VPR)] as VPR #D88AB3
 
 
-package "Verifiable Service #1 (VS1)" as VS1  {
-  [Service Agent] as VS1sa #3fbdb6
+package "Service Provider #1 Hosted services" as VSP  {
+  [Verifiable Service #1] as VS1sa #3fbdb6
+  [Verifiable Service #2] as VS2sa #3fbdb6
+  
     [Trust Resolver] as VS1tr
     [Indexer] as VS1idx
     VS1sa --> VS1tr
     VS1sa --> VS1idx
     VS1idx --> VS1tr
+
+    VS2sa --> VS1tr
+    VS2sa --> VS1idx
 }
 
 interface VS2 #3fbdb6
@@ -174,7 +182,7 @@ Purpose of a VPR is to answer these questions:
 - can participant #1 **issue credential** for schema ABC of ecosystem E1?
 - can participant #2 request **credential presentation** of credential issued by issuer DEF from schema GHI of ecosystem E2 in context CONTEXT?
 
-[VPRs are detailed here](../verifiable-public-registry/20-trust-registries.md)
+[VPRs are detailed here](../verifiable-public-registry/20-trust-registries.md).
 
 ### DID Directory
 
