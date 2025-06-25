@@ -4,9 +4,10 @@
 
 Trust Resolution is as simple as calling a method passing the [DID](https://www.w3.org/TR/did-1.0/) of the service we want to resolve, to display a **Proof-of-Trust** to the end-user:
 
-```
+```json
 resolve_trust("did:example:gaia")
 ```
+
 and receive a response similar to this one:
 
 ```json

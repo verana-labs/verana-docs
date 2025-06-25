@@ -18,7 +18,7 @@ The Verana Verifiable Trust Network is composed of 4 essential components:
 package "Full Deployment #1" as deploy1  {
     [Network Node] as vpr1 #D88AB3
 
-    [Verre] as verre1 #3fbdb6
+    [Verre Resolver] as verre1 #3fbdb6
     [Indexer] as idx1
     [Frontend] as frontend1
 
@@ -33,7 +33,7 @@ package "Full Deployment #1" as deploy1  {
 package "Full Deployment #2" as deploy2  {
     [Network Node] as vpr2 #D88AB3
 
-    [Verre] as verre2 #3fbdb6
+    [Verre Resolver] as verre2 #3fbdb6
     [Indexer] as idx2
     [Frontend] as frontend2
 
