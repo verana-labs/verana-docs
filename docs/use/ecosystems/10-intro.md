@@ -2,7 +2,10 @@
 
 Ecosystems create and manage their Trust Registries in Verana.
 
-Join an Ecosystem means either:
+## Create your Ecosystem Trust Registry
+
+- if you want to create you own Credential Schema(s), define who can operate your Trust Registry, who can issue, verify and hold Verifiable Credentials.
+- you need to publish an Ecosystem Governance Framework (EGF).
 
 ## Join as an Issuer Grantor, Verifier Grantor, Issuer or Verifier
 
