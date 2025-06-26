@@ -1,8 +1,10 @@
-# Get Granted a Permission
+# New Participant Permission
 
 :::note
 This is a temporary minimal documentation for Verana experimentation until the [Verana Frontend](https://github.com/verana-labs/verana-frontend) is delivered. End Users will usually not manipulate APIs and command lines.
 :::
+
+## Onboarding Process
 
 1. List the available Ecosystems and find the one of your interest.
 
