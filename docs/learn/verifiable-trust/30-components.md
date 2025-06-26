@@ -33,9 +33,10 @@ Furthermore, if a verifiable service wants to issue credentials or request crede
 [Verifiable Public Registry (VPR)] as VPR #D88AB3
 
 
-package "Verifiable Service #1 (VS1)" as VS1  {
-  [Service Agent] as VS1sa #3fbdb6
-   
+package "Verifiable Service #1 (VS1)" as VS1 #3fbdb6 {
+  [Service Agent] as VS1sa 
+  [Backend, store,...] as VS1b 
+   VS1sa <--> VS1b
 }
 [Trust Resolver] as VS1tr
     [Indexer] as VS1idx
