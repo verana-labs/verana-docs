@@ -1,8 +1,4 @@
-# New Participant Permission
-
-:::note
-This is a temporary minimal documentation for Verana experimentation until the [Verana Frontend](https://github.com/verana-labs/verana-frontend) is delivered. End Users will usually not manipulate APIs and command lines.
-:::
+# Join an Ecosystem
 
 ## Onboarding Process
 
@@ -54,7 +50,7 @@ This is a temporary minimal documentation for Verana experimentation until the [
 
 2. Check the Ecosystem Trust Registry and get the Ecosystem Governance Framework link, here [https://example.com/governance-framework.pdf](https://example.com/governance-framework.pdf). Verify that the `digest_sri` matches.
 
-3. Verify you complies with requirement for obtaining the permission type you would like to obtain for a given Credential Schema.
+3. Verify you comply with requirements for obtaining the **Permission Type** or **Verifiable Credential** you would like to obtain for a given Credential Schema.
 
 4. List the Credential Schemas of this Ecosystem
 
@@ -87,25 +83,25 @@ This is a temporary minimal documentation for Verana experimentation until the [
 
 5. Based on the schema configuration and the permission type you would like to obtain:
 
-- self-create your permission;
-- choose a **validator** and run a validation process as an **applicant** to obtain your permission.
+- self-create your Permission;
+- choose a **validator** and run a validation process as an **applicant** to obtain your Permission (or Verifiable Credential).
 
 Based on the schema configuration and the permission type you would like to obtain, the table below shows the corresponding action that must take place:
 
-**For Issuance Related Permissions:**
+**For Issuance Related Permissions and Verifiable Credentials:**
 
     | Schema Issuance Policy → Permission (or Credential) to obtain ↓  | OPEN | ECOSYSTEM | GRANTOR |
     |------------------|-------------------------------------|---------------------------------------|-------------------------------------|
-    | Issuer Grantor   | N/A | N/A | Validation Process with ECOSYSTEM Permission |
-    | Issuer           | self-create ISSUER Permission | Validation Process with ECOSYSTEM permission | Validation Process with ISSUER GRANTOR permission |
-    | Holder (Credential)          | self-create ISSUER Permission, then issue credential  | Validation Process with ISSUER, get issued a credential | Validation Process with ISSUER, get issued a credential |
+    | Issuer Grantor   | N/A | N/A | run a **validation process** with an ECOSYSTEM Permission as the validator |
+    | Issuer           | **self-create** an ISSUER Permission | run a **validation process** with an ECOSYSTEM Permission as the validator | run a **validation process** with ISSUER GRANTOR Permission as the validator |
+    | Holder (Credential)          | **self-create** an ISSUER Permission, then **self-issue** your Verifiable Credential  | run a **validation process** with an ISSUER as the validator and **get issued** your Verifiable Credential | run a **validation process** with an ISSUER as the validator and **get issued** your Verifiable Credential |
 
     **For Verification Related Permissions:**
 
     | Schema Verification Policy → Permission to obtain ↓  | OPEN | ECOSYSTEM | GRANTOR |
     |------------------|-------------------------------------|---------------------------------------|------------------------|
-    | Verifier Grantor | N/A | N/A | Validation Process with ECOSYSTEM permission |
-    | Verifier         | self-create VERIFIER Permission | Validation Process with ECOSYSTEM permission | Validation Process with VERIFIER GRANTOR permission |
+    | Verifier Grantor | N/A | N/A | run a **validation process** with an ECOSYSTEM Permission as the validator |
+    | Verifier         | **self-create** a VERIFIER Permission | run a **validation process** with an ECOSYSTEM Permission as the validator | run a **validation process** with VERIFIER GRANTOR Permission as the validator |
 
 6. If you need to self-create your Permission:
 

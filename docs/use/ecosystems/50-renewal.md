@@ -1,4 +1,4 @@
-# Renew (Extend) a Participant Permission
+# Renew (Extend) a Permission
 
 :::tip[TODO]
 

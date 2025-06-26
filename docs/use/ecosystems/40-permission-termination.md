@@ -1,4 +1,4 @@
-# Terminate a Participant Permission
+# Terminate a Permission
 
 :::tip[TODO]
 

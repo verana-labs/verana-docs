@@ -1,4 +1,4 @@
-# Revoke a Participant Permission
+# Revoke a Permission
 
 :::tip[TODO]
 

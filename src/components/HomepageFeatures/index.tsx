@@ -26,7 +26,7 @@ const FeatureList: FeatureItem[] = [
   {
     title: 'Use',
     Svg: require('@site/static/img/use.svg').default,
-    to: '/docs/next/use/intro',
+    to: '/docs/next/use/ecosystems/intro',
     description: (
       <>
         Create your Trust Registry, define credential schemas, authorize trust registry operators, issuers, verifiers, and implement privacy-preserving verifiable credential monetization in your ecosystem.
@@ -34,12 +34,12 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: 'Run a Verana Network Node',
+    title: 'Run',
     Svg: require('@site/static/img/run-a-node.svg').default,
-    to: '/docs/next/network/introduction/verana-verifiable-trust-network',
+    to: '/docs/next/run/introduction/components',
     description: (
       <>
-        Learn how to run a Verana Verifiable Trust Network (VVTN) node. This section guides validators and community members who want to operate nodes and help secure and grow the network.
+        Learn how to run Verana, the Verana Verifiable Trust Network (VVTN), and its companion components. This section guides validators and community members who want to operate nodes and help secure and grow the network.
       </>
     ),
   },
