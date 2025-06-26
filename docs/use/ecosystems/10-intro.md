@@ -1,4 +1,6 @@
-# Join an Ecosystem
+# Introduction
+
+Ecosystems create and manage their Trust Registries in Verana.
 
 Join an Ecosystem means either:
 
