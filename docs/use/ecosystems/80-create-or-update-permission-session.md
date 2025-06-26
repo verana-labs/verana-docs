@@ -1,4 +1,4 @@
-# Create or Update Permission Session
+# Permission Sessions
 
 :::tip[TODO]
 

@@ -127,9 +127,9 @@ const config: Config = {
         },
         {
           type: 'docSidebar',
-          sidebarId: 'networkSidebar',
+          sidebarId: 'runSidebar',
           position: 'left',
-          label: 'Network',
+          label: 'Run',
         },
         
         {

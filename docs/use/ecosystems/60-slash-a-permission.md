@@ -1,4 +1,4 @@
-# Slash a Participant Permission
+# Slash a Permission
 
 :::tip[TODO]
 

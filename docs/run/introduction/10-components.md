@@ -1,8 +1,8 @@
-# Components
+# Verana Components
 
-## Built for decentralization
+🌐 **Verana** is an Infrastructure Built for Decentralization, and is composed of **essential components** and other **adds-on** components.
 
-The Verana Verifiable Trust Network is composed of 4 essential components:
+## Essential Components
 
 | **Component**   | **Purpose**                                                  |
 |-----------------------|------------------------------------------------------------------|
@@ -59,5 +59,10 @@ vpr3 <--> vpr1
 ```
 
 :::tip
-These components can be run by anyone and hosted anywhere. For security considerations, it is best for Verana Network Verifiable Service and/or Verifiable User Agent providers to run all components. But this is not required and depends on use case: you can run node only, deploy a frontend and use indexer + node of a third party...
+These components can be run by anyone and hosted anywhere. For security considerations, it is **suggested**, for **Verifiable Service** and/or **Verifiable User Agent** providers, to run all essential components.
 :::
+
+## Adds-on Components
+
+- a [ping.pub block explorer](https://github.com/verana-labs/pingpub-explorer);
+- a [faucet chatbot](https://github.com/verana-labs/verana-faucet-hologram-chatbot).
