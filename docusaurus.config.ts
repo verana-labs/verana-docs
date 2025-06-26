@@ -154,6 +154,10 @@ const config: Config = {
               label: 'Verifiable Public Registry',
               href: 'https://verana-labs.github.io/verifiable-trust-vpr-spec/',
             },
+            {
+              label: 'Trust Registry Query Protocol',
+              href: 'https://trustoverip.github.io/tswg-trust-registry-protocol/',
+            },
           ],
         },
         
