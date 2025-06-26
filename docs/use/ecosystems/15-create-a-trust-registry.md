@@ -6,6 +6,7 @@ Make sure you've read [the Learn section](../../learn/verifiable-public-registry
 
 :::tip[TODO]
 
+@pratikasr
 Finish documentation here
 
 :::
@@ -14,6 +15,7 @@ Finish documentation here
 
 :::tip[TODO]
 
+@pratikasr
 Finish documentation here
 
 :::
@@ -22,6 +24,7 @@ Finish documentation here
 
 :::tip[TODO]
 
+@pratikasr
 Finish documentation here
 
 :::
@@ -30,6 +33,7 @@ Finish documentation here
 
 :::tip[TODO]
 
+@pratikasr
 Finish documentation here
 
 :::
@@ -38,6 +42,7 @@ Finish documentation here
 
 :::tip[TODO]
 
+@pratikasr
 Finish documentation here
 
 :::
