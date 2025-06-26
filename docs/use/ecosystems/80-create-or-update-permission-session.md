@@ -2,7 +2,14 @@
 
 :::tip[TODO]
 
+@mjfelis
+Detail documentation here.
+
+:::
+
+:::tip[TODO]
+
 @pratikasr
-Finish documentation here.
+Write examples.
 
 :::
