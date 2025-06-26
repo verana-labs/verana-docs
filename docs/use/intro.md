@@ -23,7 +23,7 @@ Join an Ecosystem means:
 - selecting a Credential Schema of your interest in this Ecosystem;
 - based on the schema configuration and the permission type you would like to obtain, create your permission, or run a validation process with to obtain your permission.
 
-make sure to learn the basis by reading the [Learn section](../../learn/verifiable-public-registry/trust-registries).
+make sure to learn the basis by reading the [Learn section](../learn/verifiable-public-registry/trust-registries).
 
 ### Create an Ecosystem
 
@@ -32,11 +32,11 @@ Create an Ecosystem means:
 - willing to create one or several Credential Schemas, and govern how participants will be able to join your Ecosystem as trust registry operators, issuers, verifiers,...;
 - publishing an Ecosystem Governance Framework (EGF) that defines Ecosystem rules, what are the Credential Schemas, who can and how to join the Ecosystem,...;
 
-make sure to learn the basis by reading the [Learn section](../../learn/verifiable-public-registry/trust-registries).
+make sure to learn the basis by reading the [Learn section](../learn/verifiable-public-registry/trust-registries).
 
 ### Publish your Services to the DID Directory
 
-Discover how to publish your [Verifiable Services](../../learn/verifiable-trust/30-components.md) in the DID Directory so they will be indexed automatically and searchable in the Verana search engine and in any App that make use of the index.
+Discover how to publish your [Verifiable Services](../learn/verifiable-trust/30-components.md) in the DID Directory so they will be indexed automatically and searchable in the Verana search engine and in any App that make use of the index.
 
 ### Trust Deposit and Reputation
 
