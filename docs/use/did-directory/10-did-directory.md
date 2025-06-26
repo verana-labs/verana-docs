@@ -10,6 +10,8 @@ Use this method to list your DIDs.
 
 :::tip[TODO]
 
+@pratikasr
+
 Finish documentation here.
 
 :::
@@ -19,6 +21,8 @@ Finish documentation here.
 Use this method to get a DID.
 
 :::tip[TODO]
+
+@pratikasr
 
 Finish documentation here.
 
@@ -30,6 +34,7 @@ Adds a DID to the DID Directory. It will trigger index of the corresponding Veri
 
 :::tip[TODO]
 
+@pratikasr
 Finish documentation here.
 
 :::
@@ -40,6 +45,7 @@ Renew a DID and extends its expiration date. It will trigger a reindex of the Ve
 
 :::tip[TODO]
 
+@pratikasr
 Finish documentation here.
 
 :::
@@ -50,6 +56,7 @@ This method is used to remove a DID form the Directory. It will trigger a remova
 
 :::tip[TODO]
 
+@pratikasr
 Finish documentation here.
 
 :::
@@ -60,6 +67,7 @@ This method is used to force reindex of the Verifiable Service. It just changes 
 
 :::tip[TODO]
 
+@pratikasr
 Finish documentation here.
 
 :::

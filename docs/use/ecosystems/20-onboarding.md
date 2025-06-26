@@ -107,6 +107,7 @@ Based on the schema configuration and the permission type you would like to obta
 
 :::tip[TODO]
 
+@pratikasr
 Finish documentation here
 
 :::
@@ -138,6 +139,7 @@ Make sure to read the [Learn - Validation Process documentation](http://localhos
 
 :::tip[TODO]
 
+@pratikasr
 Finish documentation here
 
 :::
@@ -169,6 +171,7 @@ Now, get the uuid of the created Permission that is pending approval by the Vali
 
 :::tip[TODO]
 
+@pratikasr
 Finish documentation here
 
 :::

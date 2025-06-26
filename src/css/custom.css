@@ -39,9 +39,11 @@
   --ifm-link-color: var(--ifm-color-primary);
   --ifm-link-hover-color: #CB73A3;
   --ifm-link-active-color: #BC5A91;
-
+  
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(157, 42, 109, 0.1);
+
+  
 }
 
 /* Verana Brand - Dark Mode (Magenta on black) */
@@ -68,6 +70,12 @@
   --ifm-link-active-color: #E29DC0;
 
   --docusaurus-highlighted-code-line-bg: rgba(203, 115, 163, 0.3); /* magenta glow */
+  
+}
+
+.hero {
+   --ifm-hero-background-color: #9d2a6d;
+   --ifm-hero-text-color: #fff;
 }
 
 /* Primary button */
