@@ -7,3 +7,10 @@ Steps for a successful network upgrade:
 3. Wait for the upgrade height.
 4. Restart nodes with the new binary.
 5. Verify the network status post-upgrade.
+
+
+## Upgrade the snapshot node
+
+```
+kubectl rollout restart -n vna-testnet-1 deployment snapshot-node-deployment
+```
