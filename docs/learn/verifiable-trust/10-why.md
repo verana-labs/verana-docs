@@ -1,14 +1,14 @@
 # Why we need Verifiable Trust
 
-The internet is broken. Existing communication channels are insecure and outdated. Because they rely on public identifiers — like email addresses, usernames, or phone numbers — anyone who knows your identifier can reach you, whether you invited them or not.
+The internet is broken. Existing communication channels are insecure and outdated. Because they rely on public identifiers, like email addresses, usernames, or phone numbers, anyone who knows your identifier can reach you, whether you invited them or not.
 
 Worse, there’s no reliable way to verify the identity of either service providers or users. This leaves the door wide open to spam, phishing, fraud, and identity theft.
 
-On the service side, each provider imposes its own fragmented registration process, often with complex password requirements or forced reliance on federated login systems—effectively handing control over to large third-party platforms.
+On the service side, each provider imposes its own fragmented registration process, often with complex password requirements or forced reliance on federated login systems, effectively handing control over to large third-party platforms.
 
 Although the World Wide Web was originally built for openness and interoperability, dominant players have reshaped it into a closed, centralized system that most people and organizations now depend on. Privacy has become an afterthought, and personal data is routinely harvested, exploited, or leaked.
 
-To rebuild a trustworthy internet, we need new communication channels — channels that are secure by design, based on mutual verification, and governed by decentralized trust.
+To rebuild a trustworthy internet, we need new communication channels: channels that are secure by design, based on mutual verification, and governed by decentralized trust.
 
 Connecting to a service, proving who you are, or creating an account should be as simple and safe as presenting a verifiable credential.
 
@@ -24,7 +24,7 @@ Today, identifying who is truly behind a digital service is incredibly difficult
 
 <Image url="/img/ssl-cert.png" floating="left" caption="SSL Certificate. No verifiable service provider" maxWidth="300px" border="1px solid #DDDDDD" align="center"/>
 
-- **SSL certificates**, while effective for encrypting traffic between two endpoints, do not reveal who owns or operates the service on the other side. They ensure secure transmission—not trustworthy identity.
+- **SSL certificates**, while effective for encrypting traffic between two endpoints, do not reveal who owns or operates the service on the other side. They ensure secure transmission, not trustworthy identity.
 
 - On **social networks**, there is no standardized or verifiable way to confirm the identity of a profile or page owner. Impersonation is common, and users are left to guess what's real.
 
@@ -34,7 +34,7 @@ Today, identifying who is truly behind a digital service is incredibly difficult
 
 - Even in basic **phone communication**, receiving a call from an unknown number provides no indication of the caller's true identity, making fraud and scams rampant.
 
-In short, the internet today **lacks a verifiable identity layer** — a way to confirm who you're interacting with before you share information, take action, or trust a service. This missing layer is one of the fundamental weaknesses that the Verana Foundation seeks to address.
+In short, the internet today **lacks a verifiable identity layer**: a way to confirm who you're interacting with before you share information, take action, or trust a service. This missing layer is one of the fundamental weaknesses that the Verana Foundation seeks to address.
 
 ### Reputation
 
@@ -54,7 +54,7 @@ This absence of a standardized, decentralized reputation layer makes it easy for
 
 <Image url="/img/age-verif.png" floating="right" caption="Age verification popup." maxWidth="300px" border="1px solid #DDDDDD" align="center"/>
 
-We need to protect our kids online — but today’s internet makes it difficult.
+We need to protect our kids online, but today’s internet makes it difficult.
 
 There are no standardized or reliable mechanisms for enforcing age restrictions across websites, apps, or digital services. Most platforms rely on easily bypassed checkboxes or self-declared birthdates.
 
@@ -82,7 +82,7 @@ Here are the main problems with federated login systems:
 
 - Dependency on big tech: Users and services become dependent on a few tech giants. This undermines decentralization and gives disproportionate control to a handful of companies.
 
-- No self-sovereignty: Users don’t own their identity — they’re renting access from a third party.
+- No self-sovereignty: Users don’t own their identity, they’re renting access from a third party.
 
 - No proof of trust: Relying parties have no way to independently verify that the login comes from a trusted source, or that the user is who they claim to be, without relying on the provider’s internal systems.
 
