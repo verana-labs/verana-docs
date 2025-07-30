@@ -71,6 +71,14 @@ veranad version
 
 ---
 
+### Define your Trust Registry ID so the below commands work
+
+```bash
+TRUST_REG_ID=5
+```
+
+---
+
 ## Transaction Commands
 
 ### 1. Create Credential Schema
@@ -95,12 +103,12 @@ veranad tx cs create-credential-schema <trust-registry-id> <json-schema> <issuer
 
 **Example (inline JSON schema):**
 ```bash
-veranad tx cs create-credential-schema 1 '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"/vpr/v1/cs/js/1","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 31536000 31536000 31536000 31536000 31536000 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 50000uvna --gas auto
+veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"/vpr/v1/cs/js/1","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 31536000 31536000 31536000 31536000 31536000 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 50000uvna --gas auto
 ```
 
 **Example (using JSON file):**
 ```bash
-veranad tx cs create-credential-schema 1 @./schema.json 31536000 31536000 31536000 31536000 31536000 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 50000uvna --gas auto
+veranad tx cs create-credential-schema ${TRUST_REG_ID} @./schema.json 31536000 31536000 31536000 31536000 31536000 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 50000uvna --gas auto
 ```
 
 ---
