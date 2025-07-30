@@ -60,7 +60,7 @@ See [Install from Source](/docs/next/run/network/run-a-node/local-node-isolated)
 Create a new keypair:
 
 ```bash
-veranad keys add $USER_ACC --keyring-backend test
+veranad version
 ```
 
 ---
