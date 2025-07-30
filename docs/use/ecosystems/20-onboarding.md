@@ -301,3 +301,15 @@ veranad tx perm create-root-perm $SCHEMA_ID did:example:123456789abcdefghi 10000
 ```bash
 veranad q perm list-permissions --node $NODE_RPC  --output json
 ```
+
+
+## Start Permission VP
+
+### permission types
+
+1 - Issuer
+2 - Verifier
+3 - Issuer-Grantor
+4 - Verifier-Grantor
+5 - Ecosystem
+6 - Holder

@@ -68,21 +68,17 @@ veranad tx cs create-credential-schema <trust-registry-id> <json-schema> <issuer
 - `<issuer-validity>`: Validity period for issuer (in seconds)
 - `<verifier-validity>`: Validity period for verifier (in seconds)
 - `<holder-validity>`: Validity period for holder (in seconds)
-- `<issuer-perm-mode>`: Issuer permission management mode (integer)
-    1 - Issuer
-    2 - Verifier
-    3 - Issuer-Grantor
-    4 - Verifier-Grantor
-    5 - Ecosystem
-    6 - Holder
+- `<issuer-perm-mode>`: Issuer permission management mode (integer:
+    1 - Open
+    2 - Grantor-Validation
+    3 - Ecosystem)
 
-- `<verifier-perm-mode>`: Verifier permission management mode (integer)
-    1 - Issuer
-    2 - Verifier
-    3 - Issuer-Grantor
-    4 - Verifier-Grantor
-    5 - Ecosystem
-    6 - Holder
+- `<verifier-perm-mode>`: Verifier permission management mode (integer:
+    1 - Open
+    2 - Grantor-Validation
+    3 - Ecosystem)
+
+
 
 **Example (inline JSON schema):**
 ```bash
