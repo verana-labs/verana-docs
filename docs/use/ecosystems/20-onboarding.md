@@ -31,9 +31,21 @@ Available Commands:
 
 1. List the available Ecosystems and find the one of your interest.
 
+
+### verana CLI
+    ```bash
+    veranad q tr list-trust-registries --node $NODE_RPC  --output json
+    ```
+
+### curl
+
+:::tip[TODO]
     ```
     curl -X GET "https://api.testnet.verana.network/tr/v1/list?active_gf_only=true&response_max_size=1" -H  "accept: application/json"
     ```
+:::
+
+### result
 
     ```json
 
@@ -81,9 +93,29 @@ Available Commands:
 
 4. List the Credential Schemas of this Ecosystem
 
+### with verana cli
+
+```bash
+veranad q cs list-schemas --node $NODE_RPC  --output json
+```
+
+---
+
+### Define your Schema ID so the below commands work
+
+```bash
+SCHEMA_ID=5
+```
+
+---
+
+### with curl
+
+:::tip[TODO]
     ```
     curl -X GET "https://api.testnet.verana.network/cs/v1/list?tr_id=1&response_max_size=1" -H  "accept: application/json"
     ```
+:::
 
     ```json
     {
@@ -154,22 +186,34 @@ Optional flags:
 
 **Example:**
 
+```bash
+veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
 
 
 Obtain the required attributes for creating the permission. You will need:
 
 - the Credential Schema ID
-- ...
 
-    ```
-    curl ...
-    ```
+### with verana cli
+
+```bash
+veranad q cs list-schemas --node $NODE_RPC  --output json
+```
+
+---
+
+### Define your Schema ID so the below commands work
+
+```bash
+SCHEMA_ID=5
+```
 
 Then, execute a transaction to create the Permission:
 
-    ```
-    veranad ...
-    ```
+```bash
+veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
 
 Verify your Permission by querying the ledger:
 
@@ -229,3 +273,31 @@ Finish documentation here
     ```
     veranad ...
     ```
+
+
+
+## Root permission
+
+**syntax**
+
+```bash
+veranad tx perm create-root-perm -h
+Create a new root perm for a credential schema. Can only be executed by the trust registry controller.
+
+Usage:
+  veranad tx perm create-root-perm [schema-id] [did] [validation-fees] [issuance-fees] [verification-fees] [flags]
+```
+
+
+examples:
+
+```bash
+veranad tx perm create-root-perm $SCHEMA_ID did:example:123456789abcdefghi 1000000 1000000 1000000 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+
+### Query the permissions
+
+```bash
+veranad q perm list-permissions --node $NODE_RPC  --output json
+```
