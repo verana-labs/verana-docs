@@ -34,47 +34,14 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install -y build-essential git curl wget jq
 ```
 
-### 2. Install Verana
 
-#### For Linux
+### 2. Install Veranad Binary
+
+> **Prerequisite:** Ensure the `veranad` binary is installed and up-to-date.  
+> See [Install or Update Veranad Binary](12-prerequisites.md#install-or-update-the-veranad-binary).
+
+Verify installation:
 ```bash
-# Fetch the binary manifest
-curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/binaries/manifest.json > manifest.json
-
-# Get the binary filename for your architecture
-BINARY_FILE=$(jq -r '.["linux-amd64"]' manifest.json)
-
-# Download the binary
-wget https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/binaries/$BINARY_FILE
-
-# Make it executable
-chmod +x $BINARY_FILE
-
-# Move to system path
-sudo mv $BINARY_FILE /usr/local/bin/veranad
-
-# Verify installation
-veranad version
-```
-
-#### For macOS
-```bash
-# Fetch the binary manifest
-curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/binaries/manifest.json > manifest.json
-
-# Get the binary filename for your architecture
-BINARY_FILE=$(jq -r '.["darwin-amd64"]' manifest.json)
-
-# Download the binary
-curl -O https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/binaries/$BINARY_FILE
-
-# Make it executable
-chmod +x $BINARY_FILE
-
-# Move to system path
-sudo mv $BINARY_FILE /usr/local/bin/veranad
-
-# Verify installation
 veranad version
 ```
 

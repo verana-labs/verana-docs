@@ -1,6 +1,6 @@
 # Create an Ecosystem Trust Registry
 
-Make sure you've read [the Learn section](../../learn/verifiable-public-registry/trust-registries).
+Make sure you've read [the Learn section](/docs/next/learn/verifiable-public-registry/trust-registries).
 
 ### Environment Setup
 
@@ -15,34 +15,8 @@ NODE_RPC=http://node1.testnet.verana.network:26657
 
 *These variables are required to target the correct environment (testnet, mainnet, or local). Adjust values accordingly.*
 
-#### Install or Update the Veranad Binary
-
-Downloading the latest binary is optional if you already have the `veranad` binary installed and up-to-date.
-
-```bash
-# Fetch the binary manifest
-curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/$CHAIN_ID/binaries/manifest.json > manifest.json
-
-# Get the binary filename for your architecture
-BINARY_FILE=$(jq -r '.["linux-amd64"]' manifest.json)
-
-# Download the binary
-wget https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/$CHAIN_ID/binaries/$BINARY_FILE
-
-# Make it executable
-chmod +x $BINARY_FILE
-
-# Move to system path
-sudo mv $BINARY_FILE /usr/local/bin/veranad
-
-# Verify installation
-veranad version
-```
-
-Alternatively, you can install the binary by cloning the `verana-blockchain` repository and using the `make install` method.  
-See [Install from Source](/docs/next/run/network/run-a-node/local-node-isolated) for details on cloning the `verana-blockchain` repository and building with `make install`.
-
-> **Tip:** Skip this step if the `veranad` binary is already installed and up-to-date.
+> **Prerequisite:** Ensure the `veranad` binary is installed and up-to-date.  
+> See [Install or Update Veranad Binary](/docs/next/run/network/run-a-node/prerequisites).
 
 ---
 
