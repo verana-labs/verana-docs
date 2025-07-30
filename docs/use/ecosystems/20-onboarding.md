@@ -1,5 +1,32 @@
 # Join an Ecosystem
 
+## Module Overview
+
+```bash
+veranad tx perm               
+Transactions commands for the perm module
+
+Usage:
+  veranad tx perm [flags]
+  veranad tx perm [command]
+
+Available Commands:
+  cancel-perm-vp-request        Cancel a pending perm VP request
+  confirm-vp-termination        Confirm the termination of a perm VP
+  create-or-update-perm-session Create or update a perm session
+  create-perm                   Create a new perm for open schemas
+  create-root-perm              Create a new root perm for a credential schema
+  extend-perm                   Extend a perm's effective duration
+  renew-perm-vp                 Renew a perm validation process
+  repay-perm-slashed-td         Repay a slashed perm's trust deposit
+  request-vp-termination        Request termination of a perm validation process
+  revoke-perm                   Revoke a perm
+  set-perm-vp-validated         Set perm validation process to validated state
+  slash-perm-td                 Slash a perm's trust deposit
+  start-perm-vp                 Start a new perm validation process
+```
+
+
 ## Onboarding Process
 
 1. List the available Ecosystems and find the one of your interest.
@@ -105,12 +132,29 @@ Based on the schema configuration and the permission type you would like to obta
 
 6. If you need to self-create your Permission:
 
-:::tip[TODO]
 
-@pratikasr
-Finish documentation here
+```bash
+veranad tx perm create-perm
+Create a new ISSUER or VERIFIER perm for schemas with OPEN management mode.
+This allows self-creation of permissions without validation process.
 
-:::
+Parameters:
+- schema-id: ID of the credential schema
+- type: Permission type (1=ISSUER, 2=VERIFIER)
+- did: DID of the grantee service
+
+Optional flags:
+- country: ISO 3166-1 alpha-2 country code
+- effective-from: Timestamp when perm becomes effective (RFC3339)
+- effective-until: Timestamp when perm expires (RFC3339)
+- verification-fees: Fees for credential verification (default: 0)
+
+```
+
+
+**Example:**
+
+
 
 Obtain the required attributes for creating the permission. You will need:
 
