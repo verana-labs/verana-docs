@@ -51,6 +51,12 @@ Alternatively, install from source:
 make install
 ```
 
+Verify installation:
+
+```bash
+veranad version
+```
+
 See [Install from Source](/docs/next/run/network/run-a-node/local-node-isolated) for detailed instructions.
 
 ## Account Setup
