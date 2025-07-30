@@ -20,9 +20,9 @@ Available Commands:
 
 ---
 
-## Setting up the Environment
+### Environment Setup
 
-### Testnet Example
+#### Set Environment Variables
 
 ```bash
 USER_ACC="mat-test-acc"
@@ -31,43 +31,13 @@ CHAIN_ID="vna-testnet-1"
 NODE_RPC=http://node1.testnet.verana.network:26657
 ```
 
-*Adjust values for your environment (testnet, mainnet, or local).*
+*These variables are required to target the correct environment (testnet, mainnet, or local). Adjust values accordingly.*
 
-### Install or Update the Veranad Binary
-
-To install or update the `veranad` binary, you can download the latest release or build from source.
-
-Download script example:
-
-```bash
-curl -L https://github.com/verana/veranad/releases/latest/download/veranad-linux-amd64 -o veranad
-chmod +x veranad
-sudo mv veranad /usr/local/bin/
-```
-
-Alternatively, install from source:
-
-```bash
-make install
-```
-
-Verify installation:
-
-```bash
-veranad version
-```
+> **Prerequisite:** Ensure the `veranad` binary is installed and up-to-date.  
+> See [Install or Update Veranad Binary](/docs/next/run/network/run-a-node/prerequisites).
 
 See [Install from Source](/docs/next/run/network/run-a-node/local-node-isolated) for detailed instructions.
 
-## Account Setup
-
-### Create a New Account
-
-Create a new keypair:
-
-```bash
-veranad version
-```
 
 ---
 
@@ -103,12 +73,42 @@ veranad tx cs create-credential-schema <trust-registry-id> <json-schema> <issuer
 
 **Example (inline JSON schema):**
 ```bash
-veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"/vpr/v1/cs/js/1","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 31536000 31536000 31536000 31536000 31536000 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 50000uvna --gas auto
+veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"/vpr/v1/cs/js/1","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 31536000 31536000 31536000 31536000 31536000 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 **Example (using JSON file):**
 ```bash
-veranad tx cs create-credential-schema ${TRUST_REG_ID} @./schema.json 31536000 31536000 31536000 31536000 31536000 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 50000uvna --gas auto
+# Save schema to file first
+cat > schema.json << 'EOF'
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "/vpr/v1/cs/js/1",
+    "type": "object",
+    "$defs": {},
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "email": {
+            "type": "string",
+            "format": "email"
+        }
+    },
+    "required": ["name"],
+    "additionalProperties": false
+}
+EOF
+
+# Use in command (you'll need to escape or quote properly)
+veranad tx cs create-credential-schema ${TRUST_REG_ID} "$(cat schema.json)" 365 365 180 180 180 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+### Listing Credential Schemas
+
+To list all existing Credential Schemas and find their IDs, run:
+
+```bash
+veranad q cs list-schemas --node $NODE_RPC  --output json
 ```
 
 ---
@@ -119,12 +119,12 @@ Updates the validity periods of an existing credential schema.
 
 **Syntax:**
 ```bash
-veranad tx cs update <credential-schema-id> <issuer-grantor-validity> <verifier-grantor-validity> <issuer-validity> <verifier-validity> <holder-validity> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx cs update <credential-schema-id> <issuer-grantor-validity> <verifier-grantor-validity> <issuer-validity> <verifier-validity> <holder-validity> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount>
 ```
 
 **Example:**
 ```bash
-veranad tx cs update 1 63072000 63072000 63072000 63072000 63072000 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 50000uvna --gas auto
+veranad tx cs update ${TRUST_REG_ID} 365 365 280 280 280 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 ---
@@ -135,7 +135,7 @@ Archives or unarchives a credential schema.
 
 **Syntax:**
 ```bash
-veranad tx cs archive <credential-schema-id> <archive-flag> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx cs archive <credential-schema-id> <archive-flag> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount>
 ```
 
 **Parameters:**
@@ -144,8 +144,8 @@ veranad tx cs archive <credential-schema-id> <archive-flag> --from <user> --chai
 
 **Examples:**
 ```bash
-veranad tx cs archive 1 true --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 50000uvna --gas auto
-veranad tx cs archive 1 false --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 50000uvna --gas auto
+veranad tx cs archive ${TRUST_REG_ID} true --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx cs archive ${TRUST_REG_ID} false --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 ---
@@ -158,10 +158,9 @@ veranad tx cs archive 1 false --from $USER_ACC --chain-id $CHAIN_ID --keyring-ba
 - Properly escape inline JSON or use file with `@filename.json`
 
 ### Validity Periods
-- Specified in seconds
+- Specified in days
 - Common values:
-  - 31536000 = 1 year
-  - 63072000 = 2 years
+  - 365 = 1 year
 
 ### Permission Management Modes
 - Integer values representing modes for issuer and verifier
@@ -186,5 +185,5 @@ veranad tx cs archive 1 false --from $USER_ACC --chain-id $CHAIN_ID --keyring-ba
 ---
 
 ## Transaction Fees
-- Use `--fees` to specify fees (e.g., `50000uvna`)
+- Use `--fees` to specify fees (e.g., `60000uvna`)
 - Use `--gas auto` for automatic gas estimation
