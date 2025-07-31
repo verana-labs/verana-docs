@@ -170,6 +170,9 @@ Usage:
   veranad tx perm create-root-perm [schema-id] [did] [validation-fees] [issuance-fees] [verification-fees] [flags]
 ```
 
+The root permission is a special permission that can only be created by the Trust Registry controller. It acts as the top-level authority for a credential schema and is required to delegate other permissions (e.g., Grantor, Issuer, Verifier) according to the Ecosystem Governance Framework.
+
+Without a root permission, no permission hierarchy can be established under this schema.
 
 examples:
 
@@ -202,6 +205,42 @@ veranad q perm list-permissions --node $NODE_RPC  --output json
 ### Permission Management Modes
 - Integer values representing modes for issuer and verifier
 - See module documentation for mode definitions
+
+---
+
+## Permission Management Modes Explained
+
+The `issuer-perm-mode` and `verifier-perm-mode` parameters define how permissions for this schema are granted and managed.
+
+| Mode ID | Name                | Description                                                                 |
+|---------|---------------------|-----------------------------------------------------------------------------|
+| 1       | OPEN                | Anyone can self-create the permission without validation.                  |
+| 2       | GRANTOR_VALIDATION  | Requires validation by a Grantor permission holder (Issuer or Verifier).  |
+| 3       | ECOSYSTEM           | Requires validation by the Ecosystem controller (Trust Registry owner).   |
+
+**Impact on onboarding:**
+- **OPEN**: Participants can immediately self-create permissions for Issuer/Verifier roles.
+- **GRANTOR_VALIDATION**: Participants must run a validation process with a Grantor validator.
+- **ECOSYSTEM**: Participants must run a validation process with the Ecosystem controller.
+
+For details on onboarding flows, see [Join an Ecosystem](20-onboarding.md).
+
+---
+
+## Permission Types
+
+Permissions define roles for entities within an Ecosystem:
+
+| Type ID | Permission Type     | Description                                      |
+|---------|----------------------|--------------------------------------------------|
+| 1       | ISSUER              | Entity authorized to issue credentials.          |
+| 2       | VERIFIER            | Entity authorized to verify credentials.         |
+| 3       | ISSUER-GRANTOR      | Entity that validates ISSUER applicants.         |
+| 4       | VERIFIER-GRANTOR    | Entity that validates VERIFIER applicants.       |
+| 5       | ECOSYSTEM           | Ecosystem controller with governance authority.  |
+| 6       | HOLDER              | Entity holding Verifiable Credentials.           |
+
+Refer to [Permission Module Spec](https://verana-labs.github.io/verifiable-trust-vpr-spec/#permission-module) for the full specification.
 
 ---
 
