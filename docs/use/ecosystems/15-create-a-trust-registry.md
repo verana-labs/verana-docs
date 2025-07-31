@@ -1,6 +1,6 @@
 # Create an Ecosystem Trust Registry
 
-Make sure you've read [the Learn section](../../learn/verifiable-public-registry/trust-registries).
+Make sure you've read [the Learn section](/docs/next/learn/verifiable-public-registry/trust-registries).
 
 ### Environment Setup
 
@@ -15,34 +15,8 @@ NODE_RPC=http://node1.testnet.verana.network:26657
 
 *These variables are required to target the correct environment (testnet, mainnet, or local). Adjust values accordingly.*
 
-#### Install or Update the Veranad Binary
-
-Downloading the latest binary is optional if you already have the `veranad` binary installed and up-to-date.
-
-```bash
-# Fetch the binary manifest
-curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/$CHAIN_ID/binaries/manifest.json > manifest.json
-
-# Get the binary filename for your architecture
-BINARY_FILE=$(jq -r '.["linux-amd64"]' manifest.json)
-
-# Download the binary
-wget https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/$CHAIN_ID/binaries/$BINARY_FILE
-
-# Make it executable
-chmod +x $BINARY_FILE
-
-# Move to system path
-sudo mv $BINARY_FILE /usr/local/bin/veranad
-
-# Verify installation
-veranad version
-```
-
-Alternatively, you can install the binary by cloning the `verana-blockchain` repository and using the `make install` method.  
-See [Install from Source](/docs/next/run/network/run-a-node/local-node-isolated) for details on cloning the `verana-blockchain` repository and building with `make install`.
-
-> **Tip:** Skip this step if the `veranad` binary is already installed and up-to-date.
+> **Prerequisite:** Ensure the `veranad` binary is installed and up-to-date.  
+> See [Install or Update Veranad Binary](/docs/next/run/network/run-a-node/prerequisites).
 
 ---
 
@@ -51,50 +25,45 @@ See [Install from Source](/docs/next/run/network/run-a-node/local-node-isolated)
 Use the following command to create a new trust registry within the ecosystem:
 
 ```bash
-veranad tx registry create-trust-registry \
-  --name <name> \
-  --description <description> \
-  --governance-framework-uri <uri> \
-  --governance-framework-version <version> \
-  --governance-framework-type <type> \
-  --admin <admin-address> \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --node $NODE_RPC \
-  --yes
+veranad tx tr create-trust-registry <did> <language> <doc-url> <doc-digest-sri> [aka] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
 ```
 
-### Parameters:
-
-- `--name`: Name of the trust registry.
-- `--description`: Description of the trust registry.
-- `--governance-framework-uri`: URI pointing to the governance framework document.
-- `--governance-framework-version`: Version identifier of the governance framework. **Versions must be sequential integers (e.g., 1, 2, 3).**
-- `--governance-framework-type`: Type of the governance framework (e.g., "ISO-Standard").
-- `--admin`: Address of the administrator account.
+**Parameters:**
+- `<did>`: Decentralized Identifier (DID) - must follow DID specification
+- `<language>`: ISO 639-1 language code (e.g., en, fr, es)
+- `<doc-url>`: URL to the governance framework document
+- `<doc-digest-sri>`: SHA-384 hash with SRI format prefix
+- `[aka]`: Optional - Also Known As URL
 
 ### Example:
 
+Basic creation:
 ```bash
-veranad tx registry create-trust-registry \
-  --name "Healthcare Providers" \
-  --description "Registry for accredited healthcare providers" \
-  --governance-framework-uri "https://example.com/gf/1.json" \
-  --governance-framework-version 1 \
-  --governance-framework-type "ISO-Standard" \
-  --admin $(veranad keys show $USER_ACC -a) \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --node $NODE_RPC \
-  --yes
+veranad tx tr create-trust-registry did:example:123456789abcdefghi en https://example.com/doc sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26 --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
+
+With AKA (Also Known As):
+```bash
+veranad tx tr create-trust-registry did:example:123456789abcdefghi en https://example.com/doc001-01 sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68001 --aka http://example.com --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+#### How to find the id of the trust registry that was just created?
+
+```
+TX_HASH=4E7DEE1DFDE24A804E8BD020657EB22B07D54CBA695788ACB59D873B827F3CA6
+veranad q tx $TX_HASH \
+  --node $NODE_RPC --output json \
+| jq '.events[] | select(.type == "create_trust_registry") | .attributes | map({(.key): .value}) | add'
+```
+
+replace with the correct transaction hash.
 
 ### Listing Trust Registries
 
 To list all existing trust registries and find their IDs, run:
 
 ```bash
-veranad query registry list-trust-registries --node $NODE_RPC
+veranad q tr list-trust-registries --node $NODE_RPC  --output json
 ```
 
 Use the output to identify the `id` of the trust registry you want to manage.
@@ -112,37 +81,26 @@ TRUST_REG_ID=5
 To update the details of an existing trust registry, use:
 
 ```bash
-veranad tx registry update-trust-registry \
-  --id <trust-registry-id> \
-  --name <new-name> \
-  --description <new-description> \
-  --admin <new-admin-address> \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --node $NODE_RPC \
-  --yes
+veranad tx tr update-trust-registry
+Update a trust registry's DID and AKA URI. Only the controller can update a trust registry.
+
+Usage:
+  veranad tx tr update-trust-registry [id] [did] [flags]
 ```
 
 ### Parameters:
 
-- `--id`: The identifier of the trust registry to update.
-- `--name`: New name for the trust registry.
-- `--description`: New description.
-- `--admin`: New administrator address.
+```
+Usage:
+  veranad tx tr update-trust-registry [id] [did] [flags]
+```
 
 ### Example:
 
-```bash
-veranad tx registry update-trust-registry \
-  --id 1 \
-  --name "Updated Healthcare Providers" \
-  --description "Updated registry for accredited healthcare providers" \
-  --admin $(veranad keys show $USER_ACC -a) \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --node $NODE_RPC \
-  --yes
-```
+:::tip[TODO]
+
+
+:::
 
 ---
 
@@ -152,37 +110,33 @@ veranad tx registry update-trust-registry \
 
 Add a new governance framework document to an existing trust registry with:
 
+**Syntax:**
 ```bash
-veranad tx registry add-governance-framework-document \
-  --trust-registry-id $TRUST_REG_ID \
-  --uri <document-uri> \
-  --version <version> \
-  --type <type> \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --node $NODE_RPC \
-  --yes
+veranad tx tr add-governance-framework-document <trust-registry-id> <doc-language> <doc-url> <doc-digest-sri> <version> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
 ```
 
-### Parameters:
+**Parameters:**
+- `<trust-registry-id>`: Numeric ID of the trust registry
+- `<doc-language>`: ISO 639-1 language code
+- `<doc-url>`: URL to the governance framework document
+- `<doc-digest-sri>`: SHA-384 hash with SRI format prefix
+- `<version>`: Version number (must be sequential)
 
-- `--trust-registry-id`: ID of the trust registry.
-- `--uri`: URI of the governance framework document.
-- `--version`: Version of the governance framework document. **Versions must be sequential integers (e.g., 2, 3, 4).**
-- `--type`: Type of the governance framework (e.g., "ISO-Standard").
+**Examples:**
 
-### Example:
-
+Add document for next version:
 ```bash
-veranad tx registry add-governance-framework-document \
-  --trust-registry-id $TRUST_REG_ID \
-  --uri "https://example.com/gf/2.json" \
-  --version 2 \
-  --type "ISO-Standard" \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --node $NODE_RPC \
-  --yes
+veranad tx tr add-governance-framework-document ${TRUST_REG_ID} en https://example.com/doc2 sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26 2 --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+Add document in different language for same version:
+```bash
+veranad tx tr add-governance-framework-document ${TRUST_REG_ID} fr https://example.com/doc2-fr sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26 2 --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+Add document for version 3:
+```bash
+veranad tx tr add-governance-framework-document ${TRUST_REG_ID} es https://example.com/doc3-es sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26 3 --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 ---
@@ -193,32 +147,30 @@ veranad tx registry add-governance-framework-document \
 
 To increase or change the active governance framework version for a trust registry, run:
 
+**Syntax:**
 ```bash
-veranad tx registry increase-active-governance-framework-version \
-  --trust-registry-id $TRUST_REG_ID \
-  --version <new-version> \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --node $NODE_RPC \
-  --yes
+veranad tx tr increase-active-gf-version <trust-registry-id> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount>
 ```
 
-### Parameters:
+**Parameters:**
+- `<trust-registry-id>`: Numeric ID of the trust registry
 
-- `--trust-registry-id`: ID of the trust registry.
-- `--version`: New active governance framework version. **Must be a sequential integer (e.g., 2, 3, 4).**
-
-### Example:
-
+**Example:**
 ```bash
-veranad tx registry increase-active-governance-framework-version \
-  --trust-registry-id $TRUST_REG_ID \
-  --version 2 \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --node $NODE_RPC \
-  --yes
+veranad tx tr increase-active-gf-version ${TRUST_REG_ID} --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
+
+**Note:** This command will fail if there's no document in the default language for the next version.
+
+#### How to find the id of the trust registry that was just created?
+
+```
+TX_HASH=<tx hash>
+veranad q tx $TX_HASH \
+  --node $NODE_RPC --output json \
+| jq
+```
+
 
 ---
 
@@ -226,43 +178,25 @@ veranad tx registry increase-active-governance-framework-version \
 
 You can archive or unarchive a trust registry with the following command:
 
+**Syntax:**
 ```bash
-veranad tx registry archive-trust-registry \
-  --id <trust-registry-id> \
-  --archive <true|false> \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --node $NODE_RPC \
-  --yes
+veranad tx tr archive-trust-registry <trust-registry-id> <archive-flag> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount>
 ```
 
-### Parameters:
+**Parameters:**
+- `<trust-registry-id>`: Numeric ID of the trust registry
+- `<archive-flag>`: Boolean value (`true` to archive, `false` to unarchive)
 
-- `--id`: ID of the trust registry.
-- `--archive`: Set to `true` to archive, `false` to unarchive.
+**Examples:**
 
-### Example (archive):
-
+Archive a trust registry:
 ```bash
-veranad tx registry archive-trust-registry \
-  --id 1 \
-  --archive true \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --node $NODE_RPC \
-  --yes
+veranad tx tr archive-trust-registry ${TRUST_REG_ID} true --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna 
 ```
 
-### Example (unarchive):
-
+Unarchive a trust registry:
 ```bash
-veranad tx registry archive-trust-registry \
-  --id 1 \
-  --archive false \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --node $NODE_RPC \
-  --yes
+veranad tx tr archive-trust-registry ${TRUST_REG_ID} false --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna 
 ```
 
 ---

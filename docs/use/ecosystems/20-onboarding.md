@@ -1,12 +1,51 @@
 # Join an Ecosystem
 
+## Module Overview
+
+```bash
+veranad tx perm               
+Transactions commands for the perm module
+
+Usage:
+  veranad tx perm [flags]
+  veranad tx perm [command]
+
+Available Commands:
+  cancel-perm-vp-request        Cancel a pending perm VP request
+  confirm-vp-termination        Confirm the termination of a perm VP
+  create-or-update-perm-session Create or update a perm session
+  create-perm                   Create a new perm for open schemas
+  create-root-perm              Create a new root perm for a credential schema
+  extend-perm                   Extend a perm's effective duration
+  renew-perm-vp                 Renew a perm validation process
+  repay-perm-slashed-td         Repay a slashed perm's trust deposit
+  request-vp-termination        Request termination of a perm validation process
+  revoke-perm                   Revoke a perm
+  set-perm-vp-validated         Set perm validation process to validated state
+  slash-perm-td                 Slash a perm's trust deposit
+  start-perm-vp                 Start a new perm validation process
+```
+
+
 ## Onboarding Process
 
 1. List the available Ecosystems and find the one of your interest.
 
+
+### verana CLI
+    ```bash
+    veranad q tr list-trust-registries --node $NODE_RPC  --output json
+    ```
+
+### curl
+
+:::tip[TODO]
     ```
     curl -X GET "https://api.testnet.verana.network/tr/v1/list?active_gf_only=true&response_max_size=1" -H  "accept: application/json"
     ```
+:::
+
+### result
 
     ```json
 
@@ -54,9 +93,29 @@
 
 4. List the Credential Schemas of this Ecosystem
 
+### with verana cli
+
+```bash
+veranad q cs list-schemas --node $NODE_RPC  --output json
+```
+
+---
+
+### Define your Schema ID so the below commands work
+
+```bash
+SCHEMA_ID=5
+```
+
+---
+
+### with curl
+
+:::tip[TODO]
     ```
     curl -X GET "https://api.testnet.verana.network/cs/v1/list?tr_id=1&response_max_size=1" -H  "accept: application/json"
     ```
+:::
 
     ```json
     {
@@ -105,27 +164,56 @@ Based on the schema configuration and the permission type you would like to obta
 
 6. If you need to self-create your Permission:
 
-:::tip[TODO]
 
-@pratikasr
-Finish documentation here
+```bash
+veranad tx perm create-perm
+Create a new ISSUER or VERIFIER perm for schemas with OPEN management mode.
+This allows self-creation of permissions without validation process.
 
-:::
+Parameters:
+- schema-id: ID of the credential schema
+- type: Permission type (1=ISSUER, 2=VERIFIER)
+- did: DID of the grantee service
+
+Optional flags:
+- country: ISO 3166-1 alpha-2 country code
+- effective-from: Timestamp when perm becomes effective (RFC3339)
+- effective-until: Timestamp when perm expires (RFC3339)
+- verification-fees: Fees for credential verification (default: 0)
+
+```
+
+
+**Example:**
+
+```bash
+veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
 
 Obtain the required attributes for creating the permission. You will need:
 
 - the Credential Schema ID
-- ...
 
-    ```
-    curl ...
-    ```
+### with verana cli
+
+```bash
+veranad q cs list-schemas --node $NODE_RPC  --output json
+```
+
+---
+
+### Define your Schema ID so the below commands work
+
+```bash
+SCHEMA_ID=5
+```
 
 Then, execute a transaction to create the Permission:
 
-    ```
-    veranad ...
-    ```
+```bash
+veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
 
 Verify your Permission by querying the ledger:
 
@@ -185,3 +273,43 @@ Finish documentation here
     ```
     veranad ...
     ```
+
+
+
+## Root permission
+
+**syntax**
+
+```bash
+veranad tx perm create-root-perm -h
+Create a new root perm for a credential schema. Can only be executed by the trust registry controller.
+
+Usage:
+  veranad tx perm create-root-perm [schema-id] [did] [validation-fees] [issuance-fees] [verification-fees] [flags]
+```
+
+
+examples:
+
+```bash
+veranad tx perm create-root-perm $SCHEMA_ID did:example:123456789abcdefghi 1000000 1000000 1000000 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+
+### Query the permissions
+
+```bash
+veranad q perm list-permissions --node $NODE_RPC  --output json
+```
+
+
+## Start Permission VP
+
+### permission types
+
+1 - Issuer
+2 - Verifier
+3 - Issuer-Grantor
+4 - Verifier-Grantor
+5 - Ecosystem
+6 - Holder

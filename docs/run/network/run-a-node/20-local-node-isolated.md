@@ -5,17 +5,27 @@ Running a local node in isolation is useful for testing and development purposes
 
 ## Getting Started
 
-1.	**Clone the Repository**
+1. **Clone the Repository**
+
+To access the helper scripts, clone the `verana-blockchain` repository:
 
 ```bash
 git clone https://github.com/verana-labs/verana-blockchain.git
 cd verana-blockchain
 ```
 
-2.	Build the Verana Binary
-```bash
-make install
-```
+2. **Install the Veranad Binary**
+
+You have two options to install the `veranad` binary:
+
+- **Option A: Download the Latest Binary**
+  > See [Install or Update Veranad Binary](12-prerequisites.md#install-or-update-the-veranad-binary).
+
+- **Option B: Build from Source**
+  If you prefer to build from source:
+  ```bash
+  make install
+  ```
 
 ## Steps to Set Up an Isolated Node (with a script)
 
