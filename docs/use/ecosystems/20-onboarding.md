@@ -155,6 +155,6 @@ veranad q perm list-permissions --node $NODE_RPC --output json
 
 ✅ **Next Step:** If acting as a validator, see the [Validation Process Guide](../../learn/verifiable-public-registry/onboarding-participants#validation-process).
 
-**Note:** For schema creation and permission modes, see [Create a Credential Schema](../17-create-a-credential-schema.md).
+**Note:** For schema creation and permission modes, see [Create a Credential Schema](create-a-credential-schema).
 
 (Visual flow diagram placeholder)
