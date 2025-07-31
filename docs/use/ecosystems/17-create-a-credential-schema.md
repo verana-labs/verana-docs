@@ -80,7 +80,17 @@ veranad tx cs create-credential-schema <trust-registry-id> <json-schema> <issuer
     2 - Grantor-Validation
     3 - Ecosystem)
 
+#### Permission Management Modes
 
+These modes control how Issuer and Verifier permissions are granted for this schema:
+
+| Mode ID | Name                | Description                                                                 |
+|---------|---------------------|-----------------------------------------------------------------------------|
+| 1       | OPEN                | Anyone can self-create the permission without validation.                  |
+| 2       | GRANTOR_VALIDATION  | Requires validation by a Grantor permission holder (Issuer or Verifier).  |
+| 3       | ECOSYSTEM           | Requires validation by the Ecosystem controller (Trust Registry owner).   |
+
+Choose the mode based on your onboarding policy. See [Join an Ecosystem](20-onboarding.md) for process details.
 
 **Example (inline JSON schema):**
 ```bash
@@ -210,25 +220,6 @@ veranad q perm list-permissions --node $NODE_RPC  --output json
 ### Permission Management Modes
 - Integer values representing modes for issuer and verifier
 - See module documentation for mode definitions
-
----
-
-## Permission Management Modes Explained
-
-The `issuer-perm-mode` and `verifier-perm-mode` parameters define how permissions for this schema are granted and managed.
-
-| Mode ID | Name                | Description                                                                 |
-|---------|---------------------|-----------------------------------------------------------------------------|
-| 1       | OPEN                | Anyone can self-create the permission without validation.                  |
-| 2       | GRANTOR_VALIDATION  | Requires validation by a Grantor permission holder (Issuer or Verifier).  |
-| 3       | ECOSYSTEM           | Requires validation by the Ecosystem controller (Trust Registry owner).   |
-
-**Impact on onboarding:**
-- **OPEN**: Participants can immediately self-create permissions for Issuer/Verifier roles.
-- **GRANTOR_VALIDATION**: Participants must run a validation process with a Grantor validator.
-- **ECOSYSTEM**: Participants must run a validation process with the Ecosystem controller.
-
-For details on onboarding flows, see [Join an Ecosystem](20-onboarding.md).
 
 ---
 
