@@ -158,3 +158,209 @@ veranad q perm list-permissions --node $NODE_RPC --output json
 **Note:** For schema creation and permission modes, see [Create a Credential Schema](create-a-credential-schema).
 
 (Visual flow diagram placeholder)
+# Join an Ecosystem
+
+## Overview
+
+Joining an ecosystem means obtaining the **permissions** required to issue, verify, or hold credentials for a specific **Credential Schema**.  
+Your onboarding path depends on:
+
+- The **role** you want to assume (Issuer, Verifier, Holder, etc.)
+- The **permission management mode** set by the ecosystem for that schema.
+
+---
+
+## Decision Flow: How Do I Join?
+
+```
+What role do you need?
+    ↓
+Check the schema configuration (issuer and verifier modes)
+    ↓
+If mode = OPEN → Self-create permission
+If mode = GRANTOR or ECOSYSTEM → Start a validation process
+    ↓
+Once permission is granted, act as Issuer / Verifier / Holder
+```
+
+---
+
+## Permission Management Modes
+
+| Mode ID | Mode Name          | Meaning                                                 |
+|---------|--------------------|---------------------------------------------------------|
+| 1       | OPEN              | Self-create your permission—no validation required.     |
+| 2       | GRANTOR_VALIDATION| A Grantor (Issuer Grantor or Verifier Grantor) must validate you. |
+| 3       | ECOSYSTEM         | The Ecosystem controller must validate you.            |
+
+---
+
+## Permission Types (used in CLI)
+
+| ID | Role              | Description                                                  |
+|----|-------------------|--------------------------------------------------------------|
+| 1  | Issuer           | Can issue credentials for this schema.                      |
+| 2  | Verifier         | Can request verification of credentials for this schema.    |
+| 3  | Issuer-Grantor   | Validates issuers and grants them permissions.              |
+| 4  | Verifier-Grantor | Validates verifiers and grants them permissions.            |
+| 5  | Ecosystem        | Controls trust registry and manages schema governance.      |
+| 6  | Holder           | Holds credentials issued under this schema.                 |
+
+---
+
+## Important Notes Before You Start
+
+- **Validation involves off-chain steps** (proof of DID control, sharing documents, completing checks).
+- Some roles may require **paying validation fees** and a **trust deposit** (see [Validation Process](../../learn/verifiable-public-registry/onboarding-participants#validation-process)).
+- If you’re a **Holder**, you typically obtain credentials from an Issuer (or self-issue if you already have Issuer permission).
+
+---
+
+## Onboarding Steps (CLI)
+
+### 1. List Available Ecosystems
+```bash
+veranad q tr list-trust-registries --node $NODE_RPC --output json
+```
+
+**Example Output:**
+```json
+{
+  "trust_registries": [
+    {
+      "id": "1",
+      "did": "did:example:ecosystemA",
+      "controller": "verana1abcdxyz...",
+      "aka": "https://ecosystem.example",
+      "active_version": 1,
+      "versions": [
+        {
+          "version": 1,
+          "documents": [
+            {
+              "language": "en",
+              "url": "https://example.com/egf.pdf",
+              "digest_sri": "sha384-abc123..."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+### 2. Review Governance Framework
+Locate the `doc-url` for the chosen ecosystem and verify its `digest_sri`.
+
+---
+
+### 3. Identify Credential Schemas
+```bash
+veranad q cs list-schemas --node $NODE_RPC --output json
+```
+
+**Example Output:**
+```json
+{
+  "schemas": [
+    {
+      "id": "5",
+      "tr_id": "1",
+      "json_schema": "{\"$schema\":\"https://json-schema.org/draft/2020-12/schema\",\"$id\":\"/vpr/v1/cs/js/1\",\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"}},\"required\":[\"name\"]}",
+      "issuer_perm_management_mode": "OPEN",
+      "verifier_perm_management_mode": "GRANTOR_VALIDATION"
+    }
+  ]
+}
+```
+
+Set:
+```bash
+SCHEMA_ID=5
+```
+
+---
+
+### 4. Determine Your Path
+- **OPEN Mode** → Self-create your permission.
+- **GRANTOR or ECOSYSTEM Mode** → Run a validation process.
+
+---
+
+### 5. Self-Create a Permission (OPEN Mode)
+
+**Syntax:**
+```bash
+veranad tx perm create-perm <schema-id> <permission-type> <did> \
+  --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+```
+
+**Example (create Issuer permission):**
+```bash
+veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+---
+
+### 6. Start a Validation Process (GRANTOR or ECOSYSTEM Mode)
+
+If validation is required:
+
+1. Identify the validator (Grantor or Ecosystem).
+2. Start the process:
+
+**Syntax:**
+```bash
+veranad tx perm start-perm-vp <schema-id> <permission-type> <did> \
+  --from $USER_ACC --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC
+```
+
+**Example (request Issuer permission):**
+```bash
+veranad tx perm start-perm-vp $SCHEMA_ID 1 did:example:123456789abcdefghi \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+📌 **What happens next?**
+- A validation entry is created on-chain.
+- Off-chain, the validator contacts you (usually via DIDComm) to:
+  - Prove control of your DID and Verana account.
+  - Provide required documents defined in the EGF.
+- Once approved, the validator marks the process as validated and your permission is activated.
+
+---
+
+### Verify Your Permissions
+```bash
+veranad q perm list-permissions --node $NODE_RPC --output json
+```
+
+---
+
+## Visual Flow Diagram
+
+```plantuml
+@startuml
+start
+:List Ecosystems (trust registries);
+:Review Governance Framework;
+:List Credential Schemas;
+if (Schema Mode = OPEN?) then (Yes)
+  :Self-create Permission;
+  stop
+else (No)
+  :Start Validation Process;
+  :Validator reviews applicant (off-chain);
+  if (Approved?) then (Yes)
+    :Validator sets permission VALIDATED;
+    stop
+  else (No)
+    :Process ends (Rejected);
+    stop
+endif
+@enduml
+```
