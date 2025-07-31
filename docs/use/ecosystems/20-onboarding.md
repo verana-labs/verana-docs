@@ -276,26 +276,6 @@ Finish documentation here
 
 
 
-## Root permission
-
-**syntax**
-
-```bash
-veranad tx perm create-root-perm -h
-Create a new root perm for a credential schema. Can only be executed by the trust registry controller.
-
-Usage:
-  veranad tx perm create-root-perm [schema-id] [did] [validation-fees] [issuance-fees] [verification-fees] [flags]
-```
-
-
-examples:
-
-```bash
-veranad tx perm create-root-perm $SCHEMA_ID did:example:123456789abcdefghi 1000000 1000000 1000000 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
-```
-
-
 ### Query the permissions
 
 ```bash
