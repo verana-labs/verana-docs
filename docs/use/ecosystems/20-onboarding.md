@@ -138,6 +138,12 @@ If the schema requires **validation**, you cannot self-create the permission. In
 veranad tx perm start-perm-vp <schema-id> <permission-type> <did> --from $USER_ACC --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC
 ```
 
+**Example:**
+```bash
+veranad tx perm start-perm-vp $SCHEMA_ID 1 did:example:123456789abcdefghi \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
 ---
 
 ### Verify Permissions
