@@ -1,4 +1,4 @@
-# Credential Schema Module CLI Commands
+# Create and Manage Credential Schemas
 
 This document provides comprehensive CLI commands for the Credential Schema (cs) module in the Verana blockchain.
 
@@ -38,14 +38,16 @@ NODE_RPC=http://node1.testnet.verana.network:26657
 
 See [Install from Source](/docs/next/run/network/run-a-node/local-node-isolated) for detailed instructions.
 
-
 ---
 
-### Define your Trust Registry ID so the below commands work
+### Define your Trust Registry ID and Schema ID
 
 ```bash
 TRUST_REG_ID=5
+SCHEMA_ID=10
 ```
+
+> **Note:** The following examples assume you have set `TRUST_REG_ID` and `SCHEMA_ID` as shown above.
 
 ---
 
@@ -63,11 +65,11 @@ veranad tx cs create-credential-schema <trust-registry-id> <json-schema> <issuer
 **Parameters:**
 - `<trust-registry-id>`: Numeric ID of the trust registry
 - `<json-schema>`: JSON schema (inline string or from file prefixed with `@`)
-- `<issuer-grantor-validity>`: Validity period for issuer grantor (in seconds)
-- `<verifier-grantor-validity>`: Validity period for verifier grantor (in seconds)
-- `<issuer-validity>`: Validity period for issuer (in seconds)
-- `<verifier-validity>`: Validity period for verifier (in seconds)
-- `<holder-validity>`: Validity period for holder (in seconds)
+- `<issuer-grantor-validity>`: Validity period for issuer grantor (in days)
+- `<verifier-grantor-validity>`: Validity period for verifier grantor (in days)
+- `<issuer-validity>`: Validity period for issuer (in days)
+- `<verifier-validity>`: Validity period for verifier (in days)
+- `<holder-validity>`: Validity period for holder (in days)
 - `<issuer-perm-mode>`: Issuer permission management mode (integer:
     1 - Open
     2 - Grantor-Validation
@@ -82,7 +84,7 @@ veranad tx cs create-credential-schema <trust-registry-id> <json-schema> <issuer
 
 **Example (inline JSON schema):**
 ```bash
-veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"/vpr/v1/cs/js/1","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 31536000 31536000 31536000 31536000 31536000 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"/vpr/v1/cs/js/1","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 365 365 180 180 180 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 **Example (using JSON file):**
@@ -119,6 +121,8 @@ To list all existing Credential Schemas and find their IDs, run:
 ```bash
 veranad q cs list-schemas --node $NODE_RPC  --output json
 ```
+
+Use this output to identify the `id` of the credential schema you want to manage.
 
 ---
 
@@ -170,7 +174,8 @@ Usage:
   veranad tx perm create-root-perm [schema-id] [did] [validation-fees] [issuance-fees] [verification-fees] [flags]
 ```
 
-The root permission is a special permission that can only be created by the Trust Registry controller. It acts as the top-level authority for a credential schema and is required to delegate other permissions (e.g., Grantor, Issuer, Verifier) according to the Ecosystem Governance Framework.
+The root permission is a special permission that can only be created by the Trust Registry controller.  
+It acts as the top-level authority for a credential schema and is required to delegate other permissions (e.g., Grantor, Issuer, Verifier) according to the Ecosystem Governance Framework.
 
 Without a root permission, no permission hierarchy can be established under this schema.
 
@@ -263,3 +268,13 @@ Refer to [Permission Module Spec](https://verana-labs.github.io/verifiable-trust
 ## Transaction Fees
 - Use `--fees` to specify fees (e.g., `60000uvna`)
 - Use `--gas auto` for automatic gas estimation
+
+---
+
+## Next Steps
+- Verify your schema and permissions via queries:
+```bash
+veranad q cs list-schemas --node $NODE_RPC --output json
+veranad q perm list-permissions --node $NODE_RPC --output json
+```
+- Proceed to onboarding participants: see [Join an Ecosystem](20-onboarding.md).
