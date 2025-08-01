@@ -58,6 +58,12 @@ endif
 | 5  | Ecosystem         | Controls trust registry and manages schema governance.      |
 | 6  | Holder            | Holds credentials issued under this schema.                 |
 
+> **Note:**  
+> These numeric IDs represent internal enum values used by the Verana protocol and appear in on-chain data and JSON query outputs.  
+> - For example, `type: "1"` means `ISSUER`, `type: "2"` means `VERIFIER`.  
+> - The CLI does **not** use numbers as input; it accepts lowercase names like `issuer` or `verifier`.  
+> This mapping is useful for developers reading raw chain data or integrating APIs.
+
 ## Onboarding Steps
 
 ### 1. List Available Ecosystems
