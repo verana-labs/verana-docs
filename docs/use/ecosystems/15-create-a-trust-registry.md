@@ -97,10 +97,9 @@ Usage:
 
 ### Example:
 
-:::tip[TODO]
-
-
-:::
+```bash
+veranad tx tr update-trust-registry ${TRUST_REG_ID} did:example:newdidmat --aka https://new-aka-example.com --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
 
 ---
 

@@ -1,4 +1,4 @@
-# Credential Schema Module CLI Commands
+# Create and Manage Credential Schemas
 
 This document provides comprehensive CLI commands for the Credential Schema (cs) module in the Verana blockchain.
 
@@ -38,14 +38,16 @@ NODE_RPC=http://node1.testnet.verana.network:26657
 
 See [Install from Source](/docs/next/run/network/run-a-node/local-node-isolated) for detailed instructions.
 
-
 ---
 
-### Define your Trust Registry ID so the below commands work
+### Define your Trust Registry ID and Schema ID
 
 ```bash
 TRUST_REG_ID=5
+SCHEMA_ID=10
 ```
+
+> **Note:** The following examples assume you have set `TRUST_REG_ID` and `SCHEMA_ID` as shown above.
 
 ---
 
@@ -63,11 +65,11 @@ veranad tx cs create-credential-schema <trust-registry-id> <json-schema> <issuer
 **Parameters:**
 - `<trust-registry-id>`: Numeric ID of the trust registry
 - `<json-schema>`: JSON schema (inline string or from file prefixed with `@`)
-- `<issuer-grantor-validity>`: Validity period for issuer grantor (in seconds)
-- `<verifier-grantor-validity>`: Validity period for verifier grantor (in seconds)
-- `<issuer-validity>`: Validity period for issuer (in seconds)
-- `<verifier-validity>`: Validity period for verifier (in seconds)
-- `<holder-validity>`: Validity period for holder (in seconds)
+- `<issuer-grantor-validity>`: Validity period for issuer grantor (in days)
+- `<verifier-grantor-validity>`: Validity period for verifier grantor (in days)
+- `<issuer-validity>`: Validity period for issuer (in days)
+- `<verifier-validity>`: Validity period for verifier (in days)
+- `<holder-validity>`: Validity period for holder (in days)
 - `<issuer-perm-mode>`: Issuer permission management mode (integer:
     1 - Open
     2 - Grantor-Validation
@@ -78,11 +80,21 @@ veranad tx cs create-credential-schema <trust-registry-id> <json-schema> <issuer
     2 - Grantor-Validation
     3 - Ecosystem)
 
+#### Permission Management Modes
 
+These modes control how Issuer and Verifier permissions are granted for this schema:
+
+| Mode ID | Name                | Description                                                                 |
+|---------|---------------------|-----------------------------------------------------------------------------|
+| 1       | OPEN                | Anyone can self-create the permission without validation.                  |
+| 2       | GRANTOR_VALIDATION  | Requires validation by a Grantor permission holder (Issuer or Verifier).  |
+| 3       | ECOSYSTEM           | Requires validation by the Ecosystem controller (Trust Registry owner).   |
+
+Choose the mode based on your onboarding policy. See [Join an Ecosystem](20-onboarding.md) for process details.
 
 **Example (inline JSON schema):**
 ```bash
-veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"/vpr/v1/cs/js/1","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 31536000 31536000 31536000 31536000 31536000 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"/vpr/v1/cs/js/1","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 365 365 180 180 180 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 **Example (using JSON file):**
@@ -119,6 +131,8 @@ To list all existing Credential Schemas and find their IDs, run:
 ```bash
 veranad q cs list-schemas --node $NODE_RPC  --output json
 ```
+
+Use this output to identify the `id` of the credential schema you want to manage.
 
 ---
 
@@ -157,6 +171,38 @@ veranad tx cs archive ${TRUST_REG_ID} true --from $USER_ACC --chain-id $CHAIN_ID
 veranad tx cs archive ${TRUST_REG_ID} false --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
+### 4. Create a root permission
+
+
+**syntax**
+
+```bash
+veranad tx perm create-root-perm -h
+Create a new root perm for a credential schema. Can only be executed by the trust registry controller.
+
+Usage:
+  veranad tx perm create-root-perm [schema-id] [did] [validation-fees] [issuance-fees] [verification-fees] [flags]
+```
+
+The root permission is a special permission that can only be created by the Trust Registry controller.  
+It acts as the top-level authority for a credential schema and is required to delegate other permissions (e.g., Grantor, Issuer, Verifier) according to the Ecosystem Governance Framework.
+
+Without a root permission, no permission hierarchy can be established under this schema.
+
+examples:
+
+```bash
+veranad tx perm create-root-perm $SCHEMA_ID did:example:123456789abcdefghi 1000000 1000000 1000000 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+
+#### Query the permissions for testing
+
+```bash
+veranad q perm list-permissions --node $NODE_RPC  --output json
+```
+
+
 ---
 
 ## Parameter Details
@@ -174,6 +220,23 @@ veranad tx cs archive ${TRUST_REG_ID} false --from $USER_ACC --chain-id $CHAIN_I
 ### Permission Management Modes
 - Integer values representing modes for issuer and verifier
 - See module documentation for mode definitions
+
+---
+
+## Permission Types
+
+Permissions define roles for entities within an Ecosystem:
+
+| Type ID | Permission Type     | Description                                      |
+|---------|----------------------|--------------------------------------------------|
+| 1       | ISSUER              | Entity authorized to issue credentials.          |
+| 2       | VERIFIER            | Entity authorized to verify credentials.         |
+| 3       | ISSUER-GRANTOR      | Entity that validates ISSUER applicants.         |
+| 4       | VERIFIER-GRANTOR    | Entity that validates VERIFIER applicants.       |
+| 5       | ECOSYSTEM           | Ecosystem controller with governance authority.  |
+| 6       | HOLDER              | Entity holding Verifiable Credentials.           |
+
+Refer to [Permission Module Spec](https://verana-labs.github.io/verifiable-trust-vpr-spec/#permission-module) for the full specification.
 
 ---
 
@@ -196,3 +259,13 @@ veranad tx cs archive ${TRUST_REG_ID} false --from $USER_ACC --chain-id $CHAIN_I
 ## Transaction Fees
 - Use `--fees` to specify fees (e.g., `60000uvna`)
 - Use `--gas auto` for automatic gas estimation
+
+---
+
+## Next Steps
+- Verify your schema and permissions via queries:
+```bash
+veranad q cs list-schemas --node $NODE_RPC --output json
+veranad q perm list-permissions --node $NODE_RPC --output json
+```
+- Proceed to onboarding participants: see [Join an Ecosystem](20-onboarding.md).

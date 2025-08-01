@@ -1,107 +1,126 @@
 # Join an Ecosystem
 
-## Module Overview
+Learn how to join an ecosystem and obtain permissions for issuing, verifying, or holding credentials.
 
-```bash
-veranad tx perm               
-Transactions commands for the perm module
+## Quick Decision Flow
 
-Usage:
-  veranad tx perm [flags]
-  veranad tx perm [command]
-
-Available Commands:
-  cancel-perm-vp-request        Cancel a pending perm VP request
-  confirm-vp-termination        Confirm the termination of a perm VP
-  create-or-update-perm-session Create or update a perm session
-  create-perm                   Create a new perm for open schemas
-  create-root-perm              Create a new root perm for a credential schema
-  extend-perm                   Extend a perm's effective duration
-  renew-perm-vp                 Renew a perm validation process
-  repay-perm-slashed-td         Repay a slashed perm's trust deposit
-  request-vp-termination        Request termination of a perm validation process
-  revoke-perm                   Revoke a perm
-  set-perm-vp-validated         Set perm validation process to validated state
-  slash-perm-td                 Slash a perm's trust deposit
-  start-perm-vp                 Start a new perm validation process
+```
+What role do you need?
+    ↓
+Check the schema configuration (issuer and verifier modes)
+    ↓
+If mode = OPEN → Self-create permission
+If mode = GRANTOR or ECOSYSTEM → Start a validation process
+    ↓
+Once permission is granted, act as Issuer / Verifier / Holder
 ```
 
+```plantuml
+@startuml
+start
+:List Ecosystems (trust registries);
+:Review Governance Framework;
+:List Credential Schemas;
+if (Schema Mode = OPEN?) then (Yes)
+  :Self-create Permission;
+  stop
+else (No)
+  :Start Validation Process;
+  :Validator reviews applicant (off-chain);
+  if (Approved?) then (Yes)
+    :Validator sets permission VALIDATED;
+    stop
+  else (No)
+    :Process ends (Rejected);
+    stop
+endif
+@enduml
+```
 
-## Onboarding Process
+## Core Concepts
 
-1. List the available Ecosystems and find the one of your interest.
+### Permission Management Modes
 
+| Mode ID | Mode Name           | Meaning                                                  |
+|---------|---------------------|----------------------------------------------------------|
+| 1       | OPEN                | Self-create your permission—no validation required.      |
+| 2       | GRANTOR_VALIDATION  | A Grantor (Issuer Grantor or Verifier Grantor) must validate you. |
+| 3       | ECOSYSTEM           | The Ecosystem controller must validate you.              |
 
-### verana CLI
-    ```bash
-    veranad q tr list-trust-registries --node $NODE_RPC  --output json
-    ```
+### Permission Types
 
-### curl
+| ID | Role              | Description                                                  |
+|----|-------------------|--------------------------------------------------------------|
+| 1  | Issuer            | Can issue credentials for this schema.                      |
+| 2  | Verifier          | Can request verification of credentials for this schema.    |
+| 3  | Issuer-Grantor    | Validates issuers and grants them permissions.              |
+| 4  | Verifier-Grantor  | Validates verifiers and grants them permissions.            |
+| 5  | Ecosystem         | Controls trust registry and manages schema governance.      |
+| 6  | Holder            | Holds credentials issued under this schema.                 |
 
-:::tip[TODO]
-    ```
-    curl -X GET "https://api.testnet.verana.network/tr/v1/list?active_gf_only=true&response_max_size=1" -H  "accept: application/json"
-    ```
-:::
+## Onboarding Steps
 
-### result
-
-    ```json
-
-    {
-    "trust_registries": [
-        {
-        "id": "1",
-        "did": "did:example:184a2fddab1b3d505d477adbf0643446",
-        "controller": "verana12dyk649yce4dvdppehsyraxe6p6jemzg2qwutf",
-        "created": "2025-06-18T16:27:13.531941769Z",
-        "modified": "2025-06-18T16:27:13.531941769Z",
-        "archived": null,
-        "deposit": "10000000",
-        "aka": "http://example-aka.com",
-        "active_version": 1,
-        "language": "en",
-        "versions": [
-            {
-            "id": "1",
-            "tr_id": "1",
-            "created": "2025-06-18T16:27:13.531941769Z",
-            "version": 1,
-            "active_since": "2025-06-18T16:27:13.531941769Z",
-            "documents": [
-                {
-                "id": "1",
-                "gfv_id": "1",
-                "created": "2025-06-18T16:27:13.531941769Z",
-                "language": "en",
-                "url": "https://example.com/governance-framework.pdf",
-                "digest_sri": "sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26"
-                }
-            ]
-            }
-        ]
-        }
-    ]
-    }
-
-    ```
-
-2. Check the Ecosystem Trust Registry and get the Ecosystem Governance Framework link, here [https://example.com/governance-framework.pdf](https://example.com/governance-framework.pdf). Verify that the `digest_sri` matches.
-
-3. Verify you comply with requirements for obtaining the **Permission Type** or **Verifiable Credential** you would like to obtain for a given Credential Schema.
-
-4. List the Credential Schemas of this Ecosystem
-
-### with verana cli
-
+### 1. List Available Ecosystems
 ```bash
-veranad q cs list-schemas --node $NODE_RPC  --output json
+veranad q tr list-trust-registries --node $NODE_RPC --output json
+```
+
+**Example Output:**
+```json
+{
+  "trust_registries": [
+    {
+      "id": "1",
+      "did": "did:example:ecosystemA",
+      "controller": "verana1abcdxyz...",
+      "aka": "https://ecosystem.example",
+      "active_version": 1,
+      "versions": [
+        {
+          "version": 1,
+          "documents": [
+            {
+              "language": "en",
+              "url": "https://example.com/egf.pdf",
+              "digest_sri": "sha384-abc123..."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
 ```
 
 ---
 
-### Define your Schema ID so the below commands work
+### 2. Review Governance Framework
+
+Locate the `doc-url` for the chosen ecosystem and verify its `digest_sri` hash to ensure the governance framework is authentic.
+
+---
+
+### 3. Identify Credential Schemas
+```bash
+veranad q cs list-schemas --node $NODE_RPC --output json
+```
+
+**Example Output:**
+```json
+{
+  "schemas": [
+    {
+      "id": "5",
+      "tr_id": "1",
+      "json_schema": "{\"$schema\":\"https://json-schema.org/draft/2020-12/schema\",\"$id\":\"/vpr/v1/cs/js/1\",\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"}},\"required\":[\"name\"]}",
+      "issuer_perm_management_mode": "OPEN",
+      "verifier_perm_management_mode": "GRANTOR_VALIDATION"
+    }
+  ]
+}
+```
+
+Set your schema ID for subsequent commands:
 
 ```bash
 SCHEMA_ID=5
@@ -109,207 +128,82 @@ SCHEMA_ID=5
 
 ---
 
-### with curl
+### 4. Determine Your Path
 
-:::tip[TODO]
-    ```
-    curl -X GET "https://api.testnet.verana.network/cs/v1/list?tr_id=1&response_max_size=1" -H  "accept: application/json"
-    ```
-:::
+Based on the schema configuration and the role you want to assume, your onboarding path differs:
 
-    ```json
-    {
-    "schemas": [
-        {
-        "id": "1",
-        "tr_id": "1",
-        "created": "2025-06-18T16:27:18.757210803Z",
-        "modified": "2025-06-18T16:27:18.757210803Z",
-        "archived": null,
-        "deposit": "10000000",
-        "json_schema": "{\n\t\t\"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n\t\t\"$id\": \"/vpr/v1/cs/js/1\",\n\t\t\"type\": \"object\",\n\t\t\"$defs\": {},\n\t\t\"properties\": {\n\t\t\t\"name\": {\n\t\t\t\t\"type\": \"string\"\n\t\t\t}\n\t\t},\n\t\t\"required\": [\"name\"],\n\t\t\"additionalProperties\": false\n\t}",
-        "issuer_grantor_validation_validity_period": 360,
-        "verifier_grantor_validation_validity_period": 0,
-        "issuer_validation_validity_period": 360,
-        "verifier_validation_validity_period": 0,
-        "holder_validation_validity_period": 0,
-        "issuer_perm_management_mode": "GRANTOR_VALIDATION",
-        "verifier_perm_management_mode": "OPEN"
-        }
-    ]
-    }
-    ```
+| Role              | OPEN Mode                              | ECOSYSTEM Mode                                        | GRANTOR Mode                                              |
+|-------------------|---------------------------------------|--------------------------------------------------------|-----------------------------------------------------------|
+| Issuer Grantor    | N/A                                   | N/A                                                    | Validation process with Ecosystem validator              |
+| Issuer            | **Self-create** (Permission type = 1) | Validation with Ecosystem (Permission type = 5)        | Validation with Issuer Grantor (Permission type = 3)     |
+| Holder            | Self-create Issuer, then self-issue   | Validation with Issuer, then get credential            | Validation with Issuer, then get credential              |
+| Verifier Grantor  | N/A                                   | N/A                                                    | Validation process with Ecosystem validator              |
+| Verifier          | **Self-create** (Permission type = 2) | Validation with Ecosystem (Permission type = 5)        | Validation with Verifier Grantor (Permission type = 4)   |
 
-5. Based on the schema configuration and the permission type you would like to obtain:
+- **OPEN Mode**: You can self-create the permission directly.
+- **GRANTOR or ECOSYSTEM Mode**: You must start a validation process with the appropriate validator.
 
-- self-create your Permission;
-- choose a **validator** and run a validation process as an **applicant** to obtain your Permission (or Verifiable Credential).
+---
 
-Based on the schema configuration and the permission type you would like to obtain, the table below shows the corresponding action that must take place:
+### 5. Self-Create a Permission (OPEN Mode)
 
-**For Issuance Related Permissions and Verifiable Credentials:**
+Use this for Issuer or Verifier roles when the schema allows **OPEN** mode.
 
-    | Schema Issuance Policy → Permission (or Credential) to obtain ↓  | OPEN | ECOSYSTEM | GRANTOR |
-    |------------------|-------------------------------------|---------------------------------------|-------------------------------------|
-    | Issuer Grantor   | N/A | N/A | run a **validation process** with an ECOSYSTEM Permission as the validator |
-    | Issuer           | **self-create** an ISSUER Permission | run a **validation process** with an ECOSYSTEM Permission as the validator | run a **validation process** with ISSUER GRANTOR Permission as the validator |
-    | Holder (Credential)          | **self-create** an ISSUER Permission, then **self-issue** your Verifiable Credential  | run a **validation process** with an ISSUER as the validator and **get issued** your Verifiable Credential | run a **validation process** with an ISSUER as the validator and **get issued** your Verifiable Credential |
-
-    **For Verification Related Permissions:**
-
-    | Schema Verification Policy → Permission to obtain ↓  | OPEN | ECOSYSTEM | GRANTOR |
-    |------------------|-------------------------------------|---------------------------------------|------------------------|
-    | Verifier Grantor | N/A | N/A | run a **validation process** with an ECOSYSTEM Permission as the validator |
-    | Verifier         | **self-create** a VERIFIER Permission | run a **validation process** with an ECOSYSTEM Permission as the validator | run a **validation process** with VERIFIER GRANTOR Permission as the validator |
-
-6. If you need to self-create your Permission:
-
-
+**Syntax:**
 ```bash
-veranad tx perm create-perm
-Create a new ISSUER or VERIFIER perm for schemas with OPEN management mode.
-This allows self-creation of permissions without validation process.
-
-Parameters:
-- schema-id: ID of the credential schema
-- type: Permission type (1=ISSUER, 2=VERIFIER)
-- did: DID of the grantee service
-
-Optional flags:
-- country: ISO 3166-1 alpha-2 country code
-- effective-from: Timestamp when perm becomes effective (RFC3339)
-- effective-until: Timestamp when perm expires (RFC3339)
-- verification-fees: Fees for credential verification (default: 0)
-
+veranad tx perm create-perm <schema-id> <permission-type> <did> \
+  --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
 ```
-
 
 **Example:**
-
 ```bash
-veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
-```
-
-
-Obtain the required attributes for creating the permission. You will need:
-
-- the Credential Schema ID
-
-### with verana cli
-
-```bash
-veranad q cs list-schemas --node $NODE_RPC  --output json
+veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 ---
 
-### Define your Schema ID so the below commands work
+### 6. Start a Validation Process (GRANTOR or ECOSYSTEM Mode)
 
+If the schema requires validation, you cannot self-create the permission. Instead:
+
+1. Identify the validator (Grantor or Ecosystem) based on the schema policy.
+2. Start the validation process:
+
+**Syntax:**
 ```bash
-SCHEMA_ID=5
+veranad tx perm start-perm-vp <schema-id> <permission-type> <did> \
+  --from $USER_ACC --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC
 ```
 
-Then, execute a transaction to create the Permission:
-
+**Example:**
 ```bash
-veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx perm start-perm-vp $SCHEMA_ID 1 did:example:123456789abcdefghi \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
-Verify your Permission by querying the ledger:
+📌 **What happens next?**
 
-    ```
-    curl ...
-    ```
+- A validation entry is created on-chain.
+- Off-chain, the validator contacts you (usually via DIDComm) to:
+  - Prove control of your DID and Verana account.
+  - Provide required documents defined in the Ecosystem Governance Framework (EGF).
+- Once approved, the validator marks the process as validated and your permission is activated.
 
-7. If you need to initiate a validation process - as the Applicant (the one that wants to get granted the permission)
+---
 
-Make sure to read the [Learn - Validation Process documentation](http://localhost:3000/docs/next/learn/verifiable-public-registry/onboarding-participants#validation-process).
+### Verify Your Permissions
 
-:::tip[TODO]
-
-@pratikasr
-Finish documentation here
-
-:::
-
-Obtain the required attributes for initiating the process. You will need:
-
-- the Credential Schema ID
-- ...
-
-    ```
-    curl ...
-    ```
-
-Then, execute a transaction to start the Validation Process:
-
-    ```
-    veranad ...
-    ```
-
-Verify your Permission by querying the ledger:
-
-    ```
-    curl ...
-    ```
-
-Now, get the uuid of the created Permission that is pending approval by the Validator. Contact the Validator and perform the required tasks by exchanging information with the Validator. If everything went well, Validator will set the permission as granted (or your credential will receive a credential)  
-
-8. If you need to participate to a validation process - as Validator (the one that verifies the candidate)
-
-:::tip[TODO]
-
-@pratikasr
-Finish documentation here
-
-:::
-
-- Load the Permission with the UUID that was shared by the Applicant.
-- Request the Applicant a proof that it controls the verana account (crypto challenge)
-- Make sure the Applicant controls the DID it set in the Permission
-- Verify the documentation shared by the Applicant and make sure it matches EGF constraints.
-- Finally, set the Permission as validated:
-
-    ```
-    veranad ...
-    ```
-
-
-
-## Root permission
-
-**syntax**
+After onboarding, verify your permissions with:
 
 ```bash
-veranad tx perm create-root-perm -h
-Create a new root perm for a credential schema. Can only be executed by the trust registry controller.
-
-Usage:
-  veranad tx perm create-root-perm [schema-id] [did] [validation-fees] [issuance-fees] [verification-fees] [flags]
+veranad q perm list-permissions --node $NODE_RPC --output json
 ```
 
+## Advanced Details
 
-examples:
+- **Off-chain validation** involves steps such as proof of DID control, sharing documents, and completing other checks.
+- Some roles may require **paying validation fees** and a **trust deposit** as part of the onboarding process.
+- If you are a **Holder**, you typically obtain credentials from an Issuer or self-issue if you already have Issuer permission.
+- For more information on the validation process, see [Validation Process Guide](../../learn/verifiable-public-registry/onboarding-participants#validation-process).
 
-```bash
-veranad tx perm create-root-perm $SCHEMA_ID did:example:123456789abcdefghi 1000000 1000000 1000000 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
-```
-
-
-### Query the permissions
-
-```bash
-veranad q perm list-permissions --node $NODE_RPC  --output json
-```
-
-
-## Start Permission VP
-
-### permission types
-
-1 - Issuer
-2 - Verifier
-3 - Issuer-Grantor
-4 - Verifier-Grantor
-5 - Ecosystem
-6 - Holder
