@@ -155,9 +155,22 @@ veranad tx perm create-perm <schema-id> <permission-type> <did> \
   --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
 ```
 
+#### Parameters Explained:
+  - `<schema-id>`: The numeric ID of the credential schema (e.g., `5`).
+  - `<permission-type>`: The role you want to assume for the schema.  
+    - **Spec Enum Values:** `ISSUER` or `VERIFIER`  
+    - **CLI Input:** Use lowercase values:  
+      - `issuer` → Permission for issuing credentials  
+      - `verifier` → Permission for verifying credentials
+  - `<did>`: The Decentralized Identifier (DID) for the Verifiable Service that will hold this permission (e.g., `did:example:123456789abcdefghi`).
+
+**Important:**  
+  - The CLI accepts lowercase (`issuer`, `verifier`) for `<permission-type>`.  
+  - These map to the spec's enum values `ISSUER` and `VERIFIER` internally.
+
 **Example:**
 ```bash
-veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi \
+veranad tx perm create-perm $SCHEMA_ID issuer did:example:123456789abcdefghi \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
@@ -178,7 +191,7 @@ veranad tx perm start-perm-vp <schema-id> <permission-type> <did> \
 
 **Example:**
 ```bash
-veranad tx perm start-perm-vp $SCHEMA_ID 1 did:example:123456789abcdefghi \
+veranad tx perm start-perm-vp $SCHEMA_ID issuer did:example:123456789abcdefghi \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
