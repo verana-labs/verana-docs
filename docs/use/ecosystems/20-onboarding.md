@@ -58,6 +58,14 @@ endif
 | 5  | Ecosystem         | Controls trust registry and manages schema governance.      |
 | 6  | Holder            | Holds credentials issued under this schema.                 |
 
+> **Additional Context:**  
+> IDs 3–6 represent roles that are not commonly requested during standard onboarding but are critical for ecosystem governance:
+> - **3 (Issuer-Grantor):** Validates and grants Issuer permissions under GRANTOR mode.
+> - **4 (Verifier-Grantor):** Validates and grants Verifier permissions under GRANTOR mode.
+> - **5 (Ecosystem):** Represents the Trust Registry controller (creates root permissions and manages governance).
+> - **6 (Holder):** Typically does not require explicit permission creation; holders obtain credentials by issuance.
+> These roles usually come into play during ecosystem setup or for advanced governance scenarios.
+
 > **Note:**  
 > These numeric IDs represent internal enum values used by the Verana protocol and appear in on-chain data and JSON query outputs.  
 > - For example, `type: "1"` means `ISSUER`, `type: "2"` means `VERIFIER`.  
