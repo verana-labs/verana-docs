@@ -130,18 +130,20 @@ SCHEMA_ID=5
 
 ### 4. Determine Your Path
 
+⚠️ **Root Permission Required**  
+Each schema must have an ECOSYSTEM root permission created by the Trust Registry controller. Without it, no other permissions (issuer, verifier) can be granted. See [Create Root Permission](17-create-a-credential-schema.md#4-create-a-root-permission).
+
 Based on the schema configuration and the role you want to assume, your onboarding path differs:
 
 | Role              | OPEN Mode                              | ECOSYSTEM Mode                                        | GRANTOR Mode                                              |
 |-------------------|---------------------------------------|--------------------------------------------------------|-----------------------------------------------------------|
 | Issuer Grantor    | N/A                                   | N/A                                                    | Validation process with Ecosystem validator              |
 | Issuer            | **Self-create** (Permission type = 1) | Validation with Ecosystem (Permission type = 5)        | Validation with Issuer Grantor (Permission type = 3)     |
-| Holder            | Self-create Issuer, then self-issue   | Validation with Issuer, then get credential            | Validation with Issuer, then get credential              |
+| Holder            | Self-create Issuer, then self-issue   | Validation with Issuer, then get credential            | Validation with Issuer, then get credential (may require fees and trust deposit)              |
 | Verifier Grantor  | N/A                                   | N/A                                                    | Validation process with Ecosystem validator              |
 | Verifier          | **Self-create** (Permission type = 2) | Validation with Ecosystem (Permission type = 5)        | Validation with Verifier Grantor (Permission type = 4)   |
 
-- **OPEN Mode**: You can self-create the permission directly.
-- **GRANTOR or ECOSYSTEM Mode**: You must start a validation process with the appropriate validator.
+Holders typically obtain credentials from Issuers. If you already have Issuer permission, you can self-issue.
 
 ---
 
@@ -151,9 +153,11 @@ Use this for Issuer or Verifier roles when the schema allows **OPEN** mode.
 
 **Syntax:**
 ```bash
-veranad tx perm create-perm <schema-id> <permission-type> <did> \
+veranad tx perm create-perm <schema-id> <permission-type> <did> [effective-from] [effective-until] [verification-fees] \
   --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
 ```
+
+Optional parameters: `effective-from`, `effective-until`, and `verification-fees` can be provided as per ecosystem policy.
 
 #### Parameters Explained:
   - `<schema-id>`: The numeric ID of the credential schema (e.g., `5`).
@@ -185,15 +189,25 @@ If the schema requires validation, you cannot self-create the permission. Instea
 
 **Syntax:**
 ```bash
-veranad tx perm start-perm-vp <schema-id> <permission-type> <did> \
-  --from $USER_ACC --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC
+veranad tx perm start-perm-vp <permission-type> <validator-perm-id> <country> \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 **Example:**
 ```bash
-veranad tx perm start-perm-vp $SCHEMA_ID issuer did:example:123456789abcdefghi \
+veranad tx perm start-perm-vp issuer 123 US \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
+
+#### Parameters Explained:
+- `<permission-type>`: issuer | verifier | issuer-grantor | verifier-grantor | holder
+- `<validator-perm-id>`: ID of the validator permission you are applying under (find using `veranad q perm list-permissions`).
+- `<country>`: ISO 3166-1 alpha-2 country code for your location.
+
+> **Important:** You must have enough balance to cover:
+> - Estimated transaction fees
+> - Validation fees × trust unit price
+> - Trust deposit (validation fees × trust deposit rate)
 
 📌 **What happens next?**
 
@@ -219,4 +233,3 @@ veranad q perm list-permissions --node $NODE_RPC --output json
 - Some roles may require **paying validation fees** and a **trust deposit** as part of the onboarding process.
 - If you are a **Holder**, you typically obtain credentials from an Issuer or self-issue if you already have Issuer permission.
 - For more information on the validation process, see [Validation Process Guide](../../learn/verifiable-public-registry/onboarding-participants#validation-process).
-
