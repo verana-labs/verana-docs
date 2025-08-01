@@ -157,7 +157,27 @@ veranad q perm list-permissions --node $NODE_RPC --output json
 
 **Note:** For schema creation and permission modes, see [Create a Credential Schema](create-a-credential-schema).
 
-(Visual flow diagram placeholder)
+```plantuml
+@startuml
+start
+:List Ecosystems (trust registries);
+:Review Governance Framework;
+:List Credential Schemas;
+if (Schema Mode = OPEN?) then (Yes)
+  :Self-create Permission;
+  stop
+else (No)
+  :Start Validation Process;
+  :Validator reviews applicant (off-chain);
+  if (Approved?) then (Yes)
+    :Validator sets permission VALIDATED;
+    stop
+  else (No)
+    :Process ends (Rejected);
+    stop
+endif
+@enduml
+```
 # Join an Ecosystem
 
 ## Overview
@@ -340,8 +360,6 @@ veranad q perm list-permissions --node $NODE_RPC --output json
 ```
 
 ---
-
-## Visual Flow Diagram
 
 ```plantuml
 @startuml
