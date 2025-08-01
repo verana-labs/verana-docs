@@ -1,6 +1,5 @@
 # Revoke a Permission
 
-
 ## Overview
 
 Permission revocation is the process of invalidating an active permission within an ecosystem. This action is usually performed by:
@@ -15,6 +14,18 @@ Typical scenarios for revocation include:
 
 ---
 
+## Define the Permission ID
+
+Before running the revocation command, define the **Permission ID** (an integer) in an environment variable so it can be reused in all subsequent commands:
+
+```bash
+PERM_ID=10
+```
+
+Replace `10` with the actual permission ID you want to revoke.
+
+---
+
 ## CLI Command
 
 ```bash
@@ -22,12 +33,12 @@ veranad tx perm revoke-perm <perm-id> --from <user> --chain-id <chain-id> --keyr
 ```
 
 **Parameters:**
-- `<perm-id>`: UUID of the permission to revoke.
+- `<perm-id>`: Numeric ID of the permission to revoke.
 - `--from`: The validator or ecosystem controller executing the command.
 
 **Example:**
 ```bash
-veranad tx perm revoke-perm 123e4567-e89b-12d3-a456-426614174000 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx perm revoke-perm $PERM_ID --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 ---
@@ -39,7 +50,7 @@ veranad tx perm revoke-perm 123e4567-e89b-12d3-a456-426614174000 --from $USER_AC
 actor "Validator" as validator
 participant "Verifiable Public Registry" as VPR
 
-validator -> VPR: Submit revoke-perm transaction with perm-id
+validator -> VPR: Submit revoke-perm transaction with PERM_ID
 VPR -> VPR: Validate authority (validator or ecosystem controller)
 alt Authorized
     VPR -> VPR: Set permission state to REVOKED
@@ -65,7 +76,7 @@ veranad q perm list-permissions --node $NODE_RPC --output json
 {
   "permissions": [
     {
-      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "id": "10",
       "status": "REVOKED",
       "grantee": "did:example:abc123",
       "type": "ISSUER",
@@ -75,4 +86,4 @@ veranad q perm list-permissions --node $NODE_RPC --output json
 }
 ```
 
-If for some reason a Validator wishes to revoke one of its applicant's permission, it should be the following way:
+If for some reason a Validator wishes to revoke one of its applicant's permissions, it should proceed as described above.
