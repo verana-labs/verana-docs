@@ -70,27 +70,17 @@ veranad tx cs create-credential-schema <trust-registry-id> <json-schema> <issuer
 - `<issuer-validity>`: Validity period for issuer (in days)
 - `<verifier-validity>`: Validity period for verifier (in days)
 - `<holder-validity>`: Validity period for holder (in days)
-- `<issuer-perm-mode>`: Issuer permission management mode (integer:
-    1 - Open
-    2 - Grantor-Validation
-    3 - Ecosystem)
+- `<issuer-perm-mode>` and `<verifier-perm-mode>`: Control how Issuer and Verifier permissions are granted for this schema. These values must be integers corresponding to one of the modes in the table below.
 
-- `<verifier-perm-mode>`: Verifier permission management mode (integer:
-    1 - Open
-    2 - Grantor-Validation
-    3 - Ecosystem)
+#### Permission Management Modes for Issuer and Verifier
 
-#### Permission Management Modes
+| Value | Mode Name            | Description                                                              |
+|-------|-----------------------|--------------------------------------------------------------------------|
+| `1`   | OPEN                 | Anyone can self-create the permission without validation.               |
+| `2`   | GRANTOR_VALIDATION   | Requires validation by a Grantor permission holder (Issuer or Verifier).|
+| `3`   | ECOSYSTEM            | Requires validation by the Ecosystem controller (Trust Registry owner).|
 
-These modes control how Issuer and Verifier permissions are granted for this schema:
-
-| Mode ID | Name                | Description                                                                 |
-|---------|---------------------|-----------------------------------------------------------------------------|
-| 1       | OPEN                | Anyone can self-create the permission without validation.                  |
-| 2       | GRANTOR_VALIDATION  | Requires validation by a Grantor permission holder (Issuer or Verifier).  |
-| 3       | ECOSYSTEM           | Requires validation by the Ecosystem controller (Trust Registry owner).   |
-
-Choose the mode based on your onboarding policy. See [Join an Ecosystem](20-onboarding.md) for process details.
+> **Tip:** Choose the mode based on your ecosystem onboarding policy. See [Onboarding Process](20-onboarding.md) for details.
 
 **Example (inline JSON schema):**
 ```bash
@@ -184,10 +174,68 @@ Usage:
   veranad tx perm create-root-perm [schema-id] [did] [validation-fees] [issuance-fees] [verification-fees] [flags]
 ```
 
+**Parameters:**
+- `<schema-id>`: The ID of the credential schema for which to create the root permission.
+- `<did>`: The DID of the grantee (the entity that will hold the root permission).
+- `<validation-fees>`: Fee (in trust units) charged for running a validation process.
+- `<issuance-fees>`: Fee (in trust units) applied to issuance actions for this schema.
+- `<verification-fees>`: Fee (in trust units) applied to verification actions for this schema.
+
+> **Note:** These fees define the trust fee model for the ecosystem and are enforced by the Verifiable Public Registry. The actual values should comply with the rules specified in your Ecosystem Governance Framework (EGF).
+
 The root permission is a special permission that can only be created by the Trust Registry controller.  
 It acts as the top-level authority for a credential schema and is required to delegate other permissions (e.g., Grantor, Issuer, Verifier) according to the Ecosystem Governance Framework.
 
 Without a root permission, no permission hierarchy can be established under this schema.
+
+### Why is Root Permission Mandatory?
+
+The root permission of type **ECOSYSTEM** serves as the **anchor for the permission tree**. It establishes the top-level authority for a credential schema, without which no other permissions (Issuer, Verifier, or Grantor) can be created.  
+
+**Key Reasons:**
+- It defines the trust framework and fee structure (validation, issuance, verification).
+- It provides a governance root for delegating permissions through a hierarchy.
+- Validation processes depend on it to identify the controlling authority and enforce trust deposit rules.
+
+Without a root permission:
+- No Issuer or Verifier can be authorized.
+- No validation process can start.
+- The ecosystem for that schema is effectively non-functional.
+
+#### Hierarchy Overview:
+
+```plantuml
+@startuml
+scale max 800 width
+
+package "Credential Schema Permission Hierarchy" as cs {
+    object "Root Permission" as root #3fbdb6 {
+        type: ECOSYSTEM
+        role: Trust Registry Controller
+    }
+    object "Issuer Grantor" as ig {
+        type: ISSUER_GRANTOR
+    }
+    object "Verifier Grantor" as vg {
+        type: VERIFIER_GRANTOR
+    }
+    object "Issuer" as issuer #b99bce {
+        type: ISSUER
+    }
+    object "Verifier" as verifier #D88AB3 {
+        type: VERIFIER
+    }
+}
+
+root --> ig : delegates
+root --> vg : delegates
+ig --> issuer : validates
+vg --> verifier : validates
+
+@enduml
+```
+
+This tree illustrates why **the root permission must exist first**: it enables the rest of the ecosystem roles through controlled delegation.
 
 examples:
 
