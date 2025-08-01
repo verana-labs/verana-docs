@@ -157,7 +157,7 @@ veranad tx perm create-perm <schema-id> <permission-type> <did> \
 
 **Example:**
 ```bash
-veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi \
+veranad tx perm create-perm $SCHEMA_ID issuer did:example:123456789abcdefghi \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
