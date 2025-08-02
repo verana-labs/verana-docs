@@ -72,6 +72,15 @@ endif
 > - The CLI does **not** use numbers as input; it accepts lowercase names like `issuer` or `verifier`.  
 > This mapping is useful for developers reading raw chain data or integrating APIs.
 
+> **Special Case: Grantors**  
+> Grantor roles (Issuer-Grantor, Verifier-Grantor) are not part of the typical onboarding flow for Issuers or Verifiers because:  
+> - They are governance roles, not operational roles.  
+> - Their creation usually requires out-of-band approval by the Ecosystem controller or existing Grantors.  
+>  
+> **Why does this matter?**  
+> - If you are onboarding as an Issuer or Verifier, you follow the standard path (OPEN or validation).  
+> - If you need to become a Grantor, you must go through a dedicated process that includes governance approval and a validation transaction.
+
 ## Onboarding Steps
 
 ### 1. List Available Ecosystems
@@ -230,6 +239,37 @@ veranad tx perm start-perm-vp issuer 123 US \
   - Prove control of your DID and Verana account.
   - Provide required documents defined in the Ecosystem Governance Framework (EGF).
 - Once approved, the validator marks the process as validated and your permission is activated.
+
+---
+
+### Onboarding as a Grantor (Issuer-Grantor or Verifier-Grantor)
+
+Grantor roles are essential for validating Issuers or Verifiers in GRANTOR mode. If you are approved to become a Grantor, you must create your permission using a validation process initiated by the Ecosystem controller or an existing Grantor.
+
+**Steps:**
+1. Obtain approval from the Ecosystem governance team (off-chain).
+2. Use the `start-perm-vp` command with the appropriate `permission-type` set to `issuer-grantor` or `verifier-grantor`.
+
+**Syntax:**
+```bash
+veranad tx perm start-perm-vp <permission-type> <validator-perm-id> <country> \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+**Example:**
+```bash
+# Apply to become an Issuer-Grantor
+veranad tx perm start-perm-vp issuer-grantor 45 US \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+
+# Apply to become a Verifier-Grantor
+veranad tx perm start-perm-vp verifier-grantor 45 US \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+**Validator-perm-id**: Use the permission ID of the Ecosystem root permission or an authorized Grantor who will validate your request.
+
+📌 **Important:** Grantors typically require a higher trust deposit and may have specific obligations outlined in the Ecosystem Governance Framework.
 
 ---
 
