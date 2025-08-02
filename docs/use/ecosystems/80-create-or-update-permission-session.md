@@ -29,6 +29,12 @@ Without a valid session:
 - The transaction **will fail** because trust fee distribution cannot be performed.
 - The credential exchange cannot proceed.
 
+:::note
+**Important:** Do not confuse *permission validation* with *session creation*.  
+- **Permission validation** is a governance process to make an account an authorized Issuer or Verifier. It requires validation steps and approval on-chain.  
+- **Permission Session creation** is an operational step performed right before credential issuance or verification. It does **not** require governance approval; it only references existing validated permissions to calculate fees and enforce trust compliance.
+:::
+
 ---
 
 ## CLI Command
