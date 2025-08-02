@@ -15,6 +15,9 @@ If mode = GRANTOR or ECOSYSTEM → Start a validation process
 Once permission is granted, act as Issuer / Verifier / Holder
 ```
 
+> **Who is the Applicant?**  
+> The *Applicant* is the account requesting a permission (Issuer, Verifier, or Grantor candidate).
+
 ```plantuml
 @startuml
 start
@@ -158,6 +161,8 @@ Each schema must have an ECOSYSTEM root permission created by the Trust Registry
 
 Based on the schema configuration and the role you want to assume, your onboarding path differs:
 
+This table summarizes which onboarding action applies to your role and the schema mode. Use it to decide the exact command you need.
+
 | Role              | OPEN Mode                              | ECOSYSTEM Mode                                        | GRANTOR Mode                                              |
 |-------------------|---------------------------------------|--------------------------------------------------------|-----------------------------------------------------------|
 | Issuer Grantor    | N/A                                   | N/A                                                    | Validation process with Ecosystem validator              |
@@ -170,53 +175,117 @@ Holders typically obtain credentials from Issuers. If you already have Issuer pe
 
 ---
 
-#### **Visual Flow: OPEN Mode**  
+
+#### **Onboarding Journey: OPEN Mode**  
+
 The following sequence illustrates how an applicant self-creates a permission when the schema mode is OPEN:
 
 ```plantuml
 @startuml
-actor Applicant
+actor "Issuer/Verifier Candidate" as Applicant
 participant "Verana Chain" as Chain
 
-Applicant -> Chain: Query trust registries\n`veranad q tr list-trust-registries`
-Applicant -> Chain: Query credential schemas\n`veranad q cs list-schemas`
+Applicant -> Chain: Query trust registries (`list-trust-registries`)
+Applicant -> Chain: Query credential schemas (`list-schemas`)
 note right
 Applicant checks issuer_perm_management_mode = OPEN
 end note
 
-Applicant -> Chain: Submit `create-perm` transaction\n(permission-type = issuer)
-Chain -> Chain: Create permission\nStatus = ACTIVE
+Applicant -> Chain: Submit create-perm (issuer)
+Chain -> Chain: Create permission (ACTIVE)
 Applicant <- Chain: Permission ID returned
 @enduml
 ```
+*Key Actions → Spec Mapping:*
+- Self-create permission: [MOD-PERM-MSG-14](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-14-create-permission)
 
 ---
 
-#### **Visual Flow: GRANTOR or ECOSYSTEM Mode**  
-This sequence shows the validation process for onboarding when the schema requires GRANTOR or ECOSYSTEM validation.
 
+
+
+#### **Onboarding Journey: ECOSYSTEM Mode**
 ```plantuml
 @startuml
-actor Applicant
+actor "Issuer/Verifier Candidate" as Applicant
+actor EcosystemController
+participant "Verana Chain" as Chain
+
+Applicant -> Chain: Query trust registries & schemas
+Applicant -> Chain: Submit start-perm-vp (issuer/verifier)
+Chain -> Chain: Create validation process (REQUESTED)
+Applicant <- Chain: Validation request recorded
+
+== Off-chain Validation ==
+EcosystemController -> Applicant: Request DID proof & documents
+Applicant -> EcosystemController: Provide evidence (KYC, compliance)
+EcosystemController -> Chain: Set perm-vp validated
+Chain -> Chain: Update permission (VALIDATED)
+Applicant <- Chain: Permission ACTIVE
+@enduml
+```
+*Key Actions → Spec Mapping:*
+- Start validation: [MOD-PERM-MSG-1](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-1-start-permission-vp)
+- Set to Validated: [MOD-PERM-MSG-3](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-3-set-permission-vp-to-validated)
+*EcosystemController holds the ECOSYSTEM root permission and manages validation for ECOSYSTEM mode schemas.*
+
+---
+
+### GRANTOR Mode Overview
+GRANTOR mode includes two onboarding flows:
+1. Issuer or Verifier applying under a Grantor
+2. Candidate applying to become a Grantor (Issuer-Grantor or Verifier-Grantor)
+
+#### Onboarding Journey: Issuer/Verifier under GRANTOR Mode
+```plantuml
+@startuml
+actor "Issuer/Verifier Candidate" as Applicant
 actor Grantor
 participant "Verana Chain" as Chain
 
 Applicant -> Chain: Query trust registries & schemas
-Applicant -> Chain: Query available validators\n`veranad q perm list-permissions`
-Applicant -> Chain: Submit `start-perm-vp`\n(permission-type = issuer)
-Chain -> Chain: Create validation process (status: REQUESTED)
+Applicant -> Chain: Submit start-perm-vp (issuer/verifier)
+Chain -> Chain: Create validation process (REQUESTED)
 Applicant <- Chain: Validation request recorded
 
 == Off-chain Validation ==
-Grantor -> Applicant: Request documents & DID proof
-Applicant -> Grantor: Provide evidence (off-chain)
-Grantor -> Chain: Approve validation\n`confirm-validation` (or equivalent)
-Chain -> Chain: Update permission status = VALIDATED
+Grantor -> Applicant: Request DID proof & documents
+Applicant -> Grantor: Provide required evidence
+Grantor -> Chain: Set perm-vp validated
+Chain -> Chain: Update permission (VALIDATED)
 Applicant <- Chain: Permission ACTIVE
 @enduml
 ```
+*Key Actions → Spec Mapping:*
+- Start validation: [MOD-PERM-MSG-1](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-1-start-permission-vp)
+- Set to Validated: [MOD-PERM-MSG-3](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-3-set-permission-vp-to-validated)
+*Grantor is an Issuer-Grantor or Verifier-Grantor permission holder who validates applicants in GRANTOR mode.*
 
----
+#### Onboarding Journey: Grantor Role
+```plantuml
+@startuml
+actor "GrantorCandidate" as GrantorCandidate
+actor "EcosystemController" as EcosystemController
+participant "Verana Chain" as Chain
+
+GrantorCandidate -> Chain: Submit start-perm-vp (issuer-grantor / verifier-grantor)
+Chain -> Chain: Create validation process (REQUESTED)
+GrantorCandidate <- Chain: Validation request recorded
+
+== Off-chain Validation ==
+EcosystemController -> GrantorCandidate: Request DID proof & governance approval
+GrantorCandidate -> EcosystemController: Provide compliance documents
+EcosystemController -> Chain: Set perm-vp validated
+Chain -> Chain: Update permission (VALIDATED)
+GrantorCandidate <- Chain: Permission ACTIVE (Grantor role)
+@enduml
+```
+*Key Actions → Spec Mapping:*
+- Start validation: [MOD-PERM-MSG-1](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-1-start-permission-vp)
+- Set to Validated: [MOD-PERM-MSG-3](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-3-set-permission-vp-to-validated)
+- Role applied for: ISSUER-GRANTOR or VERIFIER-GRANTOR
+
+Both flows operate under the GRANTOR mode policy, where permissions are issued after off-chain validation steps and approval is recorded on-chain.
 
 ---
 
@@ -245,11 +314,16 @@ Optional parameters: `effective-from`, `effective-until`, and `verification-fees
   - The CLI accepts lowercase (`issuer`, `verifier`) for `<permission-type>`.  
   - These map to the spec's enum values `ISSUER` and `VERIFIER` internally.
 
+
 **Example:**
 ```bash
 veranad tx perm create-perm $SCHEMA_ID issuer did:example:123456789abcdefghi \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
+
+:::tip Spec Reference
+See [MOD-PERM-MSG-14](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-14-create-permission) for create-perm or [MOD-PERM-MSG-3](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-3-set-permission-vp-to-validated) for set-perm-vp-validated.
+:::
 
 ---
 
@@ -268,9 +342,19 @@ veranad tx perm start-perm-vp <permission-type> <validator-perm-id> <country> \
 
 **Example:**
 ```bash
-veranad tx perm start-perm-vp issuer 123 US \
+veranad tx perm start-perm-vp issuer $PERM_ID US \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
+
+:::caution Known Issue
+Because of a bug in the current implementation, use this syntax for now:
+
+```bash
+veranad tx perm start-perm-vp 1 $PERM_ID US \                                                                       
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+:::
+
 
 #### Parameters Explained:
 - `<permission-type>`: issuer | verifier | issuer-grantor | verifier-grantor | holder
@@ -290,7 +374,52 @@ veranad tx perm start-perm-vp issuer 123 US \
   - Provide required documents defined in the Ecosystem Governance Framework (EGF).
 - Once approved, the validator marks the process as validated and your permission is activated.
 
+:::details Spec Reference
+See [MOD-PERM-MSG-14](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-14-create-permission) for create-perm or [MOD-PERM-MSG-3](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-3-set-permission-vp-to-validated) for set-perm-vp-validated.
+:::
+
 ---
+
+:::caution
+Without this step, your permission will remain `PENDING` and you will not be able to issue or verify credentials.
+:::
+
+### 7. Approve a Validation Process (Set to Validated)
+
+Once off-chain validation steps are complete (for example, after reviewing applicant documents and compliance proofs), the **validator** (Ecosystem Controller or Grantor) must approve the validation on-chain by setting the Permission Validation Process (VP) to **VALIDATED**.
+
+This is a mandatory step to activate the applicant’s permission after a validation process.
+
+**Syntax:**
+```bash
+veranad tx perm set-perm-vp-validated <id> [effective-until] [validation-fees] [issuance-fees] [verification-fees] [country] [vp-summary-digest-sri] \
+  --from <validator-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+```
+
+#### Parameters Explained:
+- `<id>`: The ID of the validation process (permission entry) you want to validate.
+- `[effective-until]`: (Optional) Timestamp in RFC3339 format (e.g., `2025-12-31T23:59:59Z`).
+- `[validation-fees]`: (Optional) Final agreed validation fees (cannot change during renewal).
+- `[issuance-fees]`: (Optional) Agreed issuance fees for this permission.
+- `[verification-fees]`: (Optional) Agreed verification fees for this permission.
+- `[country]`: (Optional) ISO 3166-1 alpha-2 country code.
+- `[vp-summary-digest-sri]`: (Optional) Digest SRI of the validation summary for audit purposes.
+
+**Example:**
+```bash
+veranad tx perm set-perm-vp-validated 101 \
+  --from $VALIDATOR_ACC --chain-id $CHAIN_ID --keyring-backend test \
+  --fees 600000uvna --node $NODE_RPC
+```
+
+📌 **Important:**  
+- This command must be executed by the account holding the validator permission (Ecosystem or Grantor).
+- Once executed, the permission status moves from `PENDING` to `VALIDATED`, enabling the applicant to act as Issuer/Verifier.
+
+:::details Spec Reference
+See [MOD-PERM-MSG-14] for create-perm or [MOD-PERM-MSG-3](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-3-set-permission-vp-to-validated) for set-perm-vp-validated.
+:::
+
 
 ### Onboarding as a Grantor (Issuer-Grantor or Verifier-Grantor)
 
@@ -321,6 +450,10 @@ veranad tx perm start-perm-vp verifier-grantor 45 US \
 
 📌 **Important:** Grantors typically require a higher trust deposit and may have specific obligations outlined in the Ecosystem Governance Framework.
 
+:::details Spec Reference
+See [MOD-PERM-MSG-14](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-14-create-permission) for create-perm or [MOD-PERM-MSG-3] for set-perm-vp-validated.
+:::
+
 ---
 
 ### Verify Your Permissions
@@ -337,3 +470,8 @@ veranad q perm list-permissions --node $NODE_RPC --output json
 - Some roles may require **paying validation fees** and a **trust deposit** as part of the onboarding process.
 - If you are a **Holder**, you typically obtain credentials from an Issuer or self-issue if you already have Issuer permission.
 - For more information on the validation process, see [Validation Process Guide](../../learn/verifiable-public-registry/onboarding-participants#validation-process).
+
+## What's Next?
+Now that your permission is active:
+- To issue credentials → [Issuance Guide](issuance-guide)
+- To verify credentials → [Verification Guide](verification-guide)
