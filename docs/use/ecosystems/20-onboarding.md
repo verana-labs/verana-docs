@@ -342,7 +342,7 @@ veranad tx perm start-perm-vp <permission-type> <validator-perm-id> <country> \
 
 **Example:**
 ```bash
-veranad tx perm start-perm-vp issuer 123 US \
+veranad tx perm start-perm-vp issuer $PERM_ID US \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
@@ -365,6 +365,40 @@ veranad tx perm start-perm-vp issuer 123 US \
 - Once approved, the validator marks the process as validated and your permission is activated.
 
 ---
+
+### 7. Approve a Validation Process (Set to Validated)
+
+Once off-chain validation steps are complete (for example, after reviewing applicant documents and compliance proofs), the **validator** (Ecosystem Controller or Grantor) must approve the validation on-chain by setting the Permission Validation Process (VP) to **VALIDATED**.
+
+This is a mandatory step to activate the applicant’s permission after a validation process.
+
+**Syntax:**
+```bash
+veranad tx perm set-perm-vp-validated <id> [effective-until] [validation-fees] [issuance-fees] [verification-fees] [country] [vp-summary-digest-sri] \
+  --from <validator-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+```
+
+#### Parameters Explained:
+- `<id>`: The ID of the validation process (permission entry) you want to validate.
+- `[effective-until]`: (Optional) Timestamp in RFC3339 format (e.g., `2025-12-31T23:59:59Z`).
+- `[validation-fees]`: (Optional) Final agreed validation fees (cannot change during renewal).
+- `[issuance-fees]`: (Optional) Agreed issuance fees for this permission.
+- `[verification-fees]`: (Optional) Agreed verification fees for this permission.
+- `[country]`: (Optional) ISO 3166-1 alpha-2 country code.
+- `[vp-summary-digest-sri]`: (Optional) Digest SRI of the validation summary for audit purposes.
+
+**Example:**
+```bash
+veranad tx perm set-perm-vp-validated 101 \
+  --from $VALIDATOR_ACC --chain-id $CHAIN_ID --keyring-backend test \
+  --fees 600000uvna --node $NODE_RPC
+```
+
+📌 **Important:**  
+- This command must be executed by the account holding the validator permission (Ecosystem or Grantor).
+- Once executed, the permission status moves from `PENDING` to `VALIDATED`, enabling the applicant to act as Issuer/Verifier.
+- See spec reference: [MOD-PERM-MSG-3].
+
 
 ### Onboarding as a Grantor (Issuer-Grantor or Verifier-Grantor)
 
