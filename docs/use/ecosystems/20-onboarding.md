@@ -170,7 +170,16 @@ Holders typically obtain credentials from Issuers. If you already have Issuer pe
 
 ---
 
+
 #### **Visual Flow: OPEN Mode**  
+
+> **Who is the Applicant?**  
+> In all diagrams, the *Applicant* represents the entity requesting a permission (e.g., Issuer, Verifier, Grantor).  
+> For example:  
+> - If you want to issue credentials, you are the Applicant applying for an **Issuer** permission.  
+> - If you want to verify credentials, you are the Applicant applying for a **Verifier** permission.  
+> - If you want to validate others (be a Grantor), you are the Applicant applying for an **Issuer-Grantor** or **Verifier-Grantor** permission.
+
 The following sequence illustrates how an applicant self-creates a permission when the schema mode is OPEN:
 
 ```plantuml
