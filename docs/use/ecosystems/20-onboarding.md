@@ -192,9 +192,8 @@ Applicant <- Chain: Permission ID returned
 
 ---
 
-#### **Visual Flow: GRANTOR or ECOSYSTEM Mode**  
-This sequence shows the validation process for onboarding when the schema requires GRANTOR or ECOSYSTEM validation.
 
+#### **Visual Flow: GRANTOR Mode**
 ```plantuml
 @startuml
 actor Applicant
@@ -202,21 +201,41 @@ actor Grantor
 participant "Verana Chain" as Chain
 
 Applicant -> Chain: Query trust registries & schemas
-Applicant -> Chain: Query available validators\n`veranad q perm list-permissions`
-Applicant -> Chain: Submit `start-perm-vp`\n(permission-type = issuer)
+Applicant -> Chain: Submit start-perm-vp\n(permission-type = issuer/verifier)
 Chain -> Chain: Create validation process (status: REQUESTED)
 Applicant <- Chain: Validation request recorded
 
 == Off-chain Validation ==
-Grantor -> Applicant: Request documents & DID proof
-Applicant -> Grantor: Provide evidence (off-chain)
-Grantor -> Chain: Approve validation\n`confirm-validation` (or equivalent)
+Grantor -> Applicant: Request DID proof & documents
+Applicant -> Grantor: Provide required evidence
+Grantor -> Chain: Approve validation\n(confirm-validation)
 Chain -> Chain: Update permission status = VALIDATED
 Applicant <- Chain: Permission ACTIVE
 @enduml
 ```
+*Grantor is an Issuer-Grantor or Verifier-Grantor permission holder who validates applicants in GRANTOR mode.*
 
----
+#### **Visual Flow: ECOSYSTEM Mode**
+```plantuml
+@startuml
+actor Applicant
+actor EcosystemController
+participant "Verana Chain" as Chain
+
+Applicant -> Chain: Query trust registries & schemas
+Applicant -> Chain: Submit start-perm-vp\n(permission-type = issuer/verifier)
+Chain -> Chain: Create validation process (status: REQUESTED)
+Applicant <- Chain: Validation request recorded
+
+== Off-chain Validation ==
+EcosystemController -> Applicant: Request DID proof & documents
+Applicant -> EcosystemController: Provide evidence (KYC, compliance)
+EcosystemController -> Chain: Approve validation\n(confirm-validation)
+Chain -> Chain: Update permission status = VALIDATED
+Applicant <- Chain: Permission ACTIVE
+@enduml
+```
+*EcosystemController holds the ECOSYSTEM root permission and manages validation for ECOSYSTEM mode schemas.*
 
 ---
 
