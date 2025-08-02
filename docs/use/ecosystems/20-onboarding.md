@@ -15,6 +15,9 @@ If mode = GRANTOR or ECOSYSTEM → Start a validation process
 Once permission is granted, act as Issuer / Verifier / Holder
 ```
 
+> **Who is the Applicant?**  
+> The *Applicant* is the account requesting a permission (Issuer, Verifier, or Grantor candidate).
+
 ```plantuml
 @startuml
 start
@@ -158,6 +161,8 @@ Each schema must have an ECOSYSTEM root permission created by the Trust Registry
 
 Based on the schema configuration and the role you want to assume, your onboarding path differs:
 
+This table summarizes which onboarding action applies to your role and the schema mode. Use it to decide the exact command you need.
+
 | Role              | OPEN Mode                              | ECOSYSTEM Mode                                        | GRANTOR Mode                                              |
 |-------------------|---------------------------------------|--------------------------------------------------------|-----------------------------------------------------------|
 | Issuer Grantor    | N/A                                   | N/A                                                    | Validation process with Ecosystem validator              |
@@ -173,13 +178,6 @@ Holders typically obtain credentials from Issuers. If you already have Issuer pe
 
 #### **Onboarding Journey: OPEN Mode**  
 
-> **Who is the Applicant?**  
-> In all diagrams, the *Applicant* represents the entity requesting a permission (e.g., Issuer, Verifier, Grantor).  
-> For example:  
-> - If you want to issue credentials, you are the Applicant applying for an **Issuer** permission.  
-> - If you want to verify credentials, you are the Applicant applying for a **Verifier** permission.  
-> - If you want to validate others (be a Grantor), you are the Applicant applying for an **Issuer-Grantor** or **Verifier-Grantor** permission.
-
 The following sequence illustrates how an applicant self-creates a permission when the schema mode is OPEN:
 
 ```plantuml
@@ -187,14 +185,14 @@ The following sequence illustrates how an applicant self-creates a permission wh
 actor "Issuer/Verifier Candidate" as Applicant
 participant "Verana Chain" as Chain
 
-Applicant -> Chain: Query trust registries\n`veranad q tr list-trust-registries`
-Applicant -> Chain: Query credential schemas\n`veranad q cs list-schemas`
+Applicant -> Chain: Query trust registries (`list-trust-registries`)
+Applicant -> Chain: Query credential schemas (`list-schemas`)
 note right
 Applicant checks issuer_perm_management_mode = OPEN
 end note
 
-Applicant -> Chain: Submit `create-perm` transaction\n(permission-type = issuer)
-Chain -> Chain: Create permission\nStatus = ACTIVE
+Applicant -> Chain: Submit create-perm (issuer)
+Chain -> Chain: Create permission (ACTIVE)
 Applicant <- Chain: Permission ID returned
 @enduml
 ```
@@ -214,15 +212,15 @@ actor EcosystemController
 participant "Verana Chain" as Chain
 
 Applicant -> Chain: Query trust registries & schemas
-Applicant -> Chain: Submit start-perm-vp\n(permission-type = issuer/verifier)
-Chain -> Chain: Create validation process (status: REQUESTED)
+Applicant -> Chain: Submit start-perm-vp (issuer/verifier)
+Chain -> Chain: Create validation process (REQUESTED)
 Applicant <- Chain: Validation request recorded
 
 == Off-chain Validation ==
 EcosystemController -> Applicant: Request DID proof & documents
 Applicant -> EcosystemController: Provide evidence (KYC, compliance)
-EcosystemController -> Chain: Set Permission VP to Validated
-Chain -> Chain: Update permission status = VALIDATED
+EcosystemController -> Chain: Set perm-vp validated
+Chain -> Chain: Update permission (VALIDATED)
 Applicant <- Chain: Permission ACTIVE
 @enduml
 ```
@@ -231,17 +229,14 @@ Applicant <- Chain: Permission ACTIVE
 - Set to Validated: [MOD-PERM-MSG-3]
 *EcosystemController holds the ECOSYSTEM root permission and manages validation for ECOSYSTEM mode schemas.*
 
-
-
 ---
 
-### Onboarding in GRANTOR Mode
+### GRANTOR Mode Overview
+GRANTOR mode includes two onboarding flows:
+1. Issuer or Verifier applying under a Grantor
+2. Candidate applying to become a Grantor (Issuer-Grantor or Verifier-Grantor)
 
-In GRANTOR mode, validation authority is delegated to specific participants (Grantors) who can validate Issuers or Verifiers on behalf of the Ecosystem. There are two main onboarding paths under GRANTOR mode:
-- **Issuer/Verifier onboarding**: An applicant seeks permission to issue or verify credentials by being validated by a Grantor.
-- **Grantor onboarding**: A candidate seeks to become a Grantor (Issuer-Grantor or Verifier-Grantor) by being validated by the Ecosystem controller.
-
-#### **Onboarding Journey: Issuer/Verifier under GRANTOR Mode**
+#### Onboarding Journey: Issuer/Verifier under GRANTOR Mode
 ```plantuml
 @startuml
 actor "Issuer/Verifier Candidate" as Applicant
@@ -249,15 +244,15 @@ actor Grantor
 participant "Verana Chain" as Chain
 
 Applicant -> Chain: Query trust registries & schemas
-Applicant -> Chain: Submit start-perm-vp\n(permission-type = issuer/verifier)
-Chain -> Chain: Create validation process (status: REQUESTED)
+Applicant -> Chain: Submit start-perm-vp (issuer/verifier)
+Chain -> Chain: Create validation process (REQUESTED)
 Applicant <- Chain: Validation request recorded
 
 == Off-chain Validation ==
 Grantor -> Applicant: Request DID proof & documents
 Applicant -> Grantor: Provide required evidence
-Grantor -> Chain: Set Permission VP to Validated
-Chain -> Chain: Update permission status = VALIDATED
+Grantor -> Chain: Set perm-vp validated
+Chain -> Chain: Update permission (VALIDATED)
 Applicant <- Chain: Permission ACTIVE
 @enduml
 ```
@@ -266,22 +261,22 @@ Applicant <- Chain: Permission ACTIVE
 - Set to Validated: [MOD-PERM-MSG-3]
 *Grantor is an Issuer-Grantor or Verifier-Grantor permission holder who validates applicants in GRANTOR mode.*
 
-#### **Onboarding Journey: Grantor Role**
+#### Onboarding Journey: Grantor Role
 ```plantuml
 @startuml
 actor "GrantorCandidate" as GrantorCandidate
 actor "EcosystemController" as EcosystemController
 participant "Verana Chain" as Chain
 
-GrantorCandidate -> Chain: Submit start-perm-vp\n(permission-type = issuer-grantor / verifier-grantor)
-Chain -> Chain: Create validation process (status: REQUESTED)
+GrantorCandidate -> Chain: Submit start-perm-vp (issuer-grantor / verifier-grantor)
+Chain -> Chain: Create validation process (REQUESTED)
 GrantorCandidate <- Chain: Validation request recorded
 
 == Off-chain Validation ==
 EcosystemController -> GrantorCandidate: Request DID proof & governance approval
 GrantorCandidate -> EcosystemController: Provide compliance documents
-EcosystemController -> Chain: Set Permission VP to Validated
-Chain -> Chain: Update permission status = VALIDATED
+EcosystemController -> Chain: Set perm-vp validated
+Chain -> Chain: Update permission (VALIDATED)
 GrantorCandidate <- Chain: Permission ACTIVE (Grantor role)
 @enduml
 ```
@@ -326,13 +321,17 @@ veranad tx perm create-perm $SCHEMA_ID issuer did:example:123456789abcdefghi \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
-:::tip[TODO]
+:::caution Known Issue
 Because of a bug in the current implementation, use this syntax for now:
 
 ```bash
 veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
+:::
+
+:::details Spec Reference
+See [MOD-PERM-MSG-14] for create-perm or [MOD-PERM-MSG-3] for set-perm-vp-validated.
 :::
 
 ---
@@ -374,7 +373,15 @@ veranad tx perm start-perm-vp issuer $PERM_ID US \
   - Provide required documents defined in the Ecosystem Governance Framework (EGF).
 - Once approved, the validator marks the process as validated and your permission is activated.
 
+:::details Spec Reference
+See [MOD-PERM-MSG-14] for create-perm or [MOD-PERM-MSG-3] for set-perm-vp-validated.
+:::
+
 ---
+
+:::caution
+Without this step, your permission will remain `PENDING` and you will not be able to issue or verify credentials.
+:::
 
 ### 7. Approve a Validation Process (Set to Validated)
 
@@ -407,7 +414,10 @@ veranad tx perm set-perm-vp-validated 101 \
 📌 **Important:**  
 - This command must be executed by the account holding the validator permission (Ecosystem or Grantor).
 - Once executed, the permission status moves from `PENDING` to `VALIDATED`, enabling the applicant to act as Issuer/Verifier.
-- See spec reference: [MOD-PERM-MSG-3].
+
+:::details Spec Reference
+See [MOD-PERM-MSG-14] for create-perm or [MOD-PERM-MSG-3] for set-perm-vp-validated.
+:::
 
 
 ### Onboarding as a Grantor (Issuer-Grantor or Verifier-Grantor)
@@ -439,6 +449,10 @@ veranad tx perm start-perm-vp verifier-grantor 45 US \
 
 📌 **Important:** Grantors typically require a higher trust deposit and may have specific obligations outlined in the Ecosystem Governance Framework.
 
+:::details Spec Reference
+See [MOD-PERM-MSG-14] for create-perm or [MOD-PERM-MSG-3] for set-perm-vp-validated.
+:::
+
 ---
 
 ### Verify Your Permissions
@@ -455,3 +469,8 @@ veranad q perm list-permissions --node $NODE_RPC --output json
 - Some roles may require **paying validation fees** and a **trust deposit** as part of the onboarding process.
 - If you are a **Holder**, you typically obtain credentials from an Issuer or self-issue if you already have Issuer permission.
 - For more information on the validation process, see [Validation Process Guide](../../learn/verifiable-public-registry/onboarding-participants#validation-process).
+
+## What's Next?
+Now that your permission is active:
+- To issue credentials → [Issuance Guide](../issuance-guide.md)
+- To verify credentials → [Verification Guide](../verification-guide.md)
