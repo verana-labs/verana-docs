@@ -171,7 +171,7 @@ Holders typically obtain credentials from Issuers. If you already have Issuer pe
 ---
 
 
-#### **Visual Flow: OPEN Mode**  
+#### **Onboarding Journey: OPEN Mode**  
 
 > **Who is the Applicant?**  
 > In all diagrams, the *Applicant* represents the entity requesting a permission (e.g., Issuer, Verifier, Grantor).  
@@ -204,7 +204,7 @@ Applicant <- Chain: Permission ID returned
 ---
 
 
-#### **Visual Flow: GRANTOR Mode**
+#### **Onboarding Journey: GRANTOR Mode**
 ```plantuml
 @startuml
 actor Applicant
@@ -229,7 +229,7 @@ Applicant <- Chain: Permission ACTIVE
 - Set to Validated: [MOD-PERM-MSG-3]
 *Grantor is an Issuer-Grantor or Verifier-Grantor permission holder who validates applicants in GRANTOR mode.*
 
-#### **Visual Flow: ECOSYSTEM Mode**
+#### **Onboarding Journey: ECOSYSTEM Mode**
 ```plantuml
 @startuml
 actor Applicant
@@ -261,16 +261,16 @@ actor Applicant as "Grantor Candidate"
 actor EcosystemController
 participant "Verana Chain" as Chain
 
-Grantor Candidate -> Chain: Submit start-perm-vp\n(permission-type = issuer-grantor / verifier-grantor)
+"Grantor Candidate" -> Chain: Submit start-perm-vp\n(permission-type = issuer-grantor / verifier-grantor)
 Chain -> Chain: Create validation process (status: REQUESTED)
-Grantor Candidate <- Chain: Validation request recorded
+"Grantor Candidate" <- Chain: Validation request recorded
 
 == Off-chain Validation ==
-EcosystemController -> Grantor Candidate: Request DID proof & governance approval
-Grantor Candidate -> EcosystemController: Provide compliance documents
+EcosystemController -> "Grantor Candidate": Request DID proof & governance approval
+"Grantor Candidate" -> EcosystemController: Provide compliance documents
 EcosystemController -> Chain: Set Permission VP to Validated
 Chain -> Chain: Update permission status = VALIDATED
-Grantor Candidate <- Chain: Permission ACTIVE (Grantor role)
+"Grantor Candidate" <- Chain: Permission ACTIVE (Grantor role)
 @enduml
 ```
 *Key Actions → Spec Mapping:*
