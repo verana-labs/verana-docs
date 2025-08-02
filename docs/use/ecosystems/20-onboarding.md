@@ -184,7 +184,7 @@ The following sequence illustrates how an applicant self-creates a permission wh
 
 ```plantuml
 @startuml
-actor Applicant
+actor "Issuer/Verifier Candidate" as Applicant
 participant "Verana Chain" as Chain
 
 Applicant -> Chain: Query trust registries\n`veranad q tr list-trust-registries`
@@ -204,35 +204,12 @@ Applicant <- Chain: Permission ID returned
 ---
 
 
-#### **Onboarding Journey: GRANTOR Mode**
-```plantuml
-@startuml
-actor Applicant
-actor Grantor
-participant "Verana Chain" as Chain
 
-Applicant -> Chain: Query trust registries & schemas
-Applicant -> Chain: Submit start-perm-vp\n(permission-type = issuer/verifier)
-Chain -> Chain: Create validation process (status: REQUESTED)
-Applicant <- Chain: Validation request recorded
-
-== Off-chain Validation ==
-Grantor -> Applicant: Request DID proof & documents
-Applicant -> Grantor: Provide required evidence
-Grantor -> Chain: Set Permission VP to Validated
-Chain -> Chain: Update permission status = VALIDATED
-Applicant <- Chain: Permission ACTIVE
-@enduml
-```
-*Key Actions → Spec Mapping:*
-- Start validation: [MOD-PERM-MSG-1]
-- Set to Validated: [MOD-PERM-MSG-3]
-*Grantor is an Issuer-Grantor or Verifier-Grantor permission holder who validates applicants in GRANTOR mode.*
 
 #### **Onboarding Journey: ECOSYSTEM Mode**
 ```plantuml
 @startuml
-actor Applicant
+actor "Issuer/Verifier Candidate" as Applicant
 actor EcosystemController
 participant "Verana Chain" as Chain
 
@@ -253,6 +230,31 @@ Applicant <- Chain: Permission ACTIVE
 - Start validation: [MOD-PERM-MSG-1]
 - Set to Validated: [MOD-PERM-MSG-3]
 *EcosystemController holds the ECOSYSTEM root permission and manages validation for ECOSYSTEM mode schemas.*
+
+#### **Onboarding Journey: GRANTOR Mode**
+```plantuml
+@startuml
+actor "Issuer/Verifier Candidate" as Applicant
+actor Grantor
+participant "Verana Chain" as Chain
+
+Applicant -> Chain: Query trust registries & schemas
+Applicant -> Chain: Submit start-perm-vp\n(permission-type = issuer/verifier)
+Chain -> Chain: Create validation process (status: REQUESTED)
+Applicant <- Chain: Validation request recorded
+
+== Off-chain Validation ==
+Grantor -> Applicant: Request DID proof & documents
+Applicant -> Grantor: Provide required evidence
+Grantor -> Chain: Set Permission VP to Validated
+Chain -> Chain: Update permission status = VALIDATED
+Applicant <- Chain: Permission ACTIVE
+@enduml
+```
+*Key Actions → Spec Mapping:*
+- Start validation: [MOD-PERM-MSG-1]
+- Set to Validated: [MOD-PERM-MSG-3]
+*Grantor is an Issuer-Grantor or Verifier-Grantor permission holder who validates applicants in GRANTOR mode.*
 
 #### **Onboarding Journey: GRANTOR Role**
 ```plantuml
