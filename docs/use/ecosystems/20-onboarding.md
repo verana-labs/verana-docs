@@ -319,11 +319,21 @@ Optional parameters: `effective-from`, `effective-until`, and `verification-fees
   - The CLI accepts lowercase (`issuer`, `verifier`) for `<permission-type>`.  
   - These map to the spec's enum values `ISSUER` and `VERIFIER` internally.
 
+
 **Example:**
 ```bash
 veranad tx perm create-perm $SCHEMA_ID issuer did:example:123456789abcdefghi \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
+
+:::tip[TODO]
+Because of a bug in the current implementation, use this syntax for now:
+
+```bash
+veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+:::
 
 ---
 
