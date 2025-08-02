@@ -58,6 +58,29 @@ endif
 | 5  | Ecosystem         | Controls trust registry and manages schema governance.      |
 | 6  | Holder            | Holds credentials issued under this schema.                 |
 
+> **Additional Context:**  
+> IDs 3–6 represent roles that are not commonly requested during standard onboarding but are critical for ecosystem governance:
+> - **3 (Issuer-Grantor):** Validates and grants Issuer permissions under GRANTOR mode.
+> - **4 (Verifier-Grantor):** Validates and grants Verifier permissions under GRANTOR mode.
+> - **5 (Ecosystem):** Represents the Trust Registry controller (creates root permissions and manages governance).
+> - **6 (Holder):** Typically does not require explicit permission creation; holders obtain credentials by issuance.
+> These roles usually come into play during ecosystem setup or for advanced governance scenarios.
+
+> **Note:**  
+> These numeric IDs represent internal enum values used by the Verana protocol and appear in on-chain data and JSON query outputs.  
+> - For example, `type: "1"` means `ISSUER`, `type: "2"` means `VERIFIER`.  
+> - The CLI does **not** use numbers as input; it accepts lowercase names like `issuer` or `verifier`.  
+> This mapping is useful for developers reading raw chain data or integrating APIs.
+
+> **Special Case: Grantors**  
+> Grantor roles (Issuer-Grantor, Verifier-Grantor) are not part of the typical onboarding flow for Issuers or Verifiers because:  
+> - They are governance roles, not operational roles.  
+> - Their creation usually requires out-of-band approval by the Ecosystem controller or existing Grantors.  
+>  
+> **Why does this matter?**  
+> - If you are onboarding as an Issuer or Verifier, you follow the standard path (OPEN or validation).  
+> - If you need to become a Grantor, you must go through a dedicated process that includes governance approval and a validation transaction.
+
 ## Onboarding Steps
 
 ### 1. List Available Ecosystems
@@ -130,18 +153,70 @@ SCHEMA_ID=5
 
 ### 4. Determine Your Path
 
+⚠️ **Root Permission Required**  
+Each schema must have an ECOSYSTEM root permission created by the Trust Registry controller. Without it, no other permissions (issuer, verifier) can be granted. See [Create Root Permission](17-create-a-credential-schema.md#4-create-a-root-permission).
+
 Based on the schema configuration and the role you want to assume, your onboarding path differs:
 
 | Role              | OPEN Mode                              | ECOSYSTEM Mode                                        | GRANTOR Mode                                              |
 |-------------------|---------------------------------------|--------------------------------------------------------|-----------------------------------------------------------|
 | Issuer Grantor    | N/A                                   | N/A                                                    | Validation process with Ecosystem validator              |
 | Issuer            | **Self-create** (Permission type = 1) | Validation with Ecosystem (Permission type = 5)        | Validation with Issuer Grantor (Permission type = 3)     |
-| Holder            | Self-create Issuer, then self-issue   | Validation with Issuer, then get credential            | Validation with Issuer, then get credential              |
+| Holder            | Self-create Issuer, then self-issue   | Validation with Issuer, then get credential            | Validation with Issuer, then get credential (may require fees and trust deposit)              |
 | Verifier Grantor  | N/A                                   | N/A                                                    | Validation process with Ecosystem validator              |
 | Verifier          | **Self-create** (Permission type = 2) | Validation with Ecosystem (Permission type = 5)        | Validation with Verifier Grantor (Permission type = 4)   |
 
-- **OPEN Mode**: You can self-create the permission directly.
-- **GRANTOR or ECOSYSTEM Mode**: You must start a validation process with the appropriate validator.
+Holders typically obtain credentials from Issuers. If you already have Issuer permission, you can self-issue.
+
+---
+
+#### **Visual Flow: OPEN Mode**  
+The following sequence illustrates how an applicant self-creates a permission when the schema mode is OPEN:
+
+```plantuml
+@startuml
+actor Applicant
+participant "Verana Chain" as Chain
+
+Applicant -> Chain: Query trust registries\n`veranad q tr list-trust-registries`
+Applicant -> Chain: Query credential schemas\n`veranad q cs list-schemas`
+note right
+Applicant checks issuer_perm_management_mode = OPEN
+end note
+
+Applicant -> Chain: Submit `create-perm` transaction\n(permission-type = issuer)
+Chain -> Chain: Create permission\nStatus = ACTIVE
+Applicant <- Chain: Permission ID returned
+@enduml
+```
+
+---
+
+#### **Visual Flow: GRANTOR or ECOSYSTEM Mode**  
+This sequence shows the validation process for onboarding when the schema requires GRANTOR or ECOSYSTEM validation.
+
+```plantuml
+@startuml
+actor Applicant
+actor Grantor
+participant "Verana Chain" as Chain
+
+Applicant -> Chain: Query trust registries & schemas
+Applicant -> Chain: Query available validators\n`veranad q perm list-permissions`
+Applicant -> Chain: Submit `start-perm-vp`\n(permission-type = issuer)
+Chain -> Chain: Create validation process (status: REQUESTED)
+Applicant <- Chain: Validation request recorded
+
+== Off-chain Validation ==
+Grantor -> Applicant: Request documents & DID proof
+Applicant -> Grantor: Provide evidence (off-chain)
+Grantor -> Chain: Approve validation\n`confirm-validation` (or equivalent)
+Chain -> Chain: Update permission status = VALIDATED
+Applicant <- Chain: Permission ACTIVE
+@enduml
+```
+
+---
 
 ---
 
@@ -151,9 +226,11 @@ Use this for Issuer or Verifier roles when the schema allows **OPEN** mode.
 
 **Syntax:**
 ```bash
-veranad tx perm create-perm <schema-id> <permission-type> <did> \
+veranad tx perm create-perm <schema-id> <permission-type> <did> [effective-from] [effective-until] [verification-fees] \
   --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
 ```
+
+Optional parameters: `effective-from`, `effective-until`, and `verification-fees` can be provided as per ecosystem policy.
 
 #### Parameters Explained:
   - `<schema-id>`: The numeric ID of the credential schema (e.g., `5`).
@@ -185,15 +262,25 @@ If the schema requires validation, you cannot self-create the permission. Instea
 
 **Syntax:**
 ```bash
-veranad tx perm start-perm-vp <schema-id> <permission-type> <did> \
-  --from $USER_ACC --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC
+veranad tx perm start-perm-vp <permission-type> <validator-perm-id> <country> \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 **Example:**
 ```bash
-veranad tx perm start-perm-vp $SCHEMA_ID issuer did:example:123456789abcdefghi \
+veranad tx perm start-perm-vp issuer 123 US \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
+
+#### Parameters Explained:
+- `<permission-type>`: issuer | verifier | issuer-grantor | verifier-grantor | holder
+- `<validator-perm-id>`: ID of the validator permission you are applying under (find using `veranad q perm list-permissions`).
+- `<country>`: ISO 3166-1 alpha-2 country code for your location.
+
+> **Important:** You must have enough balance to cover:
+> - Estimated transaction fees
+> - Validation fees × trust unit price
+> - Trust deposit (validation fees × trust deposit rate)
 
 📌 **What happens next?**
 
@@ -202,6 +289,37 @@ veranad tx perm start-perm-vp $SCHEMA_ID issuer did:example:123456789abcdefghi \
   - Prove control of your DID and Verana account.
   - Provide required documents defined in the Ecosystem Governance Framework (EGF).
 - Once approved, the validator marks the process as validated and your permission is activated.
+
+---
+
+### Onboarding as a Grantor (Issuer-Grantor or Verifier-Grantor)
+
+Grantor roles are essential for validating Issuers or Verifiers in GRANTOR mode. If you are approved to become a Grantor, you must create your permission using a validation process initiated by the Ecosystem controller or an existing Grantor.
+
+**Steps:**
+1. Obtain approval from the Ecosystem governance team (off-chain).
+2. Use the `start-perm-vp` command with the appropriate `permission-type` set to `issuer-grantor` or `verifier-grantor`.
+
+**Syntax:**
+```bash
+veranad tx perm start-perm-vp <permission-type> <validator-perm-id> <country> \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+**Example:**
+```bash
+# Apply to become an Issuer-Grantor
+veranad tx perm start-perm-vp issuer-grantor 45 US \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+
+# Apply to become a Verifier-Grantor
+veranad tx perm start-perm-vp verifier-grantor 45 US \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+**Validator-perm-id**: Use the permission ID of the Ecosystem root permission or an authorized Grantor who will validate your request.
+
+📌 **Important:** Grantors typically require a higher trust deposit and may have specific obligations outlined in the Ecosystem Governance Framework.
 
 ---
 
@@ -219,4 +337,3 @@ veranad q perm list-permissions --node $NODE_RPC --output json
 - Some roles may require **paying validation fees** and a **trust deposit** as part of the onboarding process.
 - If you are a **Holder**, you typically obtain credentials from an Issuer or self-issue if you already have Issuer permission.
 - For more information on the validation process, see [Validation Process Guide](../../learn/verifiable-public-registry/onboarding-participants#validation-process).
-
