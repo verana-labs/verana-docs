@@ -231,7 +231,17 @@ Applicant <- Chain: Permission ACTIVE
 - Set to Validated: [MOD-PERM-MSG-3]
 *EcosystemController holds the ECOSYSTEM root permission and manages validation for ECOSYSTEM mode schemas.*
 
-#### **Onboarding Journey: GRANTOR Mode**
+
+
+---
+
+### Onboarding in GRANTOR Mode
+
+In GRANTOR mode, validation authority is delegated to specific participants (Grantors) who can validate Issuers or Verifiers on behalf of the Ecosystem. There are two main onboarding paths under GRANTOR mode:
+- **Issuer/Verifier onboarding**: An applicant seeks permission to issue or verify credentials by being validated by a Grantor.
+- **Grantor onboarding**: A candidate seeks to become a Grantor (Issuer-Grantor or Verifier-Grantor) by being validated by the Ecosystem controller.
+
+#### **Onboarding Journey: Issuer/Verifier under GRANTOR Mode**
 ```plantuml
 @startuml
 actor "Issuer/Verifier Candidate" as Applicant
@@ -256,7 +266,7 @@ Applicant <- Chain: Permission ACTIVE
 - Set to Validated: [MOD-PERM-MSG-3]
 *Grantor is an Issuer-Grantor or Verifier-Grantor permission holder who validates applicants in GRANTOR mode.*
 
-#### **Onboarding Journey: GRANTOR Role**
+#### **Onboarding Journey: Grantor Role**
 ```plantuml
 @startuml
 actor Applicant as "Grantor Candidate"
@@ -279,6 +289,8 @@ Chain -> Chain: Update permission status = VALIDATED
 - Start validation: [MOD-PERM-MSG-1]
 - Set to Validated: [MOD-PERM-MSG-3]
 - Role applied for: ISSUER-GRANTOR or VERIFIER-GRANTOR
+
+Both flows operate under the GRANTOR mode policy, where permissions are issued after off-chain validation steps and approval is recorded on-chain.
 
 ---
 
