@@ -170,6 +170,56 @@ Holders typically obtain credentials from Issuers. If you already have Issuer pe
 
 ---
 
+#### **Visual Flow: OPEN Mode**  
+The following sequence illustrates how an applicant self-creates a permission when the schema mode is OPEN:
+
+```plantuml
+@startuml
+actor Applicant
+participant "Verana Chain" as Chain
+
+Applicant -> Chain: Query trust registries\n`veranad q tr list-trust-registries`
+Applicant -> Chain: Query credential schemas\n`veranad q cs list-schemas`
+note right
+Applicant checks issuer_perm_management_mode = OPEN
+end note
+
+Applicant -> Chain: Submit `create-perm` transaction\n(permission-type = issuer)
+Chain -> Chain: Create permission\nStatus = ACTIVE
+Applicant <- Chain: Permission ID returned
+@enduml
+```
+
+---
+
+#### **Visual Flow: GRANTOR or ECOSYSTEM Mode**  
+This sequence shows the validation process for onboarding when the schema requires GRANTOR or ECOSYSTEM validation.
+
+```plantuml
+@startuml
+actor Applicant
+actor Grantor
+participant "Verana Chain" as Chain
+
+Applicant -> Chain: Query trust registries & schemas
+Applicant -> Chain: Query available validators\n`veranad q perm list-permissions`
+Applicant -> Chain: Submit `start-perm-vp`\n(permission-type = issuer)
+Chain -> Chain: Create validation process (status: REQUESTED)
+Applicant <- Chain: Validation request recorded
+
+== Off-chain Validation ==
+Grantor -> Applicant: Request documents & DID proof
+Applicant -> Grantor: Provide evidence (off-chain)
+Grantor -> Chain: Approve validation\n`confirm-validation` (or equivalent)
+Chain -> Chain: Update permission status = VALIDATED
+Applicant <- Chain: Permission ACTIVE
+@enduml
+```
+
+---
+
+---
+
 ### 5. Self-Create a Permission (OPEN Mode)
 
 Use this for Issuer or Verifier roles when the schema allows **OPEN** mode.
