@@ -269,20 +269,20 @@ Applicant <- Chain: Permission ACTIVE
 #### **Onboarding Journey: Grantor Role**
 ```plantuml
 @startuml
-actor Applicant as "Grantor Candidate"
-actor EcosystemController
+actor "GrantorCandidate" as GrantorCandidate
+actor "EcosystemController" as EcosystemController
 participant "Verana Chain" as Chain
 
-"Grantor Candidate" -> Chain: Submit start-perm-vp\n(permission-type = issuer-grantor / verifier-grantor)
+GrantorCandidate -> Chain: Submit start-perm-vp\n(permission-type = issuer-grantor / verifier-grantor)
 Chain -> Chain: Create validation process (status: REQUESTED)
-"Grantor Candidate" <- Chain: Validation request recorded
+GrantorCandidate <- Chain: Validation request recorded
 
 == Off-chain Validation ==
-EcosystemController -> "Grantor Candidate": Request DID proof & governance approval
-"Grantor Candidate" -> EcosystemController: Provide compliance documents
+EcosystemController -> GrantorCandidate: Request DID proof & governance approval
+GrantorCandidate -> EcosystemController: Provide compliance documents
 EcosystemController -> Chain: Set Permission VP to Validated
 Chain -> Chain: Update permission status = VALIDATED
-"Grantor Candidate" <- Chain: Permission ACTIVE (Grantor role)
+GrantorCandidate <- Chain: Permission ACTIVE (Grantor role)
 @enduml
 ```
 *Key Actions → Spec Mapping:*
