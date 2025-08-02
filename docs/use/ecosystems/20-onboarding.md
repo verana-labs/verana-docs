@@ -198,6 +198,8 @@ Chain -> Chain: Create permission\nStatus = ACTIVE
 Applicant <- Chain: Permission ID returned
 @enduml
 ```
+*Key Actions → Spec Mapping:*
+- Self-create permission: [MOD-PERM-MSG-14]
 
 ---
 
@@ -217,11 +219,14 @@ Applicant <- Chain: Validation request recorded
 == Off-chain Validation ==
 Grantor -> Applicant: Request DID proof & documents
 Applicant -> Grantor: Provide required evidence
-Grantor -> Chain: Approve validation\n(confirm-validation)
+Grantor -> Chain: Set Permission VP to Validated
 Chain -> Chain: Update permission status = VALIDATED
 Applicant <- Chain: Permission ACTIVE
 @enduml
 ```
+*Key Actions → Spec Mapping:*
+- Start validation: [MOD-PERM-MSG-1]
+- Set to Validated: [MOD-PERM-MSG-3]
 *Grantor is an Issuer-Grantor or Verifier-Grantor permission holder who validates applicants in GRANTOR mode.*
 
 #### **Visual Flow: ECOSYSTEM Mode**
@@ -239,11 +244,14 @@ Applicant <- Chain: Validation request recorded
 == Off-chain Validation ==
 EcosystemController -> Applicant: Request DID proof & documents
 Applicant -> EcosystemController: Provide evidence (KYC, compliance)
-EcosystemController -> Chain: Approve validation\n(confirm-validation)
+EcosystemController -> Chain: Set Permission VP to Validated
 Chain -> Chain: Update permission status = VALIDATED
 Applicant <- Chain: Permission ACTIVE
 @enduml
 ```
+*Key Actions → Spec Mapping:*
+- Start validation: [MOD-PERM-MSG-1]
+- Set to Validated: [MOD-PERM-MSG-3]
 *EcosystemController holds the ECOSYSTEM root permission and manages validation for ECOSYSTEM mode schemas.*
 
 ---
