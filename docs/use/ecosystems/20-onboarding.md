@@ -197,7 +197,7 @@ Applicant <- Chain: Permission ID returned
 @enduml
 ```
 *Key Actions → Spec Mapping:*
-- Self-create permission: [MOD-PERM-MSG-14]
+- Self-create permission: [MOD-PERM-MSG-14](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-14-create-permission)
 
 ---
 
@@ -225,8 +225,8 @@ Applicant <- Chain: Permission ACTIVE
 @enduml
 ```
 *Key Actions → Spec Mapping:*
-- Start validation: [MOD-PERM-MSG-1]
-- Set to Validated: [MOD-PERM-MSG-3]
+- Start validation: [MOD-PERM-MSG-1](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-1-start-permission-vp)
+- Set to Validated: [MOD-PERM-MSG-3](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-3-set-permission-vp-to-validated)
 *EcosystemController holds the ECOSYSTEM root permission and manages validation for ECOSYSTEM mode schemas.*
 
 ---
@@ -257,8 +257,8 @@ Applicant <- Chain: Permission ACTIVE
 @enduml
 ```
 *Key Actions → Spec Mapping:*
-- Start validation: [MOD-PERM-MSG-1]
-- Set to Validated: [MOD-PERM-MSG-3]
+- Start validation: [MOD-PERM-MSG-1](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-1-start-permission-vp)
+- Set to Validated: [MOD-PERM-MSG-3](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-3-set-permission-vp-to-validated)
 *Grantor is an Issuer-Grantor or Verifier-Grantor permission holder who validates applicants in GRANTOR mode.*
 
 #### Onboarding Journey: Grantor Role
@@ -281,8 +281,8 @@ GrantorCandidate <- Chain: Permission ACTIVE (Grantor role)
 @enduml
 ```
 *Key Actions → Spec Mapping:*
-- Start validation: [MOD-PERM-MSG-1]
-- Set to Validated: [MOD-PERM-MSG-3]
+- Start validation: [MOD-PERM-MSG-1](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-1-start-permission-vp)
+- Set to Validated: [MOD-PERM-MSG-3](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-3-set-permission-vp-to-validated)
 - Role applied for: ISSUER-GRANTOR or VERIFIER-GRANTOR
 
 Both flows operate under the GRANTOR mode policy, where permissions are issued after off-chain validation steps and approval is recorded on-chain.
@@ -321,17 +321,8 @@ veranad tx perm create-perm $SCHEMA_ID issuer did:example:123456789abcdefghi \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
-:::caution Known Issue
-Because of a bug in the current implementation, use this syntax for now:
-
-```bash
-veranad tx perm create-perm $SCHEMA_ID 1 did:example:123456789abcdefghi \
-  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
-```
-:::
-
-:::details Spec Reference
-See [MOD-PERM-MSG-14] for create-perm or [MOD-PERM-MSG-3] for set-perm-vp-validated.
+:::tip Spec Reference
+See [MOD-PERM-MSG-14](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-14-create-permission) for create-perm or [MOD-PERM-MSG-3](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-3-set-permission-vp-to-validated) for set-perm-vp-validated.
 :::
 
 ---
@@ -355,6 +346,16 @@ veranad tx perm start-perm-vp issuer $PERM_ID US \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
+:::caution Known Issue
+Because of a bug in the current implementation, use this syntax for now:
+
+```bash
+veranad tx perm start-perm-vp 1 $PERM_ID US \                                                                       
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+:::
+
+
 #### Parameters Explained:
 - `<permission-type>`: issuer | verifier | issuer-grantor | verifier-grantor | holder
 - `<validator-perm-id>`: ID of the validator permission you are applying under (find using `veranad q perm list-permissions`).
@@ -374,7 +375,7 @@ veranad tx perm start-perm-vp issuer $PERM_ID US \
 - Once approved, the validator marks the process as validated and your permission is activated.
 
 :::details Spec Reference
-See [MOD-PERM-MSG-14] for create-perm or [MOD-PERM-MSG-3] for set-perm-vp-validated.
+See [MOD-PERM-MSG-14](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-14-create-permission) for create-perm or [MOD-PERM-MSG-3](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-3-set-permission-vp-to-validated) for set-perm-vp-validated.
 :::
 
 ---
@@ -416,7 +417,7 @@ veranad tx perm set-perm-vp-validated 101 \
 - Once executed, the permission status moves from `PENDING` to `VALIDATED`, enabling the applicant to act as Issuer/Verifier.
 
 :::details Spec Reference
-See [MOD-PERM-MSG-14] for create-perm or [MOD-PERM-MSG-3] for set-perm-vp-validated.
+See [MOD-PERM-MSG-14] for create-perm or [MOD-PERM-MSG-3](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-3-set-permission-vp-to-validated) for set-perm-vp-validated.
 :::
 
 
@@ -450,7 +451,7 @@ veranad tx perm start-perm-vp verifier-grantor 45 US \
 📌 **Important:** Grantors typically require a higher trust deposit and may have specific obligations outlined in the Ecosystem Governance Framework.
 
 :::details Spec Reference
-See [MOD-PERM-MSG-14] for create-perm or [MOD-PERM-MSG-3] for set-perm-vp-validated.
+See [MOD-PERM-MSG-14](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-msg-14-create-permission) for create-perm or [MOD-PERM-MSG-3] for set-perm-vp-validated.
 :::
 
 ---
