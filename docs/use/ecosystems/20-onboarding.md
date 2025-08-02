@@ -254,6 +254,30 @@ Applicant <- Chain: Permission ACTIVE
 - Set to Validated: [MOD-PERM-MSG-3]
 *EcosystemController holds the ECOSYSTEM root permission and manages validation for ECOSYSTEM mode schemas.*
 
+#### **Onboarding Journey: GRANTOR Role**
+```plantuml
+@startuml
+actor Applicant as "Grantor Candidate"
+actor EcosystemController
+participant "Verana Chain" as Chain
+
+Grantor Candidate -> Chain: Submit start-perm-vp\n(permission-type = issuer-grantor / verifier-grantor)
+Chain -> Chain: Create validation process (status: REQUESTED)
+Grantor Candidate <- Chain: Validation request recorded
+
+== Off-chain Validation ==
+EcosystemController -> Grantor Candidate: Request DID proof & governance approval
+Grantor Candidate -> EcosystemController: Provide compliance documents
+EcosystemController -> Chain: Set Permission VP to Validated
+Chain -> Chain: Update permission status = VALIDATED
+Grantor Candidate <- Chain: Permission ACTIVE (Grantor role)
+@enduml
+```
+*Key Actions → Spec Mapping:*
+- Start validation: [MOD-PERM-MSG-1]
+- Set to Validated: [MOD-PERM-MSG-3]
+- Role applied for: ISSUER-GRANTOR or VERIFIER-GRANTOR
+
 ---
 
 ### 5. Self-Create a Permission (OPEN Mode)
