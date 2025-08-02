@@ -473,5 +473,5 @@ veranad q perm list-permissions --node $NODE_RPC --output json
 
 ## What's Next?
 Now that your permission is active:
-- To issue credentials → [Issuance Guide](../issuance-guide.md)
-- To verify credentials → [Verification Guide](../verification-guide.md)
+- To issue credentials → [Issuance Guide](issuance-guide)
+- To verify credentials → [Verification Guide](verification-guide)
