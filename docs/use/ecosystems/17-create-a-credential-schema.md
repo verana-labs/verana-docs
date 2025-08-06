@@ -84,7 +84,7 @@ veranad tx cs create-credential-schema <trust-registry-id> <json-schema> <issuer
 
 **Example (inline JSON schema):**
 ```bash
-veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"/vpr/v1/cs/js/1","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 365 365 180 180 180 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"vpr:verana:mainnet/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID","title": "ExampleCredential","description": "ExampleCredential using JsonSchema","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 365 365 180 180 180 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 **Example (using JSON file):**
@@ -94,6 +94,8 @@ cat > schema.json << 'EOF'
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "vpr:verana:mainnet/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID",
+    "title": "ExampleCredential",
+    "description": "ExampleCredential using JsonSchema",
     "type": "object",
     "$defs": {},
     "properties": {
