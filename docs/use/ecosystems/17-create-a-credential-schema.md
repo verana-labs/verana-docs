@@ -93,7 +93,7 @@ veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json
 cat > schema.json << 'EOF'
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "/vpr/v1/cs/js/1",
+    "$id": "vpr:verana:mainnet/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID",
     "type": "object",
     "$defs": {},
     "properties": {
