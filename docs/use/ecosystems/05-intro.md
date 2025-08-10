@@ -2,11 +2,6 @@
 
 Ecosystems create and manage their Trust Registries in Verana.
 
-:::tip
-🙌🏻 The "**Use**" section is **Work in Progress**!
-A [Verana Frontend](https://github.com/verana-labs/verana-frontend) is under active development. In the meantime, it is required to use the command line in order to interact with the Verana Verifiable Trust Network testnet.
-:::
-
 ➡️ **Learn the basics first** in the [Learn section](../../learn/verifiable-public-registry/onboarding-participants).
 
 ## 🚀 Create Your Own Ecosystem Trust Registry

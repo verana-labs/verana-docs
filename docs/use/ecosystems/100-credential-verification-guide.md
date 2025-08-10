@@ -1,4 +1,4 @@
-# Verification Guide
+# Credential Verification Guide
 
 This guide explains how to verify Verifiable Credentials (VCs) within an ecosystem using the Verana blockchain. It covers the prerequisites, steps, and monetization process involved in verification.
 
