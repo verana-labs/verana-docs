@@ -9,10 +9,10 @@ Make sure you've read [the Learn section](../../learn/verifiable-public-registry
 #### Set Environment Variables
 
 ```bash
-USER_ACC="cooluser"
-USER_ACC_LIT=verana16mzeyu9l6kua2cdg9x0jk5g6e7h0kk8q6uadu4
+USER_ACC="mat-test-acc"
+USER_ACC_LIT=verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0
 CHAIN_ID="vna-testnet-1"
-NODE_RPC=http://localhost:26657
+NODE_RPC=http://node1.testnet.verana.network:26657
 ```
 
 *These variables are required to target the correct environment (testnet, mainnet, or local). Adjust values accordingly.*
@@ -64,8 +64,8 @@ veranad q td get-trust-deposit $USER_ACC_LIT --node $NODE_RPC --output json
 
 View another account's trust deposit:
 ```bash
-ACCOUNT_ADDRESS="verana1example0123456789abcdefghijklmnopqrstuv"
-veranad q td get-trust-deposit $ACCOUNT_ADDRESS --node $NODE_RPC --output json
+USER_ACC="verana1example0123456789abcdefghijklmnopqrstuv"
+veranad q td get-trust-deposit $USER_ACC --node $NODE_RPC --output json
 ```
 
 **Example Output:**
@@ -184,7 +184,7 @@ veranad tx td reclaim-deposit 500000 --from $USER_ACC --chain-id $CHAIN_ID --key
 #### How to Find Your Transaction Hash
 
 ```bash
-TX_HASH=4E7DEE1DFDE24A804E8BD020657EB22B07D54CBA695788ACB59D873B827F3CA6
+TX_HASH=<Tx_Hash>
 veranad q tx $TX_HASH \
   --node $NODE_RPC --output json \
 | jq '.events[] | select(.type == "trust_deposit_reclaimed") | .attributes | map({(.key): .value}) | add'
@@ -228,8 +228,8 @@ veranad q td params --node $NODE_RPC --output json
 | `trust_deposit_reclaim_burn_rate` | Percentage burned when reclaiming freed deposits | 0.60 (60%) |
 | `trust_deposit_share_value` | Current value of one share (increases over time) | 1.0 (initial) |
 | `trust_deposit_rate` | Rate for calculating deposits from fees | 0.20 (20%) |
-| `wallet_user_agent_reward_rate` | Reward rate for wallet user agents | 0.10 (10%) |
-| `user_agent_reward_rate` | Reward rate for user agents | 0.10 (10%) |
+| `wallet_user_agent_reward_rate` | Reward rate for wallet user agents | 0.20 (20%) |
+| `user_agent_reward_rate` | Reward rate for user agents | 0.20 (20%) |
 
 ---
 
