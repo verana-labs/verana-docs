@@ -26,6 +26,7 @@ This guide provides comprehensive instructions for joining the Verana testnet as
 ### 1. System Requirements
 
 #### For Ubuntu 20.04 LTS or later
+
 ```bash
 # Update system
 sudo apt update && sudo apt upgrade -y
@@ -38,7 +39,7 @@ sudo apt install -y build-essential git curl wget jq
 ### 2. Install Veranad Binary
 
 > **Prerequisite:** Ensure the `veranad` binary is installed and up-to-date.  
-> See [Install or Update Veranad Binary](12-prerequisites.md#install-or-update-the-veranad-binary).
+> See [Install or Update Veranad Binary](./prerequisites#1-install-or-update-the-veranad-binary).
 
 Verify installation:
 ```bash

@@ -5,9 +5,9 @@ To interact with the Verana blockchain remotely, you can use the CLI (`veranad`)
 ## Pre-Requisites
 
 > **Prerequisite:** Ensure the `veranad` binary is installed and up-to-date.  
-> See [Install or Update Veranad Binary](12-prerequisites.md#install-or-update-the-veranad-binary).
+> See [Install or Update Veranad Binary](./prerequisites#1-install-or-update-the-veranad-binary).
 
-> **Tip:** If you have not created an account yet, see [Create and Fund an Account](12-prerequisites.md#create-and-fund-an-account).
+> **Tip:** If you have not created an account yet, see [Create and Fund an Account](./prerequisites#3-create-and-fund-an-account).
 
 3. Environmnet Variables to use with documentation examples
 
