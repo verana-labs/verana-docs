@@ -2,7 +2,7 @@
 
 This method is executed by any candidate that would like to join an Ecosystem's credential schema, when the credential schema has been configured so that self-creating permission is not possible.
 
-Refer to [the learn section](/learn/verifiable-public-registry/onboarding-participants) for understanding validation processes.
+Refer to [the learn section](../../../learn/verifiable-public-registry/onboarding-participants) for understanding validation processes.
 
 Use cases:
 

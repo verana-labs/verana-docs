@@ -10,7 +10,7 @@ A [Verana Frontend](https://github.com/verana-labs/verana-frontend) is under act
 >Use the CLI to query the ledger, and execute transactions that modify the ledger.
 
 > **Prerequisite:** Ensure the `veranad` binary is installed and up-to-date.  
-> See [Install or Update Veranad Binary](/docs/next/run/network/run-a-node/prerequisites).
+> See [Install or Update Veranad Binary](../../run/network/run-a-node/prerequisites).
 
 Set the following environment variables in order to be able to interact with the Verana Verifiable Trust Network:
 
@@ -47,7 +47,7 @@ You cannot use the API with the swagger-ui to execute transactions that modify t
 
 The frontend is experimental and, for the testnet, is available here [https://app.testnet.verana.network/](https://app.testnet.verana.network/).
 
-If you prefer, you can deploy your own instance of the frontend. See the [frontend deployment documentation](/next/run/other-component-deployment/frontend) for more information.
+If you prefer, you can deploy your own instance of the frontend. See the [frontend deployment documentation](../../run/other-component-deployment/frontend) for more information.
 
 :::tip
 This is pre-alpha software and not all features are implemented yet.

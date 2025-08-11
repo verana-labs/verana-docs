@@ -1,6 +1,6 @@
 # Create a Credential Schema
 
-Make sure you've read [the Learn section](/learn/verifiable-public-registry/credential-schema).
+Make sure you've read [the Learn section](../../../learn/verifiable-public-registry/credential-schema).
 
 ## Message Parameters
 
