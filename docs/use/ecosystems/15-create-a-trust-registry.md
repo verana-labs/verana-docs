@@ -164,7 +164,7 @@ veranad tx tr increase-active-gf-version ${TRUST_REG_ID} --from $USER_ACC --chai
 #### How to find the id of the trust registry that was just created?
 
 ```
-TX_HASH=<tx hash>
+TX_HASH=<Tx_Hash>
 veranad q tx $TX_HASH \
   --node $NODE_RPC --output json \
 | jq
@@ -197,6 +197,39 @@ Unarchive a trust registry:
 ```bash
 veranad tx tr archive-trust-registry ${TRUST_REG_ID} false --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna 
 ```
+
+---
+
+## Query Module Parameters
+
+View the current trust registry module parameters and their values.
+
+**Syntax:**
+```bash
+veranad q tr params --node <rpc-endpoint> --output json
+```
+
+**Example:**
+```bash
+veranad q tr params --node $NODE_RPC --output json
+```
+
+**Example Output:**
+```json
+{
+  "params": {
+    "trust_registry_trust_deposit": "10",
+    "trust_unit_price": "1000000"
+  }
+}
+```
+
+### Parameter Descriptions
+
+| Parameter | Description | Default Value |
+|-----------|-------------|---------------|
+| `trust_registry_trust_deposit` | Trust deposit required for creating a trust registry (in trust units) | 10 |
+| `trust_unit_price` | Price of one trust unit in uvna | 1000000 (1 VNA) |
 
 ---
 
