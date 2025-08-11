@@ -312,6 +312,49 @@ Refer to [Permission Module Spec](https://verana-labs.github.io/verifiable-trust
 
 ---
 
+## Query Module Parameters
+
+View the current credential schema module parameters and their values.
+
+**Syntax:**
+```bash
+veranad q cs params --node <rpc-endpoint> --output json
+```
+
+**Example:**
+```bash
+veranad q cs params --node $NODE_RPC --output json
+```
+
+**Example Output:**
+```json
+{
+  "params": {
+    "credential_schema_trust_deposit": "10",
+    "credential_schema_schema_max_size": "8192",
+    "credential_schema_issuer_grantor_validation_validity_period_max_days": 3650,
+    "credential_schema_verifier_grantor_validation_validity_period_max_days": 3650,
+    "credential_schema_issuer_validation_validity_period_max_days": 3650,
+    "credential_schema_verifier_validation_validity_period_max_days": 3650,
+    "credential_schema_holder_validation_validity_period_max_days": 3650
+  }
+}
+```
+
+### Parameter Descriptions
+
+| Parameter | Description | Default Value |
+|-----------|-------------|---------------|
+| `credential_schema_trust_deposit` | Trust deposit required for creating a credential schema (in trust units) | 10 |
+| `credential_schema_schema_max_size` | Maximum size of the JSON schema string (in bytes) | 8192 |
+| `credential_schema_issuer_grantor_validation_validity_period_max_days` | Maximum validity period for issuer grantor validation (in days) | 3650 (10 years) |
+| `credential_schema_verifier_grantor_validation_validity_period_max_days` | Maximum validity period for verifier grantor validation (in days) | 3650 (10 years) |
+| `credential_schema_issuer_validation_validity_period_max_days` | Maximum validity period for issuer validation (in days) | 3650 (10 years) |
+| `credential_schema_verifier_validation_validity_period_max_days` | Maximum validity period for verifier validation (in days) | 3650 (10 years) |
+| `credential_schema_holder_validation_validity_period_max_days` | Maximum validity period for holder validation (in days) | 3650 (10 years) |
+
+---
+
 ## Next Steps
 - Verify your schema and permissions via queries:
 ```bash

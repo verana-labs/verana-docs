@@ -471,6 +471,39 @@ veranad q perm list-permissions --node $NODE_RPC --output json
 - If you are a **Holder**, you typically obtain credentials from an Issuer or self-issue if you already have Issuer permission.
 - For more information on the validation process, see [Validation Process Guide](../../learn/verifiable-public-registry/onboarding-participants#validation-process).
 
+---
+
+## Query Module Parameters
+
+View the current permission module parameters and their values.
+
+**Syntax:**
+```bash
+veranad q perm params --node <rpc-endpoint> --output json
+```
+
+**Example:**
+```bash
+veranad q perm params --node $NODE_RPC --output json
+```
+
+**Example Output:**
+```json
+{
+  "params": {
+    "validation_term_requested_timeout_days": "7"
+  }
+}
+```
+
+### Parameter Descriptions
+
+| Parameter | Description | Default Value |
+|-----------|-------------|---------------|
+| `validation_term_requested_timeout_days` | Number of days after which a validation applicant can confirm termination if validator hasn't responded | 7 |
+
+---
+
 ## What's Next?
 Now that your permission is active:
 - To issue credentials → [Issuance Guide](issuance-guide)
