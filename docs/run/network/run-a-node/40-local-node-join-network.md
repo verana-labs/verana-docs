@@ -5,7 +5,7 @@ You can set up a local node that joins the `vna-testnet-1` or `vna-mainnet-1` ne
 ## Pre-Requisites
 
 > **Prerequisite:** Ensure the `veranad` binary is installed and up-to-date.  
-> See [Install or Update Veranad Binary](12-prerequisites.md#install-or-update-the-veranad-binary).
+> See [Install or Update Veranad Binary](./prerequisites#1-install-or-update-the-veranad-binary).
 
 Verify the installation:
 ```bash

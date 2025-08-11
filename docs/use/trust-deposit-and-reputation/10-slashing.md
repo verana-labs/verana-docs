@@ -6,7 +6,7 @@ In some very rare cases, slashing the trust deposit of a given Permission can be
 
 This method can only be called by a governance proposal. A globally slashed account MUST repay the slashed deposit in order to continue to use the services provided by the VPR. When and account is slashed, and while slashed deposit has not been repaid, all account linked permissions MUST be considered non trustable.
 
-This method is for network governance authority slash. For ecosystem slash, see [Slash a Permission](../ecosystems/60-slash-a-permission.md).
+This method is for network governance authority slash. For ecosystem slash, see [Slash a Permission](../ecosystems/permissions/slash-a-permission).
 
 :::tip[TODO]
 

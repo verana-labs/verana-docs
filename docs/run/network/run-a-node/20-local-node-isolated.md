@@ -19,7 +19,7 @@ cd verana-blockchain
 You have two options to install the `veranad` binary:
 
 - **Option A: Download the Latest Binary**
-  > See [Install or Update Veranad Binary](12-prerequisites.md#install-or-update-the-veranad-binary).
+  > See [Install or Update Veranad Binary](./prerequisites#1-install-or-update-the-veranad-binary).
 
 - **Option B: Build from Source**
   If you prefer to build from source:
