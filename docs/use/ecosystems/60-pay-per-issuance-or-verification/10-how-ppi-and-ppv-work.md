@@ -1,6 +1,6 @@
 # How to Enforce PPI and PPV Business Models
 
-Pay Per Issuance (PPI) and Pay Per Verification (PPV) are enforced by Verifiable Services and Verifiable User Agents when credential schemas have been configured accordingly.
+**Pay Per Issuance (PPI)** and **Pay Per Verification (PPV)** are enforced by verifiable services and verifiable user agents when credential schemas have been configured accordingly.
 
 When a connection is created between 2 peers (peers can be verifiable services (VSs) and/or verifiable user agents (VUAs)), each peer sends a sessionId to its peer.
 
@@ -23,5 +23,5 @@ This is independent of the other needed trust verification as defined in the [ve
 :::
 
 :::tip
-This is privacy preserving, as only Alice and Bob know about the sessionids.
+This is privacy preserving, as only Alice and Bob know about the sessionid(s).
 :::

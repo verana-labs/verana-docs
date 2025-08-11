@@ -26,11 +26,7 @@ import TabItem from '@theme/TabItem';
 veranad tx tr increase-active-gf-version <trust-registry-id> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount>
 ```
 
-**Note:** The following example assume you have set a `TRUST_REG_ID` environment variable:
-
-```bash
-TRUST_REG_ID=5
-```
+**Note:** The following examples assume you have set a `TRUST_REG_ID` environment variable, update it with your trust registry id.
 
 ### Example
 

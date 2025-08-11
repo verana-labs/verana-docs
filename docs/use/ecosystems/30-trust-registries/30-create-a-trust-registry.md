@@ -1,6 +1,6 @@
 # Create a Trust Registry
 
-Make sure you've read [the Learn section](/docs/next/learn/verifiable-public-registry/trust-registries).
+Make sure you've read [the Learn section](/learn/verifiable-public-registry/trust-registries).
 
 Post a message that will modify the ledger state by creating a trust registry.
 

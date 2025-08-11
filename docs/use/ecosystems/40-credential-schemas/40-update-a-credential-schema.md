@@ -1,18 +1,21 @@
-# Update a Trust Registry
+# Update a Credential Schema
 
-Post a message that will modify the ledger state by updating a trust registry.
+Post a message that will modify the ledger state by updating a credential schema.
 
 :::tip
-Only the account that is the controller of the trust registry can execute this method.
+Only the account that is the controller of the credential schema can execute this method.
 :::
 
 ## Message Parameters
 
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
-| id    |  id of the trust registry to update  | yes |
-| did    |  Decentralized Identifier (DID) - must follow DID specification  | yes |
-| aka    | Also Known As URL.  | no |
+| id    |  id of the trust registry to archive or unarchive.  | yes |
+| issuer_grantor_validation_validity_period    |  maximum number of days an issuer grantor validation can be valid for.  | yes |
+| verifier_grantor_validation_validity_period    |  maximum number of days an verifier grantor validation can be valid for.  | yes |
+| issuer_validation_validity_period    |  number of days an issuer validation can be valid for.  | yes |
+| verifier_validation_validity_period    |  maximum number of days an verifier validation can be valid for.  | yes |
+| holder_validation_validity_period    |  maximum number of days an holder validation can be valid for.  | yes |
 
 ## Post the Message
 
@@ -31,7 +34,7 @@ import TabItem from '@theme/TabItem';
 ### Example
 
 ```bash
-veranad tx tr update-trust-registry ${TRUST_REG_ID} did:example:newdidmat --aka https://new-aka-example.com --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx tr...
 ```
 
   </TabItem>

@@ -33,6 +33,14 @@ For querying the ledger, you can use the API. An openapi.yml is available with i
 You cannot use the API with the swagger-ui to execute transactions that modify the ledger state. These actions require signing the messages using wallet software which is not possible using the API with the swagger-ui.
 :::
 
+## Using the Indexer
+
+>Use the Indexer to perform advanced queries that cannot be done with the API.
+
+:::tip[TODO]
+@mjfelis
+:::
+
 ## Using the Frontend
 
 >Use the frontend to query the ledger, and execute transactions that modify the ledger.

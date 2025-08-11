@@ -2,6 +2,10 @@
 
 You can archive or unarchive a trust registry with the following command:
 
+:::tip
+Only the account that is the controller of the trust registry can execute this method.
+:::
+
 ## Message Parameters
 
 |Name               |Description                            |Mandatory|
@@ -23,11 +27,7 @@ import TabItem from '@theme/TabItem';
 veranad tx tr archive-trust-registry <trust-registry-id> <archive-flag> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount>
 ```
 
-**Note:** The following example assume you have set a `TRUST_REG_ID` environment variable:
-
-```bash
-TRUST_REG_ID=5
-```
+**Note:** The following examples assume you have set a `TRUST_REG_ID` environment variable, update it with your trust registry id.
 
 ### Archive a Trust Registry
 

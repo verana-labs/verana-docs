@@ -1,20 +1,15 @@
-# Create a Trust Registry
+# Create a Credential Schema
 
-Make sure you've read [the Learn section](/docs/next/learn/verifiable-public-registry/trust-registries).
-
-Post a message that will modify the ledger state by creating a trust registry.
-
-Any verana account can execute this method.
+Make sure you've read [the Learn section](/learn/verifiable-public-registry/credential-schema).
 
 ## Message Parameters
 
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
-| did    |  Decentralized Identifier (DID) - must follow DID specification  | yes |
-| language    | ISO 639-1 default language code (e.g., en, fr, es...)  | yes |
-| doc-url    | URL of the EGF in the default language.  | yes |
-| doc-digest-sri    | hash (example: SHA-384) with SRI format prefix.  | yes |
-| aka    | Also Known As URL.  | no |
+
+:::tip[TODO]
+@matlux
+:::
 
 ## Post the Message
 
@@ -26,31 +21,41 @@ import TabItem from '@theme/TabItem';
 
 ### Usage
 
+:::tip[TODO]
+@matlux
+:::
+
 ```bash
-veranad tx tr create-trust-registry <did> <language> <doc-url> <doc-digest-sri> [aka] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx 
 ```
 
-### Example #1: Basic creation
+### Example
+
+:::tip[TODO]
+@matlux
+:::
 
 ```bash
-veranad tx tr create-trust-registry did:example:123456789abcdefghi en https://example.com/doc sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26 --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx 
 ```
 
-### Example #2: With AKA (Also Known As)
+### Example
+
+:::tip[TODO]
+@matlux
+:::
 
 ```bash
-veranad tx tr create-trust-registry did:example:123456789abcdefghi en https://example.com/doc001-01 sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68001 --aka http://example.com --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx ...
 ```
 
 :::tip
-How to find the id of the trust registry that was just created?
+How to find the id of the credential schema that was just created?
 :::
 
 ```bash
 TX_HASH=4E7DEE1DFDE24A804E8BD020657EB22B07D54CBA695788ACB59D873B827F3CA6
-veranad q tx $TX_HASH \
-  --node $NODE_RPC --output json \
-| jq '.events[] | select(.type == "create_trust_registry") | .attributes | map({(.key): .value}) | add'
+veranad q tx ...
 ```
 
 replace with the correct transaction hash.
@@ -64,19 +69,14 @@ replace with the correct transaction hash.
   </TabItem>
 </Tabs>
 
-## Publish your Trust Registry in your DID Document
+## Publish your Credential Schema
 
-Make sure to add the corresponding `service` entry to your DID Document in order to prove ownership of the DID, by replacing `1234` with your trust registry id and setting the serviceEndpoint:
+When the credential schema has been created, you now need to self-issue a Verifiable Trust Json Schema Credential with the DID of your trust registry, as specified in the [verifiable trust spec](https://verana-labs.github.io/verifiable-trust-spec/#vt-json-schema-cred-verifiable-trust-json-schema-credential).
 
-```json
-"service": [
-    
-    {
-      "id": "did:example:ecosystem#vpr-schemas-trust-registry-1234",
-      "type": "VerifiablePublicRegistry",
-      "version": "1.0",
-      "serviceEndpoint": ["vpr:verana:testnet"]
-    }
-    ...
-  ]
-  ```
+### Create and publish the Json Schema Credential
+
+Self issue your credential and publish the credential in a publicly accessible URL.
+
+### Add the Json Schema Credential as a Linked-VP in your DID Document
+
+Create and sign a presentation of your self-issued Verifiable Trust Json Schema Credential with your DID and present it in your DID Document as a linked-vp.

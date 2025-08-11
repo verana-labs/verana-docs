@@ -1,13 +1,17 @@
-# Archive or Unarchive a Trust Registry
+# Archive or Unarchive a Credential Schema
 
-You can archive or unarchive a trust registry with the following command:
+You can archive or unarchive a credential schema with the following command:
+
+:::tip
+Only the account that is the controller of the trust registry can execute this method.
+:::
 
 ## Message Parameters
 
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
-| trust-registry-id    |  id of the trust registry to archive or unarchive.  | yes |
-| archive    |  true to archive, false to unarchive.  | yes |
+| id    |  id of the trust registry to archive or unarchive.  | yes |
+| archive   |  true archive, false unarchive.  | yes |
 
 ## Post the Message
 
@@ -20,24 +24,24 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx tr archive-trust-registry <trust-registry-id> <archive-flag> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount>
+veranad tx ...
 ```
 
-**Note:** The following example assume you have set a `TRUST_REG_ID` environment variable:
+:::tip[TODO]
+@matlux
+:::
+
+### Archive a Credential Schema
 
 ```bash
 TRUST_REG_ID=5
-```
-
-### Archive a Trust Registry
-
-```bash
 veranad tx tr archive-trust-registry ${TRUST_REG_ID} true --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna 
 ```
 
-### Unarchive a Trust Registry
+### Unarchive a Credential Schema
 
 ```bash
+TRUST_REG_ID=5
 veranad tx tr archive-trust-registry ${TRUST_REG_ID} false --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna 
 ```
  </TabItem>

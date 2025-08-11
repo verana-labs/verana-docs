@@ -1,95 +1,43 @@
 # Create or Update Permission Session
 
-A **Permission Session** is required for credential exchange processes that involve **paying issuance or verification fees** according to the permission hierarchy. This session ensures correct fee distribution to all beneficiaries (e.g., Issuers, Verifiers, and Ecosystem controllers) and maintains trust deposit compliance.
+Before issuing the credential or requesting the presentation of a credential, if payment is required, the entity that would like to perform the action must first create a transaction to prove the payment took place, using the `sessionid` shared by the peer.
 
----
+Anyone can use this method.
 
-## What is a Permission Session?
+You must use the [find beneficiaries](find-beneficiaries) method first to calculate the needed trust fees and make sure your account has enough balance (including gas fees) to execute the transaction.
 
-A Permission Session acts as a temporary authorization and accounting record that connects:
+## Message Parameters
 
-- The **agent** (Verifiable Service or Wallet) handling the request.
-- The **issuer or verifier** performing the action.
-- The **wallet agent** where the credential will be stored.
+|Name               |Description                            |Mandatory|
+|-------------------|---------------------------------------|--------|
+|id| uuid of the sessionId of the peer for which we want to create the permission session | yes |
+|agent-perm-id| id of the agent permission | yes |
+|wallet-agent-perm-id| id of the wallet agent permission (can be equal to agent-perm-id) | yes |
+|issuer-perm-id| id of the issuer permission | no |
+|verifier-perm-id| id of the verifier permission | no |
 
-This session is referenced during issuance or verification to:
+**Important:** At least one of `issuer-perm-id` or `verifier-perm-id` must be provided.
 
-- Validate permissions.
-- Calculate and transfer trust fees.
-- Enforce trust deposit rules.
-
----
-
-## When to Create or Update a Permission Session?
-
-- **Issuance Flow:** Before an Issuer issues a credential to a Holder.
-- **Verification Flow:** Before a Verifier requests presentation of a credential.
-
-Without a valid session:
-- The transaction **will fail** because trust fee distribution cannot be performed.
-- The credential exchange cannot proceed.
-
-:::note
-**Important:** Do not confuse *permission validation* with *session creation*.  
-- **Permission validation** is a governance process to make an account an authorized Issuer or Verifier. It requires validation steps and approval on-chain.  
-- **Permission Session creation** is an operational step performed right before credential issuance or verification. It does **not** require governance approval; it only references existing validated permissions to calculate fees and enforce trust compliance.
+::tip[TODO]
+@matlux
 :::
 
----
+## Post the Message
 
-## CLI Command
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-### Syntax
+<Tabs>
+  <TabItem value="cli" label="CLI" default>
+
+### Usage
+
 ```
 veranad tx perm create-or-update-perm-session [id] [agent-perm-id] [flags]
 ```
 
-### Command Description
-Create or update a permission session with the specified parameters:
+### Issuance Example
 
-- **id**: UUID of the session
-- **agent-perm-id**: ID of the agent permission (usually HOLDER)
-
-Optional parameters:
-- **issuer-perm-id**: ID of the issuer permission
-- **verifier-perm-id**: ID of the verifier permission
-- **wallet-agent-perm-id**: ID of the wallet agent permission if different from the agent
-
-**Important:** At least one of `issuer-perm-id` or `verifier-perm-id` must be provided.
-
----
-
-## Examples
-
-*Note: Optional parameters such as issuer-perm-id, verifier-perm-id, and wallet-agent-perm-id are passed as flags.*
-
-### 1. Issuance Session
-```bash
-SESSION_ID=$(uuidgen)
-veranad tx perm create-or-update-perm-session $SESSION_ID 45 --issuer-perm-id 30 --wallet-agent-perm-id 50 \
-  --from $USER_ACC --keyring-backend test --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC
-```
-Explanation:
-- `agent-perm-id` = 45 (Agent handling issuance).
-- `wallet-agent-perm-id` = 50 (Wallet where credential will be stored).
-- `issuer-perm-id` = 30 (Permission of the Issuer).
-
----
-
-### 2. Verification Session
-```bash
-SESSION_ID=$(uuidgen)
-veranad tx perm create-or-update-perm-session $SESSION_ID 45 --verifier-perm-id 60 --wallet-agent-perm-id 50 \
-  --from $USER_ACC --keyring-backend test --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC
-```
-Explanation:
-- `agent-perm-id` = 45 (Agent handling verification).
-- `wallet-agent-perm-id` = 50 (Wallet where credential will be stored).
-- `verifier-perm-id` = 60 (Permission of the Verifier).
-
----
-
-## Workflow Diagram (Issuance)
 ```plantuml
 @startuml
 scale max 800 width
@@ -108,9 +56,19 @@ holder -> wallet: Store credential
 @enduml
 ```
 
----
+```bash
+SESSION_ID=$(uuidgen)
+veranad tx perm create-or-update-perm-session $SESSION_ID 45 --issuer-perm-id 30 --wallet-agent-perm-id 50 \
+  --from $USER_ACC --keyring-backend test --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC
+```
 
-## Workflow Diagram (Verification)
+Explanation:
+- `agent-perm-id` = 45 (Agent handling issuance).
+- `wallet-agent-perm-id` = 50 (Wallet where credential will be stored).
+- `issuer-perm-id` = 30 (Permission of the Issuer).
+
+ ### Verification Example
+
 ```plantuml
 @startuml
 scale max 800 width
@@ -128,11 +86,22 @@ holder -> verifier: Provide credential proof
 @enduml
 ```
 
----
+```bash
+SESSION_ID=$(uuidgen)
+veranad tx perm create-or-update-perm-session $SESSION_ID 45 --verifier-perm-id 60 --wallet-agent-perm-id 50 \
+  --from $USER_ACC --keyring-backend test --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC
+```
 
-## Key Points
-- Fees are calculated based on the **permission hierarchy** and **GlobalVariables**.
-- Both issuance and verification sessions require a valid **agent** and **wallet agent** permission.
-- Failure to create the session before the exchange will block the process.
+Explanation:
+- `agent-perm-id` = 45 (Agent handling verification).
+- `wallet-agent-perm-id` = 50 (Wallet where credential will be stored).
+- `verifier-perm-id` = 60 (Permission of the Verifier).
 
-For details on fee calculation and hierarchy, see [Permission Module Spec](https://verana-labs.github.io/verifiable-trust-vpr-spec/#permission-module).
+ </TabItem>
+  
+  <TabItem value="frontend" label="Frontend">
+    :::todo
+    TODO: describe here
+    :::
+  </TabItem>
+</Tabs>

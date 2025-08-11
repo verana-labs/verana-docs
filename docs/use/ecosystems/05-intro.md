@@ -12,12 +12,14 @@ Ecosystems create and manage their Trust Registries in Verana.
    - Make the document publicly reachable (e.g., IPFS / GitHub) and register its digest on-chain.
 
 2. **Create your Ecosystem in Verana**
-    - create the Trust Registry
-    - create the Credential Schema(s) you defined in your EGF
+    - [Create the trust registry](trust-registries/create-trust-registry)
+    - [Create the credential schema(s)](credential-schemas/create-a-credential-schema) you defined in your EGF, and the [root permissions](permissions/create-a-root-permission)
     - notify potential interested participants
     - start onboarding!
 
 ## 🤝 Join an Existing Ecosystem: Issuer, Verifier, Grantor (Trust Registry Operator)
+
+[Search existing ecosystems](trust-registries/list-trust-registries) and look at their [credential schemas](credential-schemas/list-credential-schemas).
 
 If you want to work with credentials governed by an existing Ecosystem:
 
@@ -28,8 +30,8 @@ If you want to work with credentials governed by an existing Ecosystem:
    - *Issuer* → issue credentials.  
    - *Verifier* → request presentations.  
 4. Depending on schema rules, either:  
-   - **Self-create** the permission (OPEN mode), or  
-   - **Run a validation process** with a Grantor / Ecosystem owner (GRANTOR / ECOSYSTEM mode).
+   - [Self-create your permission](permissions/self-create-a-permission) (OPEN mode), or  
+   - [Run a validation process](permissions/run-a-validation-process-to-obtain-a-permission) with a Grantor / Ecosystem owner (GRANTOR / ECOSYSTEM mode).
 
 ## 🎓 Join as a Holder
 

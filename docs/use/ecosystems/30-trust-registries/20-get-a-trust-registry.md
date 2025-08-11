@@ -25,13 +25,13 @@ veranad ... TODO
 ```
 
 :::tip[TODO]
-@matlux add example here
+@matlux
 :::
 
 ### Example
 
 :::tip[TODO]
-@matlux add example here
+@matlux
 :::
 
   </TabItem>
@@ -80,6 +80,8 @@ curl -X GET "https://api.testnet.verana.network/verana/tr/v1/get/1" -H  "accept:
 }
 ```
 
+  </TabItem>
+  <TabItem value="indexer" label="Indexer">
   </TabItem>
   <TabItem value="frontend" label="Frontend">
     :::todo
