@@ -4,7 +4,7 @@ If the credential schema configuration allows it, candidates that would like to 
 
 - if credential schema attribute `issuer_perm_management_mode` is set to `OPEN`, candidate can self-create its ISSUER permission;
 
-- if credential schema attribute `verifier_perm_management_mode` is set to `VERIFIER`, candidate can self-create its VERIFIER permission;
+- if credential schema attribute `verifier_perm_management_mode` is set to `OPEN`, candidate can self-create its VERIFIER permission;
 
 :::tip
 In any other credential schema permission management configuration mode (ECOSYSTEM, GRANTOR), self-creation of a permission is not possible, and candidate must run a validation process to obtain a permission.
