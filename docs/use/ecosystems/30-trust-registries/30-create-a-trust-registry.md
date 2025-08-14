@@ -16,6 +16,16 @@ Any verana account can execute this method.
 | doc-digest-sri    | hash (example: SHA-384) with SRI format prefix.  | yes |
 | aka    | Also Known As URL.  | no |
 
+## Required Environment Variables
+
+Set the following environment variables before running the CLI commands:
+
+```bash
+USER_ACC=my-user-account
+CHAIN_ID=vna-testnet-1
+NODE_RPC=http://node1.testnet.verana.network:26657
+```
+
 ## Post the Message
 
 import Tabs from '@theme/Tabs';
@@ -47,7 +57,7 @@ How to find the id of the trust registry that was just created?
 :::
 
 ```bash
-TX_HASH=4E7DEE1DFDE24A804E8BD020657EB22B07D54CBA695788ACB59D873B827F3CA6
+TX_HASH=<replace with tx-hash>
 veranad q tx $TX_HASH \
   --node $NODE_RPC --output json \
 | jq '.events[] | select(.type == "create_trust_registry") | .attributes | map({(.key): .value}) | add'

@@ -56,8 +56,12 @@ veranad tx tr add-governance-framework-document ${TRUST_REG_ID} es https://examp
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
-    TODO: describe here
-    :::
+
+You can also add a Governance Framework document using the [Verana Testnet Frontend](https://app.testnet.verana.network/tr).
+
+:::tip
+Make sure your wallet is connected and you're using an account with controller access to the Trust Registry.
+:::
+
   </TabItem>
 </Tabs>

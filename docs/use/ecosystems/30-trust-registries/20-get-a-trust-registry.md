@@ -6,9 +6,9 @@ Simple query method for getting a trust registry.
 
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
-| tr_id    | id of the trust registry to get  | yes |
-| active_gf_only    | return only active ecosystem governance framework, hide the other EGF versions  | no |
-| preferred_language    | prefer ecosystem governance framework in this language. If an EGF doesn't exist in this language, returns the default language.  | no |
+| tr-id    | id of the trust registry to get  | yes |
+| active-gf-only    | return only active ecosystem governance framework, hide the other EGF versions  | no |
+| preferred-language    | prefer ecosystem governance framework in this language. If an EGF doesn't exist in this language, returns the default language.  | no |
 
 ## Execute the Query
 
@@ -20,19 +20,33 @@ import TabItem from '@theme/TabItem';
 
 ### Usage
 
-    ```bash
-veranad ... TODO
+```bash
+veranad q tr get-trust-registry $TR_ID --node $NODE_RPC --output json
 ```
 
-:::tip[TODO]
-@matlux
+:::tip Copy-pasteable example
+You can run these examples directly if you define the variables first:
+
+```bash
+TR_ID=5
+NODE_RPC=http://node1.testnet.verana.network:26657
+```
 :::
+
 
 ### Example
 
-:::tip[TODO]
-@matlux
-:::
+```bash
+veranad q tr get-trust-registry 1 --node $NODE_RPC --output json
+```
+
+### Example with optional parameters
+
+```bash
+veranad q tr get-trust-registry 1 --active-gf-only=true --preferred-language=fr --node $NODE_RPC --output json
+```
+
+<!-- The tip above applies to these examples as well -->
 
   </TabItem>
   <TabItem value="api" label="API">
@@ -60,7 +74,7 @@ curl -X GET "https://api.testnet.verana.network/verana/tr/v1/get/1" -H  "accept:
     "versions": [
       {
         "id": "1",
-        "tr_id": "1",
+        "tr-id": "1",
         "created": "2025-06-18T16:27:13.531941769Z",
         "version": 1,
         "active_since": "2025-06-18T16:27:13.531941769Z",
@@ -84,8 +98,12 @@ curl -X GET "https://api.testnet.verana.network/verana/tr/v1/get/1" -H  "accept:
   <TabItem value="indexer" label="Indexer">
   </TabItem>
   <TabItem value="frontend" label="Frontend">
-    :::todo
-    TODO: describe here
-    :::
+```markdown
+You can view Trust Registries in the frontend UI by navigating to:
+
+[https://frontend.testnet.verana.network/trust-registries](https://frontend.testnet.verana.network/trust-registries)
+
+Click on a registry entry to inspect its metadata, DID, active governance framework, and associated documents.
+```
   </TabItem>
 </Tabs>
