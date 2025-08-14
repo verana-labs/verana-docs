@@ -33,7 +33,12 @@ veranad query cs get-schema $SCHEMA_ID --node $NODE_RPC --output json
   </TabItem>
   <TabItem value="api" label="API">
 
-[Try the query here](https://api.testnet.verana.network/#/)
+Example:
+```bash
+curl -X GET "https://api.testnet.verana.network/verana/cs/v1/get/1" -H  "accept: application/json"
+```
+
+[Read the Swagger documentation here](https://api.testnet.verana.network/#/)
 
   </TabItem>
   <TabItem value="frontend" label="Frontend">
