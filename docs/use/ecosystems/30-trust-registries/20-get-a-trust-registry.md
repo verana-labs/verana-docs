@@ -74,7 +74,7 @@ curl -X GET "https://api.testnet.verana.network/verana/tr/v1/get/1" -H  "accept:
     "versions": [
       {
         "id": "1",
-        "tr_id": "1",
+        "tr-id": "1",
         "created": "2025-06-18T16:27:13.531941769Z",
         "version": 1,
         "active_since": "2025-06-18T16:27:13.531941769Z",

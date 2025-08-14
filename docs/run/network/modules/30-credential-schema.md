@@ -40,8 +40,8 @@ veranad tx credentialschema create-credential-schema \
 
 ```
 veranad q credentialschema list-schemas \
---tr_id 2 \
+--tr-id 2 \
 --created_after "2024-01-01T00:00:00Z" \
---response_max_size 100 \
+--response-max-size 100 \
 --output json --node $NODE_RPC
 ```

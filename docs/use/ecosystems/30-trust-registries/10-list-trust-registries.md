@@ -49,7 +49,7 @@ Use the output to identify the `id` of the trust registry you want to manage.
 
 
     ```bash
-curl -X GET "https://api.testnet.verana.network/verana/tr/v1/list?response_max_size=10" -H  "accept: application/json"
+curl -X GET "https://api.testnet.verana.network/verana/tr/v1/list?response-max-size=10" -H  "accept: application/json"
 ```
 
 ```json
@@ -69,7 +69,7 @@ curl -X GET "https://api.testnet.verana.network/verana/tr/v1/list?response_max_s
       "versions": [
         {
           "id": "1",
-          "tr_id": "1",
+          "tr-id": "1",
           "created": "2025-06-18T16:27:13.531941769Z",
           "version": 1,
           "active_since": "2025-06-18T16:27:13.531941769Z",

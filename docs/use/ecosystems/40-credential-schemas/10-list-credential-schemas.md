@@ -6,9 +6,9 @@ Use this query to list existing credential schemas.
 
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
-| tr_id        | filter by trust registry id | no |
-| modified_after    | show only trust registries modified after this date | no |
-| response_max_size    | max items to return  | no |
+| tr-id        | filter by trust registry id | no |
+| modified-after    | show only trust registries modified after this date | no |
+| response-max-size    | max items to return  | no |
 
 ## Execute the Query
 
@@ -24,14 +24,14 @@ veranad q cs list-schemas --node $NODE_RPC  --output json
 
 Example with parameters
 ```bash
-veranad q cs list-schemas --tr_id 5 --modified_after "2025-08-01T16:42:59Z" --node $NODE_RPC  --output json
+veranad q cs list-schemas --tr-id 5 --modified-after "2025-08-01T16:42:59Z" --node $NODE_RPC  --output json
 ```
 
   </TabItem>
   <TabItem value="api" label="API">
 
 ```bash
-curl -X GET "https://api.testnet.verana.network/verana/cs/v1/list?tr_id=1&response_max_size=10" -H  "accept: application/json" | jq
+curl -X GET "https://api.testnet.verana.network/verana/cs/v1/list?tr-id=1&response-max-size=10" -H  "accept: application/json" | jq
  ```
 
 [Find the API doc here](https://api.testnet.verana.network/#/)
