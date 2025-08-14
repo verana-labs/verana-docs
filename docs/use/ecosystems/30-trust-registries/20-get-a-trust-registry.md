@@ -24,11 +24,13 @@ import TabItem from '@theme/TabItem';
 veranad q tr get-trust-registry $TR-ID --node $NODE_RPC --output json
 ```
 
-```markdown
+
 :::tip
+```markdown
 Replace `$TR_ID` with the ID of the Trust Registry you want to fetch.
-:::
 ```
+:::
+
 
 ### Example
 
