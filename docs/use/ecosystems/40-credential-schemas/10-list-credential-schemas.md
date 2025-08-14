@@ -17,15 +17,24 @@ import TabItem from '@theme/TabItem';
 
 <Tabs>
   <TabItem value="cli" label="CLI" default>
-
+Example:
 ```bash
 veranad q cs list-schemas --node $NODE_RPC  --output json
+```
+
+Example with parameters
+```bash
+veranad q cs list-schemas --tr_id 5 --modified_after "2025-08-01T16:42:59Z" --node $NODE_RPC  --output json
 ```
 
   </TabItem>
   <TabItem value="api" label="API">
 
-[Try the query here](https://api.testnet.verana.network/#/)
+```bash
+curl -X GET "https://api.testnet.verana.network/verana/cs/v1/list?tr_id=1&response_max_size=10" -H  "accept: application/json" | jq
+ ```
+
+[Find the API doc here](https://api.testnet.verana.network/#/)
 
 
   </TabItem>
