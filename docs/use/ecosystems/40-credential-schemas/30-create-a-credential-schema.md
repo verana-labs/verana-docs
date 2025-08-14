@@ -4,11 +4,20 @@ Make sure you've read [the Learn section](../../../learn/verifiable-public-regis
 
 ## Message Parameters
 
-|Name               |Description                            |Mandatory|
-|-------------------|---------------------------------------|--------|
+| Name                       | Description                                                                 | Mandatory |
+|----------------------------|-----------------------------------------------------------------------------|-----------|
+| trust-registry-id          | Numeric ID of the trust registry                                            | Yes       |
+| json-schema                | JSON schema (inline string or loaded from file)                             | Yes       |
+| issuer-grantor-validity    | Validity period for issuer grantor (in days)                                | Yes       |
+| verifier-grantor-validity  | Validity period for verifier grantor (in days)                              | Yes       |
+| issuer-validity            | Validity period for issuer (in days)                                        | Yes       |
+| verifier-validity          | Validity period for verifier (in days)                                      | Yes       |
+| holder-validity            | Validity period for holder (in days)                                        | Yes       |
+| issuer-perm-mode           | Permission mode for issuer (integer)                                        | Yes       |
+| verifier-perm-mode         | Permission mode for verifier (integer)                                      | Yes       |
 
-:::tip[TODO]
-@matlux
+:::tip
+You must specify the name, version, and JSON schema definition. Refer to the [specification](https://verana-labs.github.io/verifiable-trust-spec/#vt-json-schema-cred-verifiable-trust-json-schema-credential) for required attributes.
 :::
 
 ## Post the Message
@@ -21,32 +30,52 @@ import TabItem from '@theme/TabItem';
 
 ### Usage
 
-:::tip[TODO]
-@matlux
-:::
-
 ```bash
-veranad tx 
+veranad tx cs create-schema <trust-registry-id> <json-schema> <issuer-grantor-validity> <verifier-grantor-validity> <issuer-validity> <verifier-validity> <holder-validity> <issuer-perm-mode> <verifier-perm-mode> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount>
 ```
 
-### Example
+#### Permission Management Modes for Issuer and Verifier
 
-:::tip[TODO]
-@matlux
-:::
+| Value | Mode Name            | Description                                                              |
+|-------|-----------------------|--------------------------------------------------------------------------|
+| `1`   | OPEN                 | Anyone can self-create the permission without validation.               |
+| `2`   | GRANTOR_VALIDATION   | Requires validation by a Grantor permission holder (Issuer or Verifier).|
+| `3`   | ECOSYSTEM            | Requires validation by the Ecosystem controller (Trust Registry owner).|
+
+
+### Example (inline JSON schema):
 
 ```bash
-veranad tx 
+veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"vpr:verana:mainnet/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID","title": "ExampleCredential","description": "ExampleCredential using JsonSchema","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 365 365 180 180 180 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
-### Example
-
-:::tip[TODO]
-@matlux
-:::
-
+### Example (using JSON file):**
 ```bash
-veranad tx ...
+# Save schema to file first
+cat > schema.json << 'EOF'
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "vpr:verana:mainnet/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID",
+    "title": "ExampleCredential",
+    "description": "ExampleCredential using JsonSchema",
+    "type": "object",
+    "$defs": {},
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "email": {
+            "type": "string",
+            "format": "email"
+        }
+    },
+    "required": ["name"],
+    "additionalProperties": false
+}
+EOF
+
+# Use in command (you'll need to escape or quote properly)
+veranad tx cs create-credential-schema ${TRUST_REG_ID} "$(cat schema.json)" 365 365 180 180 180 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 :::tip
@@ -55,7 +84,7 @@ How to find the id of the credential schema that was just created?
 
 ```bash
 TX_HASH=4E7DEE1DFDE24A804E8BD020657EB22B07D54CBA695788ACB59D873B827F3CA6
-veranad q tx ...
+veranad q tx $TX_HASH --node $NODE_RPC --output json
 ```
 
 replace with the correct transaction hash.
@@ -63,8 +92,8 @@ replace with the correct transaction hash.
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
-    TODO: describe here
+    :::tip
+    You can also use the [testnet frontend](https://testnet.verana.io/) to create a credential schema using a simple web interface.
     :::
   </TabItem>
 </Tabs>
