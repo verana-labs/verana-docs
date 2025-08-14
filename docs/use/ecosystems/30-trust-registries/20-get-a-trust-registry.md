@@ -37,6 +37,32 @@ Ensure `$NODE_RPC` is set to your target node RPC endpoint (e.g., `http://node1.
 veranad q tr get-trust-registry 1 --node $NODE_RPC --output json
 ```
 
+:::tip Copy-pasteable example
+You can run this example directly if you define the variables first:
+
+```bash
+TR_ID=5
+NODE_RPC=http://node1.testnet.verana.network:26657
+veranad q tr get-trust-registry $TR_ID --node $NODE_RPC --output json
+```
+:::
+
+### Example with optional parameters
+
+```bash
+veranad q tr get-trust-registry 1 --active-gf-only=true --preferred-language=fr --node $NODE_RPC --output json
+```
+
+:::tip Copy-pasteable example
+You can run this example directly if you define the variables first:
+
+```bash
+TR_ID=5
+NODE_RPC=http://node1.testnet.verana.network:26657
+veranad q tr get-trust-registry $TR_ID --active-gf-only=true --preferred-language=fr --node $NODE_RPC --output json
+```
+:::
+
   </TabItem>
   <TabItem value="api" label="API">
 
