@@ -22,7 +22,7 @@ import TabItem from '@theme/TabItem';
 
 Example:
 ```bash
-veranad q trustregistry list-trust-registries --node $NODE_RPC  --output json
+veranad q tr list-trust-registries --node $NODE_RPC  --output json
 ```
 
 Example with Parameters:
@@ -32,7 +32,7 @@ veranad q tr list-trust-registries --controller $USER_ACC_LIT --modified-after "
 ```
 
 :::tip
-You can specify optional parameters by adding flags like `--controller`, `--modified_after`, etc. The above example will return at most 10 active trust registries modified after Jan 1, 2025, controlled by the specified user, and will prefer English governance frameworks.
+You can specify optional parameters by adding flags like `--controller`, `--modified-after`, etc. The above example will return at most 10 active trust registries modified after Jan 1, 2025, controlled by the specified user, and will prefer English governance frameworks.
 
 Make sure you set `$USER_ACC_LIT` with a valid Verana address e.g.
 ```
@@ -93,10 +93,11 @@ curl -X GET "https://api.testnet.verana.network/verana/tr/v1/list?response_max_s
 
   </TabItem>
   <TabItem value="indexer" label="Indexer">
+    :::info
+    This query is not currently exposed via the indexer.
+    :::
   </TabItem>
   <TabItem value="frontend" label="Frontend">
-    :::todo
-    TODO: describe here
-    :::
+    You can explore and interact with Trust Registries directly via the [Verana Frontend](https://app.testnet.verana.network/tr). This interface allows you to browse trust registries, view governance frameworks, and inspect individual versions and documents.
   </TabItem>
 </Tabs>
