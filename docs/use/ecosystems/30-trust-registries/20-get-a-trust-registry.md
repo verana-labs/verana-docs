@@ -6,9 +6,9 @@ Simple query method for getting a trust registry.
 
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
-| tr_id    | id of the trust registry to get  | yes |
-| active_gf_only    | return only active ecosystem governance framework, hide the other EGF versions  | no |
-| preferred_language    | prefer ecosystem governance framework in this language. If an EGF doesn't exist in this language, returns the default language.  | no |
+| tr-id    | id of the trust registry to get  | yes |
+| active-gf-only    | return only active ecosystem governance framework, hide the other EGF versions  | no |
+| preferred-language    | prefer ecosystem governance framework in this language. If an EGF doesn't exist in this language, returns the default language.  | no |
 
 ## Execute the Query
 
@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad q tr get-trust-registry $TR_ID --node $NODE_RPC --output json
+veranad q tr get-trust-registry $TR-ID --node $NODE_RPC --output json
 ```
 
 ```markdown
