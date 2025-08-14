@@ -20,19 +20,21 @@ import TabItem from '@theme/TabItem';
 
 ### Usage
 
-    ```bash
-veranad ... TODO
+```bash
+veranad q tr get-trust-registry $TR_ID --node $NODE_RPC --output json
 ```
 
-:::tip[TODO]
-@matlux
+```markdown
+:::tip
+Replace `$TR_ID` with the ID of the Trust Registry you want to fetch.
 :::
+```
 
 ### Example
 
-:::tip[TODO]
-@matlux
-:::
+```bash
+veranad q tr get-trust-registry 1 --node http://node1.testnet.verana.network:26657 --output json
+```
 
   </TabItem>
   <TabItem value="api" label="API">
@@ -84,8 +86,12 @@ curl -X GET "https://api.testnet.verana.network/verana/tr/v1/get/1" -H  "accept:
   <TabItem value="indexer" label="Indexer">
   </TabItem>
   <TabItem value="frontend" label="Frontend">
-    :::todo
-    TODO: describe here
-    :::
+```markdown
+You can view Trust Registries in the frontend UI by navigating to:
+
+[https://frontend.testnet.verana.network/trust-registries](https://frontend.testnet.verana.network/trust-registries)
+
+Click on a registry entry to inspect its metadata, DID, active governance framework, and associated documents.
+```
   </TabItem>
 </Tabs>
