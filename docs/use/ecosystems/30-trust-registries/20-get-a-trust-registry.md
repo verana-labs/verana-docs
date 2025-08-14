@@ -26,16 +26,15 @@ veranad q tr get-trust-registry $TR-ID --node $NODE_RPC --output json
 
 
 :::tip
-```markdown
-Replace `$TR_ID` with the ID of the Trust Registry you want to fetch.
-```
+Replace `$TR_ID` with the ID of the Trust Registry you want to fetch.  
+Ensure `$NODE_RPC` is set to your target node RPC endpoint (e.g., `http://node1.testnet.verana.network:26657`).
 :::
 
 
 ### Example
 
 ```bash
-veranad q tr get-trust-registry 1 --node http://node1.testnet.verana.network:26657 --output json
+veranad q tr get-trust-registry 1 --node $NODE_RPC --output json
 ```
 
   </TabItem>
