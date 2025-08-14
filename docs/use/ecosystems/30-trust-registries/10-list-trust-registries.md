@@ -7,10 +7,10 @@ Use this query to list existing Ecosystem trust registries.
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
 | controller        | specify a verana account to list only trust registries controlled by this account. | no |
-| modified_after    | show only trust registries modified after this date | no |
-| active_gf_only    | return only active ecosystem governance framework, hide the other EGF versions  | no |
-| preferred_language    | prefer ecosystem governance framework in this language. If an EGF doesn't exist in this language, returns the default language.  | no |
-| response_max_size    | max items to return  | no |
+| modified-after    | show only trust registries modified after this date | no |
+| active-gf-only    | return only active ecosystem governance framework, hide the other EGF versions  | no |
+| preferred-language    | prefer ecosystem governance framework in this language. If an EGF doesn't exist in this language, returns the default language.  | no |
+| response-max-size    | max items to return  | no |
 
 ## Execute the Query
 
@@ -20,12 +20,25 @@ import TabItem from '@theme/TabItem';
 <Tabs>
   <TabItem value="cli" label="CLI" default>
 
-:::tip[TODO]
-@matlux explain how to specify parameters with CLI
-:::
-    ```bash
-veranad q tr list-trust-registries --node $NODE_RPC  --output json
+Example:
+```bash
+veranad q trustregistry list-trust-registries --node $NODE_RPC  --output json
 ```
+
+Example with Parameters:
+
+```bash
+veranad q tr list-trust-registries --controller $USER_ACC_LIT --modified-after "2025-01-01T00:00:00Z" --active-gf-only=true --response-max-size=10 --preferred-language en --node $NODE_RPC --output json
+```
+
+:::tip
+You can specify optional parameters by adding flags like `--controller`, `--modified_after`, etc. The above example will return at most 10 active trust registries modified after Jan 1, 2025, controlled by the specified user, and will prefer English governance frameworks.
+
+Make sure you set `$USER_ACC_LIT` with a valid Verana address e.g.
+```
+USER_ACC_LIT=verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0
+```
+:::
 
 Use the output to identify the `id` of the trust registry you want to manage.
   </TabItem>
