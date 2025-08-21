@@ -7,7 +7,7 @@ Ecosystems create and manage their Trust Registries in Verana.
 ## 🚀 Create Your Own Ecosystem Trust Registry
 
 1. **Publish an Ecosystem Governance Framework (EGF)**
-   - for faster you can use our EGF template.
+   - for fast setup you can use our EGF template.
    - EGF must outline Ecosystem mission, Credential Schema(s), rules for joining the Ecosystem, fee model, compliance, and slashing rules.  
    - Make the document publicly reachable (e.g., IPFS / GitHub) and register its digest on-chain.
 

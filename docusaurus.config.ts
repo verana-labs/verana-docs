@@ -7,7 +7,7 @@ import { remarkKroki } from 'remark-kroki';
 
 const config: Config = {
   title: 'Explore Verana',
-  tagline: 'Verana is an open initiative providing specifications, public infrastructure, and governance to build a decentralized, verifiable trust layer for the Internet using verifiable credentials and trust registries.',
+  tagline: 'Verana is an open initiative providing specifications, public infrastructure, and governance to build a decentralized, verifiable identity layer for the Internet using verifiable credentials and trust registries.',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
