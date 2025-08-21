@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # List Credential Schemas
 
 Use this query to list existing credential schemas.
@@ -6,14 +9,11 @@ Use this query to list existing credential schemas.
 
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
-| tr-id        | filter by trust registry id | no |
-| modified-after    | show only trust registries modified after this date | no |
+| tr_id        | filter by trust registry id | no |
+| modified_after    | only credential schemas modified after this RFC3339 timestamp | no |
 | response-max-size    | max items to return  | no |
 
 ## Execute the Query
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 <Tabs>
   <TabItem value="cli" label="CLI" default>
@@ -22,11 +22,15 @@ Example:
 veranad q cs list-schemas --node $NODE_RPC  --output json
 ```
 
-Example with parameters
+Examples with parameters
 ```bash
-veranad q cs list-schemas --tr-id 5 --modified-after "2025-08-01T16:42:59Z" --node $NODE_RPC  --output json
+veranad q cs list-schemas --tr_id 5 --modified_after "2025-08-01T16:42:59Z" --node $NODE_RPC  --output json
+```
+```bash
+veranad q cs list-schemas --tr_id 5 --response_max_size 10 --node $NODE_RPC --output json
 ```
 
+Use the output to identify each schema `id` and its `tr-id`.
   </TabItem>
   <TabItem value="api" label="API">
 
