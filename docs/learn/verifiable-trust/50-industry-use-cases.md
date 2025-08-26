@@ -12,17 +12,6 @@ Verana is a solution to the centralization problem that currently exists in the 
 
 Everything starts with *HOW* we have access to the information.
 
-
-| Payee → Payer ↓  | Ecosystem                      | Issuer Grantor                        | Verifier Grantor                    | Issuer                              | Verifier | Holder                                  |
-|------------------|-------------------------------------|---------------------------------------|-------------------------------------|-------------------------------------|----------|-----------------------------------------|
-| Issuer Grantor   | renewable subscription (1)          |                                       |                                     |                                     |          |                                         |
-| Verifier Grantor | renewable subscription (2)          |                                       |                                     |                                     |          |                                         |
-| Issuer           | renewable subscription (3)          | renewable subscription (1)            |                                     |                                     |          |                                         |
-| Verifier         | renewable subscription (4)          |                                       | renewable subscription (2)          |                                     |          |                                         |
-| Holder           |                                     |                                       |                                     | renewable subscription              |          |                                         |
-
-
-
 ## E-commerce
 
 Let's take a simple example: you'd like to launch a new brand of kid shoes.
