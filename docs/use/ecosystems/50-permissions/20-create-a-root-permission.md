@@ -86,6 +86,6 @@ veranad q perm list-permissions --node $NODE_RPC --output json \
 You should see a permission entry with `type: "PERMISSION_TYPE_ECOSYSTEM"`, your `did`, and your `grantee` account.
 
 ## See also
-- Create a schema: ../../40-credential-schemas/30-create-a-credential-schema.md
-- Self-create a permission (OPEN mode): ./25-self-create-a-permission.md
-- Run a validation process (GRANTOR/ECOSYSTEM modes): ./27-run-a-validation-process-to-obtain-a-permission.md
+- [Create a schema](../credential-schemas/create-a-credential-schema)
+- [Self-create a permission (OPEN mode)](./self-create-a-permission)
+- [Run a validation process (GRANTOR/ECOSYSTEM modes)](./run-a-validation-process-to-obtain-a-permission)
