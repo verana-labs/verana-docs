@@ -107,7 +107,7 @@ In addition, VUAs can query an index (the DID directory, managed by the VPR - se
 [Verifiable Public Registry (VPR)] as VPR #D88AB3
 
 
-package "Service Provider #1 Hosted services" as VSP  {
+package "Service Provider #1 Hosted Services" as VSP  {
   [Verifiable Service #1] as VS1sa #3fbdb6
   [Verifiable Service #2] as VS2sa #3fbdb6
   
@@ -124,7 +124,7 @@ interface VS3 #3fbdb6
 interface VS4 #3fbdb6
 
 
-package "Verifiable User Agent (VUA)" as App1 {
+package "Verifiable User Agent (VUA) Provider Services" as App1 {
     actor "User #1" as user1
 actor "User #2" as user2
   [VUA Instance #1-1] as VUA11 #b99bce
@@ -184,7 +184,10 @@ Added to trust registry features, the VPR provides a **DID directory**: a public
 
 ## Trust Resolver
 
-The Trust Resolver recursively processes the credentials listed in a DID Document, consults relevant VPRs, and returns a concise Proof-of-Trust summary. Callers can then decide whether the resolved [DIDs](https://www.w3.org/TR/did-1.0/) and the services it represents are trustworthy.
+The Trust Resolver:
+
+- recursively processes the credentials listed in a DID Document, consults relevant VPRs, and returns a concise Proof-of-Trust summary. Callers can then decide whether the resolved [DIDs](https://www.w3.org/TR/did-1.0/) and the services it represents are trustworthy.
+- provides a TRQP 2.0 endpoint.
 
 ## Indexer
 
@@ -192,12 +195,12 @@ A VPR records its state on-ledger, where storage is expensive. Consequently, on-
 The Indexer bridges that gap:
 
 - Listens to ledger events and fetches every new or updated record.
-- Enriches the raw data (e.g., resolves DIDs, verifies credentials).
 - Builds a compact off-chain index that powers fast, user-friendly queries.
 
 The resulting index lets you search across all ecosystem metadata, including:
 
 - Ecosystem & Trust Registry details: names, governance-framework versions, credential-schema summaries...
-- DID indexing: every DID found on-ledger is trust-resolved; if it meets the Verifiable Trust spec, its verifiable credential metadata are added to the index.
+- Permissions,
+- ...
 
 This approach keeps the blockchain lean while still delivering rich, searchable insight to wallets, services, and analytics tools.
