@@ -18,7 +18,7 @@ You must use the [find beneficiaries](find-beneficiaries) method first to calcul
 
 **Important:** At least one of `issuer-perm-id` or `verifier-perm-id` must be provided.
 
-::tip[TODO]
+:::tip[TODO]
 @matlux
 :::
 
@@ -100,7 +100,7 @@ Explanation:
  </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

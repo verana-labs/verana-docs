@@ -29,7 +29,7 @@ import TabItem from '@theme/TabItem';
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

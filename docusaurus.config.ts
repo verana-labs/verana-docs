@@ -57,7 +57,7 @@ const config: Config = {
                 // ...options here
                 alias: ['plantuml'],
                 target: 'mdx3',
-                server: 'https://kroki.io'
+                server: 'https://kroki.testnet.verana.network/'
               }
             ]
           ]
