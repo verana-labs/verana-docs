@@ -47,7 +47,7 @@ veranad tx tr archive-trust-registry ${TRUST_REG_ID} false --from $USER_ACC --ch
  </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

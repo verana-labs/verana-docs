@@ -13,7 +13,7 @@ This method can only be executed by the account owner of the permission of the v
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
 
-::tip[TODO]
+:::tip[TODO]
 @matlux
 :::
 
@@ -44,7 +44,7 @@ veranad tx ...
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

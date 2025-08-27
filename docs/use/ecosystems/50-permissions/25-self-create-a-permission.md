@@ -17,7 +17,7 @@ For a given credential schema, added to the conditions above, self creation of a
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
 
-::tip[TODO]
+:::tip[TODO]
 @matlux
 :::
 
@@ -47,7 +47,7 @@ veranad tx ...
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

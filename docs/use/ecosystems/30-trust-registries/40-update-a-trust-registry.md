@@ -37,7 +37,7 @@ veranad tx tr update-trust-registry ${TRUST_REG_ID} did:example:newdidmat --aka 
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

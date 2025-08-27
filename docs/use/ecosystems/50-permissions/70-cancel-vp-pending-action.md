@@ -42,7 +42,7 @@ end
 |-------------------|---------------------------------------|--------|
 |perm-id| Numeric ID of the permission for which you want to cancel the current validation process. | yes |
 
-::tip[TODO]
+:::tip[TODO]
 @matlux
 :::
 
@@ -77,7 +77,7 @@ Expected status: `VALIDATED` (for cancelation of a renewal) or `TERMINATED` (if 
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

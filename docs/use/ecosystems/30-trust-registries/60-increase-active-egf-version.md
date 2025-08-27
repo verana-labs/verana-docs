@@ -39,7 +39,7 @@ veranad tx tr increase-active-gf-version ${TRUST_REG_ID} --from $USER_ACC --chai
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

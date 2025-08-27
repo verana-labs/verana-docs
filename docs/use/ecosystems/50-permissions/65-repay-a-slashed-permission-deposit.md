@@ -26,7 +26,7 @@ vpr --> applicant: repayment successful
 |-------------------|---------------------------------------|--------|
 |perm-id| Numeric ID of the permission whose deposit you want to slash. | yes |
 
-::tip[TODO]
+:::tip
 @matlux
 :::
 
@@ -54,7 +54,7 @@ veranad tx perm repay-perm-slashed-td 42 --from $USER_ACC --chain-id $CHAIN_ID -
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>
