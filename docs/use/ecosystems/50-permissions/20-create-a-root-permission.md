@@ -16,7 +16,7 @@ Only the account that is the controller of the trust registry that owns the cred
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
 
-::tip[TODO]
+:::tip[TODO]
 @matlux
 :::
 
@@ -46,7 +46,7 @@ veranad tx ...
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

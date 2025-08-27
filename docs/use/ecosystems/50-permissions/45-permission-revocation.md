@@ -37,7 +37,7 @@ end
 |perm-id| Numeric ID of the permission whose deposit you want to slash. | yes |
 |amount| Amount to slash (must be less than or equal to the current permission deposit). | yes |
 
-::tip[TODO]
+:::tip[TODO]
 @matlux
 :::
 
@@ -65,7 +65,7 @@ veranad tx perm revoke-perm $PERM_ID --from $USER_ACC --chain-id $CHAIN_ID --key
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

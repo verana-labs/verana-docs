@@ -68,7 +68,7 @@ replace with the correct transaction hash.
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

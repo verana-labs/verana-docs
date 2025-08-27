@@ -27,7 +27,7 @@ validator <- vpr: permission status updated
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
 
-::tip[TODO]
+:::tip[TODO]
 @matlux
 :::
 
@@ -62,7 +62,7 @@ veranad tx perm confirm-vp-termination $PERM_ID --from $USER_ACC --chain-id $CHA
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

@@ -13,7 +13,7 @@ In can only be executed by the `grantee` of the permission.
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
 
-::tip[TODO]
+:::tip[TODO]
 @matlux
 :::
 
@@ -48,7 +48,7 @@ veranad tx perm request-vp-termination $PERM_ID --from $USER_ACC --chain-id $CHA
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

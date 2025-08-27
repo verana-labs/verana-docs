@@ -43,7 +43,7 @@ curl -X GET "https://api.testnet.verana.network/verana/cs/v1/list?tr-id=1&respon
 
   </TabItem>
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>
