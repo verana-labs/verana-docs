@@ -39,9 +39,7 @@ package "Verifiable Service #1 (VS1)" as VS1 #3fbdb6 {
    VS1sa <--> VS1b
 }
 [Trust Resolver] as VS1tr
-    [VPR Indexer] as VS1idx
     VS1sa --> VS1tr
-    VS1tr --> VS1idx
 
 
 interface VS3 #3fbdb6
@@ -54,7 +52,6 @@ VS1tr --> VPR
 VS1tr --> VS3
 VS1tr --> VS4
 
-VS1idx --> VPR
 
 
 @enduml
