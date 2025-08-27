@@ -112,9 +112,7 @@ package "Service Provider #1 Hosted Services" as VSP  {
   [Verifiable Service #2] as VS2sa #3fbdb6
   
     [Trust Resolver] as VS1tr
-    [VPR Indexer] as VS1idx
     VS1sa --> VS1tr
-    VS1idx <-- VS1tr
 
     VS2sa --> VS1tr
 }
@@ -130,20 +128,17 @@ actor "User #2" as user2
   [VUA Instance #1-1] as VUA11 #b99bce
   [VUA Instance #1-2] as VUA12 #b99bce
     [Trust Resolver] as VUAtr
-    [VPR Indexer] as VUAidx
 
 }
 
 VUAtr --> VS2
 
-VUAidx --> VPR
-
-VUAidx <-- VUAtr
+VUAtr --> VPR
 
 VS1tr --> VS3
 VS1tr --> VS4
 
-VS1idx --> VPR
+VS1tr --> VPR
 
 
 VUA12 --> VUAtr : queries
@@ -181,22 +176,6 @@ Purpose of a VPR is to answer these questions:
 ### DID Directory
 
 Added to trust registry features, the VPR provides a **DID directory**: a public database of [DIDs](https://www.w3.org/TR/did-1.0/). It allows crawlers and search engines to index metadata associated with **verifiable services (VSs)** provided by these DIDs.
-
-## Indexer
-
-A VPR records its state on-ledger, where storage is expensive. Consequently, on-chain entries are kept minimal.
-The Indexer bridges that gap:
-
-- Listens to ledger events and fetches every new or updated record.
-- Builds a compact off-chain index that powers fast, user-friendly queries.
-
-The resulting index lets you search across all ecosystem metadata, including:
-
-- Ecosystem & Trust Registry details: names, governance-framework versions, credential-schema summaries...
-- Permissions,
-- ...
-
-This approach keeps the blockchain lean while still delivering rich, searchable insight to wallets, services, and analytics tools.
 
 ## Trust Resolver
 
