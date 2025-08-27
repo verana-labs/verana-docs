@@ -107,7 +107,7 @@ In addition, VUAs can query an index (the DID directory, managed by the VPR - se
 [Verifiable Public Registry (VPR)] as VPR #D88AB3
 
 
-package "Service Provider #1 Hosted services" as VSP  {
+package "Service Provider #1 Hosted Services" as VSP  {
   [Verifiable Service #1] as VS1sa #3fbdb6
   [Verifiable Service #2] as VS2sa #3fbdb6
   
@@ -124,7 +124,7 @@ interface VS3 #3fbdb6
 interface VS4 #3fbdb6
 
 
-package "Verifiable User Agent (VUA)" as App1 {
+package "Verifiable User Agent (VUA) Provider Services" as App1 {
     actor "User #1" as user1
 actor "User #2" as user2
   [VUA Instance #1-1] as VUA11 #b99bce
