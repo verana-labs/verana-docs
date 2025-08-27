@@ -25,6 +25,7 @@ package "Full Deployment #1" as deploy1  {
     frontend1 --> idx1
     frontend1 --> rslv1
     frontend1 --> vpr1
+    rslv1 --> idx1
 
 
 }
@@ -41,6 +42,7 @@ package "Full Deployment #2" as deploy2  {
     frontend2 --> idx2
     frontend2 --> rslv2
     frontend2 --> vpr2
+    rslv2 --> idx2
 
 }
 

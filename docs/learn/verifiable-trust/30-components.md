@@ -39,9 +39,8 @@ package "Verifiable Service #1 (VS1)" as VS1 #3fbdb6 {
    VS1sa <--> VS1b
 }
 [Trust Resolver] as VS1tr
-    [Indexer] as VS1idx
+    [VPR Indexer] as VS1idx
     VS1sa --> VS1tr
-    VS1sa --> VS1idx
     VS1tr --> VS1idx
 
 
@@ -113,13 +112,11 @@ package "Service Provider #1 Hosted services" as VSP  {
   [Verifiable Service #2] as VS2sa #3fbdb6
   
     [Trust Resolver] as VS1tr
-    [Indexer] as VS1idx
+    [VPR Indexer] as VS1idx
     VS1sa --> VS1tr
-    VS1sa --> VS1idx
-    VS1idx --> VS1tr
+    VS1idx <-- VS1tr
 
     VS2sa --> VS1tr
-    VS2sa --> VS1idx
 }
 
 interface VS2 #3fbdb6
@@ -133,28 +130,24 @@ actor "User #2" as user2
   [VUA Instance #1-1] as VUA11 #b99bce
   [VUA Instance #1-2] as VUA12 #b99bce
     [Trust Resolver] as VUAtr
-    [Indexer] as VUAidx
+    [VPR Indexer] as VUAidx
 
 }
 
 VUAtr --> VS2
 
-VUAtr --> VPR
 VUAidx --> VPR
 
-VUAidx --> VUAtr
+VUAidx <-- VUAtr
 
-VS1tr --> VPR
 VS1tr --> VS3
 VS1tr --> VS4
 
 VS1idx --> VPR
 
 
-VUA12 --> VUAtr
-VUA11 --> VUAtr
-VUA12 --> VUAidx : queries
-VUA11 --> VUAidx : queries
+VUA12 --> VUAtr : queries
+VUA11 --> VUAtr : queries
 
 VUA12 <--> VUA11 : p2p
 
