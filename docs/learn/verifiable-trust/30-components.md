@@ -173,6 +173,8 @@ Purpose of a VPR is to answer these questions:
 
 [VPRs are detailed here](../verifiable-public-registry/20-trust-registries.md).
 
+Note than information stored in VPRs is not verified, it is verifiable by using a Trust Resolver.
+
 ### DID Directory
 
 Added to trust registry features, the VPR provides a **DID directory**: a public database of [DIDs](https://www.w3.org/TR/did-1.0/). It allows crawlers and search engines to index metadata associated with **verifiable services (VSs)** provided by these DIDs.
@@ -183,3 +185,7 @@ The Trust Resolver:
 
 - recursively processes the credentials listed in a DID Document, consults relevant VPRs, and returns a concise Proof-of-Trust summary. Callers can then decide whether the resolved [DIDs](https://www.w3.org/TR/did-1.0/) and the services it represents are trustworthy.
 - provides a TRQP 2.0 endpoint.
+
+:::tip
+Only the Trust Resolver, by resolving DIDs, Verifiable Credentials and VPRs, can provide a verified Proof-of-Trust.
+:::
