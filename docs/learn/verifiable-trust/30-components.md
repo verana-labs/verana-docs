@@ -114,9 +114,9 @@ package "Service Provider #1 Hosted Services" as VSP  {
     VS2sa --> VS1tr
 }
 
-interface VS2 #3fbdb6
 interface VS3 #3fbdb6
 interface VS4 #3fbdb6
+interface VS5 #3fbdb6
 
 
 package "Verifiable User Agent (VUA) Provider Services" as App1 {
@@ -128,7 +128,7 @@ actor "User #2" as user2
 
 }
 
-VUAtr --> VS2
+VUAtr --> VS5
 
 VUAtr --> VPR
 
@@ -147,6 +147,7 @@ user1 ..> VUA11 : use
 user2 ..> VUA12 : use
 
 VUA12 -->  VS1sa
+VUA11 -->  VS5
 
 @enduml
 
