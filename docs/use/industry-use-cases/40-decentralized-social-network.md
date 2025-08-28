@@ -1,4 +1,4 @@
-# Building a Decentralized Social Network
+# 🌐 Building a Decentralized Social Network
 
 ## The Problem with Today’s Social Networks
 
@@ -31,7 +31,7 @@ Any influencer, creator, or community can deploy their own channel in the datace
 A **browser and/or mobile app** that lets users explore decentralized social channels.  
 Think of it as a **social browser**: instead of visiting centralized feeds, users navigate across independently hosted channels.
 
-- **Searchable & Discoverable**: through a VPR DID Directory.  
+- **Searchable & Discoverable**: through Verana's DID Directory.  
 - **Verifiable**: channels present Verifiable Credentials (VCs).  
 - **Portable**: no single platform controls visibility.
 
