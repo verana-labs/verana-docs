@@ -35,7 +35,9 @@ The government (or national healthcare authority) establishes a **Healthcare Wor
 
 This ecosystem ensures that **only accredited entities can issue and verify credentials**.
 
-### Healthcare Worker Credentialing
+<Image url="/img/doctor.png" floating="right"  maxWidth="450px" border="1px solid #555555" align="center"/>
+
+### Healthcare Worker Credential Issuance
 
 - Healthcare workers receive verifiable credentials from trusted issuers (universities, licensing boards, training organizations).  
 - Credentials are stored in a **Digital Wallet** (a Verifiable User Agent), owned and controlled by the worker.  

@@ -31,10 +31,7 @@ This ensures **official enrollment** into the state identity system.
 
 ## Issuing the Citizen ID Verifiable Credential  
 
-<Image url="/img/govid-8.jpeg" floating="right"  maxWidth="200px" border="1px solid #DDDDDD" align="center"/>
-
-<Image url="/img/govid-2.jpeg" floating="right"  maxWidth="200px" border="1px solid #DDDDDD" align="center"/>
-
+<Image url="/img/girl-id-card.png" floating="right"  maxWidth="450px" border="1px solid #555555" align="center"/>
 
 Citizens then use a **Citizen Onboarding Verifiable Service** registered as an authorized issuer of the Citizen ID Credential Schema:  
 
