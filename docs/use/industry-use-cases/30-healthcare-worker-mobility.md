@@ -11,7 +11,7 @@ Healthcare workers are the backbone of public health systems. Yet, their mobilit
 
 This inefficiency translates into **wasted time, wasted resources, and slower access to healthcare services** for patients.
 
-## The Verana Solution
+## The Solution
 
 Verana introduces a **decentralized, verifiable trust layer** to solve this problem by ensuring that once a healthcare worker is verified, their credentials are valid **anywhere in the country**.
 
