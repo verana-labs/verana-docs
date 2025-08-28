@@ -60,6 +60,8 @@ Together, these components provide **an identity and trust layer designed for au
 
 ### Example 2: A Personal AI Assistant
 
+<Image url="/img/alice-bob-ai.png" floating="right"  maxWidth="350px" border="1px solid #555555" align="center"/>
+
 - A citizen deploys their own **Personal AI Assistant Verifiable Service** in the cloud, identified by its DID.  
 - The assistant holds verifiable credentials proving:  
   - It is owned and controlled by the user.  
