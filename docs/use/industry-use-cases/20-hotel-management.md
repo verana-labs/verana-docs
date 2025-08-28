@@ -1,4 +1,4 @@
-# Decentralizing Hotel Management with Verana
+# 🏨 Decentralizing Hotel Management with Verana
 
 ## The Problem: Hotel Discovery & Broker Domination
 
