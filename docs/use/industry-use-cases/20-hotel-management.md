@@ -6,7 +6,7 @@ The hotel industry is a striking example of how centralization locks value.
 
 Today, nearly all hotel reservations happen through **brokering platforms** like **Booking.com**, **Expedia**, **Agoda**, or **Airbnb**. These intermediaries have achieved near-monopoly power, **capturing a huge share of hotel revenues** and indirectly **raising room costs for users**.  
 
-Paradoxically, while users believe they’re saving money, they actually pay more — since hotels must increase their prices to cover broker fees.
+Paradoxically, while users believe they’re saving money, they actually pay more, since hotels must increase their prices to cover broker fees.
 
 👉 **If a hotel isn’t listed on broker platforms, it effectively doesn’t exist in the market.**
 
@@ -116,10 +116,12 @@ Verana changes the game by **removing dependency on centralized brokers**.
 
 ### How Open Source HMS Providers Can Use Verana
 
+Open Source HMS Providers can redefine their business models by adding the Verifiable Trust layer to their software. They just need to:
+
 1. **Create a Hotel Ecosystem in Verana**
 
-- Define a **Hotel Credential Schema** in the Verana Verifiable Trust Network (VVTN).
 - Establish rules via an **Ecosystem Governance Framework (EGF)**.
+- Create their Trust Registry and define a **Hotel Credential Schema** in Verana.
 
 2. **Add Verifiable Trust to Open Source HMS Software**
 
