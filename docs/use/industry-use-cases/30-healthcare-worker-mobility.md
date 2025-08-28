@@ -47,10 +47,62 @@ This ecosystem ensures that **only accredited entities can issue and verify cred
 
 When a healthcare professional arrives at a new hospital:  
 
-1. The hospital requests credential verification via Verana.  
+1. The hospital requests credential presentation to the holder.  
 2. The worker presents their **verifiable credentials** from their wallet.  
 3. The hospital verifies them instantly.  
 4. No repeated onboarding, no paper-based checks, no delays.  
+
+```plantuml
+@startuml
+' === Verana Palette ===
+!define BRAND_MAGENTA #9D2A6D
+!define BRAND_MAGENTA_LIGHT #CB73A3
+!define ACCENT_BLUE #2A6D9D
+!define ACCENT_TEAL #2A9D6D
+!define ACCENT_ORANGE #FFB84D
+!define SURFACE #F9F9FC
+!define INK #1A1A1A
+
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam ArrowColor BRAND_MAGENTA
+skinparam defaultFontName Kantumruy Pro
+skinparam defaultTextAlignment center
+
+skinparam rectangle {
+  BackgroundColor<<holder>> #EEF6FF
+  BorderColor<<holder>> ACCENT_BLUE
+  BackgroundColor<<issuer>> #E7F7F0
+  BorderColor<<issuer>> ACCENT_TEAL
+  BackgroundColor<<verifier>> #FFF3E0
+  BorderColor<<verifier>> ACCENT_ORANGE
+  BackgroundColor<<governance>> #E9C1D8
+  BorderColor<<governance>> BRAND_MAGENTA
+}
+
+' === Actors ===
+actor "Healthcare Worker\n(HOLDER)" as Holder <<holder>>
+
+rectangle "Universities\n& Certifying Bodies" <<issuer>> as Univ
+rectangle "Hospitals & Clinics" <<verifier>> as Hosp
+rectangle "Government / Regulator\nEcosystem Governance Framework" <<governance>> as Gov
+
+' === Trust Registry ===
+rectangle "Verana Trust Registry\n• Credential Schemas (ID, Grant-to-Work, Training)\n• Issuer & Verifier Permissions" <<governance>> as VPR
+
+' === Flows ===
+Holder -down-> Univ : Request credential\n(ID, training, grant to work)
+Univ -down-> VPR : Register as authorized issuer
+Univ --> Holder : Issues verifiable credentials
+
+Holder -right-> Hosp : Present credentials
+Hosp -down-> VPR : Register as authorized verifier
+Hosp --> Holder : Grants access to work / perform tasks
+
+Gov -down-> VPR : Publishes\nGovernance Framework
+VPR -up-> Gov : Enforces rules,\nrevokes or updates permissions
+@enduml
+```
 
 ### Business Models and Incentives
 

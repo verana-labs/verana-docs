@@ -12,19 +12,67 @@ Paradoxically, while users believe they’re saving money, they actually pay mor
 
 ```plantuml
 @startuml
+' === Include the palette block above or paste here ===
+' Verana palette + white background
+!define BRAND_MAGENTA #9D2A6D
+!define BRAND_MAGENTA_LIGHT #CB73A3
+!define ACCENT_BLUE #2A6D9D
+!define ACCENT_TEAL #2A9D6D
+!define ACCENT_ORANGE #FFB84D
+!define SURFACE #F9F9FC
+!define INK #1A1A1A
 
-    object "Property" as property #3fbdb6
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam ArrowColor BRAND_MAGENTA
+skinparam defaultFontName Kantumruy Pro
+skinparam defaultTextAlignment center
 
-    object "Expedia" as expedia
-    object "Booking" as booking
-    object "Agoda" as agoda
-    object "Airbnb" as airbnb
+skinparam RectangleBorderColor INK
+skinparam RectangleFontColor INK
+skinparam RectangleFontSize 14
+skinparam DatabaseBorderColor INK
+skinparam PackageBorderColor INK
+skinparam NoteBackgroundColor SURFACE
+skinparam NoteBorderColor BRAND_MAGENTA_LIGHT
 
-    expedia --> property : charge $$$
-    booking --> property : charge $$$
-    agoda --> property : charge $$$
-    airbnb --> property : charge $$$
+' Simple stereotypes for color blocks
+skinparam rectangle {
+  BackgroundColor<<user>> #EEF6FF
+  BorderColor<<user>> ACCENT_BLUE
+  BackgroundColor<<hotel>> #E7F7F0
+  BorderColor<<hotel>> ACCENT_TEAL
+  BackgroundColor<<broker>> #FFF3E0
+  BorderColor<<broker>> ACCENT_ORANGE
+  BackgroundColor<<vpr>> #E9C1D8
+  BorderColor<<vpr>> BRAND_MAGENTA
+  BackgroundColor<<idx>> #F0F7FF
+  BorderColor<<idx>> ACCENT_BLUE
+  BackgroundColor<<box>> SURFACE
+  BorderColor<<box>> BRAND_MAGENTA_LIGHT
+}
+rectangle "Traveler" <<user>> as U
+package "Centralized Brokers" <<broker>> {
+  rectangle "Booking.com" as B1
+  rectangle "Expedia" as B2
+  rectangle "Agoda" as B3
+  rectangle "Airbnb" as B4
+}
+rectangle "Hotel / Property" <<hotel>> as H
 
+U -down-> B1 : Searches / Books
+U -down-> B2
+U -down-> B3
+U -down-> B4
+
+B1 -down-> H : High Commissions 💸
+B2 -down-> H
+B3 -down-> H
+B4 -down-> H
+
+note bottom of "Centralized Brokers"
+Broker visibility lock-in + data capture
+end note
 @enduml
 ```
 
@@ -52,64 +100,6 @@ Most open-source HMS providers monetize via:
 
 These systems work well for **hotel management**, but **visibility is still dictated by brokers**. Even when hotels run their own websites/apps, most new customers still arrive via **brokers**.
 
-```plantuml
-@startuml
-left to right direction
-actor User1 as u1
-actor User2 as u2
-
-package Booking {
-  usecase "Book Room" as BOOKING1
-  usecase "Review" as BOOKING2
-}
-u1 --> BOOKING1
-u1 --> BOOKING2
-
-package Expedia {
-  usecase "Book Room" as EXP1
-  usecase "Review" as EXP2
-}
-u1 --> EXP1
-u1 --> EXP2
-u2 --> EXP1
-u2 --> EXP2
-
-package Agoda {
-  usecase "Book Room" as AGODA1
-  usecase "Review" as AGODA2
-}
-u2 --> AGODA1
-u2 --> AGODA2
-
-package "Hotel HMS1" #3fbdb6 {
-    usecase "Booking Engine" as be1
-    usecase "Hotel Website" as ws1
-    usecase "Hotel Mobile App" as app1
-}
-
-u2 --> ws1
-app1 --> be1
-
-ws1 --> be1
-BOOKING1 --> be1
-EXP1 --> be1
-
-package "Hotel HMS2" #3fbdb6 {
-    usecase "Booking Engine" as be2
-    usecase "Hotel Website" as ws2
-    usecase "Hotel Mobile App" as app2
-}
-
-EXP1 --> be2
-AGODA1 --> be2
-app2 --> be2
-
-ws2 --> be2
-u2 --> app2
-
-@enduml
-```
-
 ## Enter Verana: Making Hotels Instantly Discoverable
 
 Verana changes the game by **removing dependency on centralized brokers**.
@@ -132,6 +122,78 @@ Open Source HMS Providers can redefine their business models by adding the Verif
 - Build a **global mobile app or website** (the “HMS Provider App”) that serves as a **browser for verifiable hotels**.
 - This app functions as a **broker competitor**, but **without extracting rents**.
 
+```plantuml
+@startuml
+' === Include the palette block above or paste here ===
+' Verana palette + white background
+!define BRAND_MAGENTA #9D2A6D
+!define BRAND_MAGENTA_LIGHT #CB73A3
+!define ACCENT_BLUE #2A6D9D
+!define ACCENT_TEAL #2A9D6D
+!define ACCENT_ORANGE #FFB84D
+!define SURFACE #F9F9FC
+!define INK #1A1A1A
+
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam ArrowColor BRAND_MAGENTA
+skinparam defaultFontName Kantumruy Pro
+skinparam defaultTextAlignment center
+
+skinparam RectangleBorderColor INK
+skinparam RectangleFontColor INK
+skinparam RectangleFontSize 14
+skinparam DatabaseBorderColor INK
+skinparam PackageBorderColor INK
+skinparam NoteBackgroundColor SURFACE
+skinparam NoteBorderColor BRAND_MAGENTA_LIGHT
+
+' Simple stereotypes for color blocks
+skinparam rectangle {
+  BackgroundColor<<user>> #EEF6FF
+  BorderColor<<user>> ACCENT_BLUE
+  BackgroundColor<<hotel>> #E7F7F0
+  BorderColor<<hotel>> ACCENT_TEAL
+  BackgroundColor<<broker>> #FFF3E0
+  BorderColor<<broker>> ACCENT_ORANGE
+  BackgroundColor<<vpr>> #E9C1D8
+  BorderColor<<vpr>> BRAND_MAGENTA
+  BackgroundColor<<idx>> #F0F7FF
+  BorderColor<<idx>> ACCENT_BLUE
+  BackgroundColor<<box>> SURFACE
+  BorderColor<<box>> BRAND_MAGENTA_LIGHT
+}
+package "Verana Trust Layer" <<vpr>> {
+  rectangle "VPR (Trust Registry)\n• Ecosystems & Governance\n• Credential Schemas\n• Permissions" as VPR <<vpr>>
+  rectangle "DID Directory\n(Discoverability)" as DID <<box>>
+  rectangle "Indexer / Search API\n(Hotel & Schema Metadata)" as IDX <<idx>>
+}
+
+package "Open-Source HMS Providers" <<box>> {
+  rectangle "HMS Company\nGovernance" as HMSW <<box>>
+  rectangle "HMS Provider App / Website\n(Verifiable User Agent)" as VUA <<box>>
+}
+
+package "Independent Hotels" <<hotel>> {
+  rectangle "Hotel A\n(HMS Verifiable Service)" as H1 <<hotel>>
+  rectangle "Hotel B\n(HMS Verifiable Service)" as H2 <<hotel>>
+}
+
+rectangle "Traveler" as U <<user>>
+
+U -down-> VUA : Search
+VUA -down-> IDX : Query
+IDX -up-> VUA : Results + Proof-of-Trust
+
+H1 -down-> DID : Register DID
+H2 -down-> DID : Register DID
+HMSW -down-> VPR : Integrate Verifiable Trust
+
+VUA -right-> H1 : Direct Booking
+VUA -right-> H2 : Direct Booking
+@enduml
+```
+
 ### What Hotels Gain
 
 Hotels using such an HMS automatically become:
@@ -148,51 +210,66 @@ Hotels using such an HMS automatically become:
 
 ```plantuml
 @startuml
-left to right direction
-actor User1 as u1
-actor User2 as u2
+' === Include the palette block above or paste here ===
+' Verana palette + white background
+!define BRAND_MAGENTA #9D2A6D
+!define BRAND_MAGENTA_LIGHT #CB73A3
+!define ACCENT_BLUE #2A6D9D
+!define ACCENT_TEAL #2A9D6D
+!define ACCENT_ORANGE #FFB84D
+!define SURFACE #F9F9FC
+!define INK #1A1A1A
 
-package "HMS Provider App or Website" #b99bce {
-  usecase "Book Room" as HMSP1
-  usecase "Review" as HMSP2
+skinparam backgroundColor white
+skinparam Shadowing false
+skinparam ArrowColor BRAND_MAGENTA
+skinparam defaultFontName Kantumruy Pro
+skinparam defaultTextAlignment center
+
+skinparam RectangleBorderColor INK
+skinparam RectangleFontColor INK
+skinparam RectangleFontSize 14
+skinparam DatabaseBorderColor INK
+skinparam PackageBorderColor INK
+skinparam NoteBackgroundColor SURFACE
+skinparam NoteBorderColor BRAND_MAGENTA_LIGHT
+
+' Simple stereotypes for color blocks
+skinparam rectangle {
+  BackgroundColor<<user>> #EEF6FF
+  BorderColor<<user>> ACCENT_BLUE
+  BackgroundColor<<hotel>> #E7F7F0
+  BorderColor<<hotel>> ACCENT_TEAL
+  BackgroundColor<<broker>> #FFF3E0
+  BorderColor<<broker>> ACCENT_ORANGE
+  BackgroundColor<<vpr>> #E9C1D8
+  BorderColor<<vpr>> BRAND_MAGENTA
+  BackgroundColor<<idx>> #F0F7FF
+  BorderColor<<idx>> ACCENT_BLUE
+  BackgroundColor<<box>> SURFACE
+  BorderColor<<box>> BRAND_MAGENTA_LIGHT
 }
 
-package "Other HMS Provider Approved Apps and/or Websites" #D88AB3 {
-  usecase "Book Room" as OTHER1
-  usecase "Review" as OTHER2
-}
+actor Traveler as T
+participant "HMS Provider App\n(Verifiable User Agent)" as VUA
+participant "Indexer / Search API" as IDX
+participant "Hotel Booking Engine" as H
+participant "VPR (Trust Registry)" as VPR
 
-u1 --> HMSP1
-u1 --> HMSP2
-u2 --> HMSP1
-u2 --> HMSP2
-u2 --> OTHER1
+== Discover & Trust ==
+T -> VUA : Search hotels & dates
+VUA -> IDX : Query by DID/metadata\n+ trust filters
+IDX --> VUA : Results + trust hints\n(schemas, issuers, policies)
+VUA -> T : Show verified results\n(identity, governance, policies)
 
-package "Hotel HMS1" #3fbdb6 {
-    usecase "Booking Engine" as be1
-    usecase "Hotel Website" as ws1
-    usecase "Hotel Mobile App" as app1
-}
+== Verify & Book ==
+T -> VUA : Choose hotel & room
+VUA -> VPR : Verify hotel permissions/credentials\n(not revoked/slashed)
+VPR --> VUA : OK (authorized, valid)
 
-u2 --> ws1
-app1 --> be1
-ws1 --> be1
-
-package "Hotel HMS2" #3fbdb6 {
-    usecase "Booking Engine" as be2
-    usecase "Hotel Website" as ws2
-    usecase "Hotel Mobile App" as app2
-}
-
-app2 --> be2
-ws2 --> be2
-u2 --> app2
-
-HMSP1 -> be1
-HMSP1 -> be2
-OTHER1 -> be1
-OTHER1 -> be2
-
+VUA -> H : Create reservation (direct)
+H --> VUA : Confirmation
+VUA --> T : Booking confirmed ✅
 @enduml
 ```
 
