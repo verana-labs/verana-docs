@@ -1,4 +1,4 @@
-# 🌐 Building a Decentralized Social Network
+# 🌐 Decentralized Social Networks
 
 ## The Problem with Today’s Social Networks
 
