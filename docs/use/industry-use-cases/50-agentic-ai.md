@@ -1,6 +1,6 @@
 # 🤖 Agentic AI
 
-Why Agentic AI Needs the Verana Identity Layer?
+Why Agentic AI Needs an Identity Layer?
 
 ## The Problem: AI Without Identity
 
@@ -26,7 +26,7 @@ Verana introduces a **decentralized trust infrastructure** for the internet, bui
 
 Together, these components provide **an identity and trust layer designed for autonomous AI agents**.
 
-## Why Agentic AI Needs Verana
+## Why Agentic AI Needs an Identity Layer
 
 1. 🔐 **Verifiable Identity for AI Agents**  
    Every agent becomes a **Verifiable Service (VS)** with a DID and credentials, proving its legitimacy, governance, and trustworthiness.  
