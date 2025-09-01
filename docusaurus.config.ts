@@ -55,9 +55,9 @@ const config: Config = {
               remarkKroki,
               {
                 // ...options here
-                alias: ['plantuml'],
+                alias: ['plantuml', 'mermaid'],
                 target: 'mdx3',
-                server: 'https://kroki.io'
+                server: 'https://kroki.testnet.verana.network/'
               }
             ]
           ]

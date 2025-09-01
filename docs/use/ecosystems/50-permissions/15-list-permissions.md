@@ -100,8 +100,8 @@ veranad q perm list-permissions --node $NODE_RPC --output json \
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::todo
-    Add link and screenshots when the Permissions list is available in the UI.
+    :::tip
+    TODO: describe here
     :::
   </TabItem>
 </Tabs>

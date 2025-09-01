@@ -42,7 +42,7 @@ end
 |-------------------|---------------------------------------|--------|
 |perm-id| Numeric ID of the permission you want to renew. | yes |
 
-::tip[TODO]
+:::tip[TODO]
 @matlux
 :::
 
@@ -76,7 +76,7 @@ veranad q perm list-permissions --node $NODE_RPC --output json | jq '.permission
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

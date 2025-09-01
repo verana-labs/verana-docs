@@ -33,7 +33,7 @@ vpr --> actor: Slash successful
 |perm-id| Numeric ID of the permission whose deposit you want to slash. | yes |
 |amount| Amount to slash (must be less than or equal to the current permission deposit). | yes |
 
-::tip[TODO]
+:::tip[TODO]
 @matlux
 :::
 
@@ -60,7 +60,7 @@ veranad tx perm slash-perm-td 42 1000000 --from $USER_ACC --chain-id $CHAIN_ID -
   </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::todo
+    :::tip
     TODO: describe here
     :::
   </TabItem>

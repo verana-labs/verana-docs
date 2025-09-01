@@ -46,8 +46,8 @@ veranad tx perm revoke-perm $PERM_ID \
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::todo
-    When available in the UI, link and screenshots will be added here.
+    :::tip
+    TODO: When available in the UI, link and screenshots will be added here.
     :::
   </TabItem>
 </Tabs>

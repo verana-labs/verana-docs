@@ -49,8 +49,8 @@ veranad tx cs update $SCHEMA_ID 365 365 280 280 365 --from $USER_ACC --chain-id 
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::todo
-    When available in the UI, link and screenshots will be added here.
+    :::tip
+    TODO: When available in the UI, link and screenshots will be added here.
     :::
   </TabItem>
 </Tabs>
