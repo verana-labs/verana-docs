@@ -1,84 +1,116 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+# Self-Create a Permission
 
-# Revoke a Permission
+Create an **ISSUER** or **VERIFIER** permission for a credential schema **when the schema is configured in OPEN mode**. This is the fastest way to become authorized to issue or verify credentials for that schema.
 
-Invalidate an active permission. Revocation is typically used when a grantee violates the **Ecosystem Governance Framework (EGF)**, can no longer comply, or when the validator/controller decides to remove the authorization.
+> **Heads‑up:** You must still comply with the Ecosystem Governance Framework (EGF). Even in OPEN mode, your permission can be revoked and deposits slashed if you violate the EGF.
 
-**Who can run this?**
-- The **validator** that granted/validated the permission, or
-- The **Ecosystem controller** (root permission holder for the schema).
+---
 
-**Effects**
-- The permission state is set to **REVOKED** immediately.
-- **No funds are moved by this action**. Trust deposits remain as is. Use **Slash** if you need to deduct funds, or **Termination** to end a permission and free eligible deposits.
+## When can you self-create?
 
-## Message Parameters
+You can self-create when **the relevant mode for your permission type is OPEN**:
 
-| Name    | Description                             | Mandatory |
-|---------|------------------------------------------|-----------|
-| perm-id | Numeric ID of the permission to revoke   | yes       |
+- **For ISSUER**: the schema’s `issuer_perm_management_mode` is **OPEN**  
+- **For VERIFIER**: the schema’s `verifier_perm_management_mode` is **OPEN**
 
-## Post the Message
+Additionally, the schema must have an **active ECOSYSTEM (root) permission** (created by the Trust Registry controller).
 
-<Tabs>
-  <TabItem value="cli" label="CLI" default>
-
-### Usage
-
+Check with:
 ```bash
-veranad tx perm revoke-perm <perm-id> \
-  --from <validator-or-controller-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+# List schemas, inspect issuer/verifier modes
+veranad q cs list-schemas --node $NODE_RPC --output json | jq
+
+# Ensure a root (ECOSYSTEM) permission exists for the schema
+SCHEMA_ID=5
+veranad q perm list-permissions --node $NODE_RPC --output json \
+| jq '.permissions[] | select(.schema_id == "'$SCHEMA_ID'" and .type == "PERMISSION_TYPE_ECOSYSTEM")'
 ```
 
-### Copy‑pasteable example
+---
 
+## CLI
+
+### Usage
+```bash
+veranad tx perm create-perm [schema-id] [type] [did] [flags]
+```
+
+**Positional args**
+- `schema-id`: ID of the credential schema
+- `type`: Permission type use lowercase **issuer** or **verifier**.
+- `did`: DID of the Verifiable Service that will hold the permission
+
+**Common flags (per `-h`)**
+- `--country string` — ISO‑3166 alpha‑2 (e.g., `US`, `FR`)
+- `--effective-from timestamp (RFC 3339)` — must be in the **future**
+- `--effective-until timestamp (RFC 3339)` — must be **after** `--effective-from` (omit for no expiry)
+- `--verification-fees uint` — issuer-only; fees in trust units (omit for verifier)
+
+---
+
+## Examples
+
+Set your environment:
 ```bash
 USER_ACC="mat-test-acc"
 CHAIN_ID="vna-testnet-1"
 NODE_RPC=http://node1.testnet.verana.network:26657
-PERM_ID=10
+SCHEMA_ID=5
+```
 
-veranad tx perm revoke-perm $PERM_ID \
+### 1) Minimal ISSUER (OPEN mode)
+```bash
+veranad tx perm create-perm $SCHEMA_ID issuer did:example:123456789abcdefghi \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
-  </TabItem>
+### 2) ISSUER with flags
+```bash
+veranad tx perm create-perm $SCHEMA_ID issuer did:example:issuerService \
+  --country US \
+  --effective-from 2025-09-02T00:00:00Z \
+  --effective-until 2026-09-01T00:00:00Z \
+  --verification-fees 1000000 \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+```
 
-  <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: When available in the UI, link and screenshots will be added here.
-    :::
-  </TabItem>
-</Tabs>
+### 3) Minimal VERIFIER (OPEN mode)
+```bash
+veranad tx perm create-perm $SCHEMA_ID verifier did:example:verifierService \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+```
 
-## Verify on chain
+> **Note:** For a **verifier** permission, do **not** set `--verification-fees`.
 
+---
+
+## Verify on-chain
+
+Find the new permission (filter by schema and by your account):
 ```bash
 veranad q perm list-permissions --node $NODE_RPC --output json \
-| jq '.permissions[] | select(.id == "'$PERM_ID'")'
+| jq '.permissions[] | select(.schema_id == "'$SCHEMA_ID'" and .created_by == "'$(veranad keys show $USER_ACC -a --keyring-backend test)'" )'
 ```
-Expected: `"status": "REVOKED"` (or `vp_state`/status field reflecting revocation in your build).
 
-## Flow
+You should see:
+- `type`: `PERMISSION_TYPE_ISSUER` or `PERMISSION_TYPE_VERIFIER`
+- `validator_perm_id`: points to the ECOSYSTEM root permission for the schema
+- Optional fields you provided (country, effective_from/until, fees) populated accordingly
 
-```plantuml
-@startuml
-actor "Validator / Ecosystem Controller" as actor
-participant "Verifiable Public Registry" as VPR
+---
 
-actor -> VPR: revoke-perm (perm-id)
-VPR -> VPR: Validate authority
-alt Authorized
-  VPR -> VPR: Set permission state to REVOKED
-  VPR --> actor: Confirmation
-else Unauthorized
-  VPR --> actor: Error
-end
-@enduml
-```
+## Common errors & fixes
+
+- **Schema not in OPEN mode** → You’ll get an authorization error. Use a **validation process** instead: see [Run a Validation Process to Obtain a Permission](./27-run-a-validation-process-to-obtain-a-permission).
+- **No root permission** → Ask the Trust Registry controller to [Create a Root Permission](./20-create-a-root-permission).
+- **Invalid DID** → Ensure it follows DID Core syntax (e.g., `did:example:xyz`, `did:web:example.com`).
+- **Timestamps** → `effective-from` must be in the future; `effective-until` must be later than `effective-from`.
+- **Fees on VERIFIER** → `validation-fees` and `verification-fees` are for ISSUER only.
+
+---
 
 ## See also
-- [Slash a permission deposit](./slash-a-permission)
-- [Repay a slashed permission deposit](./repay-a-slashed-permission-deposit)
-- [Request permission termination](./request-permission-termination)
+- [Create a Root Permission](./create-a-root-permission)
+- [Run a Validation Process to Obtain a Permission](./run-a-validation-process-to-obtain-a-permission)
+- [Set Permission to Validated](./set-permission-to-validated)
+- [Revoke a Permission](./permission-revocation)
