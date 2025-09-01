@@ -101,8 +101,8 @@ You should see:
 
 ## Common errors & fixes
 
-- **Schema not in OPEN mode** → You’ll get an authorization error. Use a **validation process** instead: see [Run a Validation Process to Obtain a Permission](./27-run-a-validation-process-to-obtain-a-permission).
-- **No root permission** → Ask the Trust Registry controller to [Create a Root Permission](./20-create-a-root-permission).
+- **Schema not in OPEN mode** → You’ll get an authorization error. Use a **validation process** instead: see [Run a Validation Process to Obtain a Permission](./run-a-validation-process-to-obtain-a-permission).
+- **No root permission** → Ask the Trust Registry controller to [Create a Root Permission](./create-a-root-permission).
 - **Invalid DID** → Ensure it follows DID Core syntax (e.g., `did:example:xyz`, `did:web:example.com`).
 - **Timestamps** → `effective-from` must be in the future; `effective-until` must be later than `effective-from`.
 - **Fees on VERIFIER** → `validation-fees` and `verification-fees` are for ISSUER only.
