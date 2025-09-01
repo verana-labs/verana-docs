@@ -1,72 +1,129 @@
 # Revoke a Permission
 
-Permission revocation is the process of invalidating an active permission within an ecosystem. This action is usually performed by:
+Revocation invalidates an existing permission. According to the spec, this method can be called by **one of three actors**:
 
-- A validator who granted the permission during a validation process.
-- The ecosystem trust registry controller.
+- An **ancestor validator** in the permission branch (up to the root ECOSYSTEM permission).
+- The **grantee** (self‑revocation), regardless of schema mode (OPEN, GRANTOR, ECOSYSTEM).
+- The **Trust Registry controller** (owner of the credential schema).
 
-Typical scenarios for revocation include:
+---
 
-- Violation of ecosystem governance framework (EGF) rules.
-- Grantee is unable to continue to comply with the EGF.
-- Misuse of permissions by the grantee.
-- Unilateral decision from validator or trust registry controller.
+## Preconditions
 
-## Flow Diagram
+### Basic checks
+- `id` (uint64) is provided.
+- Load `Permission` entry `applicant_perm` from `id`; it must exist.
+- `applicant_perm` is a **valid permission** (not terminated or otherwise invalid).
 
-```plantuml
-@startuml
-actor "Validator" as validator
-participant "Verifiable Public Registry" as VPR
+### Advanced checks (one of the three must be true)
 
-validator -> VPR: Submit revoke-perm transaction with PERM_ID
-VPR -> VPR: Validate authority (validator or ecosystem controller)
-alt Authorized
-    VPR -> VPR: Set permission state to REVOKED
-    VPR --> validator: Confirmation of revocation
-else Unauthorized
-    VPR --> validator: Error (not authorized)
-end
-@enduml
-```
+**Option #1 — Ancestor validator**
 
-## Message Parameters
+If `applicant_perm.validator_perm_id` is defined:
+1. Set `validator_perm = applicant_perm`.
+2. While `validator_perm.validator_perm_id` is defined:
+   - Load `validator_perm` from `validator_perm.validator_perm_id`.
+   - If `validator_perm` is a valid permission **and** `validator_perm.grantee` equals the account executing the method → **allowed**.
+3. If none matched → **not allowed**.
 
-|Name               |Description                            |Mandatory|
-|-------------------|---------------------------------------|--------|
-|perm-id| Numeric ID of the permission whose deposit you want to slash. | yes |
-|amount| Amount to slash (must be less than or equal to the current permission deposit). | yes |
+**Option #2 — Trust Registry controller**
+1. Load `CredentialSchema` `cs` from `applicant_perm.schema_id`.
+2. Load `TrustRegistry` `tr` from `cs.tr_id`.
+3. If caller equals `tr.controller` → **allowed**, else **not allowed**.
 
-:::tip[TODO]
-@matlux
-:::
+**Option #3 — Grantee**
+- Caller equals `applicant_perm.grantee` → **allowed**.
 
-## Post the Message
+### Fees
+- The caller must have sufficient gas/fees; otherwise the transaction aborts.
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+---
 
-<Tabs>
-  <TabItem value="cli" label="CLI" default>
+## Effects (execution)
+When preconditions pass, the transaction performs:
+- Define `now` (current timestamp).
+- Load `applicant_perm` from `id`.
+- Set:
+  - `applicant_perm.revoked = now`
+  - `applicant_perm.modified = now`
+  - `applicant_perm.revoked_by = <caller account>`
+
+> Note: Per the current spec, revocation **does not** adjust deposits in this method.
+
+---
+
+## CLI
 
 ### Usage
-
 ```bash
-veranad tx perm revoke-perm <perm-id> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx perm revoke-perm <perm-id> \
+  --from <user> --chain-id <chain-id> --keyring-backend test \
+  --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 ### Example
-
 ```bash
 PERM_ID=10
-veranad tx perm revoke-perm $PERM_ID --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx perm revoke-perm $PERM_ID --from $USER_ACC --chain-id $CHAIN_ID \
+  --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
-  </TabItem>
-  
-  <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: describe here
-    :::
-  </TabItem>
-</Tabs>
+### Verify on chain
+```bash
+veranad q perm list-permissions --node $NODE_RPC --output json \
+| jq '.permissions[] | select(.id == "'$PERM_ID'")'
+```
+Check that `revoked` is set and `revoked_by` matches the caller.
+
+---
+
+## Who can revoke? (Example tree)
+```plantuml
+@startuml
+scale max 800 width
+ 
+package "Example Credential Schema Permission Tree" as cs {
+
+    object "Ecosystem A" as tr #3fbdb6 {
+        permissionType: ECOSYSTEM (Root)
+        did:example:ecosystemA
+    }
+    object "Issuer Grantor B" as ig {
+        permissionType: ISSUER_GRANTOR
+        did:example:igB
+    }
+    object "Issuer C" as issuer #7677ed  {
+        permissionType: ISSUER
+        did:example:iC
+    }
+    object "Verifier Grantor D" as vg {
+        permissionType: VERIFIER_GRANTOR
+        did:example:vgD
+    }
+    object "Verifier E" as verifier #00b0f0 {
+        permissionType: VERIFIER
+        did:example:vE
+    }
+
+    object "Holder Z " as holder #FFB073 {
+        permissionType: HOLDER
+    }
+}
+
+tr --> ig : granted schema permission
+ig --> issuer : granted schema permission
+
+tr --> vg : granted schema permission
+vg --> verifier : granted schema permission
+
+issuer --> holder: granted schema permission
+
+@enduml
+```
+
+---
+
+## See also
+- [Create a root permission](./create-a-root-permission)
+- [Slash a permission deposit](./slash-a-permission)
+- [Request permission termination](./request-permission-termination)

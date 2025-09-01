@@ -1,54 +1,116 @@
-# Self Create a Permission
+# Self-Create a Permission
 
-If the credential schema configuration allows it, candidates that would like to join as a participant of a credential schema can self-create their ISSUER or VERIFIER permission.
+Create an **ISSUER** or **VERIFIER** permission for a credential schema **when the schema is configured in OPEN mode**. This is the fastest way to become authorized to issue or verify credentials for that schema.
 
-- if credential schema attribute `issuer_perm_management_mode` is set to `OPEN`, candidate can self-create its ISSUER permission;
+> **Heads‑up:** You must still comply with the Ecosystem Governance Framework (EGF). Even in OPEN mode, your permission can be revoked and deposits slashed if you violate the EGF.
 
-- if credential schema attribute `verifier_perm_management_mode` is set to `OPEN`, candidate can self-create its VERIFIER permission;
+---
 
-:::tip
-In any other credential schema permission management configuration mode (ECOSYSTEM, GRANTOR), self-creation of a permission is not possible, and candidate must run a validation process to obtain a permission.
-:::
+## When can you self-create?
 
-For a given credential schema, added to the conditions above, self creation of a permission requires an active root permission. Self-created permission will set this root permission as the validator.
+You can self-create when **the relevant mode for your permission type is OPEN**:
 
-## Message Parameters
+- **For ISSUER**: the schema’s `issuer_perm_management_mode` is **OPEN**  
+- **For VERIFIER**: the schema’s `verifier_perm_management_mode` is **OPEN**
 
-|Name               |Description                            |Mandatory|
-|-------------------|---------------------------------------|--------|
+Additionally, the schema must have an **active ECOSYSTEM (root) permission** (created by the Trust Registry controller).
 
-:::tip[TODO]
-@matlux
-:::
+Check with:
+```bash
+# List schemas, inspect issuer/verifier modes
+veranad q cs list-schemas --node $NODE_RPC --output json | jq
 
-## Post the Message
+# Ensure a root (ECOSYSTEM) permission exists for the schema
+SCHEMA_ID=5
+veranad q perm list-permissions --node $NODE_RPC --output json \
+| jq '.permissions[] | select(.schema_id == "'$SCHEMA_ID'" and .type == "PERMISSION_TYPE_ECOSYSTEM")'
+```
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+---
 
-<Tabs>
-  <TabItem value="cli" label="CLI" default>
+## CLI
 
 ### Usage
-
 ```bash
-veranad tx ...
+veranad tx perm create-perm [schema-id] [type] [did] [flags]
 ```
-:::tip[TODO]
-@matlux
-:::
 
-### Example
+**Positional args**
+- `schema-id`: ID of the credential schema
+- `type`: Permission type use lowercase **issuer** or **verifier**.
+- `did`: DID of the Verifiable Service that will hold the permission
 
-:::tip[TODO]
-@matlux
-:::
+**Common flags (per `-h`)**
+- `--country string` — ISO‑3166 alpha‑2 (e.g., `US`, `FR`)
+- `--effective-from timestamp (RFC 3339)` — must be in the **future**
+- `--effective-until timestamp (RFC 3339)` — must be **after** `--effective-from` (omit for no expiry)
+- `--verification-fees uint` — issuer-only; fees in trust units (omit for verifier)
 
-  </TabItem>
-  
-  <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: describe here
-    :::
-  </TabItem>
-</Tabs>
+---
+
+## Examples
+
+Set your environment:
+```bash
+USER_ACC="mat-test-acc"
+CHAIN_ID="vna-testnet-1"
+NODE_RPC=http://node1.testnet.verana.network:26657
+SCHEMA_ID=5
+```
+
+### 1) Minimal ISSUER (OPEN mode)
+```bash
+veranad tx perm create-perm $SCHEMA_ID issuer did:example:123456789abcdefghi \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+```
+
+### 2) ISSUER with flags
+```bash
+veranad tx perm create-perm $SCHEMA_ID issuer did:example:issuerService \
+  --country US \
+  --effective-from 2025-09-02T00:00:00Z \
+  --effective-until 2026-09-01T00:00:00Z \
+  --verification-fees 1000000 \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+```
+
+### 3) Minimal VERIFIER (OPEN mode)
+```bash
+veranad tx perm create-perm $SCHEMA_ID verifier did:example:verifierService \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+```
+
+> **Note:** For a **verifier** permission, do **not** set `--verification-fees`.
+
+---
+
+## Verify on-chain
+
+Find the new permission (filter by schema and by your account):
+```bash
+veranad q perm list-permissions --node $NODE_RPC --output json \
+| jq '.permissions[] | select(.schema_id == "'$SCHEMA_ID'" and .created_by == "'$(veranad keys show $USER_ACC -a --keyring-backend test)'" )'
+```
+
+You should see:
+- `type`: `PERMISSION_TYPE_ISSUER` or `PERMISSION_TYPE_VERIFIER`
+- `validator_perm_id`: points to the ECOSYSTEM root permission for the schema
+- Optional fields you provided (country, effective_from/until, fees) populated accordingly
+
+---
+
+## Common errors & fixes
+
+- **Schema not in OPEN mode** → You’ll get an authorization error. Use a **validation process** instead: see [Run a Validation Process to Obtain a Permission](./run-a-validation-process-to-obtain-a-permission).
+- **No root permission** → Ask the Trust Registry controller to [Create a Root Permission](./create-a-root-permission).
+- **Invalid DID** → Ensure it follows DID Core syntax (e.g., `did:example:xyz`, `did:web:example.com`).
+- **Timestamps** → `effective-from` must be in the future; `effective-until` must be later than `effective-from`.
+- **Fees on VERIFIER** → `validation-fees` and `verification-fees` are for ISSUER only.
+
+---
+
+## See also
+- [Create a Root Permission](./create-a-root-permission)
+- [Run a Validation Process to Obtain a Permission](./run-a-validation-process-to-obtain-a-permission)
+- [Set Permission to Validated](./set-permission-to-validated)
+- [Revoke a Permission](./permission-revocation)
