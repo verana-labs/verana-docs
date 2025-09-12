@@ -80,10 +80,10 @@ veranad tx perm create-root-perm $SCHEMA_ID $ROOT_DID 1000000 1000000 1000000 \
 List permissions and filter for your schema and the ECOSYSTEM root:
 ```bash
 veranad q perm list-permissions --node $NODE_RPC --output json \
-| jq '.permissions[] | select(.schema_id == "'$SCHEMA_ID'" and .type == "PERMISSION_TYPE_ECOSYSTEM")'
+| jq '.permissions[] | select(.schema_id == "'$SCHEMA_ID'" and .type == "ECOSYSTEM")'
 ```
 
-You should see a permission entry with `type: "PERMISSION_TYPE_ECOSYSTEM"`, your `did`, and your `grantee` account.
+You should see a permission entry with `type: "ECOSYSTEM"`, your `did`, and your `grantee` account.
 
 ## See also
 - [Create a schema](../credential-schemas/create-a-credential-schema)
