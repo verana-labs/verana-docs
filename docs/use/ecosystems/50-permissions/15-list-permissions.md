@@ -22,16 +22,16 @@ At the moment, the CLI query does not accept filter flags. Use client-side filte
 
 ### Type mapping
 
-> The CLI/REST output returns **enum strings** (e.g., `PERMISSION_TYPE_ISSUER`), not numbers. Legacy docs sometimes refer to numeric IDs; both are listed here for reference.
+> The CLI/REST output returns **enum strings** (e.g., `ISSUER`), not numbers. Legacy docs sometimes refer to numeric IDs; both are listed here for reference.
 
 | Enum string                    | Meaning           | Legacy ID |
 |--------------------------------|-------------------|-----------|
-| PERMISSION_TYPE_ISSUER         | ISSUER            | 1         |
-| PERMISSION_TYPE_VERIFIER       | VERIFIER          | 2         |
-| PERMISSION_TYPE_ISSUER_GRANTOR | ISSUER-GRANTOR    | 3         |
-| PERMISSION_TYPE_VERIFIER_GRANTOR | VERIFIER-GRANTOR | 4         |
-| PERMISSION_TYPE_ECOSYSTEM      | ECOSYSTEM         | 5         |
-| PERMISSION_TYPE_HOLDER         | HOLDER            | 6         |
+| ISSUER         | ISSUER            | 1         |
+| VERIFIER       | VERIFIER          | 2         |
+| ISSUER_GRANTOR | ISSUER-GRANTOR    | 3         |
+| VERIFIER_GRANTOR | VERIFIER-GRANTOR | 4         |
+| ECOSYSTEM      | ECOSYSTEM         | 5         |
+| HOLDER         | HOLDER            | 6         |
 
 ## Execute the Query
 
@@ -60,15 +60,15 @@ veranad q perm list-permissions --node $NODE_RPC --output json \
 - By type = ISSUER:
 ```bash
 veranad q perm list-permissions --node $NODE_RPC --output json \
-| jq '.permissions[] | select(.type == "PERMISSION_TYPE_ISSUER")'
+| jq '.permissions[] | select(.type == "ISSUER")'
 ```
 ```bash
 # Alternatively, match by suffix (works across enum names)
 veranad q perm list-permissions --node $NODE_RPC --output json \
-| jq 'select(.permissions != null) | .permissions[] | select(.type | endswith("_ISSUER"))'
+| jq 'select(.permissions != null) | .permissions[] | select(.type | endswith("ISSUER"))'
 ```
 
-**Why `type == "1"` didn’t work?** The `.type` field is an **enum string** (e.g., `PERMISSION_TYPE_ISSUER`), not a numeric ID. Use the string value (or the `endswith("_ISSUER")` helper) when filtering with `jq`.
+**Why `type == "1"` didn’t work?** The `.type` field is an **enum string** (e.g., `ISSUER`), not a numeric ID. Use the string value (or the `endswith("ISSUER")` helper) when filtering with `jq`.
 
 - By status = VALIDATED:
 ```bash
@@ -78,10 +78,18 @@ veranad q perm list-permissions --node $NODE_RPC --output json \
 
 - By grantee DID:
 ```bash
-DID=did:example:abc123
+DID=did:example:123456789abcdefghi
 veranad q perm list-permissions --node $NODE_RPC --output json \
-| jq --arg did "$DID" '.permissions[] | select(.grantee == $did)'
+| jq --arg did "$DID" '.permissions[] | select(.did == $did)'
 ```
+
+- By grantee Account Address:
+```bash
+GRANTEE=verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0
+veranad q perm list-permissions --node $NODE_RPC --output json \
+| jq --arg grantee "$GRANTEE" '.permissions[] | select(.grantee == $grantee)'
+```
+
 
 - Count per type:
 ```bash

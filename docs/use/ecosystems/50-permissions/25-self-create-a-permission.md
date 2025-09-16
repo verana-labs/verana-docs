@@ -23,7 +23,7 @@ veranad q cs list-schemas --node $NODE_RPC --output json | jq
 # Ensure a root (ECOSYSTEM) permission exists for the schema
 SCHEMA_ID=5
 veranad q perm list-permissions --node $NODE_RPC --output json \
-| jq '.permissions[] | select(.schema_id == "'$SCHEMA_ID'" and .type == "PERMISSION_TYPE_ECOSYSTEM")'
+| jq '.permissions[] | select(.schema_id == "'$SCHEMA_ID'" and .type == "ECOSYSTEM")'
 ```
 
 ---
@@ -93,7 +93,7 @@ veranad q perm list-permissions --node $NODE_RPC --output json \
 ```
 
 You should see:
-- `type`: `PERMISSION_TYPE_ISSUER` or `PERMISSION_TYPE_VERIFIER`
+- `type`: `ISSUER` or `VERIFIER`
 - `validator_perm_id`: points to the ECOSYSTEM root permission for the schema
 - Optional fields you provided (country, effective_from/until, fees) populated accordingly
 
