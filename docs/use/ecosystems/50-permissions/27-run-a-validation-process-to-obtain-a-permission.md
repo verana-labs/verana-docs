@@ -65,22 +65,29 @@ veranad tx perm start-perm-vp <permission-type> <validator-perm-id> <country> \
 
 ### Examples
 
-**1) Apply as ISSUER under the root (ECOSYSTEM) validator**
+**1) Apply as ISSUER_GRANTOR under the root (ECOSYSTEM) validator**
 ```bash
-SCHEMA_ID=5
 VALIDATOR_PERM_ID=2   # ecosystem root perm for schema 5
+veranad tx perm start-perm-vp issuer-grantor $VALIDATOR_PERM_ID US \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+```
+
+**2) Apply as ISSUER under the ISSUER_GRANTOR**
+```bash
+VALIDATOR_PERM_ID=2   # issuer-grantor perm id
 veranad tx perm start-perm-vp issuer $VALIDATOR_PERM_ID US \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
-**2) Apply as VERIFIER under a VERIFIER_GRANTOR**
+
+**3) Apply as VERIFIER under a VERIFIER_GRANTOR**
 ```bash
 VALIDATOR_PERM_ID=41  # verifier-grantor perm id
 veranad tx perm start-perm-vp verifier $VALIDATOR_PERM_ID GB \
   --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
-**3) Holder applies under an ISSUER that charges validation fees**
+**4) Holder applies under an ISSUER that charges validation fees**
 ```bash
 ISSUER_PERM_ID=55
 veranad tx perm start-perm-vp holder $ISSUER_PERM_ID FR \
