@@ -126,7 +126,7 @@ veranad q perm list-permissions --node $NODE_RPC --output json \
 After submitting the request, contact the **validator’s DID** (e.g., via DIDComm or the channel specified in the EGF) to provide evidence and complete checks (KYC/compliance, capability proofs, etc.).
 
 When satisfied, the validator must call **Set Permission to Validated** to activate your permission:
-- [Set Permission to Validated](./28-set-permission-to-validated)
+- [Set Permission to Validated](./set-permission-to-validated)
 
 ---
 
