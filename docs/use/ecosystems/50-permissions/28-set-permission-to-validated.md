@@ -66,6 +66,7 @@ veranad tx perm set-perm-vp-validated <perm-id> \
 ### Example — Minimal
 
 ```bash
+VALIDATOR_ACC=test-acc
 PERM_ID=101
 veranad tx perm set-perm-vp-validated $PERM_ID \
   --from $VALIDATOR_ACC --chain-id $CHAIN_ID \
