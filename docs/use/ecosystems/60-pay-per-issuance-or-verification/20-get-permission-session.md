@@ -64,5 +64,5 @@ Coming soon to the testnet frontend. For now, inspect sessions via the CLI.
 
 ## Related
 
-- [Create or Update Permission Session](create-or-update-permission-session.md)
-- [Find Beneficiaries](find-beneficiaries.md)
+- [Create or Update Permission Session](create-or-update-permission-session)
+- [Find Beneficiaries](find-beneficiaries)
