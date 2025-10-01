@@ -58,14 +58,18 @@ holder -> wallet: Store credential
 
 ```bash
 SESSION_ID=$(uuidgen)
-veranad tx perm create-or-update-perm-session $SESSION_ID 45 --issuer-perm-id 30 --wallet-agent-perm-id 50 \
-  --from $USER_ACC --keyring-backend test --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC
+AGENT_PERM_ID=3
+WALLET_PERM_ID=$AGENT_PERM_ID
+ISSUER_PERM_ID=3
+VALIDATOR_ACC=Issuer_Applicant
+veranad tx perm create-or-update-perm-session $SESSION_ID $AGENT_PERM_ID $WALLET_PERM_ID --issuer-perm-id $ISSUER_PERM_ID \
+  --from $VALIDATOR_ACC --keyring-backend test --chain-id $CHAIN_ID --fees 900000uvna --gas 300000 --node $NODE_RPC
 ```
 
 Explanation:
-- `agent-perm-id` = 45 (Agent handling issuance).
-- `wallet-agent-perm-id` = 50 (Wallet where credential will be stored).
-- `issuer-perm-id` = 30 (Permission of the Issuer).
+- `agent-perm-id` = 4 (Agent handling issuance).
+- `wallet-agent-perm-id` = 4 (Wallet where credential will be stored).
+- `issuer-perm-id` = 12 (Permission of the Issuer).
 
  ### Verification Example
 
@@ -88,7 +92,7 @@ holder -> verifier: Provide credential proof
 
 ```bash
 SESSION_ID=$(uuidgen)
-veranad tx perm create-or-update-perm-session $SESSION_ID 45 --verifier-perm-id 60 --wallet-agent-perm-id 50 \
+veranad tx perm create-or-update-perm-session $SESSION_ID 13 13 --verifier-perm-id 60 \
   --from $USER_ACC --keyring-backend test --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC
 ```
 
