@@ -124,6 +124,7 @@ The **trust deposit** mechanism is designed to ensure that participants within a
 |--------------------------------------|------------------------------------------------------------------------------------------------------|
 | **Incentivize Good Behavior**        | Participants risk losing part of their deposit if they behave dishonestly or violate governance rules. |
 | **Signal Serious Intent**            | Requires participants to have "skin in the game," discouraging spam, fraud, and low-effort engagement. |
+| **Dispute Resolution**                  | Deposits can be partially or fully frozen if a participant has been suspected of misconduct. During the hold period, the ecosystem evaluates whether the participant’s actions caused actual harm. If harm is confirmed, the held deposit may be used—partially or fully—to compensate for the damage. If no harm is found, the deposit is released back to the participant. |
 | **Enable Slashing**                  | Deposits can be partially or fully slashed when participants breach trust policies or contractual roles. |
 | **Support Decentralized Governance** | Serves as the economic foundation for decentralized permission management, assignment, and revocation. |
 | **Ecosystem-Specific Control**       | Each ecosystem can only slash the portion of a participant’s deposit that corresponds to activity within that ecosystem. |
@@ -134,6 +135,12 @@ The **trust deposit** mechanism is designed to ensure that participants within a
 ### Slash
 
 Each ecosystem defines, in its **ecosystem governance framework (EGF)**, the rules that participants must follow to remain in good standing. The EGF also specifies the conditions under which a **slash** — a penalty applied to a participant’s trust deposit — may occur.
+
+Before executing a slash, the ecosystem must:
+
+- Assess Harm: Determine whether the participant’s actions caused measurable harm to the ecosystem or its members.
+- Compensation Request: Provide the participant with the opportunity to compensate affected parties directly.
+- Unresolved Dispute: If the dispute cannot be resolved and harm is evidenced, the ecosystem may authorize a slash.
 
 When a participant is **slashed**:
 
