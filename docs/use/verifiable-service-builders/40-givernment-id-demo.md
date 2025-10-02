@@ -19,7 +19,7 @@ Governments begin by creating their **Ecosystem Trust Registry** in Verana.
 ```json
 
 {
-  "$id": "vpr:verana:vna-testnet-1/v1/cs/js/VPR_CREDENTIAL_SCHEMA_ID",
+  "$id": "vpr:verana:VPR_CHAIN_ID/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "PersonCredential",
   "description": "PersonCredential using JsonSchema",
