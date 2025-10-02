@@ -55,7 +55,7 @@ veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json
 cat > schema.json << 'EOF'
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "vpr:verana:mainnet/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID",
+    "$id": "vpr:verana:VPR_CHAIN_ID/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID",
     "title": "ExampleCredential",
     "description": "ExampleCredential using JsonSchema",
     "type": "object",
@@ -80,12 +80,22 @@ veranad tx cs create-credential-schema ${TRUST_REG_ID} "$(cat schema.json)" 365 
 
 :::tip
 How to find the id of the credential schema that was just created?
-:::
-
 ```bash
 TX_HASH=4E7DEE1DFDE24A804E8BD020657EB22B07D54CBA695788ACB59D873B827F3CA6
 veranad q tx $TX_HASH --node $NODE_RPC --output json
 ```
+:::
+
+
+
+:::tip
+Make sure you are pointing towards your own Trust Registry (ID) before you run the above example!
+
+Remember to [List Trust Registries](../trust-registries/list-trust-registries) to find the relevant ID.
+```bash
+TRUST_REG_ID=5
+```
+:::
 
 replace with the correct transaction hash.
 
