@@ -28,7 +28,7 @@ Create a JSON file for the SlashTrustDepositProposal. This proposal will slash t
 {
   "messages": [
     {
-      "@type": "/verananetwork.verana.trustdeposit.MsgSlashTrustDeposit",
+      "@type": "/verana.td.v1.MsgSlashTrustDeposit",
       "authority": "verana10d07y265gmmuvt4z0w9aw880jnsr700j22m4w8",
       "account": "verana1example0123456789abcdefghijklmnopqrstuv",
       "slash_amount": "1000000"
