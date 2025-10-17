@@ -8,11 +8,11 @@ Make sure you've read [the Learn section](../../../learn/verifiable-public-regis
 |----------------------------|-----------------------------------------------------------------------------|-----------|
 | trust-registry-id          | Numeric ID of the trust registry                                            | Yes       |
 | json-schema                | JSON schema (inline string or loaded from file)                             | Yes       |
-| issuer-grantor-validity    | Validity period for issuer grantor (in days)                                | Yes       |
-| verifier-grantor-validity  | Validity period for verifier grantor (in days)                              | Yes       |
-| issuer-validity            | Validity period for issuer (in days)                                        | Yes       |
-| verifier-validity          | Validity period for verifier (in days)                                      | Yes       |
-| holder-validity            | Validity period for holder (in days)                                        | Yes       |
+| issuer-grantor-validity    | Validity period for issuer grantor (in days)                                | No        |
+| verifier-grantor-validity  | Validity period for verifier grantor (in days)                              | No        |
+| issuer-validity            | Validity period for issuer (in days)                                        | No        |
+| verifier-validity          | Validity period for verifier (in days)                                      | No        |
+| holder-validity            | Validity period for holder (in days)                                        | No        |
 | issuer-perm-mode           | Permission mode for issuer (integer)                                        | Yes       |
 | verifier-perm-mode         | Permission mode for verifier (integer)                                      | Yes       |
 
@@ -46,7 +46,13 @@ veranad tx cs create-schema <trust-registry-id> <json-schema> <issuer-grantor-va
 ### Example (inline JSON schema):
 
 ```bash
-veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"vpr:verana:VPR_CHAIN_ID/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID","title": "ExampleCredential","description": "ExampleCredential using JsonSchema","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 365 365 180 180 180 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"vpr:verana:VPR_CHAIN_ID/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID","title": "ExampleCredential","description": "ExampleCredential using JsonSchema","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' \
+  --issuer-grantor-validation-validity-period 365 \
+  --verifier-grantor-validation-validity-period 365 \
+  --issuer-validation-validity-period 180 \
+  --verifier-validation-validity-period 180 \
+  --holder-validation-validity-period 90 \
+   1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 ### Example (using JSON file):**
@@ -75,7 +81,13 @@ cat > schema.json << 'EOF'
 EOF
 
 # Use in command (you'll need to escape or quote properly)
-veranad tx cs create-credential-schema ${TRUST_REG_ID} "$(cat schema.json)" 365 365 180 180 180 1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx cs create-credential-schema ${TRUST_REG_ID} "$(cat schema.json)" \
+  --issuer-grantor-validity 365 \
+  --verifier-grantor-validity 365 \
+  --issuer-validity 180 \
+  --verifier-validity 180 \
+  --holder-validity 90 \
+  1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 :::tip
