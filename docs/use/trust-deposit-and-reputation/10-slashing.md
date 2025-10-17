@@ -6,7 +6,7 @@ In some very rare cases, slashing the trust deposit of a given Permission can be
 
 This method can only be called by a governance proposal. A globally slashed account MUST repay the slashed deposit in order to continue to use the services provided by the VPR. When an account is slashed, and while slashed deposit has not been repaid, all account linked permissions MUST be considered non trustable.
 
-This method is for network governance authority slash. For ecosystem slash, see [Slash a Permission](../ecosystems/50-permissions/60-slash-a-permission).
+This method is for network governance authority slash. For ecosystem slash, see [Slash a Permission](../ecosystems/permissions/slash-a-permission).
 
 ### Environment Setup
 
@@ -14,6 +14,9 @@ Set the following environment variables before running the CLI commands:
 
 ```bash
 USER_ACC="my-user-account"
+USER_ACC_LIT="verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0"
+SLASHED_ACCOUNT="bad-user"
+SLASHED_ACCOUNT_LIT="verana1example0123456789abcdefghijklmnopqrstuv"
 CHAIN_ID="vna-testnet-1"
 NODE_RPC="http://node1.testnet.verana.network:26657"
 ```
@@ -25,21 +28,22 @@ Create a JSON file for the SlashTrustDepositProposal. This proposal will slash t
 **Example `slash_proposal.json`:**
 
 ```json
-{
-  "messages": [
+jq -n --arg acc "$SLASHED_ACCOUNT_LIT" \
+'{
+  messages: [
     {
       "@type": "/verana.td.v1.MsgSlashTrustDeposit",
-      "authority": "verana10d07y265gmmuvt4z0w9aw880jnsr700j22m4w8",
-      "account": "verana1example0123456789abcdefghijklmnopqrstuv",
-      "slash_amount": "1000000"
+      authority: "verana10d07y265gmmuvt4z0w9aw880jnsr700j22m4w8",
+      account: $acc,
+      amount: "1000000"
     }
   ],
-  "metadata": "ipfs://CID",
-  "deposit": "10000000uvna",
-  "title": "Slash Trust Deposit for Fraudulent Activity",
-  "summary": "This proposal requests to slash 1,000,000 uvna from the trust deposit of account verana1example... due to verified fraudulent activity. The account will need to repay this slashed amount before being able to participate in the VPR again.",
-  "expedited": false
-}
+  metadata: "ipfs://CID",
+  deposit: "10000000uvna",
+  title: "Slash Trust Deposit for Fraudulent Activity",
+  summary: ("This proposal requests to slash 1,000,000 uvna from the trust deposit of account " + $acc + " due to verified fraudulent activity. The account will need to repay this slashed amount before being able to participate in the VPR again."),
+  expedited: false
+}' > slash_proposal.json
 ```
 
 **Parameters:**
@@ -87,7 +91,7 @@ Validators and delegators can vote on the proposal. The voting period is typical
 ```bash
 PROPOSAL_ID=1  # Replace with actual proposal ID
 veranad tx gov vote $PROPOSAL_ID yes \
-  --from $USER_ACC \
+  --from $VALIDATOR_ACC \
   --keyring-backend test \
   --chain-id $CHAIN_ID \
   --fees 650000uvna \
@@ -118,9 +122,7 @@ If the proposal passes (reaches quorum and majority approval), it will be automa
 **Verify the slash:**
 
 ```bash
-# Check the slashed account's trust deposit
-SLASHED_ACCOUNT="verana1example0123456789abcdefghijklmnopqrstuv"
-veranad q td get-trust-deposit $SLASHED_ACCOUNT \
+veranad q td get-trust-deposit $SLASHED_ACCOUNT_LIT \
   --node $NODE_RPC \
   --output json
 ```
@@ -140,7 +142,7 @@ A slashed account cannot participate in the VPR until the slashed deposit is ful
 ### Syntax
 
 ```bash
-veranad tx td repay-slashed-deposit [account] [amount] \
+veranad tx td repay-slashed-td [account] [amount] \
   --from <user> \
   --chain-id <chain-id> \
   --keyring-backend test \
@@ -158,13 +160,13 @@ veranad tx td repay-slashed-deposit [account] [amount] \
 
 ```bash
 # First, check your slashed deposit amount
-veranad q td get-trust-deposit $USER_ACC_LIT \
+veranad q td get-trust-deposit $SLASHED_ACCOUNT_LIT \
   --node $NODE_RPC \
   --output json
 
 # Repay the slashed amount
 SLASHED_AMOUNT=1000000  # Replace with actual slashed amount
-veranad tx td repay-slashed-deposit $USER_ACC_LIT $SLASHED_AMOUNT \
+veranad tx td repay-slashed-td $SLASHED_ACCOUNT_LIT $SLASHED_AMOUNT \
   --from $USER_ACC \
   --chain-id $CHAIN_ID \
   --keyring-backend test \
@@ -178,10 +180,9 @@ veranad tx td repay-slashed-deposit $USER_ACC_LIT $SLASHED_AMOUNT \
 Any account can repay the slashed deposit for another account:
 
 ```bash
-SLASHED_ACCOUNT="verana1example0123456789abcdefghijklmnopqrstuv"
 REPAY_AMOUNT=1000000
 
-veranad tx td repay-slashed-deposit $SLASHED_ACCOUNT $REPAY_AMOUNT \
+veranad tx td repay-slashed-deposit $SLASHED_ACCOUNT_LIT $REPAY_AMOUNT \
   --from $USER_ACC \
   --chain-id $CHAIN_ID \
   --keyring-backend test \
