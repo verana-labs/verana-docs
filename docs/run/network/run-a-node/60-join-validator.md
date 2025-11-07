@@ -187,7 +187,7 @@ veranad query slashing signing-info $(veranad tendermint show-validator)
 If your validator gets jailed:
 
 ```bash
-veranad tx slashing unjail --from=$validatorName --chain-id=$CHAIN_ID
+veranad tx slashing unjail --from=$validatorName --chain-id=$CHAIN_ID --keyring-backend test --node $NODE_RPC
 ```
 
 ---
