@@ -96,13 +96,18 @@ Validators are responsible for committing new blocks to the blockchain through a
 
 ```bash
 # Create a new key
-veranad keys add <key-name>
+veranad keys add <key-name> --keyring-backend test
 ```
 > **Note:** Save the mnemonic phrase securely. You'll need it to recover your account.
 
 ### 2. Get Testnet Tokens
 
 Request testnet tokens from the [Verana Faucet](https://faucet-vs.testnet.verana.network/invitation).
+
+```
+/to verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0
+```
+*(Replace the address with your account address. You can use the command `veranad keys list --keyring-backend test` to find your address.)*
 
 ### 3. Set Environment Variables
 
@@ -144,11 +149,20 @@ echo '{
 
 ### 5. Create Validator Transaction
 
+Tokens are required to complete this step. If you don't have tokens yet, refer to step 2.
+
 > **Note:** The `commission-max-change-rate` is the maximum percentage point change per day. For example, 1% to 2% is a 1 percentage point change.
 
 ```bash
 # Execute the create-validator transaction
 veranad tx staking create-validator ./joiningvalidator.json --from $validatorName --fees 600000uvna --chain-id $CHAIN_ID --node $NODE_RPC --keyring-backend test --yes
+```
+
+To verify that the transaction was successful, run the following command (you should not see any errors):
+
+```bash
+# Replace FB5EF0A6CC8460F77A6D33C2A8AC43CA2ADFBBBDDEAAA72292714297C74D196F with the txhash returned by the previous command
+veranad q tx FB5EF0A6CC8460F77A6D33C2A8AC43CA2ADFBBBDDEAAA72292714297C74D196F  --node $NODE_RPC
 ```
 
 ---
