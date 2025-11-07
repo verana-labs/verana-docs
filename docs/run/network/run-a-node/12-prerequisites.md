@@ -35,9 +35,24 @@ veranad version
 If you want to build from source, clone the repository and compile:
 
 ```bash
+# Make sure that Go 1.22+ is installed.
+
+go version
+
 git clone https://github.com/verana-labs/verana-blockchain.git
 cd verana-blockchain
 make install
+
+#Verify installation
+veranad version
+
+#If you get "veranad: command not found" when executing the command, make sure the binary is in your PATH. By default, the binary is installed in ~/go/bin. You can use the following command to locate the binary if it is in another directory
+
+find / -name veranad
+
+# Make sure this directory is included in your PATH
+export PATH=$PATH:~/go/bin
+veranad version
 ```
 
 See [Run an Isolated Local Node](20-local-node-isolated.md) for detailed instructions on using helper scripts and building from source.
@@ -52,7 +67,7 @@ Set environment variables to target the correct network (testnet, mainnet, or lo
 
 ```bash
 USER_ACC="your-account-name"
-USER_ACC_LIT="verana1..."
+USER_ACC_LIT="verana1..."  #Refer to step 3 to obtain this parameter.
 CHAIN_ID="vna-testnet-1"
 NODE_RPC="http://node1.testnet.verana.network:26657"
 ```
@@ -65,7 +80,7 @@ Before you can send transactions or interact with the network, you need an accou
 
 ### Create a New Account
 ```bash
-veranad keys add $USER_ACC --ledger --keyring-backend test
+veranad keys add $USER_ACC --keyring-backend test
 ```
 
 If you already have a passphrase (mnemonic), restore the account:
@@ -84,7 +99,7 @@ Use the faucet to request tokens (available for testnet and devnet):
 ```
 /to verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0
 ```
-*(Replace the address with your account address.)*
+*(Replace the address with your account address. You can use the command `veranad keys list --keyring-backend test` to find your address.)*
 
 ### Check Account Balance
 ```bash
