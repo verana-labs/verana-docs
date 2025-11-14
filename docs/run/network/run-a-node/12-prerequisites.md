@@ -8,7 +8,7 @@ Before you start running Verana CLI commands or setting up a node, make sure you
 
 You have two options to install the `veranad` binary:
 
-### **Option A: Download the Latest Binary**
+### **Option A: Download the Latest Binary** (recommended)
 If you prefer the easiest approach, download the precompiled binary:
 
 ```bash
@@ -31,7 +31,7 @@ sudo mv $BINARY_FILE /usr/local/bin/veranad
 veranad version
 ```
 
-### **Option B: Build from Source**
+### **Option B: Build from Source** (Developer only)
 If you want to build from source, clone the repository and compile:
 
 ```bash
@@ -39,8 +39,13 @@ If you want to build from source, clone the repository and compile:
 
 go version
 
+<<<<<<< HEAD
 git clone https://github.com/verana-labs/verana-blockchain.git
 cd verana-blockchain
+=======
+git clone https://github.com/verana-labs/verana.git
+cd verana
+>>>>>>> upstream/main
 make install
 
 #Verify installation
