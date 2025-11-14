@@ -113,20 +113,7 @@ max_num_inbound_peers = 40
 max_num_outbound_peers = 20
 ```
 
-### 6. Configure State Sync (Optional)
-
-Edit `~/.verana/config/config.toml`:
-
-```toml
-[statesync]
-enable = true
-rpc_servers = "http://node1.testnet.verana.network:26657,http://node2.testnet.verana.network:26657"
-trust_height = <current_height>
-trust_hash = "<block_hash>"
-trust_period = "168h0m0s"
-```
-
-### 7. Download Snapshot (Optional)
+### 6. Download Snapshot
 
 ```bash
 SNAPSHOT_MANIFEST="/tmp/verana-snapshot-manifest.json"
@@ -140,6 +127,19 @@ else
     wget -O ~/.verana/data.tar.gz https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/snapshots/data.tar.gz
     tar -xzvf ~/.verana/data.tar.gz -C ~/.verana
 fi
+```
+
+### 7. Configure State Sync (Optional)
+
+Edit `~/.verana/config/config.toml`:
+
+```toml
+[statesync]
+enable = true
+rpc_servers = "http://node1.testnet.verana.network:26657,http://node2.testnet.verana.network:26657"
+trust_height = <current_height>
+trust_hash = "<block_hash>"
+trust_period = "168h0m0s"
 ```
 
 ### 8. Configure Pruning (Optional)
