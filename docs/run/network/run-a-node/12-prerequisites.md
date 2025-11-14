@@ -39,13 +39,8 @@ If you want to build from source, clone the repository and compile:
 
 go version
 
-<<<<<<< HEAD
-git clone https://github.com/verana-labs/verana-blockchain.git
-cd verana-blockchain
-=======
 git clone https://github.com/verana-labs/verana.git
 cd verana
->>>>>>> upstream/main
 make install
 
 #Verify installation
