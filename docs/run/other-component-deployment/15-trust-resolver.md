@@ -1,8 +1,7 @@
-# Indexer
+# Trust Resolver
 
 :::tip[TODO]
 
-@genaris
 
 explain here
 
