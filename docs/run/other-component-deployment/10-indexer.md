@@ -2,8 +2,6 @@
 
 :::tip[TODO]
 
-@genaris
-
 explain here
 
 :::
