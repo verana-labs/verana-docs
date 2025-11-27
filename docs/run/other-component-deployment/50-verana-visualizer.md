@@ -51,8 +51,19 @@ The Verana Visualizer requires several environment variables to connect to the V
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `NEXT_PUBLIC_GITHUB_TOKEN` | GitHub API token for Developer Activity page | Not set (60 requests/hour limit) |
+| `NEXT_PUBLIC_PORT` | Port displayed/consumed by the frontend bundle | `3000` |
 
 > **Note:** Without a GitHub token, the Developer Activity page is limited to 60 requests per hour. With a token (requires `public_repo` scope), you get 5,000 requests per hour. Create a token at [GitHub Settings](https://github.com/settings/tokens).
+
+### Server Runtime Variables
+
+These variables are only read by the Next.js server process. They are **not** exposed to the browser bundle, so they do not use the `NEXT_PUBLIC_` prefix.
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PORT` | Port used by `next dev`/`next start` | `3000` |
+
+> Use `PORT` (or `next dev --port <value>`) to change the port the Node.js server binds to. `NEXT_PUBLIC_PORT` is still useful for generating links or displaying the port inside the UI, but it does not affect the server listener.
 
 ### Alternative Verana-Specific Variables
 
@@ -118,11 +129,11 @@ npm install
 
 ### 3. Configure Environment Variables
 
-Create a `.env.local` file in the root directory with your environment variables:
+Create a `.env.local` file (loaded automatically by Next.js) in the root directory. The repository includes an `env.example` file with default values. Copy it to `.env.local` and customize it:
 
 ```bash
 cp env.example .env.local
-# Edit .env.local with your configuration
+# Edit .env.local with your configuration (git ignores this file)
 ```
 
 ### 4. Run Development Server
@@ -133,7 +144,15 @@ Start the development server with hot module replacement:
 npm run dev
 ```
 
-The application will be available at `http://localhost:3000`.
+The application will be available at `http://localhost:3000` (or any port you supply via `PORT`/`--port`). If your UI needs to know the port (for example, to build a base URL), also set `NEXT_PUBLIC_PORT=3003` in your `.env.local`.
+
+To bind the dev server to a different port:
+
+```bash
+PORT=3003 npm run dev
+# or
+npm run dev --port 3003
+```
 
 > **Tip:** The development server supports hot module replacement, so changes to your code will be reflected immediately in the browser.
 
@@ -163,7 +182,7 @@ npm run build
 npm start
 ```
 
-The application will run on port 3000 (configurable via `PORT` environment variable).
+The application will run on the port specified by `PORT` (default: 3000). Set it with `PORT=4000 npm start` or via your process manager. Remember to keep `NEXT_PUBLIC_PORT` aligned if the UI makes assumptions about the exposed port.
 
 ### Method 2: Docker Deployment
 
@@ -175,9 +194,11 @@ docker build -t verana/verana-visualizer:latest .
 
 #### Run the Container
 
+Set `PORT` if the server should listen on something other than `3000` (the default). Example:
+
 ```bash
-docker run --rm -p 3000:3000 \
-  -e NEXT_PUBLIC_BASE_URL=http://localhost:3000 \
+docker run --rm -p 4000:3000 \
+  -e NEXT_PUBLIC_BASE_URL=http://localhost:4000 \
   -e NEXT_PUBLIC_API_ENDPOINT=https://api.testnet.verana.network \
   -e NEXT_PUBLIC_RPC_ENDPOINT=https://rpc.testnet.verana.network \
   -e NEXT_PUBLIC_IDX_ENDPOINT=https://idx.testnet.verana.network \
@@ -189,7 +210,9 @@ docker run --rm -p 3000:3000 \
   verana/verana-visualizer:latest
 ```
 
-> **Note:** The Dockerfile uses a multi-stage build with Next.js standalone output for optimal image size and performance.
+The `-p <host>:<container>` flag exposes the container's listener (default `PORT=3000`) on your machine. In the example above, requests to `http://localhost:4000` get forwarded to the container's port 3000. To change both the host port and the internal listener, set both sides, for example: `-p 4100:4000 -e PORT=4000`.
+
+> **Note:** The Dockerfile uses a multi-stage build with Next.js standalone output for optimal image size and performance. Environment variables are baked into the build at build time, so you'll need to rebuild the image if you change `NEXT_PUBLIC_*` variables.
 
 ### Method 3: Kubernetes Deployment
 
@@ -257,6 +280,8 @@ kubectl get ingress
 kubectl logs -f deployment/verana-visualizer
 ```
 
+> **Note:** The template manifest includes a Service and Ingress. The Service `targetPort: 3000` sends traffic to the container's listener, which defaults to the `PORT` value (3000 unless overridden). If you change the server's internal port, update both the container `ports` entry in the deployment and the Service `targetPort` to match.
+
 ### Method 4: Helm Chart Deployment
 
 The repository includes a production-ready Helm chart at `helm/verana-visualizer/`.
@@ -320,7 +345,7 @@ The Verana Visualizer includes the following features:
 
 ### Port Configuration
 
-By default, the application runs on port 3000. You can change this by setting the `PORT` environment variable:
+By default, the application runs on port 3000. Change the listening port by setting the `PORT` environment variable or by passing `--port` to `next dev`/`next start`. In Docker/Kubernetes we usually keep the internal port at 3000 and map/expose it externally; `NEXT_PUBLIC_PORT` only controls what the frontend bundle thinks the port is.
 
 ```bash
 export PORT=8080
@@ -331,6 +356,11 @@ For Docker, map the container port to your desired host port:
 
 ```bash
 docker run -p 8080:3000 verana/verana-visualizer:latest
+```
+
+```yaml
+ports:
+  - 8080:3000  # Host port:Container port
 ```
 
 ### Logo Configuration
@@ -379,11 +409,10 @@ npm run build
 
 **Issue**: Port 3000 is already in use
 
-**Solution**: Change the port:
+**Solution**: Change the port by setting `PORT` (or by passing `--port`):
 
 ```bash
-export PORT=3001
-npm run dev
+PORT=3001 npm run dev
 ```
 
 Or for Docker:
