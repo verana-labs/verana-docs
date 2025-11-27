@@ -43,7 +43,6 @@ The frontend requires several environment variables to connect to the Verana blo
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `NEXT_PUBLIC_PORT` | Port the application runs on | `3000` |
 | `NEXT_PUBLIC_BASE_URL` | Base URL for the application | `http://localhost:3000` |
 | `NEXT_PUBLIC_VERANA_CHAIN_ID` | Verana chain identifier | `vna-devnet-1` |
 | `NEXT_PUBLIC_VERANA_CHAIN_NAME` | Human-readable chain name | `VeranaDevnet1` |
@@ -58,8 +57,19 @@ The frontend requires several environment variables to connect to the Verana blo
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `NEXT_PUBLIC_VERANA_SIGN_DIRECT_MODE` | Use direct signing mode | `false` |
-| `NEXT_PUBLIC_SESSION_LIFETIME_SECONDS` | Session lifetime in seconds | `86400` (24 hours) |
+| `NEXT_PUBLIC_PORT` | Port displayed/consumed by the frontend bundle | `3000` |
+
+### Server Runtime Variables
+
+These variables are only read by the Next.js server process. They are **not** exposed to the browser bundle, so they do not use the `NEXT_PUBLIC_` prefix.
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PORT` | Port used by `next dev`/`next start` | `3000` |
+
+> Use `PORT` (or `next dev --port <value>`) to change the port the Node.js server binds to. `NEXT_PUBLIC_PORT` is still useful for generating links or displaying the port inside the UI (and is dynamically substituted in our Docker/Kubernetes images), but it does not affect the server listener.
+
+> **How the Docker/Kubernetes images work:** the build stage leaves placeholder values like `APP_NEXT_PUBLIC_PORT` inside `.next`. At runtime, `entrypoint.sh` replaces those placeholders with the current `NEXT_PUBLIC_*` values, so the container only needs those variables to update the browser bundle. The Node.js server still listens on `PORT` (default 3000); most clusters just expose that port through a Service or `-p` mapping without overriding it.
 
 ### Environment Examples
 
@@ -108,11 +118,11 @@ yarn install
 
 ### 3. Configure Environment Variables
 
-Create a `.env` file in the root directory with your environment variables:
+Create a `.env.local` file (loaded automatically by Next.js) in the root directory. The repository already includes a checked-in `.env` with default values, and an `.env-local` example if you prefer to keep a separate template. Copy whichever suits your workflow into `.env.local` and then customize it:
 
 ```bash
-cp .env.example .env
-# Edit .env with your configuration
+cp .env .env.local        # or: cp .env-local .env.local
+# Edit .env.local with your configuration (git ignores this file)
 ```
 
 ### 4. Run Development Server
@@ -123,7 +133,15 @@ Start the development server with hot-reloading:
 yarn dev
 ```
 
-The application will be available at `http://localhost:3000` (or the port specified in `NEXT_PUBLIC_PORT`).
+The application will be available at `http://localhost:3000` (or any port you supply via `PORT`/`--port`). If your UI needs to know the port (for example, to build a base URL), also set `NEXT_PUBLIC_PORT=3003` in your `.env`.
+
+To bind the dev server to a different port:
+
+```bash
+PORT=3003 yarn dev
+# or
+yarn dev --port 3003
+```
 
 > **Tip:** The development server uses Turbopack for faster builds and hot module replacement.
 
@@ -146,7 +164,7 @@ yarn build
 yarn start
 ```
 
-The application will run on the port specified in `NEXT_PUBLIC_PORT` (default: 3000).
+The application will run on the port specified by `PORT` (default: 3000). Set it with `PORT=4000 yarn start` or via your process manager. Remember to keep `NEXT_PUBLIC_PORT` aligned if the UI makes assumptions about the exposed port.
 
 ### Method 2: Docker Deployment
 
@@ -170,7 +188,7 @@ cd docker-compose/docker-hub
 docker-compose up -d
 ```
 
-This uses the pre-built image from Docker Hub (`veranalabs/verana-front:main`).
+This compose file references the pre-built image on Docker Hub (`veranalabs/verana-front:main`). Because the file also includes a `build` section, Docker Compose will rebuild the image by default; remove the `build` block if you want to pull only the published image.
 
 ##### Option C: Custom Environment Variables
 
@@ -198,11 +216,13 @@ docker build -t verana-frontend:latest .
 
 ##### 2. Run the Container
 
+Set `PORT` if the server should listen on something other than `3000` (the default). Example:
+
 ```bash
 docker run -d \
-  -p 3000:3000 \
+  -p 4000:3000 \
   -e NEXT_PUBLIC_PORT=3000 \
-  -e NEXT_PUBLIC_BASE_URL=http://localhost:3000 \
+  -e NEXT_PUBLIC_BASE_URL=http://localhost:4000 \
   -e NEXT_PUBLIC_VERANA_CHAIN_ID=vna-devnet-1 \
   -e NEXT_PUBLIC_VERANA_CHAIN_NAME=VeranaDevnet1 \
   -e NEXT_PUBLIC_VERANA_RPC_ENDPOINT=http://node1.devnet.verana.network:26657 \
@@ -214,6 +234,8 @@ docker run -d \
   --name verana-frontend \
   verana-frontend:latest
 ```
+
+The `-p <host>:<container>` flag exposes the container's listener (default `PORT=3000`) on your machine. In the example above, requests to `http://localhost:4000` get forwarded to the container's port 3000. To change both the host port and the internal listener, set both sides, for example: `-p 4100:4000 -e PORT=4000`.
 
 ### Method 3: Kubernetes Deployment
 
@@ -231,6 +253,8 @@ export NEXT_PUBLIC_PORT=3000
 export NEXT_PUBLIC_BASE_URL=https://your-domain.com
 # ... set other environment variables
 ```
+
+> The provided manifest only wires `NEXT_PUBLIC_*` variables. If you need to override server-side values such as `PORT`, add them to the `env` array in `kubernetes/verana-frontend-deployment.yaml` before applying.
 
 #### 2. Apply the Deployment
 
@@ -258,14 +282,14 @@ metadata:
 spec:
   selector:
     app: verana-frontend-app
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
-  type: LoadBalancer
+      ports:
+        - protocol: TCP
+          port: 80
+          targetPort: 3000
+      type: LoadBalancer
 ```
 
-Apply the service:
+`targetPort: 3000` sends traffic to the container's listener, which defaults to the `PORT` value discussed earlier (3000 unless overridden). If you change the server's internal port, update both the container `ports` entry in the deployment and this `targetPort` to match. Save the service definition as `verana-frontend-service.yaml`, then apply it:
 
 ```bash
 kubectl apply -f verana-frontend-service.yaml
@@ -286,7 +310,7 @@ The repository includes multiple Docker Compose configurations:
 
 ### Port Configuration
 
-By default, the application runs on port 3000. You can change this by setting the `NEXT_PUBLIC_PORT` environment variable. When using Docker, map the container port to your desired host port:
+By default, the application runs on port 3000. Change the listening port by setting the `PORT` environment variable or by passing `--port` to `next dev`/`next start`. In Docker/Kubernetes we usually keep the internal port at 3000 and map/expose it externally; `NEXT_PUBLIC_PORT` only controls what the frontend bundle thinks the port is.
 
 ```yaml
 ports:
@@ -316,11 +340,10 @@ yarn install
 
 **Issue**: Port 3000 is already in use
 
-**Solution**: Change the port in your environment variables:
+**Solution**: Change the port by setting `PORT` (or by passing `--port`):
 
 ```bash
-export NEXT_PUBLIC_PORT=3001
-yarn dev
+PORT=3001 yarn dev
 ```
 
 ### Environment Variables Not Loading
