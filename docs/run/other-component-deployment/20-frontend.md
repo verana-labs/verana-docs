@@ -251,26 +251,48 @@ export IMAGE_TAG=main
 export CLUSTER_NODE=your-node-name
 export NEXT_PUBLIC_PORT=3000
 export NEXT_PUBLIC_BASE_URL=https://your-domain.com
+export NEXT_PUBLIC_VERANA_CHAIN_ID=vna-testnet-1
+export NEXT_PUBLIC_VERANA_CHAIN_NAME=VeranaTestnet1
+export NEXT_PUBLIC_VERANA_RPC_ENDPOINT=https://rpc.testnet.verana.network
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT=https://api.testnet.verana.network
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=https://api.testnet.verana.network/verana/td/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=https://api.testnet.verana.network/verana/dd/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=https://api.testnet.verana.network/verana/tr/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=https://api.testnet.verana.network/verana/cs/v1
+export KUBE_NAMESPACE=$NEXT_PUBLIC_VERANA_CHAIN_ID   # or set your own namespace
 # ... set other environment variables
 ```
 
 > The provided manifest only wires `NEXT_PUBLIC_*` variables. If you need to override server-side values such as `PORT`, add them to the `env` array in `kubernetes/verana-frontend-deployment.yaml` before applying.
 
-#### 2. Apply the Deployment
+> **Custom infrastructure:** The example above uses the public Verana RPC/REST endpoints for convenience. If you run your own validators, API nodes, or related services, point the `NEXT_PUBLIC_VERANA_*` variables to your infrastructure instead so the frontend talks to your cluster.
+> **Node placement:** `CLUSTER_NODE` feeds the `nodeSelector` in the manifest. Replace `your-node-name` with an actual node label (e.g. the hostname label you get from `kubectl get nodes --show-labels`), otherwise Kubernetes will reject the manifest.
+
+#### 2. Render the Manifest
+
+All placeholders in `kubernetes/verana-frontend-deployment.yaml` must be substituted before applying. Use `envsubst` (or your templating tool of choice) after exporting the variables above:
 
 ```bash
-kubectl apply -f kubernetes/verana-frontend-deployment.yaml
+envsubst < kubernetes/verana-frontend-deployment.yaml > verana-frontend-deployment.rendered.yaml
 ```
 
-#### 3. Verify Deployment
+> **Namespaces:** pick the namespace you want to deploy into (for example, reuse `NEXT_PUBLIC_VERANA_CHAIN_ID`). If you exported `KUBE_NAMESPACE`, run `kubectl create namespace $KUBE_NAMESPACE` the first time to ensure it exists.
+
+#### 3. Apply the Deployment
 
 ```bash
-kubectl get deployments
-kubectl get pods
-kubectl logs -f deployment/verana-frontend
+kubectl apply -f verana-frontend-deployment.rendered.yaml -n $KUBE_NAMESPACE
 ```
 
-#### 4. Expose the Service
+#### 4. Verify Deployment
+
+```bash
+kubectl get deployments -n $KUBE_NAMESPACE
+kubectl get pods -n $KUBE_NAMESPACE
+kubectl logs -f deployment/verana-frontend -n $KUBE_NAMESPACE
+```
+
+#### 5. Expose the Service
 
 Create a service to expose the deployment:
 
@@ -289,10 +311,10 @@ spec:
       type: LoadBalancer
 ```
 
-`targetPort: 3000` sends traffic to the container's listener, which defaults to the `PORT` value discussed earlier (3000 unless overridden). If you change the server's internal port, update both the container `ports` entry in the deployment and this `targetPort` to match. Save the service definition as `verana-frontend-service.yaml`, then apply it:
+`targetPort: 3000` sends traffic to the container's listener, which defaults to the `PORT` value discussed earlier (3000 unless overridden). If you change the server's internal port, update both the container `ports` entry in the deployment and this `targetPort` to match. Save the service definition as `verana-frontend-service.yaml`, then apply it in the same namespace:
 
 ```bash
-kubectl apply -f verana-frontend-service.yaml
+kubectl apply -f verana-frontend-service.yaml -n $KUBE_NAMESPACE
 ```
 
 ---
