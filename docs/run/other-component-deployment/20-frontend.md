@@ -58,6 +58,8 @@ The frontend requires several environment variables to connect to the Verana blo
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `NEXT_PUBLIC_PORT` | Port displayed/consumed by the frontend bundle | `3000` |
+| `NEXT_PUBLIC_VERANA_SIGN_DIRECT_MODE` | Force direct signing mode for Cosmos clients (`true`/`false`) | `false` |
+| `NEXT_PUBLIC_SESSION_LIFETIME_SECONDS` | Session lifetime (in seconds) used by the provider | `86400` |
 
 ### Server Runtime Variables
 
@@ -231,6 +233,8 @@ docker run -d \
   -e NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=http://node1.devnet.verana.network:1317/verana/dd/v1 \
   -e NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=http://node1.devnet.verana.network:1317/verana/tr/v1 \
   -e NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=http://node1.devnet.verana.network:1317/verana/cs/v1 \
+  -e NEXT_PUBLIC_VERANA_SIGN_DIRECT_MODE=false \
+  -e NEXT_PUBLIC_SESSION_LIFETIME_SECONDS=86400 \
   --name verana-frontend \
   verana-frontend:latest
 ```
@@ -248,7 +252,6 @@ The repository includes a Kubernetes deployment template at `kubernetes/verana-f
 export DEPLOYMENT_NAME=verana-frontend
 export IMAGE_NAME=verana-front
 export IMAGE_TAG=main
-export CLUSTER_NODE=your-node-name
 export NEXT_PUBLIC_PORT=3000
 export NEXT_PUBLIC_BASE_URL=https://your-domain.com
 export NEXT_PUBLIC_VERANA_CHAIN_ID=vna-testnet-1
@@ -259,6 +262,8 @@ export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=https://api.testnet.verana
 export NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=https://api.testnet.verana.network/verana/dd/v1
 export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=https://api.testnet.verana.network/verana/tr/v1
 export NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=https://api.testnet.verana.network/verana/cs/v1
+export NEXT_PUBLIC_VERANA_SIGN_DIRECT_MODE=false
+export NEXT_PUBLIC_SESSION_LIFETIME_SECONDS=86400
 export KUBE_NAMESPACE=$NEXT_PUBLIC_VERANA_CHAIN_ID   # or set your own namespace
 # ... set other environment variables
 ```
@@ -266,7 +271,6 @@ export KUBE_NAMESPACE=$NEXT_PUBLIC_VERANA_CHAIN_ID   # or set your own namespace
 > The provided manifest only wires `NEXT_PUBLIC_*` variables. If you need to override server-side values such as `PORT`, add them to the `env` array in `kubernetes/verana-frontend-deployment.yaml` before applying.
 
 > **Custom infrastructure:** The example above uses the public Verana RPC/REST endpoints for convenience. If you run your own validators, API nodes, or related services, point the `NEXT_PUBLIC_VERANA_*` variables to your infrastructure instead so the frontend talks to your cluster.
-> **Node placement:** `CLUSTER_NODE` feeds the `nodeSelector` in the manifest. Replace `your-node-name` with an actual node label (e.g. the hostname label you get from `kubectl get nodes --show-labels`), otherwise Kubernetes will reject the manifest.
 
 #### 2. Render the Manifest
 
@@ -289,12 +293,18 @@ kubectl apply -f verana-frontend-deployment.rendered.yaml -n $KUBE_NAMESPACE
 ```bash
 kubectl get deployments -n $KUBE_NAMESPACE
 kubectl get pods -n $KUBE_NAMESPACE
-kubectl logs -f deployment/verana-frontend -n $KUBE_NAMESPACE
+```
+
+To tail the logs, grab the pod name (using the `app=verana-frontend-app` label) and follow its container once it reaches `Running`:
+
+```bash
+POD=$(kubectl -n $KUBE_NAMESPACE get pod -l app=verana-frontend-app -o jsonpath='{.items[0].metadata.name}')
+kubectl -n $KUBE_NAMESPACE logs -f "$POD"
 ```
 
 #### 5. Expose the Service
 
-Create a service to expose the deployment:
+Create a service to expose the deployment (a ready-to-use manifest lives at `kubernetes/verana-frontend-service.yaml` in the repo root):
 
 ```yaml
 apiVersion: v1
@@ -304,18 +314,21 @@ metadata:
 spec:
   selector:
     app: verana-frontend-app
-      ports:
-        - protocol: TCP
-          port: 80
-          targetPort: 3000
-      type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
 ```
 
-`targetPort: 3000` sends traffic to the container's listener, which defaults to the `PORT` value discussed earlier (3000 unless overridden). If you change the server's internal port, update both the container `ports` entry in the deployment and this `targetPort` to match. Save the service definition as `verana-frontend-service.yaml`, then apply it in the same namespace:
+`targetPort: 3000` sends traffic to the container's listener, which defaults to the `PORT` value discussed earlier (3000 unless overridden). Apply the provided service manifest directly from the repo root, then (if needed) forward it to your workstation:
 
 ```bash
-kubectl apply -f verana-frontend-service.yaml -n $KUBE_NAMESPACE
+kubectl apply -f kubernetes/verana-frontend-service.yaml -n $KUBE_NAMESPACE
+kubectl port-forward -n $KUBE_NAMESPACE service/verana-frontend-service 4000:80
 ```
+
+The first command creates the ClusterIP service. The second forwards it to `http://localhost:4000` so you can reach the frontend without an external load balancer. For production, replace the port-forward with your own LoadBalancer or Ingress (for example, follow the `verana-deploy` repository’s ingress template).
 
 ---
 
