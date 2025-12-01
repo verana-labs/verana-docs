@@ -18,6 +18,7 @@
 |               | https://api1.testnet.verana.network |
 | **Faucet** | https://faucet-vs.testnet.verana.network/invitation |
 | **Explorer** | https://explorer.testnet.verana.network |
+| **Visualizer** | https://vis.testnet.verana.network |
 | **Front-End** | https://app.testnet.verana.network |
 | **persistent peers list**| `2732c9c7b613102b7bf81249a9b8a5128168ad67@node1.testnet.verana.network:26656` |
 

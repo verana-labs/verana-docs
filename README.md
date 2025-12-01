@@ -35,3 +35,20 @@ We recommend that you begin by typing:
 cd my-website
 npm start
 ```
+
+
+
+## What to do when webpack is waiting for the PlantUML/Mermaid renderer defined in remarkKroki (docusaurus.config.ts (lines 54-61))?
+
+When that happens Every ```plantuml block in the docs is sent to https://kroki.testnet.verana.network/ to be rendered before the site can finish compiling.
+With the flaky tethered connection that host isn’t reachable, so those HTTP requests never complete and the progress bar sits forever around 50 % while showing whichever .docusaurus/...json file is currently queued.
+Next steps:
+
+Verify that you can reach https://kroki.testnet.verana.network (browser or curl). If it doesn’t load on tethering, the build will keep hanging.
+If you can’t reach it, temporarily comment out the remarkPlugins block or point it to a Kroki instance you can access (e.g. run docker run --rm -p 8000:8000 yuzutech/kroki locally and change the URL to http://localhost:8000).
+
+
+
+```
+docker run --rm -p 8000:8000 yuzutech/kroki
+```
