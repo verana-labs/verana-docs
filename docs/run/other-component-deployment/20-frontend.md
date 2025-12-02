@@ -2,6 +2,8 @@
 
 This guide provides comprehensive instructions for deploying the Verana frontend application. The frontend is a Next.js application that provides a web interface for interacting with the Verana blockchain network.
 
+On the [components overview](https://verana.io/page/developers/components/) this app is referred to as the “Ledger Interface.” It is the primary control plane for ecosystem builders—allowing them to create or join ecosystems, manage trust registries, register credential schemas, and administer DID directory entries without touching CLI tooling. The codebase lives in [`verana-labs/verana-frontend`](https://github.com/verana-labs/verana-frontend); this document focuses on running it reliably once you have the source.
+
 ---
 
 ## Table of Contents
