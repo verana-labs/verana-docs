@@ -45,18 +45,18 @@ Example `draft_proposal.json`:
       "@type": "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade",
       "authority": "verana10d07y265gmmuvt4z0w9aw880jnsr700j22m4w8",
       "plan": {
-        "name": "v0.6",
+        "name": "v0.9.1",
         "time": "0001-01-01T00:00:00Z",
-        "height": "1475093",
-        "info": "",
-        "upgraded_client_state": null
+        "height": "1195481",
+        "info": "{\"binaries\":{\"darwin/arm64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-darwin-arm64\",\"darwin/amd64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-darwin-amd64\",\"linux/arm64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-linux-arm64\",\"linux/amd64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-linux-amd64\"}}",
+         "upgraded_client_state": null
       }
     }
   ],
-  "metadata": "ipfs://CID",
+  "metadata": "",
   "deposit": "10000000uvna",
-  "title": "Software Upgrade v0.6: Specs Update to v2 and Package Rename",
-  "summary": "This proposal initiates a comprehensive upgrade to version 0.6, which includes a major specification update to v2 and a full package rename across the codebase. The upgrade aims to improve maintainability, align with new standards, and enhance future development capabilities. All modules and dependencies will be updated accordingly, and the network will transition to the new package structure at the specified upgrade height.",
+  "title": "Upgrade to Verana v0.9.1-dev.1",
+  "summary": "Software upgrade to Verana v0.9.1-dev.1. We have updated the share field and the trustdeposit object from uint to LegacyDec",
   "expedited": false
 }
 ```
@@ -73,13 +73,14 @@ veranad q auth module-accounts --node $NODE_RPC
 veranad q gov params --node $NODE_RPC
 ```
 - Get current height:
-```
+```bash
 veranad status --node $NODE_RPC | jq .sync_info.latest_block_height
 ```
 
 ### 3. Submit the Proposal
-```
-veranad tx gov submit-proposal draft_proposal.json --from faucet --keyring-backend test --chain-id $CHAIN_ID --fees 750000uvna --gas auto --node $NODE_RPC
+```bash
+PROPOSER_ACC=mat-test-acc
+veranad tx gov submit-proposal ./releases/testnet/proposals/upgrade_proposal_v9.1.json  --from $PROPOSER_ACC --keyring-backend test --chain-id $CHAIN_ID --fees 750000uvna --gas auto --node $NODE_RPC
 ```
 
 ### 4. Query Proposals
@@ -87,25 +88,41 @@ veranad tx gov submit-proposal draft_proposal.json --from faucet --keyring-backe
 veranad q gov proposals --node $NODE_RPC
 ```
 
-### 5. Vote
+This will return the ID of the proposal which you can use by setting the following variable used by the below commands.
+
+```bash
+PROP_ID=1
 ```
-veranad tx gov vote 1 yes --from $VALIDATOR_ACC --keyring-backend test --chain-id $CHAIN_ID --fees 650000uvna --gas auto --node $NODE_RPC
+
+### 5. Proposal Funding (optional)
+
+Sometimes the deposit needed for the proposal is not enough. The proposal will in that case be in `PROPOSAL_STATUS_DEPOSIT_PERIOD` state. In which case some account (which doesn't have to be the proposer account) will have to fund the proposal before it moves into `PROPOSAL_STATUS_VOTING_PERIOD`
+
+```bash
+PROPOSAL_FUNDING_ACC=proposal-investor
+veranad tx gov deposit $PROP_ID 40000000uvna --from $PROPOSAL_FUNDING_ACC --keyring-backend test --chain-id $CHAIN_ID --fees 750000uvna --gas auto --node $NODE_RPC
+```
+
+
+### 5. Vote
+```bash
+veranad tx gov vote $PROP_ID yes --from $VALIDATOR_ACC --keyring-backend test --chain-id $CHAIN_ID --fees 650000uvna --gas auto --node $NODE_RPC
 ```
 
 Ensure your validator account has tokens. If not:
-```
-veranad tx bank send faucet verana1z2epxhjn6qrg0uca6j0rq7llupe3n0nl0gjt7d 10000000uvna --from faucet --keyring-backend test --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC --yes
+```bash
+veranad tx bank send faucet $VALIDATOR_ACC 10000000uvna --from faucet --keyring-backend test --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC --yes
 ```
 
 ---
 
 ## Phase 2: Monitor Proposal & Upgrade Height
 - Track proposal status:
-```
-veranad q gov tally 1 --output json --node $NODE_RPC
+```bash
+veranad q gov tally $PROP_ID --output json --node $NODE_RPC
 ```
 - Check block height until upgrade height is reached:
-```
+```bash
 veranad status --node $NODE_RPC | jq .sync_info.latest_block_height
 ```
 

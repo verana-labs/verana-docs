@@ -47,11 +47,23 @@ veranad tx cs create-schema <trust-registry-id> <json-schema> <issuer-grantor-va
 
 ```bash
 veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"vpr:verana:VPR_CHAIN_ID/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID","title": "ExampleCredential","description": "ExampleCredential using JsonSchema","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' \
-  --issuer-grantor-validation-validity-period 365 \
-  --verifier-grantor-validation-validity-period 365 \
-  --issuer-validation-validity-period 180 \
-  --verifier-validation-validity-period 180 \
-  --holder-validation-validity-period 90 \
+  --issuer-grantor-validation-validity-period '{"value":365}' \
+  --verifier-grantor-validation-validity-period '{"value":365}' \
+  --issuer-validation-validity-period '{"value":180}' \
+  --verifier-validation-validity-period '{"value":180}' \
+  --holder-validation-validity-period '{"value":180}' \
+   1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+```
+
+### Example (inline JSON schema) with default values:
+
+```bash
+veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"vpr:verana:VPR_CHAIN_ID/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID","title": "ExampleCredential","description": "ExampleCredential using JsonSchema","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' \
+  --issuer-grantor-validation-validity-period '{"value":0}' \
+  --verifier-grantor-validation-validity-period '{"value":0}' \
+  --issuer-validation-validity-period '{"value":0}' \
+  --verifier-validation-validity-period '{"value":0}' \
+  --holder-validation-validity-period '{"value":0}' \
    1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
@@ -82,12 +94,12 @@ EOF
 
 # Use in command (you'll need to escape or quote properly)
 veranad tx cs create-credential-schema ${TRUST_REG_ID} "$(cat schema.json)" \
-  --issuer-grantor-validity 365 \
-  --verifier-grantor-validity 365 \
-  --issuer-validity 180 \
-  --verifier-validity 180 \
-  --holder-validity 90 \
-  1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+  --issuer-grantor-validation-validity-period '{"value":365}' \
+  --verifier-grantor-validation-validity-period '{"value":365}' \
+  --issuer-validation-validity-period '{"value":180}' \
+  --verifier-validation-validity-period '{"value":180}' \
+  --holder-validation-validity-period '{"value":180}' \
+   1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 :::tip
