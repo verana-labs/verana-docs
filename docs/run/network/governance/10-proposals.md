@@ -48,8 +48,8 @@ Example `draft_proposal.json`:
         "name": "v0.9.1",
         "time": "0001-01-01T00:00:00Z",
         "height": "1195481",
-        "info": "{\"binaries\":{\"darwin/arm64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-v0.9.1-dev.1-darwin-arm64\",\"darwin/amd64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-v0.9.1-dev.1-darwin-amd64\",\"linux/arm64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-v0.9.1-dev.1-linux-arm64\",\"linux/amd64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-v0.9.1-dev.1-linux-amd64\"}}",
-        "upgraded_client_state": null
+        "info": "{\"binaries\":{\"darwin/arm64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-darwin-arm64\",\"darwin/amd64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-darwin-amd64\",\"linux/arm64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-linux-arm64\",\"linux/amd64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-linux-amd64\"}}",
+         "upgraded_client_state": null
       }
     }
   ],
