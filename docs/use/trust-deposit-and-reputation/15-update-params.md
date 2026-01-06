@@ -1,6 +1,6 @@
 # Update Trust Deposit Params (Governance)
 
-This guide shows how to update Trust Deposit module parameters using a governance proposal. The transaction used is:
+This guide shows how to update Trust Deposit module parameters using a governance proposal. As of `v0.9.2`, this flow includes the TD yield parameters. The transaction used is:
 
 `/verana.td.v1.MsgUpdateParams`
 

@@ -1,6 +1,6 @@
 # Yield Funding Setup (Governance)
 
-This guide shows how to configure continuous funding for Trust Deposit yield using a governance proposal. It uses:
+This guide shows how to configure continuous funding for Trust Deposit yield using a governance proposal. As of `v0.9.2`, TD yield is funded via the protocol pool continuous fund. It uses:
 
 `/cosmos.protocolpool.v1.MsgCreateContinuousFund`
 
