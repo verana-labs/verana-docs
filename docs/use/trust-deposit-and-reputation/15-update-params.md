@@ -17,7 +17,7 @@ NODE_RPC="http://node1.testnet.verana.network:26657"
 
 ```bash
 veranad q auth module-accounts --node $NODE_RPC --output json \
-| jq -r '.accounts[] | select(.name=="gov") | .base_account.address'
+| jq -r '.accounts[] | select(.value.name=="gov") | .value.address'
 ```
 
 Set it:

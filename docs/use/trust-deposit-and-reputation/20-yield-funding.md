@@ -22,7 +22,7 @@ YIELD_INTERMEDIATE_POOL=$(veranad q td params --node $NODE_RPC -o json | jq -r .
 
 ```bash
 GOV_AUTH=$(veranad q auth module-accounts --node $NODE_RPC --output json \
-| jq -r '.accounts[] | select(.name=="gov") | .base_account.address')
+| jq -r '.accounts[] | select(.value.name=="gov") | .value.address')
 ```
 
 ## Step 3: Build the Proposal JSON
