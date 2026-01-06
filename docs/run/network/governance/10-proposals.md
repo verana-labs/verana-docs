@@ -35,6 +35,9 @@ VALIDATOR_ACC_LIT=verana1z2epxhjn6qrg0uca6j0rq7llupe3n0nl0gjt7d
 
 ## Phase 1: Submitting the Upgrade Proposal
 
+Note: For Trust Deposit yield funding, see the continuous funding proposal guide:
+[yield-funding](/docs/next/use/trust-deposit-and-reputation/yield-funding).
+
 ### 1. Prepare the proposal JSON
 
 Example `draft_proposal.json`:
