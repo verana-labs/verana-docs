@@ -34,17 +34,23 @@ You must provide **all** fields in `params`. Start from the current values:
 veranad q td params --node $NODE_RPC --output json
 ```
 
+Extract the current `yield_intermediate_pool` into a variable (use `-r` to avoid quotes):
+
+```bash
+YIELD_INTERMEDIATE_POOL=$(veranad q td params --node $NODE_RPC -o json | jq -r .params.yield_intermediate_pool)
+```
+
 ## Step 3: Build the Proposal JSON
 
 Edit the values you want to change, but keep all fields present:
 
 ```bash
-cat > trust_deposit_params_proposal.json <<'JSON'
+cat > trust_deposit_params_proposal.json <<JSON
 {
   "messages": [
     {
       "@type": "/verana.td.v1.MsgUpdateParams",
-      "authority": "GOV_AUTH_PLACEHOLDER",
+      "authority": "${GOV_AUTH}",
       "params": {
         "trust_deposit_reclaim_burn_rate": "0.6",
         "trust_deposit_share_value": "1.0",
@@ -52,7 +58,7 @@ cat > trust_deposit_params_proposal.json <<'JSON'
         "wallet_user_agent_reward_rate": "0.2",
         "user_agent_reward_rate": "0.2",
         "trust_deposit_max_yield_rate": "0.15",
-        "yield_intermediate_pool": "verana1example0123456789abcdefghijklmnopqrstuv"
+        "yield_intermediate_pool": "${YIELD_INTERMEDIATE_POOL}"
       }
     }
   ],
