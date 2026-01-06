@@ -52,12 +52,12 @@ cat > trust_deposit_params_proposal.json <<JSON
       "@type": "/verana.td.v1.MsgUpdateParams",
       "authority": "${GOV_AUTH}",
       "params": {
-        "trust_deposit_reclaim_burn_rate": "0.6",
-        "trust_deposit_share_value": "1.0",
-        "trust_deposit_rate": "0.2",
-        "wallet_user_agent_reward_rate": "0.2",
-        "user_agent_reward_rate": "0.2",
-        "trust_deposit_max_yield_rate": "0.15",
+        "trust_deposit_reclaim_burn_rate": "600000000000000000",
+        "trust_deposit_share_value": "1000000003748066934",
+        "trust_deposit_rate": "200000000000000000",
+        "wallet_user_agent_reward_rate": "200000000000000000",
+        "user_agent_reward_rate": "200000000000000000",
+        "trust_deposit_max_yield_rate": "150000000000000000",
         "yield_intermediate_pool": "${YIELD_INTERMEDIATE_POOL}"
       }
     }
