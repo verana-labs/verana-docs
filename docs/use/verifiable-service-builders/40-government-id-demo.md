@@ -12,7 +12,7 @@ Governments begin by creating their **Ecosystem Trust Registry** in Verana.
 
 - Establish an **Ecosystem Governance Framework (EGF)** that sets schemas, rules for issuance, verification, and authorization of participants.
 
-#### Json Schema
+#### JSON Schema
 
 - Define a **Citizen ID Credential Schema**. Example:
 
@@ -212,13 +212,13 @@ Available through: CLI only (at the moment, frontend scheduled for 10/2025)
 
 ### Civil Registry Issuer
 
-- Then, the Civil Registry Issuer will obtain an issuer permission from the **Government**
+- Then, the Civil Registry Issuer will obtain an Issuer permission from the **Government**
   1. Civil Registry Issuer [launches the validation process](https://docs.verana.io/docs/next/use/ecosystems/permissions/run-a-validation-process-to-obtain-a-permission)
   2. Government [validate the process](https://docs.verana.io/docs/next/use/ecosystems/permissions/set-permission-to-validated)
 
 ### Verifier Grantor #1
 
-- Then, the **Verifier Grantor #1** will apply and obtain an issuer permission from the **Government**
+- Then, the **Verifier Grantor #1** will apply and obtain an Issuer permission from the **Government**
   1. **Verifier Grantor #1** [launches the validation process](https://docs.verana.io/docs/next/use/ecosystems/permissions/run-a-validation-process-to-obtain-a-permission)
   2. **Government** [validate the process](https://docs.verana.io/docs/next/use/ecosystems/permissions/set-permission-to-validated)
 
@@ -226,20 +226,20 @@ same process is repeated by Verifier Grantor #2
 
 ### Verifier #1-1
 
-- Then, the **Verifier #1-1** will apply and obtain an issuer permission from the **Verifier Grantor #1**
+- Then, the **Verifier #1-1** will apply and obtain a Verifier permission from the **Verifier Grantor #1**
   1. **Verifier #1-1** [launches the validation process](https://docs.verana.io/docs/next/use/ecosystems/permissions/run-a-validation-process-to-obtain-a-permission)
   2. **Verifier Grantor #1** [validate the process](https://docs.verana.io/docs/next/use/ecosystems/permissions/set-permission-to-validated)
 
-same process is repeated by any new candidate that would like to obtain a Verifier permission from **Verifier Grantor #1**.
+The same process is repeated by any new candidate that would like to obtain a Verifier permission from **Verifier Grantor #1**.
 
-## Deploying the GovID issuer
+## Deploying the GovID Issuer
 
-We will use the open source [GovID github repository](https://github.com/2060-io/hologram-gov-id-issuer-vs).
+We will use the open source [Hologram GovID Issuer VS](https://github.com/2060-io/hologram-gov-id-issuer-vs).
 
 You can either:
 
-- deploy the existing GovID container
-- fork the repo a do any change you need, and deploy your own GovID verifiable service.
+- Deploy the existing GovID container
+- Fork the repo a do any change you need, and deploy your own GovID Verifiable Service.
 
 Instruction for using the GovID repository are available [here](https://github.com/2060-io/hologram-gov-id-issuer-vs/blob/main/README.md)
 
@@ -257,12 +257,12 @@ This ensures **official enrollment** into the state identity system
 
 - Go to [Hologram Messaging website](https://hologram.zone) and download the latest version of Hologram.
 
-> Note: Hologram is based on [credo-ts](https://credo.js.org/), a typescript sdk that you can embed in your own App and clone Hologram features.
+> Note: Hologram is based on [credo-ts](https://credo.js.org/), a TypeScript SDK that you can embed in your own App and clone Hologram features.
 
 ## Issuing the Citizen ID Verifiable Credential
 
-- go to the [GovID service](https://dm.gov-id-issuer.demos.2060.io/invitation) and connect with Hologram Messaging
-- follow the instructions to obtain your **Citizen ID Verifiable Credential**.
+- Go to the [GovID service](https://dm.gov-id-issuer.demos.2060.io/invitation) and connect with Hologram Messaging
+- Follow the instructions to obtain your **Citizen ID Verifiable Credential**.
 
 ### Example Enrollment Flow
 
@@ -300,17 +300,17 @@ We can start to work on the **off-chain** setup to put all together.
 
 ### Off-chain configuration of the Trust Registry
 
-- 1. deploy a [vs-agent](https://github.com/2060-io/vs-agent) container, with the same DID you configured on-chain. (you can update the DID on-chain if needed)
-- 2. add to your DID document a reference to the trust registry you created above on-chain.
-- 3. for the credential schema you created on-chain, self issue a Json Schema Credential, and add it to your DID Document.
+- 1. Deploy a [VS Agent](https://github.com/2060-io/vs-agent) container, with the same DID you configured on-chain. (you can update the DID on-chain if needed)
+- 2. Add to your DID document a reference to the trust registry you created above on-chain.
+- 3. For the Credential Schema you created on-chain, self issue a JSON Schema Credential, and add it to your DID Document.
 
 ### Off-chain configuration of Verifier #1-1
 
 Verifier #1-1 must execute the same process.
 
-- 1. deploy a [vs-agent](https://github.com/2060-io/vs-agent) container, with the same DID you configured on-chain in your permission. (For security reasons, you cannot update the DID on-chain, if you want to use a different DID, you must request a new permission)
-- 2. In the DID Document of the trust registry, get the Json Schema Credential of the **Citizen ID Verifiable Credential**. Now you can issue verifiable credentials based on this Json Schema Credential.
-- 3. Credential you issue based on this Json Schema Credential will be verifiable and resolvable.
+- 1. Deploy a [VS Agent](https://github.com/2060-io/vs-agent) container, with the same DID you configured on-chain in your permission. (For security reasons, you cannot update the DID on-chain, if you want to use a different DID, you must request a new permission)
+- 2. In the DID Document of the trust registry, get the JSON Schema Credential of the **Citizen ID Verifiable Credential**. Now you can issue verifiable credentials based on this JSON Schema Credential.
+- 3. Credential you issue based on this JSON Schema Credential will be verifiable and resolvable.
 
 ## Selective Disclosure
 
