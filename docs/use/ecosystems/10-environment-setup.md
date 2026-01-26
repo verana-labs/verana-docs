@@ -37,9 +37,7 @@ You cannot use the API with the swagger-ui to execute transactions that modify t
 
 >Use the Indexer to perform advanced queries that cannot be done with the API.
 
-:::tip[TODO]
-@mjfelis
-:::
+For querying the indexer, you can use the API. An openapi.yml is available with its swagger-ui for all network environments. Example, for testnet: [https://idx.testnet.verana.network/](https://idx.testnet.verana.network/)
 
 ## Using the Frontend
 
