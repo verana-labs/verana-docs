@@ -17,9 +17,9 @@ Running VS Agent is easy, but we will first need to understand how to set it up 
 
 ### Making our VS accessible 
 
-VS Agent has two main interfaces: a public one (meant to be accessible by Hologram users and other Verifiable Services) and an administrative one (meant to be accessed by a **controller**, which is a backend on our side that will provide the main logic of our Verifiable Service), which we might want to keep private.
+VS Agent has two main interfaces: a public one (meant to be accessible by other Verifiable Services and User Agents) and an administrative one (meant to be accessed by a **controller**, which is a backend on our side that will provide the main logic of our Verifiable Service), which we might want to keep private.
 
-To let Hologram reach our VS, the first thing we will need is a public host where we can expose our VS Agent public API. 
+To let User Agents such as [Hologram](https://hologram.zone) reach our VS, the first thing we will need is a public host where we can expose our VS Agent public API. 
 
 :::tip
 For testing purposes, we can use [ngrok](https://ngrok.com) or any other tool that allows exposing local servers to the internet. By default, public API uses 3001 port, so for instance with ngrok CLI tool we can do:
