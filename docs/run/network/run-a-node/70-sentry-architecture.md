@@ -7,6 +7,41 @@ This guide is for partners who want to run their own validator (optionally with 
 - Control and limit inbound peers to a known, trusted set.
 - Keep RPC/API usage on public endpoints or your own sentries instead of validator hosts.
 
+## Topology overview (Verana ↔ Partner)
+
+```
+     Verana Sentry 1        Verana Sentry 2        Verana Sentry 3
+     (public P2P/RPC)       (public P2P/RPC)       (public P2P/RPC)
+           |                      |                      |
+           |   Public Internet (P2P between sentry groups) |
+           |                      |                      |
+    +------+-------+       +------+-------+       +------+-------+
+    | Partner S1   |       | Partner S2   |       | Partner S3   |
+    | (public P2P) |       | (public P2P) |       | (public P2P) |
+    +------+-------+       +------+-------+       +------+-------+
+           \                      |                      /
+            \                     |                     /
+             v                    v                    v
+          +-------------------------------------------------+
+          |        Partner Validators (private P2P)         |
+          |   Val A (no public RPC/API)   Val B (private)   |
+          +-------------------------------------------------+
+```
+
+**Interpretation:** Validators connect only to your own sentries. Your sentries peer over the public internet with Verana sentries. This mirrors the Verana architecture and keeps validator P2P private.
+
+## PEX and persistent peers (dense reference)
+
+**Partner validators**
+- `pex = false`
+- `persistent_peers = "<partner-sentry-peers>"`
+- Do not expose validator RPC/API publicly.
+
+**Partner sentries**
+- `pex = true`
+- `persistent_peers = "<verana-sentry-peers>"`
+- Optionally allow RPC/API on sentries if you need public access.
+
 ## Recommended patterns
 
 ## Verana testnet sentry peers (P2P)
