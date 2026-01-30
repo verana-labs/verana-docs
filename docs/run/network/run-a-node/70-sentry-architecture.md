@@ -18,8 +18,10 @@ This guide is for partners who want to run their own validator (optionally with 
             ^                     ^                     ^
            /                      |                      \
           /                       |                       \
-     Verana Sentry 1        Verana Sentry 2        Verana Sentry 3
-     (public P2P/RPC)       (public P2P/RPC)       (public P2P/RPC)
+    +------------------+    +------------------+    +------------------+
+    | Verana Sentry 1  |    | Verana Sentry 2  |    | Verana Sentry 3  |
+    | (public P2P/RPC) |    | (public P2P/RPC) |    | (public P2P/RPC) |
+    +------------------+    +------------------+    +------------------+
            |                      |                      |
            |   Public Internet (P2P between sentry groups) |
            |                      |                      |
@@ -30,10 +32,10 @@ This guide is for partners who want to run their own validator (optionally with 
            \                      |                      /
             \                     |                     /
              v                    v                    v
-          +-------------------------------------------------+
-          |        Partner Validators (private P2P)         |
-          |   Val A (no public RPC/API)   Val B (private)   |
-          +-------------------------------------------------+
+          +------------------------------+  +-------------------------------------------------+
+          | Partner RPC/API nodes        |  |        Partner Validators (private P2P)         |
+          | (public or partner-managed)  |  |   Val A (no public RPC/API)   Val B (private)   |
+          +------------------------------+  +-------------------------------------------------+
 
 ```
 
