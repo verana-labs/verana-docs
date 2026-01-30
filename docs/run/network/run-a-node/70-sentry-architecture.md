@@ -18,17 +18,24 @@ This guide is for partners who want to run their own validator (optionally with 
             ^                     ^                     ^
            /                      |                      \
           /                       |                       \
-    +------------------+    +------------------+    +------------------+
-    | Verana Sentry 1  |    | Verana Sentry 2  |    | Verana Sentry 3  |
-    | (public P2P/RPC) |    | (public P2P/RPC) |    | (public P2P/RPC) |
-    +------------------+    +------------------+    +------------------+
-           |                      |                      |
-           |   Public Internet (P2P between sentry groups) |
-           |                      |                      |
-    +------+-------+       +------+-------+       +------+-------+
-    | Partner S1   |       | Partner S2   |       | Partner S3   |
-    | (public P2P) |       | (public P2P) |       | (public P2P) |
-    +------+-------+       +------+-------+       +------+-------+
+  +--------------------------------------------------------------------------+
+  |                           Public Internet                                |
+  |  +------------------+    +------------------+    +------------------+    |
+  |  | Verana Sentry 1  |    | Verana Sentry 2  |    | Verana Sentry 3  |    |
+  |  | (public P2P)     |    | (public P2P)     |    | (public P2P)     |    |
+  |  +------------------+    +------------------+    +------------------+    |
+  |                                                                       +---------------------+
+  |                                                                       | Verana RPC/API      |
+  |                                                                       | (public endpoints)  |
+  |                                                                       +---------------------+
+  |        |                      |                      |                   |
+  |        |  P2P between sentry groups (over Internet)   |                   |
+  |        |                      |                      |                   |
+  |  +------+-------+       +------+-------+       +------+-------+          |
+  |  | Partner S1   |       | Partner S2   |       | Partner S3   |          |
+  |  | (public P2P) |       | (public P2P) |       | (public P2P) |          |
+  |  +------+-------+       +------+-------+       +------+-------+          |
+  +--------------------------------------------------------------------------+
            \                      |                      /
             \                     |                     /
              v                    v                    v
