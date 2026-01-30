@@ -87,7 +87,7 @@ See [Sentry Architecture and Connectivity](./70-sentry-architecture.md) for a pa
 
 Example helper (pull sentry-only peers from the published list):
 ```bash
-curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/persistent_peers/persistent_peers.json \
+curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/persistent_peers/sentry_peers.json \
   | jq -r '.persistent_peers' \
   | tr ',' '\n' \
   | grep -E 'sentry[123]\\.testnet\\.verana\\.network:26656' \
