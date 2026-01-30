@@ -11,7 +11,7 @@ To interact with the Verana blockchain remotely, you can use the CLI (`veranad`)
 
 3. Environmnet Variables to use with documentation examples
 
-Local environmnet
+Local environment
 ```
 FAUCET_ACC="cooluser"
 FAUCET_ACC_LIT=verana16mzeyu9l6kua2cdg9x0jk5g6e7h0kk8q6uadu4
@@ -19,7 +19,7 @@ CHAIN_ID="vna-local-1"
 NODE_RPC=http://localhost:26657
 ```
 
-betanet environmnet
+betanet environment (ephemeral; may be offline)
 ```
 FAUCET_ACC="faucet"
 FAUCET_ACC_LIT=verana167vrykn5vhp8v9rng69xf0jzvqa3v79etmr0t2
@@ -27,7 +27,15 @@ CHAIN_ID="vna-betanet-1"
 NODE_RPC=https://rpc.vna-betanet-1.devnet.verana.network
 ```
 
-devnet environmnet
+Branch-based ephemeral environment (K8s)
+```
+# Namespace defaults to vna-devnet-<branch> with slashes replaced by hyphens
+# Example branch: feature/foo -> vna-devnet-feature-foo
+CHAIN_ID="vna-devnet-feature-foo"
+NODE_RPC="https://rpc.${CHAIN_ID}.devnet.verana.network"
+```
+
+devnet environment
 ```
 FAUCET_ACC="faucet"
 FAUCET_ACC_LIT=verana167vrykn5vhp8v9rng69xf0jzvqa3v79etmr0t2
@@ -35,7 +43,7 @@ CHAIN_ID="vna-devnet-1"
 NODE_RPC=http://node1.devnet.verana.network:26657
 ```
 
-Testnet environmnet
+Testnet environment
 ```
 FAUCET_ACC="faucet"
 FAUCET_ACC_LIT=verana167vrykn5vhp8v9rng69xf0jzvqa3v79etmr0t2
