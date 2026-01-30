@@ -81,10 +81,7 @@ persistent_peers = "<verana-sentry-peers>"
 **How to get Verana sentry peers**
 ```bash
 curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/persistent_peers/sentry_peers.json \
-  | jq -r '.persistent_peers' \
-  | tr ',' '\n' \
-  | grep -E 'sentry[123]\\.testnet\\.verana\\.network:26656' \
-  | paste -sd ',' -
+  | jq -r '.persistent_peers'
 ```
 
 Use the output as `persistent_peers`. Keep `pex = false` on validators.
