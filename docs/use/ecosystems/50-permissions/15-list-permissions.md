@@ -41,7 +41,7 @@ At the moment, the CLI query does not accept filter flags. Use client-side filte
 Set up your environment (if not already):
 
 ```bash
-NODE_RPC=http://node1.testnet.verana.network:26657
+NODE_RPC=https://rpc.testnet.verana.network
 ```
 
 **List all permissions**

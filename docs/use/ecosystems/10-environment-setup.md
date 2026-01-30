@@ -18,7 +18,7 @@ Set the following environment variables in order to be able to interact with the
 USER_ACC="mat-test-acc"
 USER_ACC_LIT=verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0
 CHAIN_ID="vna-testnet-1"
-NODE_RPC=http://node1.testnet.verana.network:26657
+NODE_RPC=https://rpc.testnet.verana.network
 ```
 
 *These variables are required to target the correct environment (testnet, mainnet, or local). Adjust values accordingly.*

@@ -29,7 +29,7 @@ You can run these examples directly if you define the variables first:
 
 ```bash
 TR_ID=5
-NODE_RPC=http://node1.testnet.verana.network:26657
+NODE_RPC=https://rpc.testnet.verana.network
 ```
 :::
 

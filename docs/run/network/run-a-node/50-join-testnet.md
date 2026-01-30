@@ -7,12 +7,14 @@ This guide provides comprehensive instructions for joining the Verana testnet as
 | Parameter | Value |
 |-----------|-------|
 | Chain ID | `vna-testnet-1` |
-| API | `http://node1.testnet.verana.network:1317` |
-| RPC | `http://node1.testnet.verana.network:26657` |
+| API | `https://api.testnet.verana.network` |
+| RPC | `https://rpc.testnet.verana.network` |
 | Explorer | `https://explorer.testnet.verana.network` |
 | Faucet | `https://faucet-vs.testnet.verana.network/invitation` |
 | Block Time | ~5 seconds |
 | Max Validators | 100 |
+
+**Note:** Client apps should use the canonical RPC/API endpoints above. Operators should use sentry hosts for P2P access; see [Sentry Architecture and Connectivity](./70-sentry-architecture.md).
 
 ## Hardware Requirements
 
@@ -136,7 +138,7 @@ Edit `~/.verana/config/config.toml`:
 ```toml
 [statesync]
 enable = true
-rpc_servers = "http://node1.testnet.verana.network:26657,http://node2.testnet.verana.network:26657"
+rpc_servers = "http://sentry1.testnet.verana.network:26657,http://sentry2.testnet.verana.network:26657"
 trust_height = <current_height>
 trust_hash = "<block_hash>"
 trust_period = "168h0m0s"

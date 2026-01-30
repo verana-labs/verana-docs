@@ -9,7 +9,7 @@ This guide shows how to configure continuous funding for Trust Deposit yield usi
 ```bash
 USER_ACC="my-user-account"
 CHAIN_ID="vna-testnet-1"
-NODE_RPC="http://node1.testnet.verana.network:26657"
+NODE_RPC="https://rpc.testnet.verana.network"
 ```
 
 ## Step 1: Get the Yield Intermediate Pool Address

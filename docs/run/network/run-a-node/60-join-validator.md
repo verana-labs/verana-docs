@@ -52,8 +52,8 @@ Validators are responsible for committing new blocks to the blockchain through a
 | Parameter | Value |
 |-----------|-------|
 | Chain ID | `vna-testnet-1` |
-| API | `http://node1.testnet.verana.network:1317` |
-| RPC | `http://node1.testnet.verana.network:26657` |
+| API | `https://api.testnet.verana.network` |
+| RPC | `https://rpc.testnet.verana.network` |
 | Explorer | `https://explorer.testnet.verana.network` |
 | Faucet | `https://faucet-vs.testnet.verana.network/invitation` |
 
@@ -79,6 +79,26 @@ Validators are responsible for committing new blocks to the blockchain through a
 |  Sentry Node 2 |->|  Validator     |<-|  Sentry Node 3 |
 |                |  |                |  |                |
 +----------------+  +----------------+  +----------------+
+```
+
+See [Sentry Architecture and Connectivity](./70-sentry-architecture.md) for a partner-focused guide, including how to connect to Verana sentry hosts and how to structure your own sentry + validator topology.
+
+**Quick config note (validator):** set `pex = false` and use only sentry peers (with peer IDs) for `persistent_peers`.
+
+Example helper (pull sentry-only peers from the published list):
+```bash
+curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/persistent_peers/persistent_peers.json \
+  | jq -r '.persistent_peers' \
+  | tr ',' '\n' \
+  | grep -E 'sentry[123]\\.testnet\\.verana\\.network:26656' \
+  | paste -sd ',' -
+```
+
+Then update `~/.verana/config/config.toml`:
+```toml
+[p2p]
+pex = false
+persistent_peers = "<comma-separated-sentry-peers>"
 ```
 
 ### Key Management
@@ -115,7 +135,7 @@ Set the following variables for convenience (replace values as needed):
 
 ```bash
 export validatorName=<key-name>
-export NODE_RPC=http://node1.testnet.verana.network:26657
+export NODE_RPC=https://rpc.testnet.verana.network
 export CHAIN_ID=vna-testnet-1
 ```
 

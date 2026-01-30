@@ -23,7 +23,7 @@ Set the following environment variables before running the CLI commands:
 ```bash
 USER_ACC=my-user-account
 CHAIN_ID=vna-testnet-1
-NODE_RPC=http://node1.testnet.verana.network:26657
+NODE_RPC=https://rpc.testnet.verana.network
 ```
 
 ## Post the Message

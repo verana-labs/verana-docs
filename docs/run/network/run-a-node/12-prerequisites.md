@@ -69,7 +69,7 @@ Set environment variables to target the correct network (testnet, mainnet, or lo
 USER_ACC="your-account-name"
 USER_ACC_LIT="verana1..."  #Refer to step 3 to obtain this parameter.
 CHAIN_ID="vna-testnet-1"
-NODE_RPC="http://node1.testnet.verana.network:26657"
+NODE_RPC="https://rpc.testnet.verana.network"
 ```
 
 ---

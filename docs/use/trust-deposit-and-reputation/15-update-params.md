@@ -10,7 +10,7 @@ This guide shows how to update Trust Deposit module parameters using a governanc
 USER_ACC="my-user-account"
 USER_ACC_LIT="verana1example0123456789abcdefghijklmnopqrstuv"
 CHAIN_ID="vna-testnet-1"
-NODE_RPC="http://node1.testnet.verana.network:26657"
+NODE_RPC="https://rpc.testnet.verana.network"
 ```
 
 ## Step 1: Get the Governance Authority Address

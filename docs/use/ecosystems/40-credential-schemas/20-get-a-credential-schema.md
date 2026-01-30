@@ -25,7 +25,7 @@ veranad query cs get-schema [id] --node $NODE_RPC --output json
 ### Example
 
 ```bash
-NODE_RPC=http://node1.testnet.verana.network:26657
+NODE_RPC=https://rpc.testnet.verana.network
 SCHEMA_ID=1
 veranad query cs get-schema $SCHEMA_ID --node $NODE_RPC --output json
 ```
