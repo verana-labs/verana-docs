@@ -11,10 +11,6 @@
 |---------------|--------|
 | **RPC (canonical)** | https://rpc.testnet.verana.network |
 | **API (canonical)** | https://api.testnet.verana.network |
-| **RPC (sentry pool)** | https://rpc-test.testnet.verana.network |
-| **API (sentry pool)** | https://api-test.testnet.verana.network |
-| **RPC Proxies** | https://rpc1.testnet.verana.network |
-| **API Proxies** | https://api1.testnet.verana.network |
 | **Faucet** | https://faucet-vs.testnet.verana.network/invitation |
 | **Explorer** | https://explorer.testnet.verana.network |
 | **Visualizer** | https://vis.testnet.verana.network |
