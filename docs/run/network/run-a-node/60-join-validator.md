@@ -190,13 +190,17 @@ veranad q tx FB5EF0A6CC8460F77A6D33C2A8AC43CA2ADFBBBDDEAAA72292714297C74D196F  -
 
 ```bash
 # View validator details
-veranad query staking validator $(veranad keys show $validatorName --bech val -a)
+veranad query staking validator \
+    "$(veranad keys show "$validatorName" --bech val -a --keyring-backend test)" \
+    --node "$NODE_RPC" \
+    --chain-id "$CHAIN_ID" -o json | jq
 
-# Check voting power
-veranad status | grep voting_power
+# Check voting power (from RPC)
+curl -s "$NODE_RPC/status" | jq -r '.result.validator_info.voting_power'
 
-# View signing information
-veranad query slashing signing-info $(veranad tendermint show-validator)
+# View signing information (local validator)
+VALCONS=$(veranad tendermint show-address)
+veranad query slashing signing-info "$VALCONS" --node "$NODE_RPC" --chain-id "$CHAIN_ID" -o json | jq
 ```
 
 ### 2. Unjail Validator
