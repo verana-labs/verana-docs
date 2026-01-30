@@ -10,6 +10,14 @@ This guide is for partners who want to run their own validator (optionally with 
 ## Topology overview (Verana ↔ Partner)
 
 ```
+           Private Verana network (private P2P):
+           +----------------------------------------------+
+           | Verana Validators (private P2P, no public)   |
+           | Val 1   Val 2   Val 3 (and others)           |
+           +----------------------------------------------+
+            ^                     ^                     ^
+           /                      |                      \
+          /                       |                       \
      Verana Sentry 1        Verana Sentry 2        Verana Sentry 3
      (public P2P/RPC)       (public P2P/RPC)       (public P2P/RPC)
            |                      |                      |
@@ -26,9 +34,10 @@ This guide is for partners who want to run their own validator (optionally with 
           |        Partner Validators (private P2P)         |
           |   Val A (no public RPC/API)   Val B (private)   |
           +-------------------------------------------------+
+
 ```
 
-**Interpretation:** Validators connect only to your own sentries. Your sentries peer over the public internet with Verana sentries. This mirrors the Verana architecture and keeps validator P2P private.
+**Interpretation:** Validators connect only to sentries. Sentries peer across the public internet. The consensus layer allows validators to gossip without requiring direct IP connectivity between every validator.
 
 ## PEX and persistent peers (dense reference)
 
