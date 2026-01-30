@@ -12,6 +12,9 @@ You have two options to install the `veranad` binary:
 If you prefer the easiest approach, download the precompiled binary:
 
 ```bash
+# Pick the environment you want to target (defaulting to testnet here).
+CHAIN_ID="vna-testnet-1"
+
 # Fetch the binary manifest
 curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/$CHAIN_ID/binaries/manifest.json > manifest.json
 
