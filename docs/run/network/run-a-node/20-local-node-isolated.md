@@ -1,6 +1,6 @@
-# Running an Isolated Local Node
+# Developer Local Node (Build From Source)
 
-Running a local node in isolation is useful for testing and development purposes without interacting with a public network.
+This page is for developers who want to build and run a Verana node from source for debugging, feature development, or protocol work. If you just want to run a node or connect to a public network, use the other guides that download a prebuilt binary.
 
 
 ## Getting Started
@@ -14,18 +14,12 @@ git clone https://github.com/verana-labs/verana-blockchain.git
 cd verana-blockchain
 ```
 
-2. **Install the Veranad Binary**
+2. **Build the Veranad Binary (from source)**
 
-You have two options to install the `veranad` binary:
-
-- **Option A: Download the Latest Binary**
-  > See [Install or Update Veranad Binary](./prerequisites#1-install-or-update-the-veranad-binary).
-
-- **Option B: Build from Source**
-  If you prefer to build from source:
-  ```bash
-  make install
-  ```
+Build the binary locally:
+```bash
+make install
+```
 
 ## Steps to Set Up an Isolated Node (with a script)
 
