@@ -200,7 +200,18 @@ curl -s "$NODE_RPC/status" | jq -r '.result.validator_info.voting_power'
 
 # View signing information (local validator)
 VALCONS=$(veranad tendermint show-address)
-veranad query slashing signing-info "$VALCONS" --node "$NODE_RPC" --chain-id "$CHAIN_ID" -o json | jq
+veranad query slashing signing-info "$VALCONS" --node "$NODE_RPC" --chain-id "$CHAIN_ID" -o json | jq -r '.val_signing_info'
+
+# View signing information (remote-only)
+API_ENDPOINT="https://api.testnet.verana.network"
+VALOPER="veranavaloper1..."  # set explicitly
+# or derive from a local key if you have it:
+# VALOPER=$(veranad keys show "$validatorName" --bech val -a --keyring-backend test)
+CONS_PUBKEY_JSON=$(curl -s "$API_ENDPOINT/cosmos/staking/v1beta1/validators/$VALOPER" \
+  | jq -c '.validator.consensus_pubkey')
+HEX=$(veranad debug pubkey "$CONS_PUBKEY_JSON" | awk -F': ' '/Address:/{print $2}')
+VALCONS=$(veranad debug addr "$HEX" | awk -F': ' '/Bech32 Con:/{print $2}')
+veranad query slashing signing-info "$VALCONS" --node "$NODE_RPC" --chain-id "$CHAIN_ID" -o json | jq -r '.val_signing_info'
 ```
 
 ### 2. Unjail Validator
