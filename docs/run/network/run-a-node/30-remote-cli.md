@@ -65,8 +65,8 @@ Send Tokens to Another Address
 
 ```bash
 veranad tx bank send <from-wallet> <to-wallet> 100000uvna \
-  --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC \
-  --gas auto --fees 600000uvna 
+  --chain-id $CHAIN_ID --node $NODE_RPC \
+  --gas auto --fees 600000uvna
 ```
 
 Create a Trust Registry:
@@ -87,6 +87,30 @@ Query Blocks
 ```bash
 veranad q block 100 --type=height \
   --node $NODE_RPC
+```
+
+## Transfers & Fees
+
+Typical Verana testnet transfer (uvna) with explicit fees:
+
+```bash
+FROM="alice"
+TO="verana1..."
+AMOUNT="100000uvna"
+
+veranad tx bank send "$FROM" "$TO" "$AMOUNT" \
+  --chain-id "$CHAIN_ID" \
+  --node "$NODE_RPC" \
+  --gas auto \
+  --fees 600000uvna \
+  --keyring-backend test \
+  --yes
+```
+
+Check balance:
+
+```bash
+veranad q bank balances "$TO" --node "$NODE_RPC" -o json | jq
 ```
 
 Refer to the [Environments section](../environments/10-environments.md) for details on RPC endpoints for other networks.
