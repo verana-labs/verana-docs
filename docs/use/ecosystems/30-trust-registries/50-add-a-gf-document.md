@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx tr add-governance-framework-document <trust-registry-id> <doc-language> <doc-url> <doc-digest-sri> <version> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx tr add-governance-framework-document <trust-registry-id> <doc-language> <doc-url> <doc-digest-sri> <version> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 **Note:** The following examples assume you have set a `TRUST_REG_ID` environment variable, update it with your trust registry id.

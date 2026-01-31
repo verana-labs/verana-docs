@@ -32,7 +32,7 @@ veranad q perm list-permissions --node $NODE_RPC --output json \
 
 ### Usage
 ```bash
-veranad tx perm create-perm [schema-id] [type] [did] [flags]
+veranad tx perm create-perm [schema-id] [type] [did] [flags] --node $NODE_RPC
 ```
 
 **Positional args**

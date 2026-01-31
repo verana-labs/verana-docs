@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```
-veranad tx perm create-or-update-perm-session [id] [agent-perm-id] [flags]
+veranad tx perm create-or-update-perm-session [id] [agent-perm-id] [flags] --node $NODE_RPC
 ```
 
 ### Issuance Example

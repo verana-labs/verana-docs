@@ -24,7 +24,7 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx ...
+veranad tx ... --node $NODE_RPC
 ```
 
 :::tip[TODO]
@@ -35,14 +35,14 @@ veranad tx ...
 
 ```bash
 TRUST_REG_ID=5
-veranad tx tr archive-trust-registry ${TRUST_REG_ID} true --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna 
+veranad tx tr archive-trust-registry ${TRUST_REG_ID} true --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna  --node $NODE_RPC
 ```
 
 ### Unarchive a Credential Schema
 
 ```bash
 TRUST_REG_ID=5
-veranad tx tr archive-trust-registry ${TRUST_REG_ID} false --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna 
+veranad tx tr archive-trust-registry ${TRUST_REG_ID} false --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna  --node $NODE_RPC
 ```
  </TabItem>
   

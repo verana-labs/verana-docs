@@ -100,7 +100,7 @@ Reclaim earned interest (yield) from your trust deposits. Yield is generated whe
 
 **Syntax:**
 ```bash
-veranad tx td reclaim-yield --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx td reclaim-yield --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 **Parameters:**
@@ -139,7 +139,7 @@ Reclaim a specified amount from your claimable trust deposit balance. This is us
 
 **Syntax:**
 ```bash
-veranad tx td reclaim-deposit [amount] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx td reclaim-deposit [amount] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 **Parameters:**

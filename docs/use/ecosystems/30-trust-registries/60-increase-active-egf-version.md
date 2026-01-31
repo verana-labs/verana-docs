@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx tr increase-active-gf-version <trust-registry-id> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount>
+veranad tx tr increase-active-gf-version <trust-registry-id> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --node $NODE_RPC
 ```
 
 **Note:** The following examples assume you have set a `TRUST_REG_ID` environment variable, update it with your trust registry id.

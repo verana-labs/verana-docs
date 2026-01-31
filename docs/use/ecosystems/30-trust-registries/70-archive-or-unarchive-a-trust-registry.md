@@ -24,7 +24,7 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx tr archive-trust-registry <trust-registry-id> <archive-flag> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount>
+veranad tx tr archive-trust-registry <trust-registry-id> <archive-flag> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --node $NODE_RPC
 ```
 
 **Note:** The following examples assume you have set a `TRUST_REG_ID` environment variable, update it with your trust registry id.
@@ -32,13 +32,13 @@ veranad tx tr archive-trust-registry <trust-registry-id> <archive-flag> --from <
 ### Archive a Trust Registry
 
 ```bash
-veranad tx tr archive-trust-registry ${TRUST_REG_ID} true --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna 
+veranad tx tr archive-trust-registry ${TRUST_REG_ID} true --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna  --node $NODE_RPC
 ```
 
 ### Unarchive a Trust Registry
 
 ```bash
-veranad tx tr archive-trust-registry ${TRUST_REG_ID} false --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna 
+veranad tx tr archive-trust-registry ${TRUST_REG_ID} false --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna  --node $NODE_RPC
 ```
  </TabItem>
   

@@ -57,7 +57,7 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx perm renew-perm-vp <perm-id> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx perm renew-perm-vp <perm-id> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 ### Example

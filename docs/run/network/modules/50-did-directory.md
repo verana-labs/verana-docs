@@ -9,7 +9,7 @@ veranad tx diddirectory add-did \
   5 \
   --from user \
   --keyring-backend test \
-  --chain-id test-1
+  --chain-id test-1 --node $NODE_RPC
 ```
 
 ### Query a DID
@@ -17,5 +17,5 @@ veranad tx diddirectory add-did \
 ```bash
 veranad q diddirectory get-did \
   did:example:123456789abcdefghi \
-  --output json
+  --output json --node $NODE_RPC
 ```

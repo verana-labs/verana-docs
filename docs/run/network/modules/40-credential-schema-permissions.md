@@ -11,5 +11,5 @@ veranad tx cspermission create-credential-schema-perm \
   verana1... \
   --from user \
   --keyring-backend test \
-  --chain-id test-1
+  --chain-id test-1 --node $NODE_RPC
 ```
