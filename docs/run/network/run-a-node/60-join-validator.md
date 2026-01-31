@@ -204,9 +204,9 @@ veranad query slashing signing-info "$VALCONS" --node "$NODE_RPC" --chain-id "$C
 
 # View signing information (remote-only)
 API_ENDPOINT="https://api.testnet.verana.network"
-VALOPER="veranavaloper1..."  # set explicitly
+# VALOPER="veranavaloper1..."  # set explicitly
 # or derive from a local key if you have it:
-# VALOPER=$(veranad keys show "$validatorName" --bech val -a --keyring-backend test)
+VALOPER=$(veranad keys show "$validatorName" --bech val -a --keyring-backend test)
 CONS_PUBKEY_JSON=$(curl -s "$API_ENDPOINT/cosmos/staking/v1beta1/validators/$VALOPER" \
   | jq -c '.validator.consensus_pubkey')
 HEX=$(veranad debug pubkey "$CONS_PUBKEY_JSON" | awk -F': ' '/Address:/{print $2}')
@@ -219,8 +219,16 @@ veranad query slashing signing-info "$VALCONS" --node "$NODE_RPC" --chain-id "$C
 If your validator gets jailed:
 
 ```bash
-veranad tx slashing unjail --from=$validatorName --chain-id=$CHAIN_ID --keyring-backend test --node $NODE_RPC
+veranad tx slashing unjail \
+  --from "$validatorName" \
+  --chain-id "$CHAIN_ID" \
+  --node "$NODE_RPC" \
+  --keyring-backend test \
+  --fees 600000uvna \
+  --yes
 ```
+
+Note: if you use `--dry-run`, `--from` must be a bech32 address (key names are not accepted in simulation mode).
 
 ---
 
