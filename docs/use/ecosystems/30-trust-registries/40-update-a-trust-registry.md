@@ -25,7 +25,7 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-  veranad tx tr update-trust-registry [id] [did] [flags]
+  veranad tx tr update-trust-registry [id] [did] [flags] --node $NODE_RPC
 ```
 
 ### Example

@@ -12,7 +12,7 @@ Make sure you've read [the Learn section](../../learn/verifiable-public-registry
 USER_ACC="mat-test-acc"
 USER_ACC_LIT=verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0
 CHAIN_ID="vna-testnet-1"
-NODE_RPC=http://node1.testnet.verana.network:26657
+NODE_RPC=https://rpc.testnet.verana.network
 ```
 
 *These variables are required to target the correct environment (testnet, mainnet, or local). Adjust values accordingly.*
@@ -28,7 +28,7 @@ Use this method to list DIDs with optional filtering by controller, changed time
 
 **Syntax:**
 ```bash
-veranad q dd list-dids [flags]
+veranad q dd list-dids [flags] --node $NODE_RPC
 ```
 
 **Parameters:**
@@ -102,7 +102,7 @@ Adds a DID to the DID Directory. It will trigger index of the corresponding Veri
 
 **Syntax:**
 ```bash
-veranad tx dd add-did [did] [years] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx dd add-did [did] [years] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 **Parameters:**
@@ -141,7 +141,7 @@ Renew a DID and extends its expiration date. It will trigger a reindex of the Ve
 
 **Syntax:**
 ```bash
-veranad tx dd renew-did [did] [years] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx dd renew-did [did] [years] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 **Parameters:**
@@ -170,7 +170,7 @@ This method is used to remove a DID from the Directory. It will trigger a remova
 
 **Syntax:**
 ```bash
-veranad tx dd remove-did [did] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx dd remove-did [did] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 **Parameters:**
@@ -197,7 +197,7 @@ This method is used to force reindex of the Verifiable Service. It just changes 
 
 **Syntax:**
 ```bash
-veranad tx dd touch-did [did] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx dd touch-did [did] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 **Parameters:**

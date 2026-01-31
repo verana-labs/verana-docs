@@ -18,7 +18,7 @@ USER_ACC_LIT="verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0"
 SLASHED_ACCOUNT="bad-user"
 SLASHED_ACCOUNT_LIT="verana1example0123456789abcdefghijklmnopqrstuv"
 CHAIN_ID="vna-testnet-1"
-NODE_RPC="http://node1.testnet.verana.network:26657"
+NODE_RPC="https://rpc.testnet.verana.network"
 ```
 
 ### Step 1: Prepare the Governance Proposal

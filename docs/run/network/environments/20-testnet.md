@@ -9,22 +9,31 @@
 
 | Endpoint Type | URL(s) |
 |---------------|--------|
-| **RPC** | http://node1.testnet.verana.network:26657 |
-| **API** | http://node1.testnet.verana.network:1317 |
-| **RPC Proxies** | https://rpc.testnet.verana.network |
-|               | https://rpc1.testnet.verana.network |
-| **API Proxies** | https://node1.testnet.verana.network |
-|               | https://api.testnet.verana.network |
-|               | https://api1.testnet.verana.network |
+| **RPC (canonical)** | https://rpc.testnet.verana.network |
+| **API (canonical)** | https://api.testnet.verana.network |
 | **Faucet** | https://faucet-vs.testnet.verana.network/invitation |
 | **Explorer** | https://explorer.testnet.verana.network |
 | **Visualizer** | https://vis.testnet.verana.network |
 | **Front-End** | https://app.testnet.verana.network |
-| **persistent peers list**| `2732c9c7b613102b7bf81249a9b8a5128168ad67@node1.testnet.verana.network:26656` |
+| **persistent peers list (sentry-only)**| `ecc3e46c37da5bc4c8a1e691dbb8237844a7ea38@sentry1.testnet.verana.network:26656,0db8a040a40d9eaacce8f1a030bfd19b50cbf761@sentry2.testnet.verana.network:26656,a15f404f7a5c4bae791f75886cad45001957c6c3@sentry3.testnet.verana.network:26656` |
+
+**Notes**
+- Client apps should use the canonical RPC/API endpoints. These may be traffic-shaped to protect network stability, so partners are encouraged to run their own validator + sentry + app stack for long-term use.
+- Validator hosts are not public entry points. Use the sentry pool or your own sentries for P2P and RPC access.
+
+### Sentry hosts (P2P/RPC for operators)
+- `sentry1.testnet.verana.network`
+- `sentry2.testnet.verana.network`
+- `sentry3.testnet.verana.network`
 
 ## Query the latest persistent peers list
 ```
 curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/persistent_peers/persistent_peers.json | jq -r '.persistent_peers'
+```
+
+Sentry-only list (preferred for partners):
+```
+curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/persistent_peers/sentry_peers.json | jq -r '.persistent_peers'
 ```
 
 ## Consensus Parameters

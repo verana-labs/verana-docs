@@ -32,7 +32,7 @@ veranad q perm list-permissions --node $NODE_RPC --output json \
 
 ### Usage
 ```bash
-veranad tx perm create-perm [schema-id] [type] [did] [flags]
+veranad tx perm create-perm [schema-id] [type] [did] [flags] --node $NODE_RPC
 ```
 
 **Positional args**
@@ -54,7 +54,7 @@ Set your environment:
 ```bash
 USER_ACC="mat-test-acc"
 CHAIN_ID="vna-testnet-1"
-NODE_RPC=http://node1.testnet.verana.network:26657
+NODE_RPC=https://rpc.testnet.verana.network
 SCHEMA_ID=5
 ```
 

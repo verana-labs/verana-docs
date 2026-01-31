@@ -52,7 +52,7 @@ SCHEMA_ID=10
 ROOT_DID=did:example:123456789abcdefghi
 USER_ACC="mat-test-acc"
 CHAIN_ID="vna-testnet-1"
-NODE_RPC=http://node1.testnet.verana.network:26657
+NODE_RPC=https://rpc.testnet.verana.network
 ```
 
 Create the root permission:

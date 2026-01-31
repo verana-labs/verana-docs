@@ -38,7 +38,7 @@ Set your environment (adjust values):
 SCHEMA_ID=10
 USER_ACC="mat-test-acc"
 CHAIN_ID="vna-testnet-1"
-NODE_RPC=http://node1.testnet.verana.network:26657
+NODE_RPC=https://rpc.testnet.verana.network
 ```
 
 Increase Issuer/Verifier periods and keep grantor/holder at 365 days:

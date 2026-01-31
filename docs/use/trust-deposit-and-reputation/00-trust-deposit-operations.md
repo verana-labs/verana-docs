@@ -12,7 +12,7 @@ Make sure you've read [the Learn section](../../learn/verifiable-public-registry
 USER_ACC="mat-test-acc"
 USER_ACC_LIT=verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0
 CHAIN_ID="vna-testnet-1"
-NODE_RPC=http://node1.testnet.verana.network:26657
+NODE_RPC=https://rpc.testnet.verana.network
 ```
 
 *These variables are required to target the correct environment (testnet, mainnet, or local). Adjust values accordingly.*
@@ -100,7 +100,7 @@ Reclaim earned interest (yield) from your trust deposits. Yield is generated whe
 
 **Syntax:**
 ```bash
-veranad tx td reclaim-yield --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx td reclaim-yield --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 **Parameters:**
@@ -139,7 +139,7 @@ Reclaim a specified amount from your claimable trust deposit balance. This is us
 
 **Syntax:**
 ```bash
-veranad tx td reclaim-deposit [amount] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx td reclaim-deposit [amount] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 **Parameters:**

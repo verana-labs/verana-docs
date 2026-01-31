@@ -31,7 +31,7 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx cs create-schema <trust-registry-id> <json-schema> <issuer-grantor-validity> <verifier-grantor-validity> <issuer-validity> <verifier-validity> <holder-validity> <issuer-perm-mode> <verifier-perm-mode> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount>
+veranad tx cs create-schema <trust-registry-id> <json-schema> <issuer-grantor-validity> <verifier-grantor-validity> <issuer-validity> <verifier-validity> <holder-validity> <issuer-perm-mode> <verifier-perm-mode> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --node $NODE_RPC
 ```
 
 #### Permission Management Modes for Issuer and Verifier
