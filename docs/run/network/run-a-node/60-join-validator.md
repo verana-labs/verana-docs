@@ -230,6 +230,14 @@ veranad tx slashing unjail \
 
 Note: if you use `--dry-run`, `--from` must be a bech32 address (key names are not accepted in simulation mode).
 
+**Find your validator operator address (env-agnostic):**
+Use this to locate your validator by moniker and retrieve the operator address + consensus pubkey from any environment:
+```bash
+API_ENDPOINT="${API_ENDPOINT:-https://api.testnet.verana.network}"
+curl -s "$API_ENDPOINT/cosmos/staking/v1beta1/validators?pagination.limit=200" \
+  | jq -r '.validators[] | [.description.moniker,.operator_address,.consensus_pubkey.key] | @tsv'
+```
+
 ---
 
 ## System Configuration
