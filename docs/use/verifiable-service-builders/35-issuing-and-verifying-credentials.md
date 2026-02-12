@@ -27,7 +27,6 @@ curl -X 'POST' \
   "name": "govid",
   "version": "1.0",
   "relatedJsonSchemaCredentialId": "https://dm.gov-id-tr.demos.2060.io/vt/schemas-gov-id-jsc.json",
-  "supportRevocation": true
 }'
 ```
 
