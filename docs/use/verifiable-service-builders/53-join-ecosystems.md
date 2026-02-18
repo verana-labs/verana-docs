@@ -213,8 +213,7 @@ curl -X POST "http://localhost:3000/v1/credential-types" \
   -d '{
     "name": "citizen-id",
     "version": "1.0",
-    "relatedJsonSchemaCredentialId": "<vtjsc-credential-id>",
-    "supportRevocation": true
+    "relatedJsonSchemaCredentialId": "<vtjsc-credential-id>"
   }'
 ```
 
@@ -226,7 +225,6 @@ The response includes the **Credential Definition ID**, which is the identifier 
   "name": "citizen-id",
   "version": "1.0",
   "attributes": ["firstName", "lastName", "birthDate", "photo", ...],
-  "supportRevocation": true,
   "relatedJsonSchemaCredentialId": "<vtjsc-credential-id>"
 }
 ```

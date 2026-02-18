@@ -350,11 +350,17 @@ Edit `vs/config.env` to customize:
 
 ### CI/CD with GitHub Actions
 
-The verana-demos repository also supports automated deployment via GitHub Actions:
+The verana-demos repository includes GitHub Actions workflows for automated deployment. To use them on your own infrastructure:
 
-1. Create a branch named `vs/<network>-<service-name>` (e.g., `vs/testnet-my-issuer`)
-2. Edit `vs/config.env`, `vs/deployment.yaml`, and `vs/schema.json`
-3. Push and run the workflow from the Actions tab, choosing from: `deploy`, `setup-part1`, `setup-part2`, or `all`
+1. **Fork** the [verana-demos](https://github.com/verana-labs/verana-demos) repository to your own GitHub account.
+2. Configure your fork with your own `KUBECONFIG` and any required secrets (see the repository's workflow files for details).
+3. Create a branch named `vs/<network>-<service-name>` (e.g., `vs/testnet-my-issuer`).
+4. Edit `vs/config.env`, `vs/deployment.yaml`, and `vs/schema.json` with your service details.
+5. Push and run the workflow from the Actions tab, choosing from: `deploy`, `setup-part1`, `setup-part2`, or `all`.
+
+:::note
+The upstream verana-demos repository is used internally by the Verana team. External users should fork the repo and run workflows from their own fork.
+:::
 
 ## Cleanup
 
