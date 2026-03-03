@@ -3,10 +3,12 @@ import TabItem from '@theme/TabItem';
 
 # Update a Credential Schema
 
-Update the **validity periods** attached to an existing credential schema. This does **not** change the JSON Schema itself or the permission management modes; it only adjusts how long validations remain effective for each role.
+`MOD-CS-MSG-2`
+
+Update the **validity periods** attached to an existing credential schema. This operation is **delegable**. This does **not** change the JSON Schema itself or the permission management modes; it only adjusts how long validations remain effective for each role.
 
 :::tip
-Only the account that controls the **trust registry** that owns this credential schema can run this command.
+Only the authority (group account) that controls the trust registry owning this credential schema can run this command. The schema must not be archived.
 :::
 
 ## Message Parameters
@@ -14,8 +16,8 @@ Only the account that controls the **trust registry** that owns this credential 
 | Name                           | Description                                                             | Mandatory |
 |--------------------------------|-------------------------------------------------------------------------|-----------|
 | credential-schema-id           | ID of the credential schema to update                                   | yes       |
-| issuer-grantor-validity        | Max days an **Issuer‑Grantor** validation remains valid                 | yes       |
-| verifier-grantor-validity      | Max days a **Verifier‑Grantor** validation remains valid                | yes       |
+| issuer-grantor-validity        | Max days an **Issuer-Grantor** validation remains valid                 | yes       |
+| verifier-grantor-validity      | Max days a **Verifier-Grantor** validation remains valid                | yes       |
 | issuer-validity                | Days an **Issuer** validation remains valid                             | yes       |
 | verifier-validity              | Max days a **Verifier** validation remains valid                        | yes       |
 | holder-validity                | Max days a **Holder** validation remains valid                          | yes       |
@@ -28,14 +30,26 @@ Only the account that controls the **trust registry** that owns this credential 
 ### Usage
 
 ```bash
-veranad tx cs update <credential-schema-id> <issuer-grantor-validity> <verifier-grantor-validity> <issuer-validity> <verifier-validity> <holder-validity> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+veranad tx cs update [id] \
+  --authority <authority> \
+  [--issuer-grantor-validation-validity-period '{"value":N}'] \
+  [--verifier-grantor-validation-validity-period '{"value":N}'] \
+  [--issuer-validation-validity-period '{"value":N}'] \
+  [--verifier-validation-validity-period '{"value":N}'] \
+  [--holder-validation-validity-period '{"value":N}'] \
+  --from <operator> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
-### Copy‑pasteable example
+:::info
+The `--authority` flag specifies the group account that controls the trust registry owning this schema. The `--from` flag specifies the **operator** (transaction signer) who must be authorized by the authority.
+:::
+
+### Copy-pasteable example
 
 Set your environment (adjust values):
 ```bash
 SCHEMA_ID=10
+AUTHORITY_ACC=<your-group-policy-address>
 USER_ACC="mat-test-acc"
 CHAIN_ID="vna-testnet-1"
 NODE_RPC=https://rpc.testnet.verana.network
@@ -43,7 +57,14 @@ NODE_RPC=https://rpc.testnet.verana.network
 
 Increase Issuer/Verifier periods and keep grantor/holder at 365 days:
 ```bash
-veranad tx cs update $SCHEMA_ID 365 365 280 280 365 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+veranad tx cs update $SCHEMA_ID \
+  --authority $AUTHORITY_ACC \
+  --issuer-grantor-validation-validity-period '{"value":365}' \
+  --verifier-grantor-validation-validity-period '{"value":365}' \
+  --issuer-validation-validity-period '{"value":280}' \
+  --verifier-validation-validity-period '{"value":280}' \
+  --holder-validation-validity-period '{"value":365}' \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
   </TabItem>
@@ -59,10 +80,10 @@ veranad tx cs update $SCHEMA_ID 365 365 280 280 365 --from $USER_ACC --chain-id 
 
 Query the schema and inspect the validity fields:
 ```bash
-veranad query cs get-schema $SCHEMA_ID --node $NODE_RPC --output json | jq
+veranad q cs get-schema $SCHEMA_ID --node $NODE_RPC --output json | jq
 ```
 
 ## Notes
-- Validity values must be **positive integers** (days).
+- Validity values must be **positive integers** (days) and within module parameter limits.
 - You cannot change **permission management modes** (`OPEN`, `GRANTOR_VALIDATION`, `ECOSYSTEM`) with this command; create a new schema if you need different modes.
-- Only the **controller** of the trust registry that owns the schema can update it.
+- Only the **authority** controlling the trust registry that owns the schema can update it.

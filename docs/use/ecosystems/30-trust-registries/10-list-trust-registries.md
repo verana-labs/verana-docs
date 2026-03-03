@@ -1,16 +1,18 @@
 # List Trust Registries
 
+`MOD-TR-QRY-2`
+
 Use this query to list existing Ecosystem trust registries.
 
 ## Query Parameters
 
-|Name               |Description                            |Mandatory|
-|-------------------|---------------------------------------|--------|
-| controller        | specify a verana account to list only trust registries controlled by this account. | no |
-| modified-after    | show only trust registries modified after this date | no |
-| active-gf-only    | return only active ecosystem governance framework, hide the other EGF versions  | no |
-| preferred-language    | prefer ecosystem governance framework in this language. If an EGF doesn't exist in this language, returns the default language.  | no |
-| response-max-size    | max items to return  | no |
+| Name               | Description                                                                                           | Mandatory |
+|--------------------|-------------------------------------------------------------------------------------------------------|-----------|
+| controller         | Specify a verana account to list only trust registries controlled by this account                      | no        |
+| modified-after     | Show only trust registries modified after this date                                                    | no        |
+| active-gf-only     | Return only active ecosystem governance framework, hide the other EGF versions                        | no        |
+| preferred-language | Prefer ecosystem governance framework in this language. Falls back to the default language if unavailable | no        |
+| response-max-size  | Max items to return                                                                                   | no        |
 
 ## Execute the Query
 
@@ -42,13 +44,12 @@ USER_ACC_LIT=verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0
 
 Use the output to identify the `id` of the trust registry you want to manage.
   </TabItem>
-  
+
   <TabItem value="api" label="API">
 
 [Try the query here](https://api.testnet.verana.network/#/)
 
-
-    ```bash
+```bash
 curl -X GET "https://api.testnet.verana.network/verana/tr/v1/list?response-max-size=10" -H  "accept: application/json"
 ```
 
@@ -85,8 +86,7 @@ curl -X GET "https://api.testnet.verana.network/verana/tr/v1/list?response-max-s
           ]
         }
       ]
-    },
-    ...
+    }
   ]
 }
 ```

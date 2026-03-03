@@ -43,10 +43,16 @@ const config: Config = {
           showLastUpdateAuthor: false,
           showLastUpdateTime: false,
           includeCurrentVersion: true, // Ensure the latest docs are included
+          lastVersion: 'v3',
           versions: {
             current: {
-              label: 'Next', // The default latest version
+              label: 'v4 (next)',
               path: 'next',
+              banner: 'unreleased',
+            },
+            'v3': {
+              label: 'v3',
+              path: '',
               banner: 'none',
             },
           },
