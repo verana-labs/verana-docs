@@ -1,23 +1,38 @@
 # Create a Credential Schema
 
+`MOD-CS-MSG-1`
+
 Make sure you've read [the Learn section](../../../learn/verifiable-public-registry/credential-schema).
+
+Post a message that will create a new credential schema. This operation is **delegable**.
+
+:::warning Prerequisites
+Before creating a credential schema, ensure you have completed these steps:
+
+1. **Create a group account** — The authority that controls the trust registry must be a [Cosmos SDK group](https://docs.cosmos.network/v0.50/build/modules/group) with a decision policy.
+2. **Grant operator authorization** — Use the [Delegation module](../delegation/grant-operator-authorization) to authorize your operator account to execute CS messages on behalf of the authority (via a group proposal).
+3. **Create a trust registry** — You need an existing [trust registry](../trust-registries/create-a-trust-registry) to attach credential schemas to.
+:::
 
 ## Message Parameters
 
 | Name                       | Description                                                                 | Mandatory |
 |----------------------------|-----------------------------------------------------------------------------|-----------|
-| trust-registry-id          | Numeric ID of the trust registry                                            | Yes       |
-| json-schema                | JSON schema (inline string or loaded from file)                             | Yes       |
-| issuer-grantor-validity    | Validity period for issuer grantor (in days)                                | No        |
-| verifier-grantor-validity  | Validity period for verifier grantor (in days)                              | No        |
-| issuer-validity            | Validity period for issuer (in days)                                        | No        |
-| verifier-validity          | Validity period for verifier (in days)                                      | No        |
-| holder-validity            | Validity period for holder (in days)                                        | No        |
-| issuer-perm-mode           | Permission mode for issuer (integer)                                        | Yes       |
-| verifier-perm-mode         | Permission mode for verifier (integer)                                      | Yes       |
+| trust-registry-id          | Numeric ID of the trust registry                                            | yes       |
+| json-schema                | JSON schema (inline string or loaded from file)                             | yes       |
+| issuer-perm-mode           | Permission management mode for issuers (integer, see table below)           | yes       |
+| verifier-perm-mode         | Permission management mode for verifiers (integer, see table below)         | yes       |
+| pricing-asset-type         | Pricing asset type (integer: `1`=TU, `2`=COIN, `3`=FIAT)                   | yes       |
+| pricing-asset              | Pricing asset identifier (e.g., `uvna` for COIN, empty for TU)             | yes       |
+| digest-algorithm           | Digest algorithm for schema integrity (e.g., `sha256`)                      | yes       |
+| issuer-grantor-validity    | Validity period for issuer grantor validation (in days)                     | no        |
+| verifier-grantor-validity  | Validity period for verifier grantor validation (in days)                   | no        |
+| issuer-validity            | Validity period for issuer validation (in days)                             | no        |
+| verifier-validity          | Validity period for verifier validation (in days)                           | no        |
+| holder-validity            | Validity period for holder validation (in days)                             | no        |
 
 :::tip
-You must specify the name, version, and JSON schema definition. Refer to the [specification](https://verana-labs.github.io/verifiable-trust-spec/#vt-json-schema-cred-verifiable-trust-json-schema-credential) for required attributes.
+You must specify the JSON schema definition. Refer to the [specification](https://verana-labs.github.io/verifiable-trust-spec/#vt-json-schema-cred-verifiable-trust-json-schema-credential) for required attributes.
 :::
 
 ## Post the Message
@@ -31,8 +46,19 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx cs create-schema <trust-registry-id> <json-schema> <issuer-grantor-validity> <verifier-grantor-validity> <issuer-validity> <verifier-validity> <holder-validity> <issuer-perm-mode> <verifier-perm-mode> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --node $NODE_RPC
+veranad tx cs create-credential-schema [tr-id] [json-schema] [issuer-perm-mode] [verifier-perm-mode] [pricing-asset-type] [pricing-asset] [digest-algorithm] \
+  --authority <authority> \
+  [--issuer-grantor-validation-validity-period '{"value":N}'] \
+  [--verifier-grantor-validation-validity-period '{"value":N}'] \
+  [--issuer-validation-validity-period '{"value":N}'] \
+  [--verifier-validation-validity-period '{"value":N}'] \
+  [--holder-validation-validity-period '{"value":N}'] \
+  --from <operator> --chain-id <chain-id> --keyring-backend test --fees <amount> --node $NODE_RPC
 ```
+
+:::info
+The `--authority` flag specifies the group account that controls the trust registry. The `--from` flag specifies the **operator** (transaction signer) who must be authorized by the authority.
+:::
 
 #### Permission Management Modes for Issuer and Verifier
 
@@ -42,32 +68,46 @@ veranad tx cs create-schema <trust-registry-id> <json-schema> <issuer-grantor-va
 | `2`   | GRANTOR_VALIDATION   | Requires validation by a Grantor permission holder (Issuer or Verifier).|
 | `3`   | ECOSYSTEM            | Requires validation by the Ecosystem controller (Trust Registry owner).|
 
+#### Pricing Asset Types
+
+| Value | Type   | pricing-asset value                                  | Description                                           |
+|-------|--------|------------------------------------------------------|-------------------------------------------------------|
+| `1`   | TU     | `tu`                                                 | Trust Unit (non-transferable token)                   |
+| `2`   | COIN   | denom (e.g., `uvna`)                                 | Native blockchain token or IBC asset                  |
+| `3`   | FIAT   | ISO-4217 code (e.g., `USD`)                          | Fiat currency (off-chain settlement)                  |
+
 
 ### Example (inline JSON schema):
 
 ```bash
-veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"vpr:verana:VPR_CHAIN_ID/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID","title": "ExampleCredential","description": "ExampleCredential using JsonSchema","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' \
+veranad tx cs create-credential-schema ${TRUST_REG_ID} \
+  '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"vpr:verana:VPR_CHAIN_ID/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID","title": "ExampleCredential","description": "ExampleCredential using JsonSchema","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' \
+  1 1 1 tu sha256 \
+  --authority $AUTHORITY_ACC \
   --issuer-grantor-validation-validity-period '{"value":365}' \
   --verifier-grantor-validation-validity-period '{"value":365}' \
   --issuer-validation-validity-period '{"value":180}' \
   --verifier-validation-validity-period '{"value":180}' \
   --holder-validation-validity-period '{"value":180}' \
-   1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 ### Example (inline JSON schema) with default values:
 
 ```bash
-veranad tx cs create-credential-schema ${TRUST_REG_ID} '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"vpr:verana:VPR_CHAIN_ID/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID","title": "ExampleCredential","description": "ExampleCredential using JsonSchema","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' \
+veranad tx cs create-credential-schema ${TRUST_REG_ID} \
+  '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"vpr:verana:VPR_CHAIN_ID/cs/v1/js/VPR_CREDENTIAL_SCHEMA_ID","title": "ExampleCredential","description": "ExampleCredential using JsonSchema","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' \
+  1 1 1 tu sha256 \
+  --authority $AUTHORITY_ACC \
   --issuer-grantor-validation-validity-period '{"value":0}' \
   --verifier-grantor-validation-validity-period '{"value":0}' \
   --issuer-validation-validity-period '{"value":0}' \
   --verifier-validation-validity-period '{"value":0}' \
   --holder-validation-validity-period '{"value":0}' \
-   1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
-### Example (using JSON file):**
+### Example (using JSON file):
 ```bash
 # Save schema to file first
 cat > schema.json << 'EOF'
@@ -92,25 +132,25 @@ cat > schema.json << 'EOF'
 }
 EOF
 
-# Use in command (you'll need to escape or quote properly)
+# Use in command
 veranad tx cs create-credential-schema ${TRUST_REG_ID} "$(cat schema.json)" \
+  2 2 2 uvna sha256 \
+  --authority $AUTHORITY_ACC \
   --issuer-grantor-validation-validity-period '{"value":365}' \
   --verifier-grantor-validation-validity-period '{"value":365}' \
   --issuer-validation-validity-period '{"value":180}' \
   --verifier-validation-validity-period '{"value":180}' \
   --holder-validation-validity-period '{"value":180}' \
-   1 1 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 :::tip
 How to find the id of the credential schema that was just created?
 ```bash
-TX_HASH=4E7DEE1DFDE24A804E8BD020657EB22B07D54CBA695788ACB59D873B827F3CA6
+TX_HASH=<replace with tx-hash>
 veranad q tx $TX_HASH --node $NODE_RPC --output json
 ```
 :::
-
-
 
 :::tip
 Make sure you are pointing towards your own Trust Registry (ID) before you run the above example!
@@ -121,13 +161,13 @@ TRUST_REG_ID=5
 ```
 :::
 
-replace with the correct transaction hash.
+Replace with the correct transaction hash.
 
   </TabItem>
-  
+
   <TabItem value="frontend" label="Frontend">
     :::tip
-    You can also use the [testnet frontend](https://testnet.verana.io/) to create a credential schema using a simple web interface.
+    You can also use the [testnet frontend](https://app.testnet.verana.network) to create a credential schema using the web interface.
     :::
   </TabItem>
 </Tabs>

@@ -1,0 +1,116 @@
+# Using Remote CLI
+
+To interact with the Verana blockchain remotely, you can use the CLI (`veranad`) to query data and send transactions to networks like `vna-testnet-1` or `vna-mainnet-1`.
+
+## Pre-Requisites
+
+> **Prerequisite:** Ensure the `veranad` binary is installed and up-to-date.  
+> See [Install or Update Veranad Binary](./prerequisites#1-install-or-update-the-veranad-binary).
+
+> **Tip:** If you have not created an account yet, see [Create and Fund an Account](./prerequisites#3-create-and-fund-an-account).
+
+3. Environmnet Variables to use with documentation examples
+
+Local environment
+```
+FAUCET_ACC="cooluser"
+FAUCET_ACC_LIT=verana16mzeyu9l6kua2cdg9x0jk5g6e7h0kk8q6uadu4
+CHAIN_ID="vna-local-1"
+NODE_RPC=http://localhost:26657
+```
+
+betanet environment (ephemeral; may be offline)
+```
+FAUCET_ACC="faucet"
+FAUCET_ACC_LIT=verana167vrykn5vhp8v9rng69xf0jzvqa3v79etmr0t2
+CHAIN_ID="vna-betanet-1"
+NODE_RPC=https://rpc.vna-betanet-1.devnet.verana.network
+```
+
+Branch-based ephemeral environment (K8s)
+```
+# Namespace defaults to vna-devnet-<branch> with slashes replaced by hyphens
+# Example branch: feature/foo -> vna-devnet-feature-foo
+CHAIN_ID="vna-devnet-feature-foo"
+NODE_RPC="https://rpc.${CHAIN_ID}.devnet.verana.network"
+```
+
+devnet environment
+```
+FAUCET_ACC="faucet"
+FAUCET_ACC_LIT=verana167vrykn5vhp8v9rng69xf0jzvqa3v79etmr0t2
+CHAIN_ID="vna-devnet-1"
+NODE_RPC=http://node1.devnet.verana.network:26657
+```
+
+Testnet environment
+```
+FAUCET_ACC="faucet"
+FAUCET_ACC_LIT=verana167vrykn5vhp8v9rng69xf0jzvqa3v79etmr0t2
+CHAIN_ID="vna-testnet-1"
+NODE_RPC=https://rpc.testnet.verana.network
+```
+
+## Example Commands
+
+
+Query Balances on vna-testnet-1
+
+```bash
+veranad q bank balances $FAUCET_ACC_LIT \
+  --node $NODE_RPC
+```
+
+Send Tokens to Another Address
+
+```bash
+veranad tx bank send <from-wallet> <to-wallet> 100000uvna \
+  --chain-id $CHAIN_ID --node $NODE_RPC \
+  --gas auto --fees 600000uvna
+```
+
+Create a Trust Registry:
+```bash
+veranad tx trustregistry create-trust-registry \
+    did:example:123456789abcdefghi en \
+    https://example.com/framework.pdf "sha256-315f5bdb76d078c43b8ac00641b2a6ea241e27fcb60e23f9e6acfa2c05b9e36a" \
+    --from $FAUCET_ACC --keyring-backend test --chain-id $CHAIN_ID --node $NODE_RPC --fees 600000uvna
+```
+
+List Trust Registries:
+```bash
+veranad q trustregistry list-trust-registries --node $NODE_RPC
+```
+
+Query Blocks
+
+```bash
+veranad q block 100 --type=height \
+  --node $NODE_RPC
+```
+
+## Transfers & Fees
+
+Typical Verana testnet transfer (uvna) with explicit fees:
+
+```bash
+FROM="alice"
+TO="verana1..."
+AMOUNT="100000uvna"
+
+veranad tx bank send "$FROM" "$TO" "$AMOUNT" \
+  --chain-id "$CHAIN_ID" \
+  --node "$NODE_RPC" \
+  --gas auto \
+  --fees 600000uvna \
+  --keyring-backend test \
+  --yes
+```
+
+Check balance:
+
+```bash
+veranad q bank balances "$TO" --node "$NODE_RPC" -o json | jq
+```
+
+Refer to the [Environments section](../environments/10-environments.md) for details on RPC endpoints for other networks.

@@ -43,10 +43,16 @@ const config: Config = {
           showLastUpdateAuthor: false,
           showLastUpdateTime: false,
           includeCurrentVersion: true, // Ensure the latest docs are included
+          lastVersion: 'v0.8',
           versions: {
             current: {
-              label: 'Next', // The default latest version
+              label: 'Specs v4 (Next)',
               path: 'next',
+              banner: 'unreleased',
+            },
+            'v0.8': {
+              label: 'v0.8',
+              path: '',
               banner: 'none',
             },
           },

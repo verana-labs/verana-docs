@@ -17,11 +17,20 @@ Set the following environment variables in order to be able to interact with the
 ```bash
 USER_ACC="mat-test-acc"
 USER_ACC_LIT=verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0
+AUTHORITY_ACC=verana1...  # Group account address (authority)
+OPERATOR_ACC=verana1...   # Operator account address
 CHAIN_ID="vna-testnet-1"
 NODE_RPC=https://rpc.testnet.verana.network
 ```
 
 *These variables are required to target the correct environment (testnet, mainnet, or local). Adjust values accordingly.*
+
+:::info Authority and Operator Pattern
+In Specs v4, all module transactions use the **delegation pattern**:
+- `AUTHORITY_ACC` is the **group account** that controls resources (trust registries, schemas, etc.)
+- `USER_ACC` (used with `--from`) is the **operator** who signs and submits the transaction
+- The operator must have been granted authorization by the authority via the [Delegation module](../ecosystems/delegation/grant-operator-authorization)
+:::
 
 ## Using the API
 

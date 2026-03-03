@@ -1,12 +1,14 @@
 # Get a Credential Schema
 
-Simple query method for getting a credential schema.
+`MOD-CS-QRY-2`
+
+Query method for getting a credential schema by ID.
 
 ## Query Parameters
 
-|Name               |Description                            |Mandatory|
-|-------------------|---------------------------------------|--------|
-| id    | id of the credential schema to get  | yes |
+| Name | Description                          | Mandatory |
+|------|--------------------------------------|-----------|
+| id   | ID of the credential schema to get   | yes       |
 
 ## Execute the Query
 
@@ -19,7 +21,7 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad query cs get-schema [id] --node $NODE_RPC --output json
+veranad q cs get-schema [id] --node $NODE_RPC --output json
 ```
 
 ### Example
@@ -27,7 +29,7 @@ veranad query cs get-schema [id] --node $NODE_RPC --output json
 ```bash
 NODE_RPC=https://rpc.testnet.verana.network
 SCHEMA_ID=1
-veranad query cs get-schema $SCHEMA_ID --node $NODE_RPC --output json
+veranad q cs get-schema $SCHEMA_ID --node $NODE_RPC --output json
 ```
 
   </TabItem>
@@ -43,7 +45,7 @@ curl -X GET "https://api.testnet.verana.network/verana/cs/v1/get/1" -H  "accept:
   </TabItem>
   <TabItem value="frontend" label="Frontend">
 
-You can browse and inspect credential schemas on the [Verana Testnet frontend](https://testnet.verana.network).
+You can browse and inspect credential schemas on the [Verana Testnet frontend](https://app.testnet.verana.network).
 
   </TabItem>
 </Tabs>

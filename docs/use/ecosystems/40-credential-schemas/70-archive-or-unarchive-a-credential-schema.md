@@ -1,17 +1,19 @@
 # Archive or Unarchive a Credential Schema
 
-You can archive or unarchive a credential schema with the following command:
+`MOD-CS-MSG-3`
+
+You can archive or unarchive a credential schema with the following command. This operation is **delegable**.
 
 :::tip
-Only the account that is the controller of the trust registry can execute this method.
+Only the authority (group account) that controls the trust registry owning this credential schema can execute this method. The operator (specified via `--from`) must be [authorized by the authority](../delegation/grant-operator-authorization) to execute CS messages.
 :::
 
 ## Message Parameters
 
-|Name               |Description                            |Mandatory|
-|-------------------|---------------------------------------|--------|
-| id    |  id of the trust registry to archive or unarchive.  | yes |
-| archive   |  true archive, false unarchive.  | yes |
+| Name    | Description                                                 | Mandatory |
+|---------|-------------------------------------------------------------|-----------|
+| id      | ID of the credential schema to archive or unarchive         | yes       |
+| archive | `true` to archive, `false` to unarchive                     | yes       |
 
 ## Post the Message
 
@@ -24,28 +26,34 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx ... --node $NODE_RPC
+veranad tx cs archive [id] [archive] \
+  --authority <authority> \
+  --from <operator> --chain-id <chain-id> --keyring-backend test --fees <amount> --node $NODE_RPC
 ```
 
-:::tip[TODO]
-@matlux
+:::info
+The `--authority` flag specifies the group account that controls the trust registry owning this schema. The `--from` flag specifies the **operator** (transaction signer) who must be authorized by the authority.
 :::
 
 ### Archive a Credential Schema
 
 ```bash
-TRUST_REG_ID=5
-veranad tx tr archive-trust-registry ${TRUST_REG_ID} true --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna  --node $NODE_RPC
+SCHEMA_ID=10
+veranad tx cs archive ${SCHEMA_ID} true \
+  --authority $AUTHORITY_ACC \
+  --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 ### Unarchive a Credential Schema
 
 ```bash
-TRUST_REG_ID=5
-veranad tx tr archive-trust-registry ${TRUST_REG_ID} false --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna  --node $NODE_RPC
+SCHEMA_ID=10
+veranad tx cs archive ${SCHEMA_ID} false \
+  --authority $AUTHORITY_ACC \
+  --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
  </TabItem>
-  
+
   <TabItem value="frontend" label="Frontend">
     :::tip
     TODO: describe here

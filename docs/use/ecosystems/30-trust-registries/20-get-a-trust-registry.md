@@ -1,14 +1,16 @@
 # Get a Trust Registry
 
-Simple query method for getting a trust registry.
+`MOD-TR-QRY-1`
+
+Query method for getting a trust registry by ID.
 
 ## Query Parameters
 
-|Name               |Description                            |Mandatory|
-|-------------------|---------------------------------------|--------|
-| tr-id    | id of the trust registry to get  | yes |
-| active-gf-only    | return only active ecosystem governance framework, hide the other EGF versions  | no |
-| preferred-language    | prefer ecosystem governance framework in this language. If an EGF doesn't exist in this language, returns the default language.  | no |
+| Name               | Description                                                                                           | Mandatory |
+|--------------------|-------------------------------------------------------------------------------------------------------|-----------|
+| tr-id              | ID of the trust registry to get                                                                       | yes       |
+| active-gf-only     | Return only active ecosystem governance framework, hide the other EGF versions                        | no        |
+| preferred-language | Prefer ecosystem governance framework in this language. Falls back to the default language if unavailable | no        |
 
 ## Execute the Query
 
@@ -21,7 +23,7 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad q tr get-trust-registry $TR_ID --node $NODE_RPC --output json
+veranad q tr get-trust-registry [tr_id] --node $NODE_RPC --output json
 ```
 
 :::tip Copy-pasteable example
@@ -46,15 +48,12 @@ veranad q tr get-trust-registry 1 --node $NODE_RPC --output json
 veranad q tr get-trust-registry 1 --active-gf-only=true --preferred-language=fr --node $NODE_RPC --output json
 ```
 
-<!-- The tip above applies to these examples as well -->
-
   </TabItem>
   <TabItem value="api" label="API">
 
 [Try the query here](https://api.testnet.verana.network/#/)
 
-
-    ```bash
+```bash
 curl -X GET "https://api.testnet.verana.network/verana/tr/v1/get/1" -H  "accept: application/json"
 ```
 
@@ -98,12 +97,12 @@ curl -X GET "https://api.testnet.verana.network/verana/tr/v1/get/1" -H  "accept:
   <TabItem value="indexer" label="Indexer">
   </TabItem>
   <TabItem value="frontend" label="Frontend">
-```markdown
+
 You can view Trust Registries in the frontend UI by navigating to:
 
-[https://frontend.testnet.verana.network/trust-registries](https://frontend.testnet.verana.network/trust-registries)
+[https://app.testnet.verana.network/tr](https://app.testnet.verana.network/tr)
 
 Click on a registry entry to inspect its metadata, DID, active governance framework, and associated documents.
-```
+
   </TabItem>
 </Tabs>

@@ -1,18 +1,21 @@
 # Update a Trust Registry
 
-Post a message that will modify the ledger state by updating a trust registry.
+`MOD-TR-MSG-4`
+
+Post a message that will modify the ledger state by updating a trust registry. This operation is **delegable**.
 
 :::tip
-Only the account that is the controller of the trust registry can execute this method.
+Only the authority (group account) that controls the trust registry can execute this method. The operator must be authorized by the authority.
 :::
 
 ## Message Parameters
 
-|Name               |Description                            |Mandatory|
-|-------------------|---------------------------------------|--------|
-| id    |  id of the trust registry to update  | yes |
-| did    |  Decentralized Identifier (DID) - must follow DID specification  | yes |
-| aka    | Also Known As URL.  | no |
+| Name      | Description                                                   | Mandatory |
+|-----------|---------------------------------------------------------------|-----------|
+| authority | Group account that controls the trust registry                | yes       |
+| id        | ID of the trust registry to update                            | yes       |
+| did       | Decentralized Identifier (DID) — must follow DID-CORE syntax | yes       |
+| aka       | Also Known As URI (set to empty to clear)                     | no        |
 
 ## Post the Message
 
@@ -25,17 +28,21 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-  veranad tx tr update-trust-registry [id] [did] [flags] --node $NODE_RPC
+veranad tx tr update-trust-registry [authority] [id] [did] \
+  [--aka <aka>] \
+  --from <operator> --chain-id <chain-id> --keyring-backend test --fees <amount> --node $NODE_RPC
 ```
 
 ### Example
 
 ```bash
-veranad tx tr update-trust-registry ${TRUST_REG_ID} did:example:newdidmat --aka https://new-aka-example.com --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx tr update-trust-registry $AUTHORITY_ACC ${TRUST_REG_ID} did:example:newdidvalue \
+  --aka https://new-aka-example.com \
+  --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
   </TabItem>
-  
+
   <TabItem value="frontend" label="Frontend">
     :::tip
     TODO: describe here
