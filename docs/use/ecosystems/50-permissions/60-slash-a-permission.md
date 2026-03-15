@@ -5,6 +5,8 @@ The Trust Deposit linked to a Permission can be slashed by:
 - the validator that granted the Permission;
 - the ecosystem trust registry controller (the controller of the root permission of this credential schema).
 
+This is a **delegable** message — it requires an `authority` (group account) and can be executed by an authorized `operator`.
+
 **Notes:**
 
 - The slashed amount is burned and cannot be recovered.
@@ -32,10 +34,7 @@ vpr --> actor: Slash successful
 |-------------------|---------------------------------------|--------|
 |perm-id| Numeric ID of the permission whose deposit you want to slash. | yes |
 |amount| Amount to slash (must be less than or equal to the current permission deposit). | yes |
-
-:::tip[TODO]
-@matlux
-:::
+|`--authority`| Group account (authority) on whose behalf this message is executed. | yes |
 
 ## Post the Message
 
@@ -48,13 +47,17 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx perm slash-perm-td <perm-id> <amount> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+veranad tx perm slash-perm-td <perm-id> <amount> \
+  --authority <group-account> \
+  --from <operator-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 ### Example
 
 ```bash
-veranad tx perm slash-perm-td 42 1000000 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx perm slash-perm-td 42 1000000 \
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
   </TabItem>

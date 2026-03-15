@@ -1,8 +1,10 @@
 # Repay a Slashed Permission Deposit
 
-This method can only be called by anyone that want to repay the deposit of a slashed perm. This won’t make the perm re-usable: it will be needed for the grantee to request a new permission, as slashed permissions cannot be revived (same happen for revoked, etc…).
+This method can only be called by the authority that owns the permission to repay the deposit of a slashed perm. This won’t make the perm re-usable: it will be needed for the grantee to request a new permission, as slashed permissions cannot be revived (same happen for revoked, etc…).
 
 Nevertheless, to get a new permission for a given ecosystem, it is needed, using this method, to repay the deposit of a slashed permission first.
+
+This is a **delegable** message — it requires an `authority` (group account) and can be executed by an authorized `operator`.
 
 ## Flow Diagram
 
@@ -24,11 +26,8 @@ vpr --> applicant: repayment successful
 
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
-|perm-id| Numeric ID of the permission whose deposit you want to slash. | yes |
-
-:::tip
-@matlux
-:::
+|perm-id| Numeric ID of the permission whose slashed deposit you want to repay. | yes |
+|`--authority`| Group account (authority) that owns the permission. | yes |
 
 ## Post the Message
 
@@ -41,13 +40,17 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx perm repay-perm-slashed-td <perm-id> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+veranad tx perm repay-perm-slashed-td <perm-id> \
+  --authority <group-account> \
+  --from <operator-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 ### Example
 
 ```bash
-veranad tx perm repay-perm-slashed-td 42 --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx perm repay-perm-slashed-td 42 \
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 
