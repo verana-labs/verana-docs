@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Network Governance Authority Slashing
 
 In some very rare cases, slashing the trust deposit of a given Permission can be limited and may not provide a sufficient sanction, if committed fraud is considered very high.
@@ -13,10 +16,9 @@ This method is for network governance authority slash. For ecosystem slash, see 
 Set the following environment variables before running the CLI commands:
 
 ```bash
-USER_ACC="my-user-account"
-USER_ACC_LIT="verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0"
-SLASHED_ACCOUNT="bad-user"
-SLASHED_ACCOUNT_LIT="verana1example0123456789abcdefghijklmnopqrstuv"
+AUTHORITY_ACC="verana1groupaccountaddress..."   # Group account (authority)
+OPERATOR_ACC="my-operator-key"                  # Operator key name in keyring
+SLASHED_ACCOUNT="verana1example0123456789abcdefghijklmnopqrstuv"
 CHAIN_ID="vna-testnet-1"
 NODE_RPC="https://rpc.testnet.verana.network"
 ```
@@ -28,7 +30,7 @@ Create a JSON file for the SlashTrustDepositProposal. This proposal will slash t
 **Example `slash_proposal.json`:**
 
 ```json
-jq -n --arg acc "$SLASHED_ACCOUNT_LIT" \
+jq -n --arg acc "$SLASHED_ACCOUNT" \
 '{
   messages: [
     {
@@ -49,7 +51,7 @@ jq -n --arg acc "$SLASHED_ACCOUNT_LIT" \
 **Parameters:**
 - `authority`: The governance module address (check with `veranad q auth module-accounts --node $NODE_RPC`)
 - `account`: The account address to be slashed
-- `slash_amount`: Amount to slash in uvna
+- `amount`: Amount to slash in uvna
 - `deposit`: Initial deposit for the proposal (minimum 10000000uvna)
 - `title`: Clear title describing the proposal
 - `summary`: Detailed explanation of the slashing reason
@@ -58,7 +60,7 @@ jq -n --arg acc "$SLASHED_ACCOUNT_LIT" \
 
 ```bash
 veranad tx gov submit-proposal slash_proposal.json \
-  --from $USER_ACC \
+  --from $OPERATOR_ACC \
   --keyring-backend test \
   --chain-id $CHAIN_ID \
   --fees 750000uvna \
@@ -122,7 +124,7 @@ If the proposal passes (reaches quorum and majority approval), it will be automa
 **Verify the slash:**
 
 ```bash
-veranad q td get-trust-deposit $SLASHED_ACCOUNT_LIT \
+veranad q td get-trust-deposit $SLASHED_ACCOUNT \
   --node $NODE_RPC \
   --output json
 ```
@@ -130,20 +132,30 @@ veranad q td get-trust-deposit $SLASHED_ACCOUNT_LIT \
 The output will show:
 - `slashed_deposit`: The amount that was slashed
 - `slash_count`: Incremented by 1
+- `last_slashed`: Updated with the slash timestamp
 
 ---
 
 ## Repay Slashed Trust Deposit
 
-Repay a governance-slashed trust deposit. This operation can be executed by any account on behalf of the slashed account.
+Repay a governance-slashed trust deposit to restore compliance.
+
+This is a **delegable** message — it requires an `authority` (group account) and can be executed by an authorized `operator`.
 
 A slashed account cannot participate in the VPR until the slashed deposit is fully repaid. All permissions linked to the slashed account are considered non-trustable until repayment is complete.
 
-### Syntax
+:::warning[Exact Amount Required]
+The repayment amount **must exactly match** the outstanding slashed amount (`slashed_deposit - repaid_deposit`). Partial repayments are not allowed.
+:::
+
+<Tabs>
+  <TabItem value="cli" label="CLI" default>
+
+### Usage
 
 ```bash
-veranad tx td repay-slashed-td [account] [amount] \
-  --from <user> \
+veranad tx td repay-slashed-td [authority] [amount] \
+  --from <operator-account> \
   --chain-id <chain-id> \
   --keyring-backend test \
   --fees <amount> \
@@ -151,23 +163,26 @@ veranad tx td repay-slashed-td [account] [amount] \
   --node <rpc-endpoint>
 ```
 
-### Parameters
+### Message Parameters
 
-- `[account]`: The account address whose slashed deposit you want to repay (mandatory)
-- `[amount]`: Amount to repay in uvna (mandatory, must be ≤ slashed_deposit)
+| Name         | Description                                                          | Mandatory |
+|--------------|----------------------------------------------------------------------|-----------|
+| `authority`  | The group account (authority) whose slashed deposit will be repaid   | yes       |
+| `amount`     | Repayment amount in uvna (must exactly match outstanding slash)      | yes       |
+| `--from`     | Operator account authorized to execute this message                  | yes       |
 
-### Example: Repay Your Own Slashed Deposit
+### Example
 
 ```bash
-# First, check your slashed deposit amount
-veranad q td get-trust-deposit $SLASHED_ACCOUNT_LIT \
+# First, check the outstanding slashed amount
+veranad q td get-trust-deposit $AUTHORITY_ACC \
   --node $NODE_RPC \
   --output json
 
-# Repay the slashed amount
-SLASHED_AMOUNT=1000000  # Replace with actual slashed amount
-veranad tx td repay-slashed-td $SLASHED_ACCOUNT_LIT $SLASHED_AMOUNT \
-  --from $USER_ACC \
+# Repay the slashed amount (must be exact)
+SLASHED_AMOUNT=1000000  # Replace with actual outstanding slashed amount
+veranad tx td repay-slashed-td $AUTHORITY_ACC $SLASHED_AMOUNT \
+  --from $OPERATOR_ACC \
   --chain-id $CHAIN_ID \
   --keyring-backend test \
   --fees 600000uvna \
@@ -175,45 +190,51 @@ veranad tx td repay-slashed-td $SLASHED_ACCOUNT_LIT $SLASHED_AMOUNT \
   --node $NODE_RPC
 ```
 
-### Example: Repay on Behalf of Another Account
+  </TabItem>
 
-Any account can repay the slashed deposit for another account:
+  <TabItem value="frontend" label="Frontend">
+    :::tip
+    TODO: When available in the UI, link and screenshots will be added here.
+    :::
+  </TabItem>
+</Tabs>
 
-```bash
-REPAY_AMOUNT=1000000
+**Prerequisites:**
+- The authority must have an existing trust deposit with outstanding slashed amount
+- The operator must have a valid `OperatorAuthorization` for `/verana.td.v1.MsgRepaySlashedTrustDeposit`
+- Repayment amount must exactly equal `slashed_deposit - repaid_deposit`
+- Sufficient account balance to cover the repayment
 
-veranad tx td repay-slashed-deposit $SLASHED_ACCOUNT_LIT $REPAY_AMOUNT \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --keyring-backend test \
-  --fees 600000uvna \
-  --gas auto \
-  --node $NODE_RPC
-```
+**What Happens:**
+1. System verifies operator authorization (AUTHZ-CHECK)
+2. Validates that the amount exactly matches the outstanding slash
+3. Increases `amount` (deposit) by the repayment amount
+4. Increases `share` proportionally based on current share value
+5. Increases `repaid_deposit` by the repayment amount
+6. Updates `last_repaid` timestamp
+7. Transfers the repayment amount from the authority account to the TD module
 
 ### Verify Repayment
 
 After repayment, verify the trust deposit status:
 
 ```bash
-veranad q td get-trust-deposit $SLASHED_ACCOUNT \
+veranad q td get-trust-deposit $AUTHORITY_ACC \
   --node $NODE_RPC \
   --output json
 ```
 
 **Expected changes:**
-- `slashed_deposit`: Reduced by the repaid amount
+- `amount`: Increased by the repaid amount
 - `repaid_deposit`: Increased by the repaid amount
 - `last_repaid`: Updated with repayment timestamp
-- `last_repaid_by`: Shows the account that made the repayment
 
-Once `slashed_deposit` reaches 0, all account permissions become trustable again and the account can fully participate in the VPR.
+Once `repaid_deposit` equals `slashed_deposit`, all account permissions become trustable again and the account can fully participate in the VPR.
 
 ---
 
-## Prerequisites for All Operations
+## See also
 
-- Sufficient balance for transaction fees
-- For voting: Must have voting power (validator or delegator)
-- For repayment: Must have sufficient uvna to cover the repayment amount
-- Proposal submission requires minimum deposit (typically 10000000uvna)
+- [Trust Deposit Operations](./trust-deposit-operations)
+- [Slash a Permission (Ecosystem)](../ecosystems/permissions/slash-a-permission)
+- [Repay a Slashed Permission Deposit](../ecosystems/permissions/repay-a-slashed-permission-deposit)
