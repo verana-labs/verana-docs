@@ -57,14 +57,17 @@ When preconditions pass, the transaction performs:
 ### Usage
 ```bash
 veranad tx perm revoke-perm <perm-id> \
-  --from <user> --chain-id <chain-id> --keyring-backend test \
+  --authority <group-account> \
+  --from <operator-account> --chain-id <chain-id> --keyring-backend test \
   --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 ### Example
 ```bash
 PERM_ID=10
-veranad tx perm revoke-perm $PERM_ID --from $USER_ACC --chain-id $CHAIN_ID \
+veranad tx perm revoke-perm $PERM_ID \
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID \
   --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
@@ -126,4 +129,3 @@ issuer --> holder: granted schema permission
 ## See also
 - [Create a root permission](./create-a-root-permission)
 - [Slash a permission deposit](./slash-a-permission)
-- [Request permission termination](./request-permission-termination)
