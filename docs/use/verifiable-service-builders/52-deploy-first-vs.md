@@ -117,7 +117,8 @@ ORG_VP=$(curl -s "$ORG_VP_URL")
 ORG_JSC_URL=$(echo "$ORG_VP" | jq -r '.verifiableCredential[0].id')
 
 # Download and base64-encode your logo
-ORG_LOGO_B64=$(curl -sL "https://verana.io/logo.svg" | base64 | tr -d '\n')
+RAW_LOGO_B64=$(curl -sL "https://verana.io/logo.svg" | base64 | tr -d '\n')
+ORG_LOGO_B64="data:image/svg+xml;base64,${RAW_LOGO_B64}"
 
 # Request the Organization credential from the ECS TR
 ORG_CRED=$(curl -s -X POST "${ECS_TR_ADMIN}/v1/vt/issue-credential" \
