@@ -116,7 +116,7 @@ veranad q td params --node $NODE_RPC --output json
 
 Reclaim earned interest (yield) from your trust deposits. Yield is generated when transaction fees are distributed to trust deposit holders, increasing the share value over time.
 
-This is a **delegable** message — it requires an `authority` (group account) and can be executed by an authorized `operator`.
+This is a **non-delegable** message — the signer (`--from`) is the account whose trust deposit yield is being reclaimed.
 
 <Tabs>
   <TabItem value="cli" label="CLI" default>
@@ -124,22 +124,21 @@ This is a **delegable** message — it requires an `authority` (group account) a
 ### Usage
 
 ```bash
-veranad tx td reclaim-yield [authority] \
-  --from <operator-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+veranad tx td reclaim-yield \
+  --from <user-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 ### Message Parameters
 
-| Name         | Description                                                          | Mandatory |
-|--------------|----------------------------------------------------------------------|-----------|
-| `authority`  | The group account (authority) that owns the trust deposit            | yes       |
-| `--from`     | Operator account authorized to execute this message                  | yes       |
+| Name     | Description                                                   | Mandatory |
+|----------|---------------------------------------------------------------|-----------|
+| `--from` | Account whose trust deposit yield will be reclaimed           | yes       |
 
 ### Example
 
 ```bash
-veranad tx td reclaim-yield $AUTHORITY_ACC \
-  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+veranad tx td reclaim-yield \
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
   </TabItem>
@@ -154,21 +153,19 @@ veranad tx td reclaim-yield $AUTHORITY_ACC \
 **Prerequisites:**
 - You must have a trust deposit with available yield
 - Your deposit must not be slashed (or must be fully repaid)
-- The operator must have a valid `OperatorAuthorization` for `/verana.td.v1.MsgReclaimTrustDepositYield`
 - Sufficient balance for transaction fees
 
 **What Happens:**
-1. System verifies operator authorization (AUTHZ-CHECK)
-2. Calculates your available yield: `yield = share × share_value - deposit`
-3. Reduces your share count accordingly
-4. Transfers yield amount to the authority account
-5. Updates your trust deposit record
+1. Calculates your available yield: `yield = share × share_value - deposit`
+2. Reduces your share count accordingly
+3. Transfers yield amount to your account
+4. Updates your trust deposit record
 
 #### Verify Yield Claim
 
 Check your updated trust deposit after claiming:
 ```bash
-veranad q td get-trust-deposit $AUTHORITY_ACC --node $NODE_RPC --output json
+veranad q td get-trust-deposit $USER_ACC --node $NODE_RPC --output json
 ```
 
 ---
@@ -199,7 +196,7 @@ Reclaim 1,000,000 uvna from claimable balance:
 ```bash
 RECLAIM_AMOUNT=1000000
 veranad tx td reclaim-deposit $RECLAIM_AMOUNT \
-  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
   </TabItem>

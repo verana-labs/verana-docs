@@ -140,7 +140,7 @@ The output will show:
 
 Repay a governance-slashed trust deposit to restore compliance.
 
-This is a **delegable** message — it requires an `authority` (group account) and can be executed by an authorized `operator`.
+This is a **non-delegable** message — the signer (`--from`) is the account paying for the repayment. Anyone can repay on behalf of a slashed account.
 
 A slashed account cannot participate in the VPR until the slashed deposit is fully repaid. All permissions linked to the slashed account are considered non-trustable until repayment is complete.
 
@@ -154,8 +154,8 @@ The repayment amount **must exactly match** the outstanding slashed amount (`sla
 ### Usage
 
 ```bash
-veranad tx td repay-slashed-td [authority] [amount] \
-  --from <operator-account> \
+veranad tx td repay-slashed-td [account] [amount] \
+  --from <user-account> \
   --chain-id <chain-id> \
   --keyring-backend test \
   --fees <amount> \
@@ -165,24 +165,24 @@ veranad tx td repay-slashed-td [authority] [amount] \
 
 ### Message Parameters
 
-| Name         | Description                                                          | Mandatory |
-|--------------|----------------------------------------------------------------------|-----------|
-| `authority`  | The group account (authority) whose slashed deposit will be repaid   | yes       |
-| `amount`     | Repayment amount in uvna (must exactly match outstanding slash)      | yes       |
-| `--from`     | Operator account authorized to execute this message                  | yes       |
+| Name      | Description                                                          | Mandatory |
+|-----------|----------------------------------------------------------------------|-----------|
+| `account` | The account whose slashed deposit will be repaid                     | yes       |
+| `amount`  | Repayment amount in uvna (must exactly match outstanding slash)      | yes       |
+| `--from`  | Account signing and paying for the repayment                         | yes       |
 
 ### Example
 
 ```bash
 # First, check the outstanding slashed amount
-veranad q td get-trust-deposit $AUTHORITY_ACC \
+veranad q td get-trust-deposit $SLASHED_ACCOUNT \
   --node $NODE_RPC \
   --output json
 
 # Repay the slashed amount (must be exact)
 SLASHED_AMOUNT=1000000  # Replace with actual outstanding slashed amount
-veranad tx td repay-slashed-td $AUTHORITY_ACC $SLASHED_AMOUNT \
-  --from $OPERATOR_ACC \
+veranad tx td repay-slashed-td $SLASHED_ACCOUNT $SLASHED_AMOUNT \
+  --from $USER_ACC \
   --chain-id $CHAIN_ID \
   --keyring-backend test \
   --fees 600000uvna \
