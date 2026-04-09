@@ -6,7 +6,7 @@ Create an **ISSUER** or **VERIFIER** permission for a credential schema **when t
 
 :::warning Prerequisites
 1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that owns the Verifiable Service that will hold the permission.
-2. **Operator authorization** — Your operator account must be granted authorization for `MsgCreatePerm` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgCreatePermission` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
 3. **Schema in OPEN mode** — The schema's `issuer_perm_management_mode` (for ISSUER) or `verifier_perm_management_mode` (for VERIFIER) must be `OPEN`. Otherwise, use [Run a Validation Process](./run-a-validation-process-to-obtain-a-permission).
 4. **Active ECOSYSTEM (root) permission** — The schema must have an active root permission. See [Create a Root Permission](./create-a-root-permission) if one does not exist.
 5. **`effective-from` in the future** — If you set `--effective-from`, it must be at least 30–90 seconds ahead of the current time.

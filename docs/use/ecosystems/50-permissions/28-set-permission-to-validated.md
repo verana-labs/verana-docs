@@ -8,7 +8,7 @@ This activates the permission so the grantee can operate (issue / verify / grant
 
 :::warning Prerequisites
 1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the **validator** permission (the ECOSYSTEM root or a Grantor that the applicant applied under).
-2. **Operator authorization** — Your operator account must be granted authorization for `MsgSetPermVpValidated` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgSetPermissionVPToValidated` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
 3. **Pending VP** — The target permission must exist with `vp_state = PENDING` (first-time) or `PENDING_RENEWAL` (renewal). See [Run a Validation Process](./run-a-validation-process-to-obtain-a-permission).
 4. **Caller is the validator** — Your authority must be the grantee of the validator permission recorded in the applicant permission (`validator_perm_id`).
 :::

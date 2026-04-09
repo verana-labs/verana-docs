@@ -6,7 +6,7 @@ Nevertheless, to get a new permission for a given ecosystem, it is needed, using
 
 :::warning Prerequisites
 1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that owns the slashed permission.
-2. **Operator authorization** — Your operator account must be granted authorization for `MsgRepayPermSlashedTd` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgRepayPermissionSlashedTrustDeposit` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
 3. **Slashed permission** — The permission must have a slashed deposit balance. Repaying does not revive the permission; a new permission must be requested after repayment.
 :::
 

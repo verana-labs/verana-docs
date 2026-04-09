@@ -2,7 +2,7 @@
 
 The **Cancel Pending VP Request** command allows an applicant to cancel a pending **validation process (VP)** for a permission before it is completed. :::warning Prerequisites
 1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that owns the permission with the pending VP request.
-2. **Operator authorization** — Your operator account must be granted authorization for `MsgCancelPermVpRequest` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgCancelPermissionVPLastRequest` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
 3. **Pending VP** — The permission must have `vp_state = PENDING` or `PENDING_RENEWAL`. Permissions in other states cannot be cancelled with this command.
 :::
 

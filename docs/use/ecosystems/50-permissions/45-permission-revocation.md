@@ -8,7 +8,7 @@ Revocation invalidates an existing permission. According to the spec, this metho
 
 :::warning Prerequisites
 1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that is authorized to revoke: an ancestor validator's authority, the grantee's authority, or the Trust Registry controller.
-2. **Operator authorization** — Your operator account must be granted authorization for `MsgRevokePerm` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgRevokePermission` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
 3. **Valid permission** — The permission must exist and not already be terminated or otherwise invalid.
 :::
 

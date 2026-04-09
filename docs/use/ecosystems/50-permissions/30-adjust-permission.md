@@ -9,7 +9,7 @@ This is a **delegable** message — it requires an `authority` (group account) a
 
 :::warning Prerequisites
 1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the permission: the permission's own authority (for ECOSYSTEM/self-created perms) or the validator's authority (for VP-managed perms).
-2. **Operator authorization** — Your operator account must be granted authorization for `MsgAdjustPerm` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgAdjustPermission` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
 3. **Existing permission** — The permission must exist and be in an active, adjustable state.
 :::
 
