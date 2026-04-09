@@ -4,7 +4,7 @@ Renewing a permission allows the grantee to **extend its validity** without crea
 
 ## Preconditions
 
-- You must be the **grantee** of the permission.
+- You must be the **authority** (or authorized operator) of the permission.
 - The permission must be in state `VALIDATED`.
 - The original validator permission must still be valid (not terminated, not revoked).
 - Renewal will **not change**:
@@ -13,6 +13,8 @@ Renewing a permission allows the grantee to **extend its validity** without crea
   - issuance or verification fees
 
 If any of these need to change, you must start a **new validation process**.
+
+This is a **delegable** message — it requires an `authority` (group account) and can be executed by an authorized `operator`.
 
 ## Flow Diagram
 
@@ -42,10 +44,6 @@ end
 |-------------------|---------------------------------------|--------|
 |perm-id| Numeric ID of the permission you want to renew. | yes |
 
-:::tip[TODO]
-@matlux
-:::
-
 ## Post the Message
 
 import Tabs from '@theme/Tabs';
@@ -57,14 +55,18 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx perm renew-perm-vp <perm-id> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+veranad tx perm renew-perm-vp <perm-id> \
+  --authority <group-account> \
+  --from <operator-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 ### Example
 
 ```bash
 PERM_ID=10
-veranad tx perm renew-perm-vp $PERM_ID --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx perm renew-perm-vp $PERM_ID \
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 Verify renewal status:

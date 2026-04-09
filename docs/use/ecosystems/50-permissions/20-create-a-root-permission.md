@@ -17,7 +17,7 @@ A Credential Schema always requires at least one **root permission** (type: ECOS
 - If an existing root permission has no `effective_until`, you must **terminate** it (or set an end date, when available) before creating a new one.
 
 :::tip
-Only the account that controls the **Trust Registry** owning the credential schema can execute this method.
+This is a **delegable** message — it requires an `authority` (group account) and is executed by an authorized `operator`. Only the group account that controls the **Trust Registry** owning the credential schema can execute this method.
 :::
 
 ## Message Parameters
@@ -41,7 +41,8 @@ Only the account that controls the **Trust Registry** owning the credential sche
 
 ```bash
 veranad tx perm create-root-perm [schema-id] [did] [validation-fees] [issuance-fees] [verification-fees] \
-  --from <controller-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+  --authority <group-account> \
+  --from <operator-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 ### Copy‑pasteable example
@@ -50,7 +51,8 @@ Set your environment first (adjust as needed):
 ```bash
 SCHEMA_ID=10
 ROOT_DID=did:example:123456789abcdefghi
-USER_ACC="mat-test-acc"
+AUTHORITY_ACC="verana1groupaccountaddress"
+OPERATOR_ACC="mat-test-acc"
 CHAIN_ID="vna-testnet-1"
 NODE_RPC=https://rpc.testnet.verana.network
 ```
@@ -58,7 +60,8 @@ NODE_RPC=https://rpc.testnet.verana.network
 Create the root permission:
 ```bash
 veranad tx perm create-root-perm $SCHEMA_ID $ROOT_DID 1000000 1000000 1000000 \
-  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
 #### What the arguments mean

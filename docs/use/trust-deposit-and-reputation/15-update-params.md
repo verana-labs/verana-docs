@@ -1,6 +1,9 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Update Trust Deposit Params (Governance)
 
-This guide shows how to update Trust Deposit module parameters using a governance proposal. As of `v0.9.2`, this flow includes the TD yield parameters. The transaction used is:
+This guide shows how to update Trust Deposit module parameters using a governance proposal. The transaction used is:
 
 `/verana.td.v1.MsgUpdateParams`
 
@@ -8,7 +11,6 @@ This guide shows how to update Trust Deposit module parameters using a governanc
 
 ```bash
 USER_ACC="my-user-account"
-USER_ACC_LIT="verana1example0123456789abcdefghijklmnopqrstuv"
 CHAIN_ID="vna-testnet-1"
 NODE_RPC="https://rpc.testnet.verana.network"
 ```
@@ -71,10 +73,21 @@ cat > trust_deposit_params_proposal.json <<JSON
 JSON
 ```
 
-Replace:
-- `GOV_AUTH_PLACEHOLDER` with the governance authority address.
-- `yield_intermediate_pool` with the desired module account address (bech32).
-- Any rate values you want to change, keeping the rest intact.
+### Parameter Descriptions
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `trust_deposit_reclaim_burn_rate` | Percentage burned when reclaiming freed deposits | 0.60 (60%) |
+| `trust_deposit_share_value` | Current value of one share (increases over time) | 1.0 (initial) |
+| `trust_deposit_rate` | Rate for calculating deposits from fees | 0.20 (20%) |
+| `wallet_user_agent_reward_rate` | Reward rate for wallet user agents | 0.20 (20%) |
+| `user_agent_reward_rate` | Reward rate for user agents | 0.20 (20%) |
+| `trust_deposit_max_yield_rate` | Maximum annual yield percentage | 0.15 (15%) |
+| `yield_intermediate_pool` | Bech32 address of the yield intermediate pool account | (module account) |
+
+:::warning
+All parameter values are encoded as 18-decimal fixed-point integers. For example, `200000000000000000` = 0.20 (20%).
+:::
 
 ## Step 4: Submit the Proposal
 
