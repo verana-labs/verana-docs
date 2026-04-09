@@ -7,9 +7,10 @@ Adjust a permission's **effective duration**. This is useful when you need to ex
 
 This is a **delegable** message — it requires an `authority` (group account) and can be executed by an authorized `operator`.
 
-:::tip Who can run this?
-- For **ECOSYSTEM** or **self-created** permissions: the permission's authority.
-- For **VP-managed** permissions: the validator (the authority of the validator permission).
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the permission: the permission's own authority (for ECOSYSTEM/self-created perms) or the validator's authority (for VP-managed perms).
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgAdjustPerm` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Existing permission** — The permission must exist and be in an active, adjustable state.
 :::
 
 ---

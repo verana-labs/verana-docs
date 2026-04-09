@@ -26,16 +26,13 @@ Refer to the [learn section](../../../learn/verifiable-public-registry/onboardin
 
 ---
 
-## Prerequisites
-
-- You know the **permission type** you’re applying for (issuer, verifier, issuer‑grantor, verifier‑grantor, holder).
-- You have the **validator permission ID** to apply under (root / grantor / issuer).
-- You have sufficient balance to cover **gas** (and any deposit/fees computed by policy).
-
-To locate validator permissions:
-```bash
-veranad q perm list-permissions --node $NODE_RPC --output json | jq
-```
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that owns the Verifiable Service applying for the permission.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgStartPermVp` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Schema not in OPEN mode** — This flow is for `GRANTOR_VALIDATION` or `ECOSYSTEM` mode. In `OPEN` mode, use [Self-Create a Permission](./self-create-a-permission) instead.
+4. **Validator permission ID** — You need the numeric ID of the permission you are applying under (root/grantor/issuer). Use `veranad q perm list-permissions` to locate it.
+5. **Sufficient balance** — Your account must have enough tokens to cover gas (and any deposit/fees defined by the validator).
+:::
 
 ---
 

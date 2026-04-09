@@ -4,6 +4,12 @@ This method can only be called by the authority that owns the permission to repa
 
 Nevertheless, to get a new permission for a given ecosystem, it is needed, using this method, to repay the deposit of a slashed permission first.
 
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that owns the slashed permission.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgRepayPermSlashedTd` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Slashed permission** — The permission must have a slashed deposit balance. Repaying does not revive the permission; a new permission must be requested after repayment.
+:::
+
 This is a **delegable** message — it requires an `authority` (group account) and can be executed by an authorized `operator`.
 
 ## Flow Diagram

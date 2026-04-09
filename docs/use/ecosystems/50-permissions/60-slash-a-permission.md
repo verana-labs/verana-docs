@@ -5,6 +5,12 @@ The Trust Deposit linked to a Permission can be slashed by:
 - the validator that granted the Permission;
 - the ecosystem trust registry controller (the controller of the root permission of this credential schema).
 
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the validator permission or the Trust Registry owning the credential schema.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgSlashPermTd` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Existing permission with deposit** — The permission must exist and have a trust deposit balance sufficient to cover the slash amount.
+:::
+
 This is a **delegable** message — it requires an `authority` (group account) and can be executed by an authorized `operator`.
 
 **Notes:**

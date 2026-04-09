@@ -2,17 +2,13 @@
 
 Renewing a permission allows the grantee to **extend its validity** without creating a new permission or restarting the full onboarding process. This is useful when the current permission is about to expire but the validator relationship remains valid.
 
-## Preconditions
-
-- You must be the **authority** (or authorized operator) of the permission.
-- The permission must be in state `VALIDATED`.
-- The original validator permission must still be valid (not terminated, not revoked).
-- Renewal will **not change**:
-  - country
-  - validation fees
-  - issuance or verification fees
-
-If any of these need to change, you must start a **new validation process**.
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that owns the permission to renew.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgRenewPermVp` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Permission in VALIDATED state** — The permission must currently be `VALIDATED`. Renewal is not available for TERMINATED, REVOKED, or PENDING states.
+4. **Original validator still valid** — The validator permission (`validator_perm_id`) must still be active (not terminated or revoked).
+5. **Fields not changing** — Renewal preserves country, validation fees, issuance fees, and verification fees. To change any of these, start a new validation process instead.
+:::
 
 This is a **delegable** message — it requires an `authority` (group account) and can be executed by an authorized `operator`.
 

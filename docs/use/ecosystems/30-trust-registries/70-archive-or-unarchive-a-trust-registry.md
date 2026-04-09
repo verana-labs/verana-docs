@@ -4,8 +4,10 @@
 
 You can archive or unarchive a trust registry with the following command. This operation is **delegable**.
 
-:::tip
-Only the authority (group account) that controls the trust registry can execute this method. The operator must be authorized by the authority.
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the trust registry.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgArchiveTrustRegistry` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Existing trust registry** — The trust registry must already exist and be controlled by your authority.
 :::
 
 ## Message Parameters

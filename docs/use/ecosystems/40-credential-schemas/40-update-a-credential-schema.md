@@ -7,8 +7,10 @@ import TabItem from '@theme/TabItem';
 
 Update the **validity periods** attached to an existing credential schema. This operation is **delegable**. This does **not** change the JSON Schema itself or the permission management modes; it only adjusts how long validations remain effective for each role.
 
-:::tip
-Only the authority (group account) that controls the trust registry owning this credential schema can run this command. The schema must not be archived.
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the trust registry owning this schema.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgUpdateCredentialSchema` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Existing, non-archived schema** — The credential schema must already exist and must not be archived.
 :::
 
 ## Message Parameters

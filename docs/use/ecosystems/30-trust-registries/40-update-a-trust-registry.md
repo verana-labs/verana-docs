@@ -4,8 +4,10 @@
 
 Post a message that will modify the ledger state by updating a trust registry. This operation is **delegable**.
 
-:::tip
-Only the authority (group account) that controls the trust registry can execute this method. The operator must be authorized by the authority.
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the trust registry.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgUpdateTrustRegistry` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Existing trust registry** — The trust registry you want to update must already exist and be controlled by your authority.
 :::
 
 ## Message Parameters
