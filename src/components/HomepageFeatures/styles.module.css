@@ -1,11 +1,61 @@
 .features {
   display: flex;
-  align-items: center;
-  padding: 2rem 0;
+  align-items: stretch;
+  padding: 3rem 0 3.5rem;
   width: 100%;
 }
 
+/* Console panel cards (Operator's Console design). The card carries the
+   surface; column widths stay Infima's. */
+.card {
+  height: 100%;
+  border: 1px solid var(--vd-rule);
+  border-radius: 12px;
+  background: var(--ifm-background-surface-color);
+  padding: 1.75rem 1.1rem 1.4rem;
+  transition: border-color 0.15s ease;
+}
+
+.card:hover {
+  border-color: var(--vd-purple);
+}
+
+.card h3 {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  letter-spacing: 0.06em;
+  color: var(--vd-purple-text);
+  margin-bottom: 0.6rem;
+}
+
+.card h3::before {
+  content: '❯ ';
+  color: var(--vd-faint);
+}
+
+.card p {
+  font-size: 0.86rem;
+  line-height: 1.65;
+  color: var(--ifm-font-color-secondary);
+  margin-bottom: 0;
+}
+
 .featureSvg {
-  height: 100px;
-  width: 200px;
+  height: 84px;
+  width: 168px;
+  margin-bottom: 0.75rem;
+}
+
+/* The three feature glyphs ship with the old-brand gradient fill;
+   re-ink them with the family purple. */
+.featureSvg path {
+  fill: var(--ifm-color-primary);
+}
+
+@media screen and (max-width: 996px) {
+  .card {
+    margin-bottom: 1rem;
+  }
 }

@@ -4,20 +4,28 @@
  */
 
 .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
+  padding: 5.5rem 0 5rem;
+  text-align: left;
   position: relative;
   overflow: hidden;
 }
 
+/* Operator's Console: left-aligned console header; the subtitle keeps a
+   reading measure instead of spanning the container. */
+.heroBanner :global(.hero__subtitle) {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 1.25rem;
+}
+
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 2.5rem 0 2.25rem;
   }
 }
 
 .buttons {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
