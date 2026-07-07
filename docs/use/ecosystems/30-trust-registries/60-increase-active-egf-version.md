@@ -6,8 +6,10 @@ Post a message that will modify the ledger state by increasing the active EGF ve
 
 A GovernanceFrameworkVersion with `version = active_version + 1` must already exist and must contain at least one document in the trust registry's primary language.
 
-:::tip
-Only the authority (group account) that controls the trust registry can execute this method. The operator must be authorized by the authority.
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the trust registry.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgIncreaseActiveGovernanceFrameworkVersion` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Next version document exists** — A `GovernanceFrameworkVersion` with `version = active_version + 1` must already exist and contain at least one document in the trust registry's primary language. [Add the document first](./add-a-gf-document).
 :::
 
 ## Message Parameters

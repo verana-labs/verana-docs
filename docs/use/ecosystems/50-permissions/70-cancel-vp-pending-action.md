@@ -1,6 +1,12 @@
-# Cancel Last Action
+# Cancel Pending VP Request
 
-The **Cancel Last Action** command allows an applicant to cancel a pending **validation process (VP)** for a permission before it is completed. This is useful in scenarios where:
+The **Cancel Pending VP Request** command allows an applicant to cancel a pending **validation process (VP)** for a permission before it is completed. :::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that owns the permission with the pending VP request.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgCancelPermissionVPLastRequest` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Pending VP** — The permission must have `vp_state = PENDING` or `PENDING_RENEWAL`. Permissions in other states cannot be cancelled with this command.
+:::
+
+This is a **delegable** message — it requires an `authority` (group account) and can be executed by an authorized `operator`. This is useful in scenarios where:
 
 - The applicant submitted incorrect details during validation.
 - The validator has not yet completed their part, and the applicant wants to withdraw.
@@ -41,10 +47,7 @@ end
 |Name               |Description                            |Mandatory|
 |-------------------|---------------------------------------|--------|
 |perm-id| Numeric ID of the permission for which you want to cancel the current validation process. | yes |
-
-:::tip[TODO]
-@matlux
-:::
+|`--authority`| Group account (authority) on whose behalf this message is executed. | yes |
 
 ## Post the Message
 
@@ -57,14 +60,18 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx perm cancel-last-action <perm-id> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+veranad tx perm cancel-perm-vp-request <perm-id> \
+  --authority <group-account> \
+  --from <operator-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 ### Example
 
 ```bash
 PERM_ID=12
-veranad tx perm cancel-last-action $PERM_ID --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx perm cancel-perm-vp-request $PERM_ID \
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 Check the updated status of the permission:

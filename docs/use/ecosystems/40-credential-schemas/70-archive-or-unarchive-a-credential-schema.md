@@ -4,8 +4,10 @@
 
 You can archive or unarchive a credential schema with the following command. This operation is **delegable**.
 
-:::tip
-Only the authority (group account) that controls the trust registry owning this credential schema can execute this method. The operator (specified via `--from`) must be [authorized by the authority](../delegation/grant-operator-authorization) to execute CS messages.
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the trust registry owning this schema.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgArchiveCredentialSchema` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Existing schema** — The credential schema must already exist and be controlled by your authority.
 :::
 
 ## Message Parameters

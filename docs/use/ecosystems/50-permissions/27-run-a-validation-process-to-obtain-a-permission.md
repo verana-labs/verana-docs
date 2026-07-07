@@ -26,16 +26,13 @@ Refer to the [learn section](../../../learn/verifiable-public-registry/onboardin
 
 ---
 
-## Prerequisites
-
-- You know the **permission type** you’re applying for (issuer, verifier, issuer‑grantor, verifier‑grantor, holder).
-- You have the **validator permission ID** to apply under (root / grantor / issuer).
-- You have sufficient balance to cover **gas** (and any deposit/fees computed by policy).
-
-To locate validator permissions:
-```bash
-veranad q perm list-permissions --node $NODE_RPC --output json | jq
-```
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that owns the Verifiable Service applying for the permission.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgStartPermissionVP` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Schema not in OPEN mode** — This flow is for `GRANTOR_VALIDATION` or `ECOSYSTEM` mode. In `OPEN` mode, use [Self-Create a Permission](./self-create-a-permission) instead.
+4. **Validator permission ID** — You need the numeric ID of the permission you are applying under (root/grantor/issuer). Use `veranad q perm list-permissions` to locate it.
+5. **Sufficient balance** — Your account must have enough tokens to cover gas (and any deposit/fees defined by the validator).
+:::
 
 ---
 
@@ -43,9 +40,10 @@ veranad q perm list-permissions --node $NODE_RPC --output json | jq
 
 | Name                | Description                                                                                      | Mandatory |
 |---------------------|--------------------------------------------------------------------------------------------------|-----------|
-| `permission-type`   | One of: `issuer`, `verifier`, `issuer-grantor`, `verifier-grantor`, `holder`                     | yes       |
+| `type`              | One of: `issuer`, `verifier`, `issuer-grantor`, `verifier-grantor`, `holder`                     | yes       |
 | `validator-perm-id` | The **permission ID** of the validator you apply under (root/grantor/issuer depending on role)  | yes       |
-| `country`           | Applicant’s ISO 3166‑1 **alpha‑2** country code                                                  | yes       |
+| `did`               | DID for this permission (must conform to DID syntax)                                             | yes       |
+| `--authority`       | Group account (authority) on whose behalf this message is executed                               | yes       |
 
 ---
 
@@ -59,8 +57,9 @@ import TabItem from '@theme/TabItem';
 
 ### Usage
 ```bash
-veranad tx perm start-perm-vp <permission-type> <validator-perm-id> <country> \
-  --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+veranad tx perm start-perm-vp [type] [validator-perm-id] [did] \
+  --authority <group-account> \
+  --from <operator-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 ### Examples
@@ -68,30 +67,33 @@ veranad tx perm start-perm-vp <permission-type> <validator-perm-id> <country> \
 **1) Apply as ISSUER_GRANTOR under the root (ECOSYSTEM) validator**
 ```bash
 VALIDATOR_PERM_ID=2   # ecosystem root perm for schema 5
-veranad tx perm start-perm-vp issuer-grantor $VALIDATOR_PERM_ID US \
-  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+veranad tx perm start-perm-vp issuer-grantor $VALIDATOR_PERM_ID did:example:igService \
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
 **2) Apply as ISSUER under the ISSUER_GRANTOR**
 ```bash
 VALIDATOR_PERM_ID=2   # issuer-grantor perm id
-veranad tx perm start-perm-vp issuer $VALIDATOR_PERM_ID US \
-  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+veranad tx perm start-perm-vp issuer $VALIDATOR_PERM_ID did:example:issuerService \
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
-
 
 **3) Apply as VERIFIER under a VERIFIER_GRANTOR**
 ```bash
 VALIDATOR_PERM_ID=41  # verifier-grantor perm id
-veranad tx perm start-perm-vp verifier $VALIDATOR_PERM_ID GB \
-  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+veranad tx perm start-perm-vp verifier $VALIDATOR_PERM_ID did:example:verifierService \
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
 **4) Holder applies under an ISSUER that charges validation fees**
 ```bash
 ISSUER_PERM_ID=55
-veranad tx perm start-perm-vp holder $ISSUER_PERM_ID FR \
-  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+veranad tx perm start-perm-vp holder $ISSUER_PERM_ID did:example:holderWallet \
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
 <!-- :::tip Known CLI quirk (if you hit an error)
@@ -110,11 +112,11 @@ The frontend will surface this flow once validation features are fully exposed. 
 
 ## Verify the request was recorded
 
-Filter by your account and look for a newly created permission with `vp_state = "VALIDATION_STATE_PENDING"`:
+Filter by your authority and look for a newly created permission with `vp_state = "VALIDATION_STATE_PENDING"`:
 
 ```bash
 veranad q perm list-permissions --node $NODE_RPC --output json \
-| jq '.permissions[] | select(.grantee == "'$USER_ACC_LIT'")'
+| jq '.permissions[] | select(.authority == "'$AUTHORITY_ACC'")'
 ```
 
 (You can also inspect the tx hash printed by the CLI to retrieve the created ID.)

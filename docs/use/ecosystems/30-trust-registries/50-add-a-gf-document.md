@@ -6,8 +6,11 @@ Post a message that will modify the ledger state by adding an ecosystem governan
 
 This can target an existing governance framework version or create a new version. The target version must be greater than the current `active_version`.
 
-:::tip
-Only the authority (group account) that controls the trust registry can execute this method. The operator must be authorized by the authority.
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the trust registry.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgAddGovernanceFrameworkDocument` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Existing trust registry** — The target trust registry must already exist and be controlled by your authority.
+4. **Target version** — The version you are adding a document to must be greater than the current `active_version`.
 :::
 
 ## Message Parameters

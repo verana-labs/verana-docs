@@ -33,6 +33,7 @@ veranad tx de revoke-operator-authz $AUTHORITY_ACC $OPERATOR_ACC \
 | Spec ID        | Command                          | Description                              |
 |----------------|----------------------------------|------------------------------------------|
 | MOD-DE-QRY-1   | `list-operator-authorizations`  | List operator authorizations             |
+| MOD-DE-QRY-2   | `params`                        | Get module parameters                    |
 
 ### List Operator Authorizations
 

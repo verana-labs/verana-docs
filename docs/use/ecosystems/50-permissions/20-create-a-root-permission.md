@@ -16,8 +16,12 @@ A Credential Schema always requires at least one **root permission** (type: ECOS
 - Multiple root permissions can co‑exist only if their **effective periods do not overlap**.
 - If an existing root permission has no `effective_until`, you must **terminate** it (or set an end date, when available) before creating a new one.
 
-:::tip
-Only the account that controls the **Trust Registry** owning the credential schema can execute this method.
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the trust registry owning this schema.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgCreateRootPermission` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Existing credential schema** — The schema must already exist under a trust registry your authority controls. See [Create a Credential Schema](../credential-schemas/create-a-credential-schema).
+4. **`effective_from` in the future** — Set at least 30–90 seconds ahead to ensure the timestamp is still in the future when the block is produced.
+5. **No overlapping root perm** — If an active ECOSYSTEM permission already exists for this schema with no `effective_until`, you cannot create another one until the existing one expires or is terminated.
 :::
 
 ## Message Parameters
@@ -41,7 +45,8 @@ Only the account that controls the **Trust Registry** owning the credential sche
 
 ```bash
 veranad tx perm create-root-perm [schema-id] [did] [validation-fees] [issuance-fees] [verification-fees] \
-  --from <controller-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+  --authority <group-account> \
+  --from <operator-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 ### Copy‑pasteable example
@@ -50,7 +55,8 @@ Set your environment first (adjust as needed):
 ```bash
 SCHEMA_ID=10
 ROOT_DID=did:example:123456789abcdefghi
-USER_ACC="mat-test-acc"
+AUTHORITY_ACC="verana1groupaccountaddress"
+OPERATOR_ACC="mat-test-acc"
 CHAIN_ID="vna-testnet-1"
 NODE_RPC=https://rpc.testnet.verana.network
 ```
@@ -58,7 +64,8 @@ NODE_RPC=https://rpc.testnet.verana.network
 Create the root permission:
 ```bash
 veranad tx perm create-root-perm $SCHEMA_ID $ROOT_DID 1000000 1000000 1000000 \
-  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
 #### What the arguments mean

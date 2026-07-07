@@ -2,17 +2,15 @@
 
 Renewing a permission allows the grantee to **extend its validity** without creating a new permission or restarting the full onboarding process. This is useful when the current permission is about to expire but the validator relationship remains valid.
 
-## Preconditions
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that owns the permission to renew.
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgRenewPermissionVP` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Permission in VALIDATED state** — The permission must currently be `VALIDATED`. Renewal is not available for TERMINATED, REVOKED, or PENDING states.
+4. **Original validator still valid** — The validator permission (`validator_perm_id`) must still be active (not terminated or revoked).
+5. **Fields not changing** — Renewal preserves country, validation fees, issuance fees, and verification fees. To change any of these, start a new validation process instead.
+:::
 
-- You must be the **grantee** of the permission.
-- The permission must be in state `VALIDATED`.
-- The original validator permission must still be valid (not terminated, not revoked).
-- Renewal will **not change**:
-  - country
-  - validation fees
-  - issuance or verification fees
-
-If any of these need to change, you must start a **new validation process**.
+This is a **delegable** message — it requires an `authority` (group account) and can be executed by an authorized `operator`.
 
 ## Flow Diagram
 
@@ -42,10 +40,6 @@ end
 |-------------------|---------------------------------------|--------|
 |perm-id| Numeric ID of the permission you want to renew. | yes |
 
-:::tip[TODO]
-@matlux
-:::
-
 ## Post the Message
 
 import Tabs from '@theme/Tabs';
@@ -57,14 +51,18 @@ import TabItem from '@theme/TabItem';
 ### Usage
 
 ```bash
-veranad tx perm renew-perm-vp <perm-id> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+veranad tx perm renew-perm-vp <perm-id> \
+  --authority <group-account> \
+  --from <operator-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
 ### Example
 
 ```bash
 PERM_ID=10
-veranad tx perm renew-perm-vp $PERM_ID --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx perm renew-perm-vp $PERM_ID \
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --node $NODE_RPC
 ```
 
 Verify renewal status:

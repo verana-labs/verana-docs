@@ -6,10 +6,11 @@ import TabItem from '@theme/TabItem';
 Finalize a **validation process (VP)** by setting the applicant’s permission to `VALIDATED`.  
 This activates the permission so the grantee can operate (issue / verify / grant) under the target **Credential Schema**.
 
-:::tip Who can run this?
-This method **must** be executed by the **validator** of the applicant permission:
-- the Ecosystem controller (root **ECOSYSTEM** permission) **or**
-- a relevant **Grantor** (ISSUER_GRANTOR / VERIFIER_GRANTOR) that the applicant chose when starting the VP.
+:::warning Prerequisites
+1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the **validator** permission (the ECOSYSTEM root or a Grantor that the applicant applied under).
+2. **Operator authorization** — Your operator account must be granted authorization for `MsgSetPermissionVPToValidated` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. **Pending VP** — The target permission must exist with `vp_state = PENDING` (first-time) or `PENDING_RENEWAL` (renewal). See [Run a Validation Process](./run-a-validation-process-to-obtain-a-permission).
+4. **Caller is the validator** — Your authority must be the grantee of the validator permission recorded in the applicant permission (`validator_perm_id`).
 :::
 
 ---
@@ -33,10 +34,13 @@ This method **must** be executed by the **validator** of the applicant permissio
 | Issuance Fees | `--issuance-fees` | Fee (trust units) applied on **issuance** actions. Only for **ISSUER** perms. | No |
 | Verification Fees | `--verification-fees` | Fee (trust units) paid by a **Verifier** to an **Issuer** when verifying a credential of this schema. Only for **ISSUER** perms. | No |
 | VP Summary Digest (SRI) | `--vp-summary-digest-sri` | Optional digest (e.g., `sha384-...`) of the off-chain validation summary kept for audit. | No |
+| Issuance Fee Discount | `--issuance-fee-discount` | Issuance fee discount (0–10000, where 10000 = 100% discount). Default: 0. | No |
+| Verification Fee Discount | `--verification-fee-discount` | Verification fee discount (0–10000, where 10000 = 100% discount). Default: 0. | No |
 
-> Notes  
-> - Fees you set here become the **effective** fees for this permission and will be used by fee distribution and trust-deposit logic.  
+> Notes
+> - Fees you set here become the **effective** fees for this permission and will be used by fee distribution and trust-deposit logic.
 > - For **VERIFIER** permissions, fee flags are ignored.
+> - This is a **delegable** message — you must provide `--authority` with the validator's group account.
 
 ---
 
@@ -49,27 +53,29 @@ This method **must** be executed by the **validator** of the applicant permissio
 
 ```bash
 veranad tx perm set-perm-vp-validated <perm-id> \
-  --from $VALIDATOR_ACC \
+  --authority <group-account> \
+  --from <operator-account> \
   --chain-id $CHAIN_ID \
   --keyring-backend test \
   --fees 600000uvna \
   --gas auto \
   --node $NODE_RPC \
-  [--effective-until 2026-12-31T23:59:59Z] \
-  [--country US] \
+  [--effective-until 2027-12-31T23:59:59Z] \
   [--validation-fees 1000000] \
   [--issuance-fees 500000] \
   [--verification-fees 200000] \
+  [--issuance-fee-discount 0] \
+  [--verification-fee-discount 0] \
   [--vp-summary-digest-sri sha384-BASE64...]
 ```
 
 ### Example — Minimal
 
 ```bash
-VALIDATOR_ACC=test-acc
 PERM_ID=101
 veranad tx perm set-perm-vp-validated $PERM_ID \
-  --from $VALIDATOR_ACC --chain-id $CHAIN_ID \
+  --authority $AUTHORITY_ACC \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID \
   --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
@@ -78,13 +84,15 @@ veranad tx perm set-perm-vp-validated $PERM_ID \
 ```bash
 PERM_ID=101
 veranad tx perm set-perm-vp-validated $PERM_ID \
-  --effective-until 2026-09-01T00:00:00Z \
+  --authority $AUTHORITY_ACC \
+  --effective-until 2027-09-01T00:00:00Z \
   --validation-fees 1000000 \
   --issuance-fees 500000 \
   --verification-fees 200000 \
-  --country US \
+  --issuance-fee-discount 0 \
+  --verification-fee-discount 0 \
   --vp-summary-digest-sri sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26 \
-  --from $VALIDATOR_ACC --chain-id $CHAIN_ID \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID \
   --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
