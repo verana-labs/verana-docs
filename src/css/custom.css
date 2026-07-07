@@ -1,128 +1,701 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * docs.verana.io — "Operator's Console"
+ *
+ * Dark-first docs theme on the Verana family design system (the verana.io
+ * "Protocol Grid" palette: Ink Black, Verana Purple, Electric Blue, Signal
+ * Green). Chrome — navbar, sidebar, breadcrumbs, TOC, admonition labels —
+ * is IBM Plex Mono, like a statusline; body prose stays Inter for long
+ * reading; page titles are Space Grotesk. Code blocks keep the dark console
+ * ground in BOTH color modes.
+ *
+ * Any CSS included here is global (Docusaurus classic preset + Infima).
  */
-/* Load Kantumruy Pro font */
 
-/* Load Kantumruy Pro font */
-@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
-/* Base font setup */
+/* ------------------------------------------------------------------ tokens
+   Light is the Infima :root default; dark (the site default mode) overrides.
+   Code blocks are console-dark in both modes. */
 :root {
-  --ifm-font-family-base: 'Kantumruy Pro', sans-serif;
-  --ifm-font-family-monospace: 'Fira Code', monospace;
+  /* Verana family tokens */
+  --vd-bg: #ffffff;
+  --vd-panel: #f7f7fa;
+  --vd-surface: #fdfdfe;
+  --vd-code: #0e1018;
+  --vd-code-rule: #1d2130;
+  --vd-rule: #e7e6ec;
+  --vd-rule-soft: #efeff3;
+  --vd-ink: #1c1b20;
+  --vd-muted: #5f5e6a;
+  --vd-faint: #8a8a98;
+  --vd-purple: #763ef0;
+  --vd-purple-text: #6b33e8;
+  --vd-purple-tint: rgba(118, 62, 240, 0.08);
+  --vd-blue: #2e6be6;
+  --vd-green: #178a5e;
+  --vd-amber: #9a6a08;
+  --vd-red: #c93a3e;
 
-  --ifm-heading-letter-spacing: -0.01em;
-  --ifm-body-letter-spacing: 0.01em;
+  /* Infima mapping */
+  --ifm-color-primary: #763ef0;
+  --ifm-color-primary-dark: #6429ee;
+  --ifm-color-primary-darker: #5b1fe9;
+  --ifm-color-primary-darkest: #4b14c4;
+  --ifm-color-primary-light: #8853f2;
+  --ifm-color-primary-lighter: #915ef3;
+  --ifm-color-primary-lightest: #ab80f6;
+
+  --ifm-background-color: var(--vd-bg);
+  --ifm-background-surface-color: var(--vd-panel);
+
+  --ifm-font-color-base: var(--vd-ink);
+  --ifm-font-color-secondary: var(--vd-muted);
+  --ifm-heading-color: var(--vd-ink);
+
+  --ifm-color-emphasis-100: var(--vd-rule-soft);
+  --ifm-color-emphasis-200: var(--vd-rule);
+  --ifm-color-emphasis-300: var(--vd-rule);
+
+  --ifm-link-color: var(--vd-blue);
+  --ifm-link-hover-color: var(--vd-purple-text);
+
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ifm-font-family-monospace: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --ifm-heading-font-family: var(--ifm-font-family-base);
+  --ifm-heading-font-weight: 650;
+  --ifm-heading-letter-spacing: -0.015em;
+  --ifm-body-letter-spacing: 0;
+
+  --ifm-code-font-size: 85%;
+  --ifm-code-background: var(--vd-purple-tint);
+  --ifm-code-border-radius: 6px;
+  --ifm-pre-line-height: 1.65;
+
+  --ifm-navbar-background-color: var(--vd-bg);
+  --ifm-navbar-shadow: none;
+  --ifm-navbar-link-color: var(--vd-muted);
+  --ifm-navbar-link-hover-color: var(--vd-ink);
+
+  --ifm-menu-color: var(--vd-muted);
+  --ifm-menu-color-active: var(--vd-ink);
+  --ifm-menu-color-background-active: var(--vd-purple-tint);
+  --ifm-menu-color-background-hover: var(--vd-rule-soft);
+
+  --ifm-toc-border-color: var(--vd-rule);
+  --ifm-toc-link-color: var(--vd-muted);
+
+  --ifm-hr-background-color: var(--vd-rule);
+  --ifm-table-border-color: var(--vd-rule);
+  --ifm-table-head-background: var(--vd-panel);
+  --ifm-table-stripe-background: var(--vd-panel);
+  --ifm-blockquote-color: var(--vd-muted);
+
+  --ifm-breadcrumb-item-background-active: var(--vd-purple-tint);
+
+  --docusaurus-highlighted-code-line-bg: rgba(118, 62, 240, 0.16);
 }
 
-/* Verana Brand - Light Mode (Magenta) */
-:root {
-  --ifm-color-primary: #9D2A6D;
-  --ifm-color-primary-dark: #8A265F;
-  --ifm-color-primary-darker: #7C2256;
-  --ifm-color-primary-darkest: #651B45;
-  --ifm-color-primary-light: #AE4480;
-  --ifm-color-primary-lighter: #BC5A91;
-  --ifm-color-primary-lightest: #CB73A3;
-
-  --ifm-background-color: #ffffff;
-  --ifm-background-surface-color: #f9f9fc;
-
-  --ifm-font-color-base: #1a1a1a;
-  --ifm-font-color-secondary: #555;
-
-  --ifm-color-emphasis-100: #e0e0e0;
-  --ifm-color-emphasis-200: #c7c7c7;
-
-  --ifm-link-color: var(--ifm-color-primary);
-  --ifm-link-hover-color: #CB73A3;
-  --ifm-link-active-color: #BC5A91;
-  
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(157, 42, 109, 0.1);
-
-  
-}
-
-/* Verana Brand - Dark Mode (Magenta on black) */
+/* Dark — the default color mode, verana.io's Protocol Grid ground. */
 [data-theme='dark'] {
-  --ifm-color-primary: #CB73A3; /* lighter magenta for contrast */
-  --ifm-color-primary-dark: #BC5A91;
-  --ifm-color-primary-darker: #AE4480;
-  --ifm-color-primary-darkest: #9D2A6D;
-  --ifm-color-primary-light: #D88AB3;
-  --ifm-color-primary-lighter: #E29DC0;
-  --ifm-color-primary-lightest: #EBB0CE;
+  --vd-bg: #0b0b12;
+  --vd-panel: #0d0f18;
+  --vd-surface: #12141f;
+  --vd-rule: #252a3a;
+  --vd-rule-soft: #1d2130;
+  --vd-ink: #e8e9f0;
+  --vd-muted: #9ea1b3;
+  --vd-faint: #6e7288;
+  --vd-purple: #763ef0;
+  --vd-purple-text: #b9a3f7;
+  --vd-purple-tint: rgba(118, 62, 240, 0.14);
+  --vd-blue: #7aa0f2;
+  --vd-green: #29c68c;
+  --vd-amber: #e0a83a;
+  --vd-red: #f06a6a;
 
-  --ifm-background-color: #070912;
-  --ifm-background-surface-color: #0d0f1a;
+  --ifm-color-primary: #9b78f5;
+  --ifm-color-primary-dark: #8259f2;
+  --ifm-color-primary-darker: #763ef0;
+  --ifm-color-primary-darkest: #5b1fe9;
+  --ifm-color-primary-light: #b497f7;
+  --ifm-color-primary-lighter: #c0a7f8;
+  --ifm-color-primary-lightest: #d5c5fa;
 
-  --ifm-font-color-base: #f0f0f0;
-  --ifm-font-color-secondary: #b5b5b5;
+  --ifm-background-color: var(--vd-bg);
+  --ifm-background-surface-color: var(--vd-panel);
 
-  --ifm-color-emphasis-100: #333343;
-  --ifm-color-emphasis-200: #444455;
-
-  --ifm-link-color: var(--ifm-color-primary);
-  --ifm-link-hover-color: #EBB0CE;
-  --ifm-link-active-color: #E29DC0;
-
-  --docusaurus-highlighted-code-line-bg: rgba(203, 115, 163, 0.3); /* magenta glow */
-  
+  --docusaurus-highlighted-code-line-bg: rgba(118, 62, 240, 0.22);
 }
 
-.hero {
-   --ifm-hero-background-color: #9d2a6d;
-   --ifm-hero-text-color: #fff;
+/* ------------------------------------------------------------------ base */
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Primary button */
-.button.button--primary {
-  background-color: var(--ifm-color-primary);
-  color: #fff;
-  border: none;
+::selection {
+  background: rgba(118, 62, 240, 0.35);
+}
+
+.markdown {
+  --ifm-h1-vertical-rhythm-top: 2;
+  line-height: 1.7;
+}
+
+/* Page titles carry the family display face. */
+.markdown h1,
+.hero__title {
+  font-family: 'Space Grotesk', var(--ifm-font-family-base);
+  letter-spacing: -0.025em;
+}
+
+.markdown h1 {
+  font-size: 2.1rem;
+}
+
+/* Terminal heading marks: the source's own ## / ### as quiet chrome. */
+.markdown h2::before,
+.markdown h3::before {
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: 400;
+  font-size: 0.75em;
+  color: var(--vd-faint);
+  letter-spacing: 0;
+  margin-right: 0.55em;
+  position: relative;
+  top: -0.08em;
+}
+
+.markdown h2::before {
+  content: '##';
+}
+
+.markdown h3::before {
+  content: '###';
+}
+
+.hash-link {
+  color: var(--vd-purple-text);
+}
+
+/* ------------------------------------------------------------------ navbar */
+.navbar {
+  border-bottom: 1px solid var(--vd-rule);
+  height: 3.75rem;
+}
+
+[data-theme='dark'] .navbar {
+  background: var(--vd-panel);
+}
+
+.navbar__title {
+  font-family: 'Space Grotesk', var(--ifm-font-family-base);
   font-weight: 600;
+  letter-spacing: -0.02em;
+  font-size: 1.05rem;
+}
+
+.navbar__link {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: lowercase;
   letter-spacing: 0.02em;
-  transition: background-color 0.2s ease;
+}
+
+.navbar__link--active {
+  color: var(--vd-ink);
+  box-shadow: inset 0 -2px 0 0 var(--vd-purple);
+}
+
+/* The version dropdown as a git-tag chip. */
+.navbar__item.dropdown > .navbar__link {
+  border: 1px solid var(--vd-rule);
+  border-radius: 7px;
+  padding: 0.22rem 0.6rem;
+  background: var(--vd-purple-tint);
+  color: var(--vd-purple-text);
+  text-transform: none;
+  font-size: 0.75rem;
+}
+
+.navbar__item.dropdown > .navbar__link::before {
+  content: '⎇ ';
+}
+
+.navbar__item.dropdown > .navbar__link:hover {
+  border-color: var(--vd-purple);
+}
+
+.dropdown__menu {
+  background: var(--vd-surface);
+  border: 1px solid var(--vd-rule);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.78rem;
+}
+
+.dropdown__link--active {
+  color: var(--vd-purple-text);
+}
+
+.navbar-sidebar {
+  background: var(--vd-panel);
+}
+
+.navbar-sidebar .menu__link {
+  font-family: var(--ifm-font-family-monospace);
+}
+
+/* ------------------------------------------------------------------ sidebar */
+.theme-doc-sidebar-container {
+  border-right: 1px solid var(--vd-rule-soft) !important;
+}
+
+[data-theme='dark'] .theme-doc-sidebar-container {
+  background: var(--vd-panel);
+}
+
+.menu {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  font-weight: 400;
+  padding: 0.9rem 0.6rem !important;
+}
+
+.menu__link {
+  border-radius: 6px;
+  padding: 0.32rem 0.65rem;
+  text-transform: lowercase;
+  line-height: 1.45;
+}
+
+/* Categories read as directories: uppercase, tracked, faint. */
+.menu__link--sublist,
+.menu__list-item-collapsible .menu__link {
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  color: var(--vd-faint);
+  font-weight: 500;
+}
+
+/* Indent guides, like tree(1) output. */
+.menu__list .menu__list {
+  border-left: 1px solid var(--vd-rule-soft);
+  margin-left: 0.85rem;
+  padding-left: 0.3rem;
+  margin-top: 0.15rem;
+}
+
+.menu__link--active:not(.menu__link--sublist) {
+  color: var(--vd-ink);
+  background: var(--vd-purple-tint);
+  box-shadow: inset 2px 0 0 0 var(--vd-purple);
+}
+
+.menu__link:hover,
+.menu__caret:hover {
+  background: var(--vd-rule-soft);
+}
+
+.menu__caret::before,
+.menu__link--sublist-caret::after {
+  opacity: 0.55;
+}
+
+/* Collapse-sidebar button */
+.theme-doc-sidebar-container button {
+  color: var(--vd-faint);
+}
+
+/* ------------------------------------------------------------------ breadcrumbs */
+.breadcrumbs {
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.breadcrumbs__link {
+  font-size: 0.72rem;
+  color: var(--vd-faint);
+  background: none;
+  padding: 0.15rem 0.3rem;
+}
+
+.breadcrumbs__item--active .breadcrumbs__link {
+  color: var(--vd-purple-text);
+  background: none;
+}
+
+/* Plain-text path separators. */
+.breadcrumbs__item:not(:last-child)::after {
+  background: none;
+  content: '/';
+  color: var(--vd-faint);
+  width: auto;
+  height: auto;
+  margin: 0 0.15rem;
+  transform: none;
+  filter: none;
+  opacity: 0.7;
+}
+
+/* ------------------------------------------------------------------ code */
+/* Console ground in both color modes — the theme's signature. */
+.theme-code-block {
+  --prism-background-color: var(--vd-code) !important;
+  border: 1px solid var(--vd-rule);
+  border-radius: 10px;
+  box-shadow: none;
+  font-size: 0.82rem;
+}
+
+[data-theme='dark'] .theme-code-block {
+  border-color: var(--vd-rule);
+}
+
+/* Statusline band naming the block's language. */
+.theme-code-block::before {
+  display: block;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6e7288;
+  background: #0c0e15;
+  border-bottom: 1px solid var(--vd-code-rule);
+  padding: 0.38rem 0.85rem;
+  border-radius: 10px 10px 0 0;
+}
+
+.theme-code-block.language-bash::before,
+.theme-code-block.language-sh::before,
+.theme-code-block.language-shell::before {
+  content: '❯ terminal';
+  color: #29c68c;
+}
+
+.theme-code-block.language-json::before {
+  content: 'json';
+}
+
+.theme-code-block.language-yaml::before,
+.theme-code-block.language-yml::before {
+  content: 'yaml';
+}
+
+.theme-code-block.language-toml::before {
+  content: 'toml';
+}
+
+.theme-code-block.language-text::before,
+.theme-code-block.language-plaintext::before {
+  content: 'output';
+}
+
+.theme-code-block.language-markdown::before {
+  content: 'markdown';
+}
+
+/* A block with an explicit title renders its own header — drop the band. */
+.theme-code-block:has([class*='codeBlockTitle'])::before {
+  display: none;
+}
+
+.theme-code-block pre {
+  font-family: var(--ifm-font-family-monospace);
+}
+
+/* Copy / wrap buttons */
+.theme-code-block button {
+  border: 1px solid var(--vd-code-rule) !important;
+  background: #12141f !important;
+  color: #9ea1b3 !important;
+}
+
+/* Inline code: purple-tinted chip. */
+code {
+  border: 1px solid var(--vd-rule);
+  padding: 0.08rem 0.35rem;
+  vertical-align: baseline;
+}
+
+pre code {
+  border: none;
+}
+
+a code {
+  color: inherit;
+}
+
+/* ------------------------------------------------------------------ admonitions
+   CI-badge register: panel ground, 3px severity stripe, mono label. */
+.theme-admonition {
+  border: 1px solid var(--vd-rule);
+  border-left-width: 3px;
+  border-radius: 8px;
+  background: var(--vd-panel);
+  box-shadow: none;
+  font-size: 0.88rem;
+}
+
+.theme-admonition > div:first-child {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.theme-admonition-note,
+.theme-admonition-info {
+  border-left-color: var(--vd-blue);
+}
+
+.theme-admonition-note > div:first-child,
+.theme-admonition-info > div:first-child {
+  color: var(--vd-blue);
+}
+
+.theme-admonition-tip {
+  border-left-color: var(--vd-green);
+}
+
+.theme-admonition-tip > div:first-child {
+  color: var(--vd-green);
+}
+
+.theme-admonition-warning,
+.theme-admonition-caution {
+  border-left-color: var(--vd-amber);
+}
+
+.theme-admonition-warning > div:first-child,
+.theme-admonition-caution > div:first-child {
+  color: var(--vd-amber);
+}
+
+.theme-admonition-danger {
+  border-left-color: var(--vd-red);
+}
+
+.theme-admonition-danger > div:first-child {
+  color: var(--vd-red);
+}
+
+/* ------------------------------------------------------------------ toc */
+.table-of-contents {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.theme-doc-toc-desktop > .table-of-contents::before {
+  content: 'on this page';
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: 0.62rem;
+  color: var(--vd-faint);
+  margin-bottom: 0.5rem;
+}
+
+.table-of-contents__link--active {
+  color: var(--vd-purple-text);
+  font-weight: 500;
+}
+
+.table-of-contents__link:hover {
+  color: var(--vd-ink);
+}
+
+/* ------------------------------------------------------------------ version banner & badge */
+.theme-doc-version-banner {
+  background: var(--vd-purple-tint);
+  border: 1px solid var(--vd-rule);
+  border-radius: 8px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.78rem;
+  color: var(--vd-muted);
+  box-shadow: none;
+}
+
+.theme-doc-version-badge {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--vd-purple-tint);
+  border: 1px solid var(--vd-rule);
+  color: var(--vd-purple-text);
+}
+
+/* ------------------------------------------------------------------ tables, media, misc content */
+.markdown table {
+  display: block;
+  overflow-x: auto;
+}
+
+.markdown table thead tr {
+  border-bottom: 1px solid var(--vd-rule);
+}
+
+.markdown table th {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--vd-muted);
+}
+
+/* Diagrams (kroki) and screenshots need a light ground in dark mode. */
+[data-theme='dark'] .markdown img {
+  background: #ffffff;
+  border: 1px solid var(--vd-rule);
+  border-radius: 10px;
+  padding: 0.4rem;
+}
+
+.markdown figure {
+  border: 1px solid var(--vd-rule);
+  border-radius: 10px;
+  background: var(--vd-panel);
+}
+
+.markdown figure figcaption {
+  font-family: var(--ifm-font-family-monospace);
+  font-style: normal;
+  font-size: 0.7rem;
+  color: var(--vd-faint);
+  text-align: center;
+}
+
+blockquote {
+  border-left: 3px solid var(--vd-purple);
+}
+
+/* ------------------------------------------------------------------ pagination */
+.pagination-nav__link {
+  border: 1px solid var(--vd-rule);
+  border-radius: 10px;
+  background: var(--vd-panel);
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--vd-purple);
+}
+
+.pagination-nav__sublabel {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--vd-faint);
+}
+
+.pagination-nav__label {
+  font-size: 0.92rem;
+}
+
+/* ------------------------------------------------------------------ footer */
+.footer--dark {
+  --ifm-footer-background-color: #0b0b12;
+  border-top: 1px solid #252a3a;
+}
+
+.footer__title {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: #6e7288;
+}
+
+.footer__link-item {
+  color: #9ea1b3;
+  font-size: 0.85rem;
+}
+
+.footer__link-item:hover {
+  color: #e8e9f0;
+  text-decoration: none;
+}
+
+.footer__copyright {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.7rem;
+  color: #6e7288;
+}
+
+/* ------------------------------------------------------------------ home hero
+   Console ground with the Protocol Grid glow, in both color modes. */
+.hero.hero--primary {
+  --ifm-hero-text-color: #e8e9f0;
+  background:
+    radial-gradient(52rem 30rem at 10% -12%, rgba(118, 62, 240, 0.35), transparent 62%),
+    radial-gradient(42rem 26rem at 90% -4%, rgba(46, 107, 230, 0.18), transparent 60%),
+    #0b0b12;
+  border-bottom: 1px solid #252a3a;
+}
+
+.hero__title {
+  font-size: clamp(2.1rem, 4.5vw, 3.2rem);
+  color: #ffffff;
+}
+
+.hero__subtitle {
+  color: #9ea1b3;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  max-width: 46rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ------------------------------------------------------------------ buttons */
+.button.button--primary {
+  background: var(--vd-purple);
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .button.button--primary:hover {
-  background-color: var(--ifm-color-primary-light);
+  background: #8853f2;
 }
 
-/* Secondary badge */
 .badge--secondary {
-  background-color: var(--ifm-color-primary-lightest);
-  color: #fff;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-}
-
-[data-theme='dark'] .badge--secondary {
-  background-color: var(--ifm-color-primary-lighter);
-  color: #fff;
-}
-
-/* Code blocks */
-.theme-code-block {
-  border-radius: 8px;
-}
-
-/* Navbar link weight */
-.navbar__link {
+  background: var(--vd-purple-tint);
+  border: 1px solid var(--vd-rule);
+  color: var(--vd-purple-text);
+  font-family: var(--ifm-font-family-monospace);
   font-weight: 500;
 }
 
-/* Sidebar link styling */
-.menu__link {
-  font-weight: 500;
+/* ------------------------------------------------------------------ scrollbars & motion */
+[data-theme='dark'] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 
+[data-theme='dark'] ::-webkit-scrollbar-track {
+  background: transparent;
+}
 
-.figcaption {
-  text-align: center;
-  font-style: italic;
-  color: #AA5577;
+[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: #252a3a;
+  border-radius: 999px;
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background: #343b52;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
