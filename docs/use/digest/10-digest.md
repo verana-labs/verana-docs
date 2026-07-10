@@ -127,16 +127,16 @@ If the digest has never been stored, the node returns a `NotFound` (captured liv
 rpc error: code = NotFound desc = digest not found: key not found
 ```
 
-When the digest exists, the query returns the stored `DigestInfo` record. Its shape (from `query.proto`) is:
+When the digest exists, the query returns the stored `DigestInfo` record (captured live after storing `sha256-testdigest…`):
 
-```proto
-// QueryGetDigestResponse is the response type for the Query/GetDigest RPC method.
-message QueryGetDigestResponse {
-  DigestInfo digest = 1;  // { string digest, google.protobuf.Timestamp created }
+```json
+{
+  "digest": {
+    "digest": "sha256-testdigest1783677340909628000",
+    "created": "2026-07-10T09:55:59.648382Z"
+  }
 }
 ```
-
-So a successful `--output json` response is a `digest` object carrying the `digest` string and its `created` timestamp.
 
 :::tip
 Because the digest is passed as a query-string parameter (not a URL path segment), SRI base64 characters (`/`, `+`, `=`) are safe to use directly.

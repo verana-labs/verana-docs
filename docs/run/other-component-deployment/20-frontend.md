@@ -56,7 +56,7 @@ The frontend requires several environment variables to connect to the Verana blo
 | `NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA` | Credential Schema (`cs`) REST endpoint | `http://node1.devnet.verana.network:1317/cs/v1` |
 
 :::info Spec v4 REST paths
-The node's REST server (port `1317`) serves each module under a bare `/<module>/v1` prefix — verified against a running node: `/ec/v1`, `/cs/v1`, `/td/v1`, `/di/v1`. The former `tr` (Trust Registry) and `dd` (DID Directory) modules no longer exist; they are replaced by `ec` (Ecosystem) and `di` (Digest). Confirm the exact variable names your `verana-frontend` version expects in its checked-in `.env`; if it still reads the older `_TRUST_REGISTRY` / `_DID` names, keep those names but point them at the `/ec/v1` and `/di/v1` paths.
+The node's REST server (port `1317`) does **not** use a single uniform prefix. Verified against a running v4 node: the Ecosystem (`ec`) and Corporation (`co`) modules serve their endpoints under a **bare** prefix (`/ec/v1/list`, `/co/v1/list`), while Credential Schema (`cs`), Trust Deposit (`td`) and Digest (`di`) serve their data endpoints under **`/verana/<module>/v1`** (`/verana/cs/v1/list`, `/verana/td/v1/get/{corporation_id}`, `/verana/di/v1/get`). The former `tr` (Trust Registry) and `dd` (DID Directory) modules no longer exist; they are replaced by `ec` (Ecosystem) and `di` (Digest). Confirm the exact variable names and paths your `verana-frontend` version expects in its checked-in `.env` — the current `.env` still ships the older `_TRUST_REGISTRY` / `_DID` / `_PERM` variable names.
 :::
 
 ### Optional Environment Variables

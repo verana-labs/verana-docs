@@ -3,7 +3,7 @@ import TabItem from '@theme/TabItem';
 
 # Cancel a Pending OP Request
 
-Cancel a pending participant **onboarding process (OP)** before it completes (`MOD-PP-MSG-6`, `MsgCancelParticipantOPLastRequest`). Can only be executed by the participant's authority and only while the participant is in `PENDING` state.
+Cancel a pending participant **onboarding process (OP)** before it completes (`MOD-PP-MSG-6`, `MsgCancelParticipantOPLastRequest`). Can only be executed by the participant's Corporation and only while the participant is in `PENDING` state.
 
 Useful when:
 - The applicant submitted incorrect details.

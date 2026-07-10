@@ -186,16 +186,19 @@ veranad tx cs revoke-schema-authorization-policy [flags]                    # --
 Example:
 
 ```bash
-veranad tx cs create-credential-schema 1 schema.json 2 2 1 tu sha256 \
-  --issuer-grantor-validation-validity-period 365 \
-  --verifier-grantor-validation-validity-period 365 \
+veranad tx cs create-credential-schema 1 "$(cat schema.json)" 2 2 1 1 tu sha256 \
+  --issuer-grantor-validation-validity-period '{"value":365}' \
+  --verifier-grantor-validation-validity-period '{"value":365}' \
   --corporation $CORP --from $OPERATOR $COMMON
 ```
 
-:::note SAP messages are not operator-delegable
-`create/increase/revoke-schema-authorization-policy` accept `--corporation` but the SAP
-message type-URLs are **not** part of the `de` delegable allow-list, so they must be signed
-by the corporation's `policy_address` directly (group proposal), not by an operator.
+:::note SAP messages are operator-delegable
+`create/increase/revoke-schema-authorization-policy` are part of the `de` delegable
+allow-list (`/verana.cs.v1.MsgCreateSchemaAuthorizationPolicy`,
+`/verana.cs.v1.MsgIncreaseActiveSchemaAuthorizationPolicyVersion`,
+`/verana.cs.v1.MsgRevokeSchemaAuthorizationPolicy`), so once the type-URL is allow-listed on
+the operator's grant they can be signed with `--corporation $CORP` by an authorized operator,
+exactly like the other `cs` transactions.
 :::
 
 **Queries:**

@@ -191,7 +191,7 @@ veranad query de list-vs-operator-authorizations \
   --node $NODE_RPC --output json
 ```
 
-Each record carries a numeric VSOA id (`vsoa_id`), the granting `corporation_id`, the `vs_operator` account, the `participant_id` it authorizes sessions for, and the allow-listed VSOA message types.
+Each record carries a numeric `id`, the granting `corporation_id`, the `vs_operator` account, and a list of `records` — each record holds the `participant_id` it authorizes sessions for and the allow-listed `msg_types`.
 
 ### Get a VS operator authorization
 

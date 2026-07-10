@@ -6,7 +6,7 @@ import TabItem from '@theme/TabItem';
 Revocation invalidates an existing participant (`MOD-PP-MSG-9`, `MsgRevokeParticipant`). Per the CLI, it can be executed by **one of three actors**:
 
 - An **ancestor validator** in the participant branch (up to the root ECOSYSTEM participant).
-- The **participant's own authority** (self-revocation), regardless of schema mode.
+- The **participant's own Corporation** (self-revocation), regardless of schema mode.
 - The **Ecosystem controller** (the Corporation that owns the schema's Ecosystem).
 
 :::warning Prerequisites

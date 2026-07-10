@@ -5,7 +5,7 @@ import TabItem from '@theme/TabItem';
 
 Adjust a participant's **effective duration** by setting a new `effective_until` (`MOD-PP-MSG-8`, `MsgSetParticipantEffectiveUntil`). Use this to extend or shorten the validity period of an existing participant without a full renewal. In v4 the value may be **increased or reduced**.
 
-Executed by the authority (for ECOSYSTEM or self-created participants) or by the validator (for OP-managed participants).
+Executed by the participant's own Corporation (for ECOSYSTEM or self-created participants) or by the validator's Corporation (for OP-managed participants).
 
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
