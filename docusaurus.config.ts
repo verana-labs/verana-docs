@@ -57,6 +57,31 @@ const config: Config = {
     locales: ['en'],
   },
 
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        // Redirect the v4 module/section renames so links to the old paths resolve.
+        createRedirects(existingPath: string) {
+          const renames: [string, string][] = [
+            ['/use/ecosystems/participants/', '/use/ecosystems/permissions/'],
+            ['/use/ecosystems/ecosystem/', '/use/ecosystems/trust-registries/'],
+            ['/use/digest/', '/use/did-directory/'],
+            ['/run/network/modules/participant', '/run/network/modules/credential-schema-permissions'],
+            ['/run/network/modules/digest', '/run/network/modules/did-directory'],
+            ['/run/network/modules/ecosystem', '/run/network/modules/trust-registry'],
+          ];
+          for (const [next, old] of renames) {
+            if (existingPath.includes(next)) {
+              return [existingPath.replace(next, old)];
+            }
+          }
+          return undefined;
+        },
+      },
+    ],
+  ],
+
   presets: [
     [
       'classic',
