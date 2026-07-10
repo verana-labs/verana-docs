@@ -13,6 +13,6 @@ It empowers users with self-sovereign identity and user-centric privacy.
 
 ## Don't trust. Verify
 
-Verana is defined by the [Verifiable Trust](https://verana-labs.github.io/verifiable-trust-spec/[) and [Verifiable Public Registry](https://verana-labs.github.io/verifiable-trust-vpr-spec/) specs.
+Verana is defined by the [Verifiable Trust](https://verana-labs.github.io/verifiable-trust-spec/) and [Verifiable Public Registry](https://verana-labs.github.io/verifiable-trust-vpr-spec/) specs.
 
 It fosters a re-decentralized Internet, moving from implicit trust to **verifiable trust**.

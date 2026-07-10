@@ -145,7 +145,7 @@ veranad query group group-policy-info \
 }
 ```
 
-List the members with `veranad query group group-members <group_id>`, and update the DID with `MsgUpdateCorporation` (`MOD-CO-MSG-2`), which is signed by the `policy_address` and an authorized operator.
+List the members with `veranad query group group-members <group_id>`, and update the DID with `MsgUpdateCorporation` (`MOD-CO-MSG-2`), which is executed on behalf of the Corporation (the `policy_address`) and signed by an authorized operator.
 
 :::info Spec reference
 Corporation module: `MOD-CO-MSG-1` (create), `MOD-CO-MSG-2` (update DID), `MOD-CO-QRY-1/2` (get/list). See the [VPR v4 specification](https://verana-labs.github.io/verifiable-trust-vpr-spec/).

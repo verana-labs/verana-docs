@@ -31,7 +31,7 @@ NODE_RPC="https://rpc.testnet.verana.network"
 There is **no `reclaim-deposit`** command in the node. Earlier drafts exposed a way to withdraw freed (`refunded`) principal subject to a burn rate; the CLI now exposes only `reclaim-yield`, `repay-slashed-td`, and `slash-trust-deposit`. The `trust_deposit_reclaim_burn_rate` parameter still exists for internal deposit recycling.
 :::
 
-The two **delegable** messages execute on behalf of a Corporation. The signer (`--from`) must be an **operator** granted authorization for the message's type-URL via `de grant-operator-authorization`. See the [Delegation module](./20-delegation.md).
+The two **delegable** messages execute on behalf of a Corporation. The signer (`--from`) must be an **operator** granted authorization for the message's type-URL via `de grant-operator-authz`. See the [Delegation module](./20-delegation.md).
 
 ---
 

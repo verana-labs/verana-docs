@@ -110,11 +110,11 @@ The fixed per-entity deposit parameters from earlier versions — **Trust Regist
 ### Trust Deposit Parameters
 | Parameter | Value |
 |-----------|-------|
-| Reclaim Burn Rate | 60% |
-| Share Value | 1.0 |
+| Reclaim Burn Rate | 0% (unused; retained for proto back-compat) |
+| Share Value | 1.0 (initial; grows as yield accrues) |
 | Deposit Rate | 20% |
-| Wallet User Agent Reward Rate | 20% |
-| User Agent Reward Rate | 20% |
+| Wallet User Agent Reward Rate | 10% |
+| User Agent Reward Rate | 10% |
 
 ### Validation Parameters
 | Parameter | Value |

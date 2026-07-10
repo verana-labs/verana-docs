@@ -1,6 +1,6 @@
 # Trust Resolver
 
-The Trust Resolver (repo: [`verana-labs/verre`](https://github.com/verana-labs/verre)) is the service that turns Verana’s raw ledger data into a queryable trust graph. It keeps a synchronized store by consuming updates from the indexer and registered verifiable services, then exposes an API that verifiable user agents, search experiences, or custom dashboards can call.
+The Trust Resolver (repo: [`verana-labs/verana-resolver`](https://github.com/verana-labs/verana-resolver)) is the service that turns Verana’s raw ledger data into a queryable trust graph. It keeps a synchronized store by consuming updates from the indexer and registered verifiable services, then exposes an API that verifiable user agents, search experiences, or custom dashboards can call.
 
 ## Why you run it
 

@@ -20,7 +20,7 @@ A **Trust Deposit** is a stake within a VPR that grows automatically as particip
 
 The **trust deposit** functions like a **percentage-based deduction** applied to circulating trust fees. These deductions accumulate in individual deposits as a reflection of ongoing participation and service provision.
 
-For example, in the case of **verification Fees** (as detailed in the [Credential Monetization](./70-credential-monetization.md) section), a portion of each fee is redistributed to grow the trust deposits of the relevant actors in the verification process.
+For example, in the case of **verification Fees** (as detailed in the [Credential Monetization](./credential-monetization) section), a portion of each fee is redistributed to grow the trust deposits of the relevant actors in the verification process.
 
 ```plantuml
 

@@ -1,6 +1,6 @@
 # Verana Visualizer
 
-This guide provides comprehensive instructions for deploying the Verana Visualizer application. The Verana Visualizer is a modern, interactive Next.js frontend for exploring the Verana decentralized trust layer, including Trust Registries, Credential Schemas, DIDs, and network analytics with real historical blockchain data.
+This guide provides comprehensive instructions for deploying the Verana Visualizer application. The Verana Visualizer is a modern, interactive Next.js frontend for exploring the Verana decentralized trust layer, including Ecosystems, Credential Schemas, Digests, and network analytics with real historical blockchain data.
 
 In the [official component overview](https://verana.io/page/developers/components/) the Visualizer is described as the dashboard that “turns Verana data into interactive ecosystem insights and health metrics.” It consumes both resolver and indexer APIs to graph trust deposit balances, issuance and verification volume, and slashing activity. The source lives at [`verana-labs/verana-visualizer`](https://github.com/verana-labs/verana-visualizer); the sections below help you run it in dev, staging, or production.
 
@@ -42,7 +42,7 @@ The Verana Visualizer requires several environment variables to connect to the V
 | `NEXT_PUBLIC_API_ENDPOINT` | REST API endpoint URL | `https://api.testnet.verana.network` |
 | `NEXT_PUBLIC_RPC_ENDPOINT` | RPC endpoint URL | `https://rpc.testnet.verana.network` |
 | `NEXT_PUBLIC_IDX_ENDPOINT` | Indexer endpoint URL | `https://idx.testnet.verana.network` |
-| `NEXT_PUBLIC_RESOLVER_ENDPOINT` | DID Resolver endpoint URL | `https://resolver.testnet.verana.network` |
+| `NEXT_PUBLIC_RESOLVER_ENDPOINT` | Trust Resolver endpoint URL | `https://resolver.testnet.verana.network` |
 | `NEXT_PUBLIC_CHAIN_ID` | Verana chain identifier | `vna-testnet-1` |
 | `NEXT_PUBLIC_CHAIN_NAME` | Human-readable chain name | `Testnet` |
 | `NEXT_PUBLIC_APP_NAME` | Application display name | `Verana Visualizer` |

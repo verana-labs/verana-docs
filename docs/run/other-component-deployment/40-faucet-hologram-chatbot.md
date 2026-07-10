@@ -1,6 +1,6 @@
 # Faucet Chatbot
 
-The Verana faucet is packaged as an [Hologram Messaging](https://www.hologram.xyz/) chatbot that mints small VNA allocations to any address on the public testnet. It is the quickest way for developers to fund wallets so they can broadcast transactions while experimenting with registries, schemas, or verifiable services. The [official component catalog](https://verana.io/page/developers/components/) lists it alongside the rest of the supporting services.
+The Verana faucet is packaged as an [Hologram Messaging](https://www.hologram.xyz/) chatbot that distributes small VNA allocations to any address on the public testnet. It is the quickest way for developers to fund wallets so they can broadcast transactions while experimenting with registries, schemas, or verifiable services. The [official component catalog](https://verana.io/page/developers/components/) lists it alongside the rest of the supporting services.
 
 ## How it works
 

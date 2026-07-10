@@ -94,7 +94,7 @@ The onboarding process involves two parties:
 - The **applicant** — the Corporation requesting a `Participant` entry for a credential schema within the ecosystem.
 - The **validator** — a Corporation that already holds a `Participant` entry for the same credential schema and has been delegated authority to validate applicants and create new `Participant` entries.
 
-Running an onboarding process typically involves the payment of trust fees. The trust fee amount to be paid by the applicant is defined in the validator's `Participant` entry (in the schema's `pricing_asset_type` — for example, trust units). Example:
+Running an onboarding process typically involves the payment of trust fees. The trust fee amount to be paid by the applicant is defined by the validator's `Participant` entry (its `validation_fees`), denominated in the schema's `pricing_asset_type` — for example, trust units. Example:
 
 ```plantuml
 

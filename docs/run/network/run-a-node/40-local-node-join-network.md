@@ -83,7 +83,7 @@ veranad start
 ## Running as a Service (optional)
 
 ```bash
-# --- Step 12: Setup Verana as a systemd Service ---
+# --- Setup Verana as a systemd Service ---
 echo "Setting up veranad as a systemd service..."
 sudo tee /etc/systemd/system/veranad.service > /dev/null <<EOF
 [Unit]
@@ -105,7 +105,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable veranad
 sudo systemctl start veranad
 
-# --- Step 13: Post-Installation Instructions ---
+# --- Post-Installation Instructions ---
 echo "Installation complete."
 echo "Use the following commands to monitor the node:"
 echo "  veranad status"

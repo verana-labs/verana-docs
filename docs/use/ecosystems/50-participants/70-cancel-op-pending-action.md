@@ -58,7 +58,7 @@ veranad tx pp cancel-participant-op-request 2 \
 
 ### Real result
 
-Succeeds with `code: 0` and emits `cancel_participant_op_last_request` (txhash `191301EFDA9B93D69E7CCFA3D515E4A1F7FC4A9E693E0501B0856670C90D41A3`). The journey verified: "permission is TERMINATED after cancel" and "op_current_fees=0, op_current_deposit=0 (fees refunded)".
+Succeeds with `code: 0` and emits `cancel_participant_op_last_request` (txhash `191301EFDA9B93D69E7CCFA3D515E4A1F7FC4A9E693E0501B0856670C90D41A3`). The journey verified: participant is `TERMINATED` after cancel, and `op_current_fees=0, op_current_deposit=0` (fees refunded).
 
 ```yaml
 - type: message

@@ -47,7 +47,7 @@ veranad tx pp repay-participant-slashed-td 10 --corporation $CORPORATION \
 
 ### Real result
 
-Succeeds with `code: 0`; the participant's `repaid_deposit` is recorded (journey 309, participant 10 — "RepayPermissionSlashedTrustDeposit succeeded for perm 10", repaid_deposit=10).
+Succeeds with `code: 0`; the participant's `repaid_deposit` is recorded (journey 309, participant 10 — repay succeeded, `repaid_deposit=10`).
 
   </TabItem>
 

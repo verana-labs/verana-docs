@@ -9,7 +9,7 @@ To interact with the Verana blockchain remotely, you can use the CLI (`veranad`)
 
 > **Tip:** If you have not created an account yet, see [Create and Fund an Account](./prerequisites#3-create-and-fund-an-account).
 
-3. Environmnet Variables to use with documentation examples
+Environment variables to use with the documentation examples:
 
 Local environment (isolated node from `setup_primary_validator.sh`)
 ```

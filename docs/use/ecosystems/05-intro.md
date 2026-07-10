@@ -47,7 +47,7 @@ If you want to work with credentials governed by an existing Ecosystem:
    - *Issuer* → issue credentials.
    - *Verifier* → request presentations.
 4. Depending on schema rules, either:
-   - [Self-create your participant](../ecosystems/participants/self-create-a-participant) (`ISSUER_VALIDATION_PROCESS`), or
+   - [Self-create your participant](../ecosystems/participants/self-create-a-participant) (`OPEN` mode), or
    - [Run an onboarding process](../ecosystems/participants/run-an-onboarding-process-to-obtain-a-participant) with a Grantor or the Ecosystem Corporation (`GRANTOR_VALIDATION_PROCESS` / `ECOSYSTEM_VALIDATION_PROCESS`).
 
 ## Join as a Holder

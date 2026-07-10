@@ -91,7 +91,7 @@ Check that `revoked` is set (real testnet value: `2026-07-10T08:08:14.922045Z`).
 @startuml
 scale max 800 width
 package "Example Credential Schema Participant Tree" as cs {
-    object "Ecosystem A" as tr #3fbdb6 {
+    object "Ecosystem A" as eco #3fbdb6 {
         role: ECOSYSTEM (Root)
         did:example:ecosystemA
     }
@@ -111,9 +111,9 @@ package "Example Credential Schema Participant Tree" as cs {
         role: HOLDER
     }
 }
-tr --> ig
+eco --> ig
 ig --> issuer
-tr --> vg
+eco --> vg
 vg --> verifier
 issuer --> holder
 @enduml
