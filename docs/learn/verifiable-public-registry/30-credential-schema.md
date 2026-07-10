@@ -1,20 +1,20 @@
 # Credential Schemas
 
-When an ecosystem has created its `Trust Registry` in a VPR, it can create and manage credential schemas.
+Once a [Corporation](./corporations) controls an [Ecosystem](./ecosystems) in a VPR, it can create and manage that ecosystem's credential schemas.
 
-Here is the process for publishing a given credential schema, and make it usable by ecosystem participants:
+Here is the process for publishing a given credential schema, and making it usable by ecosystem participants:
 
-1. Ecosystem creates and configure a `Credential Schema` entry in a VPR, linked to its `Trust Registry`. Entry includes a **JSON schema**.
-2. Ecosystem issues, with its ecosystem DID, a **verifiable trust JSON schema credential**, which is a [json schema credential](https://www.w3.org/TR/vc-json-schema/) linked to the **JSON schema** created in the VPR.
-3. Ecosystem presents, in its DID document the **verifiable trust JSON schema credential** as a [linked verifiable presentation](https://identity.foundation/linked-vp/), and declares the VPR in a "service" section.
+1. The ecosystem creates and configures a `Credential Schema` entry in the VPR, linked to its `Ecosystem`. The entry includes a **JSON schema**.
+2. The ecosystem issues, with its ecosystem DID, a **verifiable trust JSON schema credential**, which is a [json schema credential](https://www.w3.org/TR/vc-json-schema/) linked to the **JSON schema** created in the VPR.
+3. The ecosystem presents, in its DID document, the **verifiable trust JSON schema credential** as a [linked verifiable presentation](https://identity.foundation/linked-vp/), and declares the VPR in a "service" section.
 
-Then, authorized issuers can issue **verifiable trust credentials** linked to the **verifiable trust JSON schema credential** issued by ecosystem DID.
+Then, authorized issuers can issue **verifiable trust credentials** linked to the **verifiable trust JSON schema credential** issued by the ecosystem DID.
 
 ```plantuml
 
 @startuml
 scale max 800 width
-object "Ecosystem Trust Registry (created in VPR)" as es {
+object "Ecosystem (created in VPR)" as es {
   ecosystem did: did:example:ecosystem
 }
 object "CredentialSchema (in VPR)" as cs {
@@ -40,6 +40,32 @@ es --> cs : creates a CredentialSchema (in VPR)
 @enduml
 
 ```
+
+## What a Credential Schema entry configures
+
+Beyond the **JSON schema**, a `Credential Schema` entry carries the policy and business configuration that governs how participants join the schema and how fees are denominated:
+
+- **Onboarding modes** — one per role, which determine how `Participant` entries are created:
+  - `issuer_onboarding_mode` and `verifier_onboarding_mode`: `OPEN`, `ECOSYSTEM_VALIDATION_PROCESS`, or `GRANTOR_VALIDATION_PROCESS`.
+  - `holder_onboarding_mode`: `ISSUER_VALIDATION_PROCESS` or `PERMISSIONLESS`.
+
+  These are covered in detail in [Onboarding Participants](./onboarding-participants).
+- **Per-role validity periods** — `issuer_grantor_validation_validity_period`, `verifier_grantor_validation_validity_period`, `issuer_validation_validity_period`, `verifier_validation_validity_period`, and `holder_validation_validity_period` (in days) — after which an onboarding process expires and must be renewed.
+- **Pricing configuration** — `pricing_asset_type` and `pricing_asset` define the asset in which the schema's fees are expressed:
+  - `TU` — [trust units](./exchange-rate), converted to native denom through the Exchange Rate oracle at transaction time;
+  - `COIN` — a token available on the VPR chain (e.g. `uvna`);
+  - `FIAT` — a fiat currency (e.g. `USD`), meaning the chain is used for settlement only and payment happens off-chain.
+
+  Note that trust deposits are always handled in native denom regardless of `pricing_asset_type`.
+- **`digest_algorithm`** — the algorithm used to compute the `digestSRI` for credentials issued under this schema.
+
+(Spec: `CredentialSchema` data model; onboarding modes and pricing fields.)
+
+### Schema Authorization Policies
+
+In addition to the schema entry itself, an ecosystem can attach versioned **`SchemaAuthorizationPolicy`** entries to a credential schema. Each policy is scoped to a single role (`ISSUER` or `VERIFIER`) and published as a document (URL + `digest_sri`), with `effective_from` / `effective_until` validity and a `revoked` flag. This lets an ecosystem state, immutably and by version, the rules a corporation must satisfy to act as issuer or verifier of the schema.
+
+(Spec: `SchemaAuthorizationPolicy` data model.)
 
 :::note
 Data stored in the VPR is not verified at the time of storage, nor does it need to be. Verification happens outside the scope of the VPR.
@@ -108,8 +134,8 @@ Ecosystem issues, with its ecosystem DID, a **verifiable trust JSON schema crede
 
 This credential serves as a verifiable proof of:
 
-- Ownership of the `Credential Schema` created in the VPR;
-- Control over the corresponding `Trust Registry` ecosystem DID.
+- control of the `Credential Schema` created in the VPR;
+- control over the corresponding `Ecosystem` DID.
 
 ```json
 {
@@ -140,7 +166,7 @@ This credential serves as a verifiable proof of:
 
 Finally, ecosystem presents, in its DID document, the **verifiable trust JSON schema credential** as a [linked verifiable presentation](https://identity.foundation/linked-vp/), and declares the VPR in a "service" section.
 
-This ensures that the credential schema and its controlling trust registry are publicly discoverable and cryptographically verifiable.
+This ensures that the credential schema and its controlling ecosystem are publicly discoverable and cryptographically verifiable.
 
 ```json
 "service": [
@@ -150,7 +176,7 @@ This ensures that the credential schema and its controlling trust registry are p
       "serviceEndpoint": ["https://ecosystem/schemas-example-jsc-vp.json"]
     },
     {
-      "id": "did:example:trust-registry#vpr-schemas-trust-registry-1234",
+      "id": "did:example:ecosystem#vpr-schemas-ecosystem-1234",
       "type": "VerifiablePublicRegistry",
       "version": "1.0",
       "serviceEndpoint": ["vpr:verana:mainnet"]

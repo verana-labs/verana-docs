@@ -6,7 +6,7 @@
 
 | **Component**   | **Purpose**                                                  |
 |-----------------------|------------------------------------------------------------------|
-| [Network Node (verana-blockchain)](https://github.com/verana-labs/verana-blockchain)    | a cosmos-SDK [Verifiable Public Registry](https://verana-labs.github.io/verifiable-trust-vpr-spec/) implementation       |
+| [Network Node (verana-node)](https://github.com/verana-labs/verana-node)    | a cosmos-SDK [Verifiable Public Registry](https://verana-labs.github.io/verifiable-trust-vpr-spec/) implementation       |
 | [Indexer (verana-indexer)](https://github.com/verana-labs/verana-indexer)  | Container for indexing ledger data|
 | [Trust Resolver (verana-resolver)](https://github.com/verana-labs/verana-resolver)  | Provide an extensive REST API for searching indexed and verified data. Includes a [Trust Registry Query Protocol (TRQP) v2 endpoint](https://trustoverip.github.io/tswg-trust-registry-protocol/)|
 | [Verana Frontend (verana-frontend) ](https://github.com/verana-labs/verana-frontend)  | End-user Verana Frontend for using VPR features|

@@ -8,7 +8,7 @@ Once the ecosystem has published its credential schema:
 
 it is now possible for authorized issuers to issue **verifiable trust credentials** based on this schema.
 
-Credentials that comply with the [verifiable trust specification](https://verana-labs.github.io/verifiable-trust-spec/) are referred to as **verifiable trust credentials (VTCs)**. These credentials must include, in their `credentialSchema` attribute, a reference to the corresponding **verifiable trust JSON schema credential** issued by the trust registry ecosystem DID. This linkage ensures cryptographic proof of the schema's origin and trustworthiness.
+Credentials that comply with the [verifiable trust specification](https://verana-labs.github.io/verifiable-trust-spec/) are referred to as **verifiable trust credentials (VTCs)**. These credentials must include, in their `credentialSchema` attribute, a reference to the corresponding **verifiable trust JSON schema credential** issued by the ecosystem DID. This linkage ensures cryptographic proof of the schema's origin and trustworthiness.
 
 In our previous example, that would mean and ExampleCredential should look like this example:
 

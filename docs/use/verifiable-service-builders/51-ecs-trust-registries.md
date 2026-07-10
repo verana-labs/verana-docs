@@ -16,8 +16,8 @@ ECS credentials are not self-asserted — they are issued by **trusted entities*
 The ECS Trust Registry:
 
 - **Defines the credential schemas** for Organization, Service, Persona, and UserAgent credentials.
-- **Controls who can issue** Organization credentials (through an ECOSYSTEM permission mode — only authorized issuers can grant them).
-- **Allows open self-issuance** of Service credentials (OPEN permission mode — any entity with an ISSUER permission can issue Service credentials for their own child services).
+- **Controls who can issue** Organization credentials (through the `ECOSYSTEM_VALIDATION_PROCESS` — only authorized issuers can grant them).
+- **Allows open self-issuance** of Service credentials (`ISSUER_VALIDATION_PROCESS` — any entity with an ISSUER participant can issue Service credentials for their own child services).
 - **Anchors trust** — when a peer resolves your DID and finds your credentials, the trust resolver traces them back to the ECS Trust Registry to verify legitimacy.
 
 :::tip
@@ -28,12 +28,12 @@ Think of the ECS Trust Registry as the "root certificate authority" of the Veran
 
 The ECS Trust Registry defines four credential schemas:
 
-| Schema | Permission Mode | Description |
+| Schema | Onboarding Process | Description |
 | --- | --- | --- |
-| **Organization** | ECOSYSTEM | Identifies a legal entity (company, government, NGO). Issued by authorized ECS issuers after a validation process. |
-| **Service** | OPEN | Identifies a service. Any entity with an ISSUER permission can self-issue or issue to child services. |
-| **Persona** | ECOSYSTEM | Identifies an individual. Issued by authorized ECS issuers after a validation process. |
-| **UserAgent** | ECOSYSTEM | Identifies a Verifiable User Agent application. Issued by authorized ECS issuers. |
+| **Organization** | `ECOSYSTEM_VALIDATION_PROCESS` | Identifies a legal entity (company, government, NGO). Issued by authorized ECS issuers after an onboarding process. |
+| **Service** | `ISSUER_VALIDATION_PROCESS` | Identifies a service. Any entity with an ISSUER participant can self-issue or issue to child services. |
+| **Persona** | `ECOSYSTEM_VALIDATION_PROCESS` | Identifies an individual. Issued by authorized ECS issuers after an onboarding process. |
+| **UserAgent** | `ECOSYSTEM_VALIDATION_PROCESS` | Identifies a Verifiable User Agent application. Issued by authorized ECS issuers. |
 
 For Verifiable Service builders, the two most important schemas are **Organization** and **Service**.
 
@@ -48,7 +48,7 @@ The Organization credential contains information about the entity operating the 
 - **countryCode** — ISO country code
 - **type** — Organization type (e.g., PRIVATE, PUBLIC, NGO)
 
-This credential is issued by an authorized ECS issuer (the ECS Trust Registry itself on devnet/testnet) to the Organization's DID after a validation process.
+This credential is issued by an authorized ECS issuer (the ECS Trust Registry itself on devnet/testnet) to the Organization's DID after an onboarding process.
 
 ### Service Credential
 
@@ -62,11 +62,11 @@ The Service credential describes the service itself:
 - **termsAndConditions** — URL to terms of service
 - **privacyPolicy** — URL to privacy policy
 
-This credential is typically self-issued by the Organization's VS Agent (which has an ISSUER permission for the Service schema) and linked to the Service VS Agent's DID Document.
+This credential is typically self-issued by the Organization's VS Agent (which has an ISSUER participant for the Service schema) and linked to the Service VS Agent's DID Document.
 
 ## Network Configuration
 
-The ECS Trust Registry is deployed on every Verana network. The configuration is **identical** across devnet and testnet (same schema structure, same permission modes), and will follow the same pattern on mainnet.
+The ECS Trust Registry is deployed on every Verana network. The configuration is **identical** across devnet and testnet (same schema structure, same onboarding processes), and will follow the same pattern on mainnet.
 
 ### Devnet
 
@@ -130,15 +130,16 @@ curl -X POST "${ECS_TR_ADMIN_API}/v1/vt/issue-credential" \
 The response contains the signed Organization credential, which you then link to your VS Agent.
 
 :::note
-On **mainnet**, obtaining an Organization credential will require contacting an authorized ECS issuer and going through a validation process that may include identity verification, legal entity checks, and compliance review — as defined in the ECS Ecosystem Governance Framework.
+On **mainnet**, obtaining an Organization credential will require contacting an authorized ECS issuer and going through an onboarding process that may include identity verification, legal entity checks, and compliance review — as defined in the ECS Ecosystem Governance Framework.
 :::
 
-### Step 3: Create an ISSUER Permission for the Service Schema
+### Step 3: Create an ISSUER Participant for the Service Schema
 
-To issue Service credentials (for your own child services or for yourself in a combined setup), you need an ISSUER permission on the Service schema. Since the Service schema uses **OPEN** permission mode, you can self-create this permission:
+To issue Service credentials (for your own child services or for yourself in a combined setup), you need an ISSUER participant on the Service schema. Since the Service schema uses the **`ISSUER_VALIDATION_PROCESS`**, you can self-create this participant:
 
 ```bash
-veranad tx perm create-perm <service_schema_id> issuer "did:webvh:<SCID>:<your-host>" \
+veranad tx pp self-create-participant issuer <root-participant-id> "did:webvh:<SCID>:<your-host>" \
+  --corporation <corporation> \
   --effective-from "<future-timestamp>" \
   --from <your-account> --chain-id <chain-id> --keyring-backend test \
   --fees 600000uvna --gas auto --node <rpc-url> \
@@ -147,7 +148,7 @@ veranad tx perm create-perm <service_schema_id> issuer "did:webvh:<SCID>:<your-h
 
 ### Step 4: Issue and Link your Service Credential
 
-Once your ISSUER permission is active, you can issue a Service credential to yourself (or to your child services) and link it as a Linked Verifiable Presentation in the DID Document.
+Once your ISSUER participant is active, you can issue a Service credential to yourself (or to your child services) and link it as a Linked Verifiable Presentation in the DID Document.
 
 :::tip
 The [verana-demos](https://github.com/verana-labs/verana-demos) repository automates all these steps. See [Deploy your first Verifiable Service](./52-deploy-first-vs.md) for the complete walkthrough.

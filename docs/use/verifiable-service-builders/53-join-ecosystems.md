@@ -9,7 +9,7 @@ The ECS ecosystem provides the baseline trust layer — it proves **who you are*
 - **Issue credentials** — e.g., a government issues citizen ID credentials, a university issues diplomas, a company issues employee badges.
 - **Verify credentials** — e.g., a bank verifies customer identity, an employer verifies qualifications, an age-restricted service verifies the user is old enough.
 
-Each ecosystem defines its own **Trust Registry**, **credential schemas**, and **rules for participation** (who can issue, who can verify, what fees apply). By joining an ecosystem, your VS gets the permissions it needs to interact with credentials defined by that ecosystem.
+Each ecosystem defines its own **Ecosystem** on-chain, **credential schemas**, and **rules for participation** (who can issue, who can verify, what fees apply). By joining an ecosystem, your VS gets the participants it needs to interact with credentials defined by that ecosystem.
 
 ## Credential Formats: W3C JSON-LD vs AnonCreds
 
@@ -68,32 +68,32 @@ Many ecosystems use **both formats**: W3C JSON-LD for entity identification (who
 
 ## How to Join an Ecosystem
 
-The process for joining an ecosystem depends on how the ecosystem has configured its credential schemas. There are three permission management modes:
+The process for joining an ecosystem depends on how the ecosystem has configured its credential schemas. There are three onboarding processes:
 
-### Mode 1: OPEN
+### Mode 1: `ISSUER_VALIDATION_PROCESS`
 
-Anyone can self-create an ISSUER or VERIFIER permission — no validation process needed.
+Anyone can self-create an ISSUER or VERIFIER participant — no onboarding process needed.
 
 ```bash
-# Self-create an ISSUER permission for an OPEN schema
-veranad tx perm create-perm <schema_id> issuer "<your-did>" \
+# Self-create an ISSUER participant for an ISSUER_VALIDATION_PROCESS schema
+veranad tx pp self-create-participant issuer <root-participant-id> "<your-did>" \
+  --corporation <corporation> \
   --effective-from "<future-timestamp>" \
   --from <your-account> --chain-id <chain-id> --keyring-backend test \
   --fees 600000uvna --gas auto --node <rpc-url> \
   --output json -y
 ```
 
-This is how the **Service** schema works in the ECS ecosystem. After creating the permission and waiting for it to become effective, you can immediately start issuing credentials.
+This is how the **Service** schema works in the ECS ecosystem. After creating the participant and waiting for it to become effective, you can immediately start issuing credentials.
 
-### Mode 2: ECOSYSTEM
+### Mode 2: `ECOSYSTEM_VALIDATION_PROCESS`
 
-The ecosystem authority (Trust Registry controller) directly validates applicants. You must:
+The Ecosystem's Corporation directly validates applicants. You must:
 
-1. **Start a Validation Process (VP):**
+1. **Start an onboarding process (OP):**
 
    ```bash
-   veranad tx perm start-perm-vp issuer <root_perm_id> \
-     --did "<your-did>" \
+   veranad tx pp start-participant-op issuer <root-participant-id> "<your-did>" \
      --from <your-account> --chain-id <chain-id> --keyring-backend test \
      --fees 600000uvna --gas auto --node <rpc-url> \
      --output json -y
@@ -101,24 +101,24 @@ The ecosystem authority (Trust Registry controller) directly validates applicant
 
 2. **Complete off-chain validation** — connect to the validator's Verifiable Service via DIDComm, prove ownership of your account and DID, and provide any required documentation.
 
-3. **Wait for validation** — the ecosystem authority reviews your application and sets the permission to VALIDATED:
+3. **Wait for validation** — the Ecosystem's Corporation reviews your application and sets the participant to VALIDATED:
 
    ```bash
-   # Executed by the ecosystem authority
-   veranad tx perm set-perm-vp-validated <your_perm_id> \
-     --from <authority-account> ...
+   # Executed by the Ecosystem's Corporation
+   veranad tx pp set-participant-op-validated <your-participant-id> \
+     --from <operator-account> ...
    ```
 
-4. Once validated, your permission becomes active and you can start issuing or verifying credentials.
+4. Once validated, your participant becomes active and you can start issuing or verifying credentials.
 
-### Mode 3: GRANTOR_VALIDATION
+### Mode 3: `GRANTOR_VALIDATION_PROCESS`
 
-The ecosystem delegates validation to **Grantors** (intermediate authorities). The process is similar to ECOSYSTEM mode, but you interact with a Grantor instead of the ecosystem authority directly:
+The ecosystem delegates validation to **Grantors** (intermediate authorities). The process is similar to the `ECOSYSTEM_VALIDATION_PROCESS`, but you interact with a Grantor instead of the Ecosystem's Corporation directly:
 
-1. Find an active ISSUER_GRANTOR or VERIFIER_GRANTOR permission for the schema.
-2. Start a validation process targeting that Grantor's permission.
+1. Find an active ISSUER_GRANTOR or VERIFIER_GRANTOR participant for the schema.
+2. Start an onboarding process targeting that Grantor's participant.
 3. Complete the Grantor's validation requirements.
-4. The Grantor validates your permission.
+4. The Grantor validates your participant.
 
 :::note
 Grantors are often used when an ecosystem expects many participants and wants to delegate the onboarding process. For example, a government might delegate verifier onboarding to regional agencies.
@@ -130,7 +130,7 @@ W3C JSON-LD credentials are used for entity identification and for creating Link
 
 ### Issue a credential to another VS
 
-Once you have an ISSUER permission for a schema, you can issue credentials to other entities:
+Once you have an ISSUER participant for a schema, you can issue credentials to other entities:
 
 ```bash
 # Issue a W3C JSON-LD credential to a target DID
@@ -230,7 +230,7 @@ The response includes the **Credential Definition ID**, which is the identifier 
 ```
 
 :::note
-The `relatedJsonSchemaCredentialId` is the URL of the VTJSC (Verifiable Trust JSON Schema Credential) that defines the schema. Your DID must have an active ISSUER permission for this schema, otherwise the Verifiable Trust check will fail during credential verification.
+The `relatedJsonSchemaCredentialId` is the URL of the VTJSC (Verifiable Trust JSON Schema Credential) that defines the schema. Your DID must have an active ISSUER participant for this schema, otherwise the Verifiable Trust check will fail during credential verification.
 :::
 
 ### Step 2: Create a Credential Offer
@@ -342,7 +342,7 @@ Here is a typical flow for a Verifiable Service that both issues and verifies cr
 1. Deploy VS Agent (Docker or Helm)
 2. Obtain ECS credentials (Organization + Service)
         ↓
-3. Join an ecosystem (get ISSUER and/or VERIFIER permissions)
+3. Join an ecosystem (get ISSUER and/or VERIFIER participants)
         ↓
 4. Create VTJSCs for your schemas
         ↓

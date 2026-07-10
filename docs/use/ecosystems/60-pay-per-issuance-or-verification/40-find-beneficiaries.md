@@ -1,92 +1,82 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Find Beneficiaries
 
-Use this query to compute who gets paid (beneficiaries) and how much trust fee must be locked/transferred **before** you create a Permission Session for **Pay‑Per‑Issuance (PPI)** or **Pay‑Per‑Verification (PPV)**.
+Compute the **beneficiary participants** — who gets paid trust fees — by traversing the participant tree for an issuer and/or verifier participant (`MOD-PP-QRY-4`). Run this **before** you create a [Participant Session](./create-or-update-participant-session) for Pay-Per-Issuance (PPI) or Pay-Per-Verification (PPV), so you know which participants share the fee and can fund your account accordingly.
 
-See the VPR spec: [find-beneficiaries](https://verana-labs.github.io/verifiable-trust-vpr-spec/#mod-perm-qry-4-find-beneficiaries).
+:::info Full ancestor walk in v4
+`find-beneficiaries` walks the **full participant ancestor chain** up to the root ECOSYSTEM participant (`MOD-PP-QRY-4-3`). The old `perm`-module OPEN-mode special case is **removed** — OPEN-mode flows now return the full ancestor beneficiary set like every other mode.
+:::
 
 ## Query Parameters
 
-| Name | Description | Mandatory |
-|------|-------------|-----------|
-| `schema-id` | Credential Schema ID the action relates to. | yes |
-| `issuer-perm-id` | Issuer permission ID when you are preparing an **issuance** flow. Provide **either** this or `verifier-perm-id`. | conditional |
-| `verifier-perm-id` | Verifier permission ID when you are preparing a **verification** flow. Provide **either** this or `issuer-perm-id`. | conditional |
-| `agent-perm-id` | Agent (service) permission ID initiating the action. Used to include/validate agent-related fees if applicable. | no |
-| `wallet-agent-perm-id` | Wallet agent permission ID (holder side). Used to include/validate wallet-agent-related fees if applicable. | no |
+At least one of `--issuer-participant-id` or `--verifier-participant-id` must be provided.
 
-> Exactly one of `issuer-perm-id` **or** `verifier-perm-id` must be supplied.
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+| Flag | Description |
+|------|-------------|
+| `--issuer-participant-id <uint>` | Issuer participant ID (issuance flow). |
+| `--verifier-participant-id <uint>` | Verifier participant ID (verification flow). |
 
 ## Execute the Query
 
 <Tabs>
   <TabItem value="cli" label="CLI" default>
 
-**Usage**
+### Usage
+
 ```bash
-veranad q perm find-beneficiaries <schema-id> \
-  [--issuer-perm-id <id> | --verifier-perm-id <id>] \
-  [--agent-perm-id <id>] \
-  [--wallet-agent-perm-id <id>] \
+veranad query pp find-beneficiaries \
+  [--issuer-participant-id <id>] [--verifier-participant-id <id>] \
   --node $NODE_RPC --output json
 ```
 
-**Example – Issuance**
-```bash
-SCHEMA_ID=5
-ISSUER_PERM_ID=30
-AGENT_PERM_ID=45
-WALLET_AGENT_PERM_ID=50
+### Example — issuance
 
-veranad q perm find-beneficiaries $SCHEMA_ID \
-  --issuer-perm-id $ISSUER_PERM_ID \
-  --agent-perm-id $AGENT_PERM_ID \
-  --wallet-agent-perm-id $WALLET_AGENT_PERM_ID \
-  --node $NODE_RPC --output json
+```bash
+veranad query pp find-beneficiaries --issuer-participant-id 6 --node $NODE_RPC --output json
 ```
 
-**Example – Verification**
-```bash
-SCHEMA_ID=5
-VERIFIER_PERM_ID=60
-AGENT_PERM_ID=45
-WALLET_AGENT_PERM_ID=50
+### Example — verification
 
-veranad q perm find-beneficiaries $SCHEMA_ID \
-  --verifier-perm-id $VERIFIER_PERM_ID \
-  --agent-perm-id $AGENT_PERM_ID \
-  --wallet-agent-perm-id $WALLET_AGENT_PERM_ID \
-  --node $NODE_RPC --output json
+```bash
+veranad query pp find-beneficiaries --verifier-participant-id 6 --node $NODE_RPC --output json
 ```
 
-**Example Output (truncated)**
+  </TabItem>
+
+  <TabItem value="api" label="API">
+  Not exposed via REST yet. Use the CLI.
+  </TabItem>
+</Tabs>
+
+## Example Output
+
+Real testnet output for issuer participant `6` — the beneficiary is the root ECOSYSTEM participant (`5`) that ancestors it:
+
 ```json
 {
-  "schema_id": "5",
-  "mode": "issuance",
-  "currency": "uvna",
-  "total_fee": "1200000",
-  "beneficiaries": [
-    {"perm_id":"2","role":"ECOSYSTEM","amount":"400000"},
-    {"perm_id":"30","role":"ISSUER","amount":"600000"},
-    {"perm_id":"45","role":"AGENT","amount":"100000"},
-    {"perm_id":"50","role":"WALLET_AGENT","amount":"100000"}
-  ],
-  "notes": "Use these amounts when creating the permission session so the chain can enforce monetization."
+  "participants": [
+    {
+      "id": "5",
+      "schema_id": "5",
+      "role": "ECOSYSTEM",
+      "did": "did:example:18c0df437f002438f9574d5fb8b20c3b",
+      "created": "2026-07-10T08:08:50.126122Z",
+      "effective_from": "2026-07-10T08:08:58.425252Z",
+      "effective_until": "2027-07-05T08:08:58.425252Z",
+      "modified": "2026-07-10T08:08:50.126122Z",
+      "op_state": "VALIDATED",
+      "op_last_state_change": "2026-07-10T08:08:50.126122Z",
+      "corporation_id": "6"
+    }
+  ]
 }
 ```
 
-  </TabItem>
-  <TabItem value="api" label="API">
-Currently not exposed via REST. Use the CLI.
-  </TabItem>
-  <TabItem value="indexer" label="Indexer">
-Indexer support: coming soon.
-  </TabItem>
-  <TabItem value="frontend" label="Frontend">
-UI support is planned; for now, compute beneficiaries with the CLI before using the frontend to perform issuance/verification.
-  </TabItem>
-</Tabs>
+Each returned participant carries its own `issuance_fees` / `verification_fees`, which the chain uses to enforce monetization when the session is created.
+
+## Related
+
+- [Create or Update Participant Session](./create-or-update-participant-session)
+- [How PPI and PPV Work](./how-ppi-and-ppv-work)

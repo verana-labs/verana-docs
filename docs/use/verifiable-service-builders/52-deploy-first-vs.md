@@ -79,7 +79,7 @@ The full DID includes a **Self-Certifying Identifier (SCID)** generated at first
 
 ### Step 4: Set up your Verana account
 
-You need a funded account on the Verana blockchain to create permissions:
+You need a funded account on the Verana blockchain to create participants:
 
 ```bash
 # Create a new account (if you don't have one)
@@ -148,9 +148,9 @@ curl -s -X POST "http://localhost:3000/v1/vt/linked-credentials" \
   }"
 ```
 
-### Step 6: Create an ISSUER permission for the Service schema
+### Step 6: Create an ISSUER participant for the Service schema
 
-The Service schema uses OPEN permission mode, so you can self-create an ISSUER permission:
+The Service schema uses the `ISSUER_VALIDATION_PROCESS`, so you can self-create an ISSUER participant:
 
 ```bash
 # Discover the Service VTJSC URL and schema ID from the ECS TR DID Document
@@ -160,23 +160,27 @@ SERVICE_JSC_URL=$(echo "$SERVICE_VP" | jq -r '.verifiableCredential[0].id')
 SERVICE_SCHEMA_REF=$(echo "$SERVICE_VP" | jq -r '.verifiableCredential[0].credentialSubject.jsonSchema."$ref"')
 CS_SERVICE_ID=$(echo "$SERVICE_SCHEMA_REF" | grep -oE '[0-9]+$')
 
-# Create the permission (effective 15 seconds from now)
+# Look up the Service schema's root participant (the validator you self-onboard under)
+# veranad q pp list-participants --node https://rpc.testnet.verana.network --output json
+
+# Create the participant (effective 15 seconds from now)
 EFFECTIVE_FROM=$(date -u -v+15S +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null \
   || date -u -d "+15 seconds" +"%Y-%m-%dT%H:%M:%SZ")
 
-veranad tx perm create-perm "$CS_SERVICE_ID" issuer "$AGENT_DID" \
+veranad tx pp self-create-participant issuer <root-participant-id> "$AGENT_DID" \
+  --corporation <corporation> \
   --effective-from "$EFFECTIVE_FROM" \
   --from my-vs-account --chain-id vna-testnet-1 --keyring-backend test \
   --fees 600000uvna --gas auto --node https://rpc.testnet.verana.network \
   --output json -y
 
-# Wait for the permission to become effective
+# Wait for the participant to become effective
 sleep 21
 ```
 
 ### Step 7: Self-issue your Service credential
 
-As an authorized issuer (with a valid ISSUER permission), you issue credentials directly against the **VTJSC presented by the Trust Registry's DID** — there is no need to create a local VTJSC. The `SERVICE_JSC_URL` discovered in Step 6 is used as the `jsonSchemaCredentialId`:
+As an authorized issuer (with a valid ISSUER participant), you issue credentials directly against the **VTJSC presented by the ECS Trust Registry's DID** — there is no need to create a local VTJSC. The `SERVICE_JSC_URL` discovered in Step 6 is used as the `jsonSchemaCredentialId`:
 
 ```bash
 # Self-issue the Service credential using the ECS TR's VTJSC
@@ -329,11 +333,11 @@ chmod +x scripts/vs-demo/*.sh
 # Part 1: Deploy VS Agent + obtain ECS credentials
 ./scripts/vs-demo/01-deploy-vs.sh
 
-# Part 2 (optional): Create your own Trust Registry
+# Part 2 (optional): Create your own Ecosystem
 ./scripts/vs-demo/02-create-trust-registry.sh
 ```
 
-The scripts handle everything: Docker deployment, ngrok tunneling, schema discovery, credential issuance, permission creation, and verification.
+The scripts handle everything: Docker deployment, ngrok tunneling, schema discovery, credential issuance, participant creation, and verification.
 
 ### Configuration
 
@@ -382,4 +386,4 @@ helm uninstall my-vs-agent -n my-namespace
 
 Your Verifiable Service is now deployed with ECS credentials. To go further:
 
-- [**Join other ecosystems**](./53-join-ecosystems.md) — obtain permissions to issue and verify credentials from custom Trust Registries.
+- [**Join other ecosystems**](./53-join-ecosystems.md) — obtain the participants needed to issue and verify credentials in custom Ecosystems.

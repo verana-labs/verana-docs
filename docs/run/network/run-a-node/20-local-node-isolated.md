@@ -7,11 +7,11 @@ This page is for developers who want to build and run a Verana node from source 
 
 1. **Clone the Repository**
 
-To access the helper scripts, clone the `verana-blockchain` repository:
+To access the helper scripts, clone the `verana-node` repository:
 
 ```bash
-git clone https://github.com/verana-labs/verana-blockchain.git
-cd verana-blockchain
+git clone https://github.com/verana-labs/verana-node.git
+cd verana-node
 ```
 
 2. **Build the Veranad Binary (from source)**
@@ -33,7 +33,13 @@ Run the setup script:
 ./scripts/setup_primary_validator.sh
 ```
 
-This script initializes the chain and starts the node. After this step, the blockchain should be running locally. You’re ready to interact with the chain using the CLI.
+This script initializes the chain (chain ID `vna-testnet-1`, default denom `uvna`) and starts the node. It also creates and funds the validator key `cooluser`. After this step, the blockchain should be running locally. You’re ready to interact with the chain using the CLI.
+
+The node exposes:
+
+- **RPC**: `http://localhost:26657`
+- **REST API**: `http://localhost:1317`
+- **gRPC**: `localhost:9090`
 
 ## Setting Up Multiple Validators (with a script)
 
@@ -62,21 +68,38 @@ Now your network has multiple validators running locally. You can use the CLI to
 
 ## Test your local node
 
-Your node is now running locally! Use the CLI to interact with it:
+Your node is now running locally! Use the CLI to interact with it.
+
+Check the balance of the funded validator key:
 
 ```bash
 veranad q bank balances $(veranad keys show cooluser -a --keyring-backend test)
 ```
 
-Create a Trust Registry:
+Run a smoke-test transaction — a simple bank send from `cooluser` to itself confirms the node accepts and commits transactions:
+
 ```bash
-veranad tx trustregistry create-trust-registry \
-    did:example:123456789abcdefghi en \
-    https://example.com/framework.pdf "sha256-315f5bdb76d078c43b8ac00641b2a6ea241e27fcb60e23f9e6acfa2c05b9e36a" \
-    --from cooluser --keyring-backend test --chain-id vna-local-1 --fees 600000uvna
+COOL=$(veranad keys show cooluser -a --keyring-backend test)
+
+veranad tx bank send "$COOL" "$COOL" 1000uvna \
+    --from cooluser --keyring-backend test \
+    --chain-id vna-testnet-1 --node http://localhost:26657 \
+    --gas auto --gas-adjustment 1.4 --fees 750000uvna -y
 ```
 
-List Trust Registries:
-```bash
-veranad q trustregistry list-trust-registries
+A successful broadcast returns a `txhash` with `code: 0`:
+
+```json
+{
+  "code": 0,
+  "txhash": "0AEC5560DE453515E4795E04BC0230CCD29E963B1037F1921D4995C61AD8DD31"
+}
 ```
+
+To exercise a Verana module, query the Ecosystem module (`ec`), which replaces the former Trust Registry module:
+
+```bash
+veranad q ec list-ecosystems
+```
+
+On a freshly initialized chain this returns an empty set. To create ecosystems, participants, and credential schemas, see the [module reference](../modules/ecosystem). Most module transactions are executed on behalf of a Corporation, so start there.

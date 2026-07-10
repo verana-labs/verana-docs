@@ -4,48 +4,51 @@
 This section documents the **Specs v4** implementation of the Verana Verifiable Public Registry. See the [full specification](https://verana-labs.github.io/verifiable-trust-vpr-spec/) for reference.
 :::
 
-Ecosystems create and manage their Trust Registries in Verana.
+Ecosystems are the entities that define credential schemas, governance frameworks, and participation rules in Verana. Every Ecosystem is owned and governed by a **Corporation** — the on-chain, group-backed entity that controls the Ecosystem's resources and authorizes operators to act on its behalf.
 
 ➡️ **Learn the basics first** in the [Learn section](../../learn/verifiable-public-registry/onboarding-participants).
 
 ## Key Concepts in Specs v4
 
-In Specs v4, all module operations follow a **delegable** pattern:
-- An **authority** (group account) controls resources
-- An **operator** executes transactions on behalf of the authority
-- Operators must be authorized via the [Delegation module](delegation/intro)
+In Specs v4, most module operations follow a **delegable** pattern:
+- A **Corporation** (group-backed account) controls resources. Its `policy_address` is threaded as the `corporation` argument to nearly every module command.
+- An **operator** executes transactions on behalf of the Corporation.
+- Operators must be authorized via the [Delegation module](delegation/intro).
 
-## Create Your Own Ecosystem Trust Registry
+## Create Your Own Ecosystem
 
-1. **Set up delegation**
-   - [Grant operator authorization](../ecosystems/delegation/grant-operator-authorization) so your operator account can act on behalf of the authority group.
+1. **Create a Corporation**
+   - [Create a Corporation](../ecosystems/corporation) — the group-backed entity that will own your Ecosystem.
 
-2. **Publish an Ecosystem Governance Framework (EGF)**
+2. **Grant operator authorization**
+   - [Grant operator authorization](../ecosystems/delegation/grant-operator-authorization) so your operator account can execute transactions on behalf of the Corporation.
+
+3. **Publish an Ecosystem Governance Framework (EGF)**
    - For fast setup you can use our EGF template.
    - EGF must outline Ecosystem mission, Credential Schema(s), rules for joining the Ecosystem, fee model, compliance, and slashing rules.
    - Make the document publicly reachable (e.g., IPFS / GitHub) and register its digest on-chain.
 
-3. **Create your Ecosystem in Verana**
-    - [Create the trust registry](../ecosystems/trust-registries/create-a-trust-registry)
-    - [Create the credential schema(s)](../ecosystems/credential-schemas/create-a-credential-schema) you defined in your EGF, and the [root permissions](../ecosystems/permissions/create-a-root-permission)
+4. **Create your Ecosystem in Verana**
+    - [Create the Ecosystem](../ecosystems/ecosystem/create-an-ecosystem)
+    - [Create the credential schema(s)](../ecosystems/credential-schemas/create-a-credential-schema) you defined in your EGF, and the [root participant(s)](../ecosystems/participants/create-a-root-participant)
     - Notify potential interested participants
     - Start onboarding!
 
-## Join an Existing Ecosystem: Issuer, Verifier, Grantor (Trust Registry Operator)
+## Join an Existing Ecosystem: Issuer, Verifier, Grantor
 
-[Search existing ecosystems](../ecosystems/trust-registries/list-trust-registries) and look at their [credential schemas](../ecosystems/credential-schemas/list-credential-schemas).
+[Search existing ecosystems](../ecosystems/ecosystem/list-ecosystems) and look at their [credential schemas](../ecosystems/credential-schemas/list-credential-schemas).
 
 If you want to work with credentials governed by an existing Ecosystem:
 
 1. **Review & accept** its EGF.
 2. **Choose** the Credential Schema relevant to your business case.
-3. **Request the right permission**:
-   - *Issuer Grantor* or *Verifier Grantor* → operate the trust registry branch.
+3. **Request the right participant role**:
+   - *Issuer Grantor* or *Verifier Grantor* → operate an Ecosystem branch.
    - *Issuer* → issue credentials.
    - *Verifier* → request presentations.
 4. Depending on schema rules, either:
-   - [Self-create your permission](../ecosystems/permissions/self-create-a-permission) (OPEN mode), or
-   - [Run a validation process](../ecosystems/permissions/run-a-validation-process-to-obtain-a-permission) with a Grantor / Ecosystem owner (GRANTOR / ECOSYSTEM mode).
+   - [Self-create your participant](../ecosystems/participants/self-create-a-participant) (`ISSUER_VALIDATION_PROCESS`), or
+   - [Run an onboarding process](../ecosystems/participants/run-an-onboarding-process-to-obtain-a-participant) with a Grantor or the Ecosystem Corporation (`GRANTOR_VALIDATION_PROCESS` / `ECOSYSTEM_VALIDATION_PROCESS`).
 
 ## Join as a Holder
 

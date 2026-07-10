@@ -1,240 +1,134 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Network Governance Authority Slashing
+# Network Governance Slashing
 
-In some very rare cases, slashing the trust deposit of a given Permission can be limited and may not provide a sufficient sanction, if committed fraud is considered very high.
+Slashing a Corporation's trust deposit is a **network-level penalty**, reserved for rare cases where fraud or a breach of the VPR governance framework is severe enough that ecosystem-level sanctions are insufficient.
 
-## Slash Trust Deposit
+Slashing operates at **two independent levels** (see the [Slash](../../learn/verifiable-public-registry/trust-deposit-and-reputation) section in Learn):
 
-This method can only be called by a governance proposal. A globally slashed account MUST repay the slashed deposit in order to continue to use the services provided by the VPR. When an account is slashed, and while slashed deposit has not been repaid, all account linked permissions MUST be considered non trustable.
+- **Network-level** — the VPR governance authority slashes a Corporation's trust deposit directly. This is the `td slash-trust-deposit` message documented on this page. It is **governance-only**.
+- **Ecosystem-level** — an ecosystem slashes the portion of a Corporation's deposit tied to a specific Participant entry, using `pp slash-participant-td`. See [Slash a Participant](../ecosystems/participants/slash-a-participant).
 
-This method is for network governance authority slash. For ecosystem slash, see [Slash a Permission](../ecosystems/permissions/slash-a-permission).
+A slashed Corporation MUST repay the slashed amount to return to good standing. While a slashed deposit is outstanding, all of the Corporation's Participant entries are considered non-trustable.
+
+## Slash Trust Deposit (Governance)
+
+`td slash-trust-deposit` can **only** be executed by the governance module — the message signer is `authority` (the x/gov module account), so a normal key cannot sign it. It is submitted as a governance proposal wrapping `/verana.td.v1.MsgSlashTrustDeposit` (spec `MOD-TD-MSG-5`).
+
+The message targets a Corporation by its numeric `corporation_id` (field 2, the old account-string `corporation`, is reserved — slashing is corporation-keyed in v4).
+
+:::info Direct CLI is governance-only
+The binary exposes `veranad tx td slash-trust-deposit --corporation-id <id> --deposit <amount> --reason <text>`, but because the required signer is the gov module account, it must be routed through a `gov submit-proposal`. The flags map onto the proposal message fields shown below.
+:::
 
 ### Environment Setup
 
-Set the following environment variables before running the CLI commands:
-
 ```bash
-AUTHORITY_ACC="verana1groupaccountaddress..."   # Group account (authority)
-OPERATOR_ACC="my-operator-key"                  # Operator key name in keyring
-SLASHED_ACCOUNT="verana1example0123456789abcdefghijklmnopqrstuv"
+USER_ACC="my-user-account"       # Proposer / voter key
+CORP_ID=6                        # Numeric corporation_id to slash
 CHAIN_ID="vna-testnet-1"
 NODE_RPC="https://rpc.testnet.verana.network"
 ```
 
-### Step 1: Prepare the Governance Proposal
+### Step 1: Get the Governance Authority Address
 
-Create a JSON file for the SlashTrustDepositProposal. This proposal will slash the trust deposit of a specified account.
-
-**Example `slash_proposal.json`:**
-
-```json
-jq -n --arg acc "$SLASHED_ACCOUNT" \
-'{
-  messages: [
-    {
-      "@type": "/verana.td.v1.MsgSlashTrustDeposit",
-      authority: "verana10d07y265gmmuvt4z0w9aw880jnsr700j22m4w8",
-      account: $acc,
-      amount: "1000000"
-    }
-  ],
-  metadata: "ipfs://CID",
-  deposit: "10000000uvna",
-  title: "Slash Trust Deposit for Fraudulent Activity",
-  summary: ("This proposal requests to slash 1,000,000 uvna from the trust deposit of account " + $acc + " due to verified fraudulent activity. The account will need to repay this slashed amount before being able to participate in the VPR again."),
-  expedited: false
-}' > slash_proposal.json
+```bash
+GOV_AUTH=$(veranad q auth module-accounts --node $NODE_RPC --output json \
+| jq -r '.accounts[] | select(.value.name=="gov") | .value.address')
 ```
 
-**Parameters:**
-- `authority`: The governance module address (check with `veranad q auth module-accounts --node $NODE_RPC`)
-- `account`: The account address to be slashed
-- `amount`: Amount to slash in uvna
-- `deposit`: Initial deposit for the proposal (minimum 10000000uvna)
-- `title`: Clear title describing the proposal
-- `summary`: Detailed explanation of the slashing reason
+### Step 2: Build the Proposal JSON
 
-### Step 2: Submit the Governance Proposal
+```bash
+cat > slash_proposal.json <<JSON
+{
+  "messages": [
+    {
+      "@type": "/verana.td.v1.MsgSlashTrustDeposit",
+      "authority": "${GOV_AUTH}",
+      "corporation_id": "${CORP_ID}",
+      "deposit": "1000000",
+      "reason": "Verified fraudulent activity"
+    }
+  ],
+  "metadata": "ipfs://CID",
+  "deposit": "10000000uvna",
+  "title": "Slash Trust Deposit for Fraudulent Activity",
+  "summary": "Requests to slash 1,000,000 uvna from the trust deposit of corporation_id 6 due to verified fraudulent activity. The corporation must repay this amount before participating in the VPR again.",
+  "expedited": false
+}
+JSON
+```
+
+**Message fields** (proto `MsgSlashTrustDeposit`):
+
+| Field | Description | Mandatory |
+|-------|-------------|-----------|
+| `authority` | Governance module address (the message signer). | yes |
+| `corporation_id` | Numeric id of the Corporation whose deposit is slashed. | yes |
+| `deposit` | Amount to slash, in `uvna`. | yes |
+| `reason` | Human-readable reason for the slash (mandatory per spec `MOD-TD-MSG-5-1`). | yes |
+
+### Step 3: Submit the Proposal
 
 ```bash
 veranad tx gov submit-proposal slash_proposal.json \
-  --from $OPERATOR_ACC \
-  --keyring-backend test \
-  --chain-id $CHAIN_ID \
-  --fees 750000uvna \
-  --gas auto \
-  --node $NODE_RPC
+  --from $USER_ACC --keyring-backend test --chain-id $CHAIN_ID \
+  --fees 750000uvna --gas auto --node $NODE_RPC
 ```
 
-### Step 3: Query the Proposal
-
-After submission, check the proposal status:
+### Step 4: Track and Vote
 
 ```bash
 veranad q gov proposals --node $NODE_RPC
 ```
 
-Note the proposal ID from the output.
-
-### Step 4: Vote on the Proposal
-
-Validators and delegators can vote on the proposal. The voting period is typically 10 minutes on testnet.
-
-**Vote Options:**
-- `yes` - In favor of slashing
-- `no` - Against slashing
-- `no_with_veto` - Against and considers proposal malicious
-- `abstain` - Neutral stance
-
-**Cast Your Vote:**
-
 ```bash
-PROPOSAL_ID=1  # Replace with actual proposal ID
+PROPOSAL_ID=1  # Replace with the actual proposal ID
 veranad tx gov vote $PROPOSAL_ID yes \
-  --from $VALIDATOR_ACC \
-  --keyring-backend test \
-  --chain-id $CHAIN_ID \
-  --fees 650000uvna \
-  --gas auto \
-  --node $NODE_RPC
+  --from $USER_ACC --keyring-backend test --chain-id $CHAIN_ID \
+  --fees 650000uvna --gas auto --node $NODE_RPC
 ```
 
-### Step 5: Monitor Proposal Status
+Vote options: `yes`, `no`, `no_with_veto`, `abstain`.
 
-Track the voting progress and tally:
+### Step 5: Verify the Slash
+
+After the proposal passes and is executed, inspect the Corporation's trust deposit:
 
 ```bash
-# Check vote tally
-veranad q gov tally $PROPOSAL_ID \
-  --output json \
-  --node $NODE_RPC
-
-# Check detailed proposal status
-veranad q gov proposal $PROPOSAL_ID \
-  --output json \
-  --node $NODE_RPC
+veranad q td get-trust-deposit $CORP_ID --node $NODE_RPC --output json
 ```
 
-### Step 6: Proposal Execution
-
-If the proposal passes (reaches quorum and majority approval), it will be automatically executed at the end of the voting period. The trust deposit will be slashed from the specified account.
-
-**Verify the slash:**
-
-```bash
-veranad q td get-trust-deposit $SLASHED_ACCOUNT \
-  --node $NODE_RPC \
-  --output json
-```
-
-The output will show:
-- `slashed_deposit`: The amount that was slashed
-- `slash_count`: Incremented by 1
-- `last_slashed`: Updated with the slash timestamp
+The response will show:
+- `slashed_deposit` — increased by the slashed amount;
+- `slash_count` — incremented by 1;
+- `last_slashed` — updated with the slash timestamp.
 
 ---
 
-## Repay Slashed Trust Deposit
+## Repay a Slashed Trust Deposit
 
-Repay a governance-slashed trust deposit to restore compliance.
+A network-slashed Corporation restores good standing by repaying the outstanding slashed amount with `td repay-slashed-td`. This is a delegable operation executed by an authorized operator on behalf of the Corporation.
 
-This is a **non-delegable** message — the signer (`--from`) is the account paying for the repayment. Anyone can repay on behalf of a slashed account.
+See [Repay a Slashed Trust Deposit](./trust-deposit-operations#repay-a-slashed-trust-deposit) on the Trust Deposit Operations page for the full command, prerequisites, and exact-amount rule.
 
-A slashed account cannot participate in the VPR until the slashed deposit is fully repaid. All permissions linked to the slashed account are considered non-trustable until repayment is complete.
+---
 
-:::warning[Exact Amount Required]
-The repayment amount **must exactly match** the outstanding slashed amount (`slashed_deposit - repaid_deposit`). Partial repayments are not allowed.
-:::
+## Ecosystem-Level Slashing (Participants)
 
-<Tabs>
-  <TabItem value="cli" label="CLI" default>
+For slashing tied to a Corporation's activity within a specific ecosystem, the ecosystem's authority uses the Participant module rather than governance:
 
-### Usage
+- `veranad tx pp slash-participant-td [id] [amount] [reason]` — slash the trust deposit backing a Participant entry (delegable; see [Slash a Participant](../ecosystems/participants/slash-a-participant)).
+- `veranad tx pp repay-participant-slashed-td [id] --corporation [corporation]` — repay it (see [Repay a Slashed Participant Deposit](../ecosystems/participants/repay-a-slashed-participant-deposit)).
 
-```bash
-veranad tx td repay-slashed-td [account] [amount] \
-  --from <user-account> \
-  --chain-id <chain-id> \
-  --keyring-backend test \
-  --fees <amount> \
-  --gas auto \
-  --node <rpc-endpoint>
-```
-
-### Message Parameters
-
-| Name      | Description                                                          | Mandatory |
-|-----------|----------------------------------------------------------------------|-----------|
-| `account` | The account whose slashed deposit will be repaid                     | yes       |
-| `amount`  | Repayment amount in uvna (must exactly match outstanding slash)      | yes       |
-| `--from`  | Account signing and paying for the repayment                         | yes       |
-
-### Example
-
-```bash
-# First, check the outstanding slashed amount
-veranad q td get-trust-deposit $SLASHED_ACCOUNT \
-  --node $NODE_RPC \
-  --output json
-
-# Repay the slashed amount (must be exact)
-SLASHED_AMOUNT=1000000  # Replace with actual outstanding slashed amount
-veranad tx td repay-slashed-td $SLASHED_ACCOUNT $SLASHED_AMOUNT \
-  --from $USER_ACC \
-  --chain-id $CHAIN_ID \
-  --keyring-backend test \
-  --fees 600000uvna \
-  --gas auto \
-  --node $NODE_RPC
-```
-
-  </TabItem>
-
-  <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: When available in the UI, link and screenshots will be added here.
-    :::
-  </TabItem>
-</Tabs>
-
-**Prerequisites:**
-- The authority must have an existing trust deposit with outstanding slashed amount
-- The operator must have a valid `OperatorAuthorization` for `/verana.td.v1.MsgRepaySlashedTrustDeposit`
-- Repayment amount must exactly equal `slashed_deposit - repaid_deposit`
-- Sufficient account balance to cover the repayment
-
-**What Happens:**
-1. System verifies operator authorization (AUTHZ-CHECK)
-2. Validates that the amount exactly matches the outstanding slash
-3. Increases `amount` (deposit) by the repayment amount
-4. Increases `share` proportionally based on current share value
-5. Increases `repaid_deposit` by the repayment amount
-6. Updates `last_repaid` timestamp
-7. Transfers the repayment amount from the authority account to the TD module
-
-### Verify Repayment
-
-After repayment, verify the trust deposit status:
-
-```bash
-veranad q td get-trust-deposit $AUTHORITY_ACC \
-  --node $NODE_RPC \
-  --output json
-```
-
-**Expected changes:**
-- `amount`: Increased by the repaid amount
-- `repaid_deposit`: Increased by the repaid amount
-- `last_repaid`: Updated with repayment timestamp
-
-Once `repaid_deposit` equals `slashed_deposit`, all account permissions become trustable again and the account can fully participate in the VPR.
+An ecosystem can only slash the portion of a Corporation's deposit that corresponds to activity within that ecosystem.
 
 ---
 
 ## See also
 
 - [Trust Deposit Operations](./trust-deposit-operations)
-- [Slash a Permission (Ecosystem)](../ecosystems/permissions/slash-a-permission)
-- [Repay a Slashed Permission Deposit](../ecosystems/permissions/repay-a-slashed-permission-deposit)
+- [Slash a Participant (Ecosystem)](../ecosystems/participants/slash-a-participant)
+- [Repay a Slashed Participant Deposit](../ecosystems/participants/repay-a-slashed-participant-deposit)

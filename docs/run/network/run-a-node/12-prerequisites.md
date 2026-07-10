@@ -38,12 +38,12 @@ veranad version
 If you want to build from source, clone the repository and compile:
 
 ```bash
-# Make sure that Go 1.22+ is installed.
+# Make sure that Go 1.26.4+ is installed.
 
 go version
 
-git clone https://github.com/verana-labs/verana.git
-cd verana
+git clone https://github.com/verana-labs/verana-node.git
+cd verana-node
 make install
 
 #Verify installation

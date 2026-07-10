@@ -1,476 +1,358 @@
-# Trust Registry Module CLI Commands
+# Verana CLI Cheat-Sheet (spec v4)
 
-## Module Overview
+A single-page command reference for every `veranad` module in the VPR v4 protocol:
+**Ecosystem (`ec`)**, **Corporation (`co`)**, **Governance Framework (`gf`)**,
+**Credential Schema (`cs`)**, **Participant (`pp`)**, **Delegation (`de`)**,
+**Trust Deposit (`td`)**, **Exchange Rate (`xr`)** and **Digest (`di`)**.
+
+Every command below is copied verbatim from `veranad tx <module> <cmd> --help` /
+`veranad query <module> <cmd> --help`. Positional arguments are shown in `[brackets]`;
+required delegation flags are shown inline.
+
+:::info Replaces the old `tr` reference
+The v3 "Trust Registry" module (`tr`) no longer exists. Its responsibilities were split
+into **`ec`** (ecosystem lifecycle), **`gf`** (governance-framework documents) and **`co`**
+(the owning Corporation). The v3 `perm` module is now **`pp`** (Participant) and
+`diddirectory` is now **`di`** (Digest).
+:::
+
+## Shared setup
+
+All examples assume the local test chain and the `test` keyring:
 
 ```bash
-veranad tx tr            
-Transactions commands for the tr module
+export CHAIN_ID="vna-testnet-1"
+export DENOM="uvna"
+export FEES="750000uvna"
+export NODE_RPC="tcp://localhost:26657"
+export KEYRING="test"
 
-Usage:
-  veranad tx tr [flags]
-  veranad tx tr [command]
-
-Available Commands:
-  add-governance-framework-document Add a governance framework document
-  archive-trust-registry            Archive or unarchive a trust registry
-  create-trust-registry             Create a new trust registry
-  increase-active-gf-version        Increase the active governance framework version
-  update-params                     Execute the UpdateParams RPC method
-  update-trust-registry             Update a trust registry
+# common flag bundle reused throughout this page
+COMMON="--chain-id $CHAIN_ID --keyring-backend $KEYRING --fees $FEES --node $NODE_RPC --gas auto --gas-adjustment 1.3 --yes"
 ```
 
-## Setting up the Environment
+List / fund keys:
 
-### Testnet
-
-```
-USER_ACC="mat-test-acc"
-USER_ACC_LIT=verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0
-CHAIN_ID="vna-testnet-1"
-NODE_RPC=https://rpc.testnet.verana.network
-```
-
-
-### download or update your current local binary
-
-```
-# Fetch the binary manifest
-curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/$CHAIN_ID/binaries/manifest.json > manifest.json
-
-# Get the binary filename for your architecture
-BINARY_FILE=$(jq -r '.["linux-amd64"]' manifest.json)
-
-# Download the binary
-wget https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/$CHAIN_ID/binaries/$BINARY_FILE
-
-# Make it executable
-chmod +x $BINARY_FILE
-
-# Move to system path
-sudo mv $BINARY_FILE /usr/local/bin/veranad
-
-# Verify installation
-veranad version
-```
-
-### create the account
-
-```
-veranad keys add $USER_ACC --ledger --keyring-backend test
-```
-or if you have a passphrase then
-```
-SEED_PHRASE_USER_ACC="pink glory help gown abstract eight nice crazy forward ketchup skill cheese"
-echo "$SEED_PHRASE_USER_ACC" | veranad keys add $USER_ACC --recover --keyring-backend test
-```
-
-### List accounts:
-```
+```bash
 veranad keys list --keyring-backend test
+veranad q bank balances <address> --node $NODE_RPC
 ```
 
-### Use faucet to get tokens
+## Corporation + operator delegation
 
-```
-/to verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0
-```
+Almost every transaction in v4 executes **on behalf of a Corporation** — never a bare account.
 
+- A **Corporation** is an `x/group` policy created by `MsgCreateCorporation` (module `co`,
+  **no CLI** — see below). Its returned **`policy_address`** is the on-chain identity you pass
+  as the corporation argument to the other modules.
+- **Delegable** transactions can be signed either by the corporation's `policy_address`
+  (via an `x/group` proposal) or by an **operator** the corporation has authorized with
+  `veranad tx de grant-operator-authz`. The grant allow-lists the exact `Msg` type-URLs the
+  operator may run (see the [Delegation module page](docs/run/network/modules/20-delegation.md)).
+- **Governance-only** messages can only be executed by the chain governance account
+  (a normal key cannot sign them): every `update-params`, `td slash-trust-deposit`,
+  and the `xr` exchange-rate lifecycle. They are marked <sub>**GOV**</sub> below and must be
+  submitted as `gov` proposals.
 
-### check balance
+**The corporation argument is spelled differently per module** — always copy the exact form:
 
-```
-veranad q bank balance $USER_ACC_LIT uvna --node $NODE_RPC
-```
+| Form | Modules | Example |
+|---|---|---|
+| `--corporation` flag | `cs`, `de`, `pp` | `... --corporation $CORP` |
+| `[corporation]` positional | `ec`, `gf`, `td` | `create-ecosystem $CORP ...` |
+| `[authority]` positional | `di` | `store-digest $AUTH ...` |
 
+Example identities used below (journey001):
 
-## Transaction Commands
-
-### 1. Create Trust Registry
-
-Creates a new trust registry with governance framework documents.
-
-**Syntax:**
 ```bash
-veranad tx tr create-trust-registry <did> <language> <doc-url> <doc-digest-sri> [aka] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+export CORP="verana1afk9zr2hn2jsac63h4hm60vl9z3e5u69gndzf7c99cqge3vzwjzsh3z8fv"  # policy_address
+export OPERATOR="verana16xkw85ecwlh5pwy0uhutq3y6ddw0ycv4tnl6h6"                    # authorized operator
 ```
 
-**Parameters:**
-- `<did>`: Decentralized Identifier (DID) - must follow DID specification
-- `<language>`: ISO 639-1 language code (e.g., en, fr, es)
-- `<doc-url>`: URL to the governance framework document
-- `<doc-digest-sri>`: SHA-384 hash with SRI format prefix
-- `[aka]`: Optional - Also Known As URL
+Legend: <sub>**GOV**</sub> = governance-only · <sub>**DELEGABLE**</sub> = runnable by an authorized operator.
 
-**Examples:**
+---
 
-Basic creation:
+## `ec` — Ecosystem
+
+Manages the ecosystem lifecycle (formerly the Trust Registry). An ecosystem is created and
+governed *on behalf of a Corporation*; its `doc-url` / `doc-digest-sri` seed v1 of the
+ecosystem's Governance Framework.
+
+**Transactions** (corporation is the first positional argument):
+
 ```bash
-veranad tx tr create-trust-registry did:example:123456789abcdefghi en https://example.com/doc sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26 --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
+# Create — DELEGABLE (/verana.ec.v1.MsgCreateEcosystem)
+veranad tx ec create-ecosystem [corporation] [did] [language] [doc-url] [doc-digest-sri] [flags]
+
+# Rotate the ecosystem DID — DELEGABLE (/verana.ec.v1.MsgUpdateEcosystem)
+veranad tx ec update-ecosystem [corporation] [id] [did] [flags]
+
+# Archive (true) / unarchive (false) — DELEGABLE (/verana.ec.v1.MsgArchiveEcosystem)
+veranad tx ec archive-ecosystem [corporation] [id] [archive] [flags]
+
+# Update module params — GOV
+veranad tx ec update-params [flags]
 ```
 
-With AKA (Also Known As):
+Example:
+
 ```bash
-veranad tx tr create-trust-registry did:example:123456789abcdefghi en https://example.com/doc001-01 sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68001 --aka http://example.com --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx ec create-ecosystem $CORP did:example:acme en \
+  https://acme.example/gf sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26 \
+  --from $OPERATOR $COMMON
 ```
 
+**Queries:**
 
-#### How to find the id of the trust registry that was just created?
-
-```
-TX_HASH=4E7DEE1DFDE24A804E8BD020657EB22B07D54CBA695788ACB59D873B827F3CA6
-veranad q tx $TX_HASH \
-  --node $NODE_RPC --output json \
-| jq '.events[] | select(.type == "create_trust_registry") | .attributes | map({(.key): .value}) | add'
-```
-
-replace with the correct transaction hash.
-
-#### list trust registries
-
-```
-veranad q tr list-trust-registries --node $NODE_RPC  --output json
-```
-
-#### define your trust registry id so the below commands work
-
-```
-TRUST_REG_ID=5
+```bash
+veranad query ec get-ecosystem [id] [flags]          # nested governance-framework data
+veranad query ec list-ecosystems [flags]             # --corporation-id, --active-gf-only, --modified-after, --preferred-language, --response-max-size
+veranad query ec params [flags]
 ```
 
 ---
 
-### 2. Add Governance Framework Document
+## `co` — Corporation
 
-Adds a new governance framework document to an existing trust registry.
+The foundational v4 actor that owns ecosystems, participants and schemas, and holds the
+trust deposit. **The `co` module has no CLI** (`veranad tx co` / `veranad query co` are absent).
 
-**Syntax:**
+- Create/update a Corporation by broadcasting a signed tx built from JSON —
+  `MsgCreateCorporation` (any signer) and `MsgUpdateCorporation` (delegable,
+  `/verana.co.v1.MsgUpdateCorporation`). `MsgUpdateParams` is <sub>**GOV**</sub>.
+- Inspect a Corporation through the standard `x/group` queries:
+
 ```bash
-veranad tx tr add-governance-framework-document <trust-registry-id> <doc-language> <doc-url> <doc-digest-sri> <version> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad query group group-policy-info <policy_address> --node $NODE_RPC
+veranad query group group-members <group_id> --node $NODE_RPC
 ```
 
-**Parameters:**
-- `<trust-registry-id>`: Numeric ID of the trust registry
-- `<doc-language>`: ISO 639-1 language code
-- `<doc-url>`: URL to the governance framework document
-- `<doc-digest-sri>`: SHA-384 hash with SRI format prefix
-- `<version>`: Version number (must be sequential)
+See the how-to: [Create a Corporation](docs/run/network/modules/12-corporation.md).
 
-**Examples:**
+---
 
-Add document for next version:
+## `gf` — Governance Framework
+
+Publishes governance-framework documents and activates GF versions for an ecosystem
+(or for the corporation's own CGF). Both commands run *on behalf of a Corporation*
+and take `[corporation] [operator]` as their first two positional arguments.
+
+**Transactions:**
+
 ```bash
-veranad tx tr add-governance-framework-document ${TRUST_REG_ID} en https://example.com/doc2 sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26 2 --from $USER_ACC --chain-id vna-testnet-1 --keyring-backend test --fees 600000uvna --node $NODE_RPC
+# Add a GF document — DELEGABLE (/verana.gf.v1.MsgAddGovernanceFrameworkDocument)
+veranad tx gf add-governance-framework-document [corporation] [operator] [doc-language] [doc-url] [doc-digest-sri] [version] [flags]
+
+# Activate the next GF version — DELEGABLE (/verana.gf.v1.MsgIncreaseActiveGovernanceFrameworkVersion)
+#   --ecosystem-id <id>  target an Ecosystem; omit to target the Corporation's own CGF
+veranad tx gf increase-active-gf-version [corporation] [operator] [flags]
 ```
 
-Add document in different language for same version:
-```bash
-veranad tx tr add-governance-framework-document ${TRUST_REG_ID} fr https://example.com/doc2-fr sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26 2 --from $USER_ACC --chain-id vna-testnet-1 --keyring-backend test --fees 600000uvna --node $NODE_RPC
-```
+**Queries:**
 
-Add document for version 3:
 ```bash
-veranad tx tr add-governance-framework-document ${TRUST_REG_ID} es https://example.com/doc3-es sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26 3 --from $USER_ACC --chain-id vna-testnet-1 --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad query gf get-governance-framework-version [id] [flags]
+veranad query gf list-governance-framework-versions [flags]
+veranad query gf params [flags]
 ```
 
 ---
 
-### 3. Increase Active Governance Framework Version
+## `cs` — Credential Schema
 
-Increases the active version of the governance framework. Requires that a document exists in the default language for the target version.
+Credential schemas and their **Schema Authorization Policies (SAP)**. The corporation is
+supplied with the `--corporation` flag.
 
-**Syntax:**
+**Transactions:**
+
 ```bash
-veranad tx tr increase-active-gf-version <trust-registry-id> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+# Create a credential schema — DELEGABLE (/verana.cs.v1.MsgCreateCredentialSchema)
+veranad tx cs create-credential-schema [ecosystem-id] [json-schema] [issuer-mode] [verifier-mode] [holder-onboarding-mode] [pricing-asset-type] [pricing-asset] [digest-algorithm] [flags]
+
+# Update validity periods — DELEGABLE (/verana.cs.v1.MsgUpdateCredentialSchema)
+#   --issuer-validation-validity-period / --verifier-... / --holder-... / --issuer-grantor-... / --verifier-grantor-... (days; 0 = never expires)
+veranad tx cs update [id] [flags]
+
+# Archive (true) / unarchive (false) — DELEGABLE (/verana.cs.v1.MsgArchiveCredentialSchema)
+veranad tx cs archive [id] [archive] [flags]
+
+# Schema Authorization Policy — flags: --corporation --schema-id --role (issuer|verifier) --url --digest-sri
+veranad tx cs create-schema-authorization-policy [flags]
+veranad tx cs increase-active-schema-authorization-policy-version [flags]   # --corporation --schema-id --role
+veranad tx cs revoke-schema-authorization-policy [flags]                    # --corporation --schema-id --role --version
 ```
 
-**Parameters:**
-- `<trust-registry-id>`: Numeric ID of the trust registry
+Example:
 
-**Example:**
 ```bash
-veranad tx tr increase-active-gf-version ${TRUST_REG_ID} --from $USER_ACC --chain-id ${CHAIN_ID} --keyring-backend test --fees 600000uvna --node $NODE_RPC
+veranad tx cs create-credential-schema 1 schema.json 2 2 1 tu sha256 \
+  --issuer-grantor-validation-validity-period 365 \
+  --verifier-grantor-validation-validity-period 365 \
+  --corporation $CORP --from $OPERATOR $COMMON
 ```
 
-**Note:** This command will fail if there's no document in the default language for the next version.
+:::note SAP messages are not operator-delegable
+`create/increase/revoke-schema-authorization-policy` accept `--corporation` but the SAP
+message type-URLs are **not** part of the `de` delegable allow-list, so they must be signed
+by the corporation's `policy_address` directly (group proposal), not by an operator.
+:::
 
----
+**Queries:**
 
-### 4. Update Trust Registry
-
-Updates the DID and/or AKA fields of an existing trust registry.
-
-**Syntax:**
 ```bash
-veranad tx tr update-trust-registry <trust-registry-id> <new-did> [new-aka] --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
-```
-
-**Parameters:**
-- `<trust-registry-id>`: Numeric ID of the trust registry
-- `<new-did>`: New DID for the trust registry
-- `[new-aka]`: Optional - New AKA URL (use empty string to clear)
-
-**Examples:**
-
-Update DID and AKA:
-```bash
-veranad tx tr update-trust-registry 1 did:example:newdid --aka http://new.example.com --from cooluser --chain-id vna-testnet-1 --keyring-backend test --fees 50000uvna --gas auto
-```
-
----
-
-### 5. Archive Trust Registry
-
-Archives or unarchives a trust registry.
-
-**Syntax:**
-```bash
-veranad tx tr archive-trust-registry <trust-registry-id> <archive-flag> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
-```
-
-**Parameters:**
-- `<trust-registry-id>`: Numeric ID of the trust registry
-- `<archive-flag>`: Boolean value (`true` to archive, `false` to unarchive)
-
-**Examples:**
-
-Archive a trust registry:
-```bash
-veranad tx tr archive-trust-registry 1 true --from cooluser --chain-id vna-testnet-1 --keyring-backend test --fees 50000uvna --gas auto
-```
-
-Unarchive a trust registry:
-```bash
-veranad tx tr archive-trust-registry 1 false --from cooluser --chain-id vna-testnet-1 --keyring-backend test --fees 50000uvna --gas auto
+veranad query cs get-schema [id] [flags]
+veranad query cs list-schemas [flags]              # --ecosystem_id, --modified_after, --response_max_size, --only-active, mode filters
+veranad query cs get-sap [id] [flags]
+veranad query cs list-sap [schema-id] [role] [flags]
+veranad query cs render-json-schema [id] [flags]
+veranad query cs params [flags]
 ```
 
 ---
 
+## `pp` — Participant
 
-## Parameter Validation Rules
+Participant lifecycle and onboarding processes (OP) — formerly the `perm` module.
+The corporation is supplied with the `--corporation` flag; delegable operations run on its behalf.
 
-### DID Format
-- Must follow DID specification
-- Example: `did:example:123456789abcdefghi`
-
-### Language Codes
-- Must be valid ISO 639-1 language codes
-- Examples: `en`, `fr`, `es`, `de`, `zh`
-
-### Document Digest SRI
-- Must use SHA-384 hash with SRI format
-- Format: `sha384-<base64-encoded-hash>`
-- Example: `sha384-MzNNbQTWCSUSi0bbz7dbua+RcENv7C6FvlmYJ1Y+I727HsPOHdzwELMYO9Mz68M26`
-
-### Version Rules
-- Versions must be sequential
-- Cannot skip versions when adding documents
-- Must have default language document before increasing active version
-
-### Access Control
-- Only the trust registry controller (creator) can perform updates
-- Wrong controller will result in transaction failure
-
-## Common Error Scenarios
-
-1. **Invalid Version**: Attempting to add a document with a version that skips numbers
-2. **Missing Default Language**: Trying to increase version without default language document
-3. **Wrong Controller**: Non-controller attempting to modify trust registry
-4. **Already Archived/Unarchived**: Attempting to archive an already archived registry
-5. **Invalid Language Format**: Using non-ISO 639-1 language codes
-6. **Non-existent Trust Registry**: Using invalid trust registry ID
-
-## Transaction Fees
-
-All transactions require gas fees. Use `--gas auto` for automatic gas estimation or specify a specific gas limit. Fee examples:
-- `--fees 50000uvna` (50,000 micro-VNA)
-- `--gas auto`
-
-
-###################################################################
-
-# Credential Schema Module CLI Commands
-
-This document provides comprehensive CLI commands for the Credential Schema (cs) module in the Verana blockchain.
-
-## Module Overview
+**Transactions:**
 
 ```bash
-veranad tx cs
-Transactions commands for the cs module
+# Root & self creation
+veranad tx pp create-root-participant [schema-id] [did] [validation-fees] [issuance-fees] [verification-fees] [flags]   # --corporation — DELEGABLE
+veranad tx pp self-create-participant [role] [validator-participant-id] [did] --corporation [corporation] [flags]        # DELEGABLE
 
-Usage:
-  veranad tx cs [flags]
-  veranad tx cs [command]
+# Onboarding process (OP)
+veranad tx pp start-participant-op [role] [validator-participant-id] [did] [flags]      # --corporation — DELEGABLE
+veranad tx pp renew-participant-op [id] [flags]                                          # --corporation — DELEGABLE
+veranad tx pp set-participant-op-validated [id] [flags]                                  # --corporation — DELEGABLE
+veranad tx pp cancel-participant-op-request [id] [flags]                                 # DELEGABLE
 
-Available Commands:
-  archive                  Archive or unarchive a credential schema
-  create-credential-schema Create a new credential schema
-  update                   Update a credential schema's validity periods
+# Lifecycle
+veranad tx pp set-participant-effective-until [id] [effective-until] [flags]             # DELEGABLE
+veranad tx pp revoke-participant [id] [flags]                                            # DELEGABLE
+veranad tx pp create-or-update-participant-session [id] [flags]                          # DELEGABLE
+veranad tx pp slash-participant-td [id] [amount] [reason] [flags]                        # DELEGABLE
+veranad tx pp repay-participant-slashed-td [id] --corporation [corporation] [flags]      # DELEGABLE
+
+# Resolver — runs as an operator on behalf of the corporation
+veranad tx pp trigger-resolver [id] --corporation [corporation] --operator [operator] [flags]
 ```
 
-## Transaction Commands
-
-### 1. Create Credential Schema
-
-Creates a new credential schema linked to a trust registry.
-
-**Syntax:**
-```bash
-veranad tx cs create-credential-schema <trust-registry-id> <json-schema> <issuer-grantor-validity> <verifier-grantor-validity> <issuer-validity> <verifier-validity> <holder-validity> <issuer-perm-mode> <verifier-perm-mode> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
-```
-
-**Parameters:**
-- `<trust-registry-id>`: Numeric ID of the trust registry (must exist and caller must be controller)
-- `<json-schema>`: JSON schema definition (properly escaped JSON string)
-- `<issuer-grantor-validity>`: Issuer grantor validation validity period in days
-- `<verifier-grantor-validity>`: Verifier grantor validation validity period in days
-- `<issuer-validity>`: Issuer validation validity period in days
-- `<verifier-validity>`: Verifier validation validity period in days
-- `<holder-validity>`: Holder validation validity period in days
-- `<issuer-perm-mode>`: Issuer permission management mode (integer)
-- `<verifier-perm-mode>`: Verifier permission management mode (integer)
-
-**Example:**
-
-Basic credential schema creation:
-```bash
-veranad tx cs create-credential-schema 1 '{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"/vpr/v1/cs/js/1","type":"object","properties":{"name":{"type":"string"}},"required":["name"],"additionalProperties":false}' 365 365 180 180 180 2 2 --from cooluser --chain-id vna-testnet-1 --keyring-backend test --fees 50000uvna --gas auto
-```
-
-**Note:** The JSON schema must be properly escaped when passed as a command line argument. For complex schemas, consider using a file:
+**Queries:**
 
 ```bash
-# Save schema to file first
-cat > schema.json << 'EOF'
-{
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "/vpr/v1/cs/js/1",
-    "type": "object",
-    "$defs": {},
-    "properties": {
-        "name": {
-            "type": "string"
-        },
-        "email": {
-            "type": "string",
-            "format": "email"
-        }
-    },
-    "required": ["name"],
-    "additionalProperties": false
-}
-EOF
-
-# Use in command (you'll need to escape or quote properly)
-veranad tx cs create-credential-schema 1 "$(cat schema.json)" 365 365 180 180 180 2 2 --from cooluser --chain-id vna-testnet-1 --keyring-backend test --fees 50000uvna --gas auto
+veranad query pp get-participant [id] [flags]
+veranad query pp list-participants [flags]                              # --role, --schema-id, --op-state, --did, --only-valid/slashed/repaid, ...
+veranad query pp find-participants-with-did [did] [role] [schema-id] [flags]
+veranad query pp find-beneficiaries [flags]
+veranad query pp get-participant-session [id] [flags]
+veranad query pp list-participant-sessions [flags]
+veranad query pp params [flags]
 ```
 
 ---
 
-### 2. Update Credential Schema
+## `de` — Delegation
 
-Updates the validity periods of an existing credential schema.
+Grants and revokes operator authorizations that let an operator run delegable messages
+on behalf of a Corporation. The corporation is supplied with the `--corporation` flag.
+Full reference: [Delegation module](docs/run/network/modules/20-delegation.md).
 
-**Syntax:**
+**Transactions:**
+
 ```bash
-veranad tx cs update <credential-schema-id> <issuer-grantor-validity> <verifier-grantor-validity> <issuer-validity> <verifier-validity> <holder-validity> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+# Grant — --corporation --msg-types "<url>,<url>" [--with-feegrant --authz-spend-limit ... --expiration ...]
+veranad tx de grant-operator-authz [grantee] [flags]
+
+# Revoke — --corporation
+veranad tx de revoke-operator-authz [grantee] [flags]
 ```
 
-**Parameters:**
-- `<credential-schema-id>`: Numeric ID of the credential schema
-- `<issuer-grantor-validity>`: New issuer grantor validation validity period in days
-- `<verifier-grantor-validity>`: New verifier grantor validation validity period in days
-- `<issuer-validity>`: New issuer validation validity period in days
-- `<verifier-validity>`: New verifier validation validity period in days
-- `<holder-validity>`: New holder validation validity period in days
+**Queries:**
 
-**Examples:**
-
-Update validity periods:
 ```bash
-veranad tx cs update 1 365 365 180 180 180 --from cooluser --chain-id vna-testnet-1 --keyring-backend test --fees 50000uvna --gas auto
-```
-
-Extend all validity periods:
-```bash
-veranad tx cs update 1 730 730 365 365 365 --from cooluser --chain-id vna-testnet-1 --keyring-backend test --fees 50000uvna --gas auto
-```
-
-Shorter validity periods for testing:
-```bash
-veranad tx cs update 1 30 30 7 7 7 --from cooluser --chain-id vna-testnet-1 --keyring-backend test --fees 50000uvna --gas auto
+veranad query de list-operator-authorizations [flags]        # --corporation-id, --operator, --limit
+veranad query de list-vs-operator-authorizations [flags]     # --corporation-id, --vs-operator, --limit
+veranad query de get-operator-authorization [id] [flags]
+veranad query de get-vs-operator-authorization [id] [flags]
+veranad query de params [flags]
 ```
 
 ---
 
-### 3. Archive Credential Schema
+## `td` — Trust Deposit
 
-Archives or unarchives a credential schema.
+Trust deposits are keyed by numeric `corporation_id`. `reclaim-yield` and `repay-slashed-td`
+take `[corporation]` as their first positional argument. There is **no** `reclaim-deposit`
+and **no** `update-params` in the `td` CLI.
 
-**Syntax:**
+**Transactions:**
+
 ```bash
-veranad tx cs archive <credential-schema-id> <archive-flag> --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto
+veranad tx td reclaim-yield [corporation] [flags]                 # reclaim earned interest
+veranad tx td repay-slashed-td [corporation] [deposit] [flags]    # deposit must match the outstanding slashed amount
+veranad tx td slash-trust-deposit [flags]                         # GOV — --corporation-id --deposit --reason
 ```
 
-**Parameters:**
-- `<credential-schema-id>`: Numeric ID of the credential schema
-- `<archive-flag>`: Boolean value (`true` to archive, `false` to unarchive)
+**Queries:**
 
-**Examples:**
-
-Archive a credential schema:
 ```bash
-veranad tx cs archive 1 true --from cooluser --chain-id vna-testnet-1 --keyring-backend test --fees 50000uvna --gas auto
+veranad query td get-trust-deposit [corporation-id] [flags]
+veranad query td params [flags]
 ```
 
-Unarchive a credential schema:
+---
+
+## `xr` — Exchange Rate
+
+New in v4. Resolves Trust Unit (TU) values to `uvna` and other assets. The only CLI
+transaction is `update-exchange-rate`, signed by the authorized operator; the exchange-rate
+*lifecycle* messages (create / set-state / grant / revoke) are <sub>**GOV**</sub> and are not
+exposed as CLI commands.
+
+**Transactions:**
+
 ```bash
-veranad tx cs archive 1 false --from cooluser --chain-id vna-testnet-1 --keyring-backend test --fees 50000uvna --gas auto
+veranad tx xr update-exchange-rate [id] [rate] [flags]           # signed by the authorized operator
 ```
 
-## Parameter Details
+**Queries:**
 
-### JSON Schema Requirements
-- Must be valid JSON Schema (Draft 2020-12 recommended)
-- Should include `$schema`, `$id`, `type`, and `properties` fields
-- Must define required fields and additionalProperties behavior
-- Common pattern: `{"$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "/path/to/schema", "type": "object", "properties": {...}, "required": [...], "additionalProperties": false}`
+```bash
+veranad query xr get-exchange-rate [id] [flags]                 # or --base-asset(-type)/--quote-asset(-type)/--state
+veranad query xr get-price [base_asset_type] [base_asset] [quote_asset_type] [quote_asset] [amount] [flags]
+veranad query xr list-exchange-rates [flags]
+veranad query xr params [flags]
+```
 
-### Validity Periods
-- Measured in days
-- Must not exceed system maximum limits
-- Common values:
-    - **Grantor periods**: 365-730 days (1-2 years)
-    - **Validation periods**: 30-365 days (1 month to 1 year)
-    - **Testing periods**: 1-7 days for development
+---
 
-### Permission Management Modes
-- Integer values representing different permission models
-- Mode `2` appears to be a standard mode in examples
-- Specific mode meanings depend on system configuration
+## `di` — Digest
 
-### Trust Registry Requirements
-- Credential schema must be linked to an existing trust registry
-- Only the trust registry controller can create/modify credential schemas
-- Trust registry must not be archived
+Content-digest registry (formerly the DID Directory — the DID-lifecycle feature is
+**removed**, not renamed). `store-digest` runs *on behalf of a Corporation*, passed as the
+`[authority]` positional argument.
 
-## Validation Rules
+**Transactions:**
 
-### Access Control
-- **Create**: Only trust registry controller can create schemas
-- **Update**: Only trust registry controller can update schemas
-- **Archive**: Only trust registry controller can archive/unarchive schemas
+```bash
+veranad tx di store-digest [authority] [digest] [flags]         # signed by an operator on behalf of the authority (corporation)
+```
 
-### Business Logic
-- Cannot archive an already archived schema
-- Cannot unarchive a schema that's not archived
-- Validity periods cannot exceed system maximums
-- JSON schema must be valid and parseable
+**Queries:**
 
-## Transaction Fees
+```bash
+veranad query di get-digest [digest] [flags]
+veranad query di params [flags]
+```
 
-All transactions require gas fees. Use `--gas auto` for automatic gas estimation:
-- `--fees 50000uvna` (50,000 micro-VNA)
-- `--gas auto`
+---
 
-For complex JSON schemas, gas consumption may be higher due to storage requirements.
+## See also
+
+- [Delegation module](docs/run/network/modules/20-delegation.md) — full operator / VS-operator authorization reference.
+- [Corporation module](docs/run/network/modules/12-corporation.md) — creating and inspecting Corporations (no CLI).
+- [Ecosystem](docs/run/network/modules/10-ecosystem.md) · [Governance Framework](docs/run/network/modules/14-governance-framework.md) · [Credential Schema](docs/run/network/modules/30-credential-schema.md) · [Participant](docs/run/network/modules/40-participant.md) · [Trust Deposit](docs/run/network/modules/15-trust-deposit.md) · [Digest](docs/run/network/modules/50-digest.md)
+</content>

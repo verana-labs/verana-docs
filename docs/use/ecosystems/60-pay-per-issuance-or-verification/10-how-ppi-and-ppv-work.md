@@ -14,9 +14,15 @@ When the peers connect, session ids are exchanged:
 Now, when Alice's VS wants to issue a verifiable credential from credential schema ABC of ecosystem EGH to Bob:
 
 1. Alice's VS checks if credential schema ABC requires payment of trust fees.
-2. If payment is mandatory, Alice's VS create a corresponding permission session by using Bob's VUA provided sessionid.
-3. When transaction is done, Alice's VS issues the credential to Bob.
-4. Bob's VUA verifies that a permission session exists for Bob's VUA sessionid and this credential schema. If it exists, Bob's VUA accepts the credential, else it is refused.
+2. If payment is mandatory, Alice's VS creates a corresponding **participant session** by using Bob's VUA provided sessionid.
+3. When the transaction is done, Alice's VS issues the credential to Bob.
+4. Bob's VUA verifies that a participant session exists for Bob's VUA sessionid and this credential schema. If it exists, Bob's VUA accepts the credential, else it is refused.
+
+The set of beneficiaries who receive the trust fees is computed with [find-beneficiaries](./find-beneficiaries) (`MOD-PP-QRY-4`) before the session is created.
+
+:::info Beneficiary distribution in v4
+In v4, `find-beneficiaries` walks the **full participant ancestor chain** up to the root ECOSYSTEM participant (`MOD-PP-QRY-4-3`). The old `perm`-module special case that short-circuited distribution for `OPEN`-mode schemas is **removed** — OPEN-mode issuances/verifications now distribute fees to the full ancestor set like every other mode.
+:::
 
 :::note
 This is independent of the other needed trust verification as defined in the [verifiable trust spec](https://verana-labs.github.io/verifiable-trust-spec/)

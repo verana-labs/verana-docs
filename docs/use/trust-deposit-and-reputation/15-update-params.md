@@ -3,9 +3,11 @@ import TabItem from '@theme/TabItem';
 
 # Update Trust Deposit Params (Governance)
 
-This guide shows how to update Trust Deposit module parameters using a governance proposal. The transaction used is:
+This guide shows how to update Trust Deposit module parameters through a governance proposal wrapping `/verana.td.v1.MsgUpdateParams` (spec `MOD-TD-MSG-4`).
 
-`/verana.td.v1.MsgUpdateParams`
+:::info Governance-only
+`td update-params` is **not** exposed as a direct CLI command. The message signer is the x/gov module account, so parameter changes must be submitted as a `gov submit-proposal`.
+:::
 
 ## Environment Setup
 
@@ -18,33 +20,28 @@ NODE_RPC="https://rpc.testnet.verana.network"
 ## Step 1: Get the Governance Authority Address
 
 ```bash
-veranad q auth module-accounts --node $NODE_RPC --output json \
-| jq -r '.accounts[] | select(.value.name=="gov") | .value.address'
-```
-
-Set it:
-
-```bash
-GOV_AUTH="verana10d07y265gmmuvt4z0w9aw880jnsr700j22m4w8"
+GOV_AUTH=$(veranad q auth module-accounts --node $NODE_RPC --output json \
+| jq -r '.accounts[] | select(.value.name=="gov") | .value.address')
 ```
 
 ## Step 2: Fetch Current Params
 
-You must provide **all** fields in `params`. Start from the current values:
+`MsgUpdateParams` replaces the whole `params` object, so **all** fields must be supplied. Start from the current values:
 
 ```bash
 veranad q td params --node $NODE_RPC --output json
 ```
 
-Extract the current `yield_intermediate_pool` into a variable (use `-r` to avoid quotes):
+Capture the fields you want to preserve verbatim (Bech32 pool address, and the live share value — see the warning below):
 
 ```bash
 YIELD_INTERMEDIATE_POOL=$(veranad q td params --node $NODE_RPC -o json | jq -r .params.yield_intermediate_pool)
+SHARE_VALUE=$(veranad q td params --node $NODE_RPC -o json | jq -r .params.trust_deposit_share_value)
 ```
 
 ## Step 3: Build the Proposal JSON
 
-Edit the values you want to change, but keep all fields present:
+Edit only the values you intend to change; keep every field present.
 
 ```bash
 cat > trust_deposit_params_proposal.json <<JSON
@@ -54,13 +51,14 @@ cat > trust_deposit_params_proposal.json <<JSON
       "@type": "/verana.td.v1.MsgUpdateParams",
       "authority": "${GOV_AUTH}",
       "params": {
-        "trust_deposit_reclaim_burn_rate": "600000000000000000",
-        "trust_deposit_share_value": "1000000003748066934",
+        "trust_deposit_reclaim_burn_rate": "0",
+        "trust_deposit_share_value": "${SHARE_VALUE}",
         "trust_deposit_rate": "200000000000000000",
-        "wallet_user_agent_reward_rate": "200000000000000000",
-        "user_agent_reward_rate": "200000000000000000",
-        "trust_deposit_max_yield_rate": "150000000000000000",
-        "yield_intermediate_pool": "${YIELD_INTERMEDIATE_POOL}"
+        "wallet_user_agent_reward_rate": "100000000000000000",
+        "user_agent_reward_rate": "100000000000000000",
+        "trust_deposit_max_yield_rate": "200000000000000000",
+        "yield_intermediate_pool": "${YIELD_INTERMEDIATE_POOL}",
+        "trust_deposit_block_reward_share": "200000000000000000"
       }
     }
   ],
@@ -75,30 +73,33 @@ JSON
 
 ### Parameter Descriptions
 
-| Parameter | Description | Default |
-|-----------|-------------|---------|
-| `trust_deposit_reclaim_burn_rate` | Percentage burned when reclaiming freed deposits | 0.60 (60%) |
-| `trust_deposit_share_value` | Current value of one share (increases over time) | 1.0 (initial) |
-| `trust_deposit_rate` | Rate for calculating deposits from fees | 0.20 (20%) |
-| `wallet_user_agent_reward_rate` | Reward rate for wallet user agents | 0.20 (20%) |
-| `user_agent_reward_rate` | Reward rate for user agents | 0.20 (20%) |
-| `trust_deposit_max_yield_rate` | Maximum annual yield percentage | 0.15 (15%) |
-| `yield_intermediate_pool` | Bech32 address of the yield intermediate pool account | (module account) |
+| Parameter | Description |
+|-----------|-------------|
+| `trust_deposit_reclaim_burn_rate` | Fraction burned when freed deposit is recycled. |
+| `trust_deposit_share_value` | Live value of one share (see warning below). |
+| `trust_deposit_rate` | Fraction of trust fees added to the executing Corporation's trust deposit. |
+| `wallet_user_agent_reward_rate` | Reward rate for wallet user agents. |
+| `user_agent_reward_rate` | Reward rate for user agents. |
+| `trust_deposit_max_yield_rate` | Maximum annualized yield a trust deposit can earn from block rewards. |
+| `yield_intermediate_pool` | Bech32 address of the Yield Intermediate Pool module account. |
+| `trust_deposit_block_reward_share` | Target fraction of block rewards directed to trust deposit yield. |
 
-:::warning
-All parameter values are encoded as 18-decimal fixed-point integers. For example, `200000000000000000` = 0.20 (20%).
+:::warning Rate encoding
+All rate values are encoded as 18-decimal fixed-point integers. `200000000000000000` = 0.20 (20%); `100000000000000000` = 0.10 (10%); `0` = 0%.
+:::
+
+:::info `trust_deposit_share_value` is preserved (TD-CRIT-1, fixed)
+`trust_deposit_share_value` is a **live, per-block value** mutated by the module's BeginBlocker as yield accrues — it behaves as protocol state, not a static setting. In an earlier build (audit finding **TD-CRIT-1**), any `MsgUpdateParams` wholesale-replaced the params and reset this live share price to whatever was drafted in the proposal, retroactively corrupting every holder's yield.
+
+This is **fixed**: parameter updates no longer reset `trust_deposit_share_value`. Even though the field must be present in the proposal JSON, the live per-block value is preserved. As a safe practice, pass the **current** value through unchanged (as `$SHARE_VALUE` above) rather than hardcoding an old constant.
 :::
 
 ## Step 4: Submit the Proposal
 
 ```bash
 veranad tx gov submit-proposal trust_deposit_params_proposal.json \
-  --from $USER_ACC \
-  --keyring-backend test \
-  --chain-id $CHAIN_ID \
-  --fees 750000uvna \
-  --gas auto \
-  --node $NODE_RPC
+  --from $USER_ACC --keyring-backend test --chain-id $CHAIN_ID \
+  --fees 750000uvna --gas auto --node $NODE_RPC
 ```
 
 ## Step 5: Track and Vote
@@ -107,22 +108,14 @@ veranad tx gov submit-proposal trust_deposit_params_proposal.json \
 veranad q gov proposals --node $NODE_RPC
 ```
 
-Set the proposal ID and vote:
-
 ```bash
 PROPOSAL_ID=1
 veranad tx gov vote $PROPOSAL_ID yes \
-  --from $USER_ACC \
-  --keyring-backend test \
-  --chain-id $CHAIN_ID \
-  --fees 650000uvna \
-  --gas auto \
-  --node $NODE_RPC
+  --from $USER_ACC --keyring-backend test --chain-id $CHAIN_ID \
+  --fees 650000uvna --gas auto --node $NODE_RPC
 ```
 
 ## Step 6: Verify the Update
-
-After the proposal passes and is executed:
 
 ```bash
 veranad q td params --node $NODE_RPC --output json

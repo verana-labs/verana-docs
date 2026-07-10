@@ -77,10 +77,10 @@ For compatibility with other Verana components, you can also use these variables
 | `NEXT_PUBLIC_VERANA_CHAIN_NAME` | Human-readable chain name |
 | `NEXT_PUBLIC_VERANA_RPC_ENDPOINT` | RPC endpoint URL |
 | `NEXT_PUBLIC_VERANA_REST_ENDPOINT` | REST API endpoint URL |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT` | Trust Deposit REST endpoint |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID` | DID REST endpoint |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY` | Trust Registry REST endpoint |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA` | Credential Schema REST endpoint |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT` | Trust Deposit (`td`) REST endpoint (`/td/v1`) |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_DIGEST` | Digest (`di`) REST endpoint (`/di/v1`, replaces the former DID Directory) |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_ECOSYSTEM` | Ecosystem (`ec`) REST endpoint (`/ec/v1`, replaces the former Trust Registry) |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA` | Credential Schema (`cs`) REST endpoint (`/cs/v1`) |
 
 ### Environment Examples
 
@@ -251,10 +251,10 @@ export NEXT_PUBLIC_VERANA_CHAIN_ID=vna-testnet-1
 export NEXT_PUBLIC_VERANA_CHAIN_NAME=VeranaTestnet1
 export NEXT_PUBLIC_VERANA_RPC_ENDPOINT=https://rpc.testnet.verana.network
 export NEXT_PUBLIC_VERANA_REST_ENDPOINT=https://api.testnet.verana.network
-export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=https://api.testnet.verana.network/verana/td/v1
-export NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=https://api.testnet.verana.network/verana/dd/v1
-export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=https://api.testnet.verana.network/verana/tr/v1
-export NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=https://api.testnet.verana.network/verana/cs/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=https://api.testnet.verana.network/td/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_DIGEST=https://api.testnet.verana.network/di/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_ECOSYSTEM=https://api.testnet.verana.network/ec/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=https://api.testnet.verana.network/cs/v1
 export NEXT_PUBLIC_VERANA_SIGN_DIRECT_MODE=false
 export NEXT_PUBLIC_SESSION_LIFETIME_SECONDS=86400
 ```
@@ -339,8 +339,8 @@ The Verana Visualizer includes the following features:
   - Staking distribution (pie chart)
   - Network activity metrics (composed chart)
 - **Network Graph**: Interactive 3D visualization of network relationships
-- **Trust Registries**: Search and explore trust registries with rich details
-- **DID Directory**: Browse decentralized identifiers
+- **Ecosystems**: Search and explore ecosystems (the registry of registries) with rich details
+- **Digests**: Browse on-chain content digests
 - **Developer Activity**: GitHub repository statistics (requires GitHub token)
 
 > **Note on Charts**: The analytics charts fetch historical data by querying blockchain state at 30 different block heights over the past 30 days. Initial load takes 10-30 seconds as it retrieves real on-chain data. All displayed metrics represent actual network state.
