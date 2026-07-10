@@ -1,9 +1,30 @@
-import {themes as prismThemes} from 'prism-react-renderer';
+import type {PrismTheme} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import { remarkKroki } from 'remark-kroki';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+
+// "Protocol Grid" code theme (Operator's Console design): the verana.io
+// palette on the console ground. Used for BOTH color modes — code blocks
+// stay dark, which is the theme's signature (see src/css/custom.css).
+const protocolGrid: PrismTheme = {
+  plain: {color: '#E8E9F0', backgroundColor: '#0E1018'},
+  styles: [
+    {types: ['comment', 'prolog', 'doctype', 'cdata'], style: {color: '#6E7288', fontStyle: 'italic'}},
+    {types: ['punctuation', 'operator', 'combinator'], style: {color: '#8B90A5'}},
+    {types: ['property', 'tag', 'attr-name', 'key'], style: {color: '#7AA0F2'}},
+    {types: ['string', 'char', 'url', 'attr-value', 'inserted'], style: {color: '#F2CE7B'}},
+    {types: ['keyword', 'atrule', 'rule', 'selector'], style: {color: '#B9A3F7'}},
+    {types: ['boolean', 'number', 'constant', 'symbol'], style: {color: '#29C68C'}},
+    {types: ['function', 'function-name', 'builtin'], style: {color: '#7AA0F2'}},
+    {types: ['class-name', 'maybe-class-name', 'namespace'], style: {color: '#B9A3F7'}},
+    {types: ['variable', 'parameter'], style: {color: '#E8E9F0'}},
+    {types: ['deleted'], style: {color: '#F06A6A'}},
+    {types: ['important', 'bold'], style: {fontWeight: 'bold'}},
+    {types: ['italic'], style: {fontStyle: 'italic'}},
+  ],
+};
 
 const config: Config = {
   title: 'Explore Verana',
@@ -22,7 +43,11 @@ const config: Config = {
   projectName: 'verana-docs', // Your repository name
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -63,7 +88,7 @@ const config: Config = {
                 // ...options here
                 alias: ['plantuml', 'mermaid'],
                 target: 'mdx3',
-                server: 'https://kroki.testnet.verana.network/'
+                server: 'https://kroki.io/'
               }
             ]
           ]
@@ -81,11 +106,17 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    
-    
+
+    // Operator's Console: dark-first, light kept (user choice persists).
+    colorMode: {
+      defaultMode: 'dark',
+      disableSwitch: false,
+      respectPrefersColorScheme: false,
+    },
+
     prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      theme: protocolGrid,
+      darkTheme: protocolGrid,
     },
     image: 'img/verana-docs-og.jpg', // Replace with your social card
 
@@ -112,7 +143,7 @@ const config: Config = {
       title: 'Verana',
       logo: {
         alt: 'Verana Logo',
-        src: 'img/verana.io.svg',
+        src: 'img/verana-mark.svg',
       },
       items: [
         {
@@ -185,12 +216,12 @@ const config: Config = {
           title: 'About Verana',
           items: [
             {
-              label: 'Verana Verifiable Trust Network',
+              label: 'Verana.io',
               href: 'https://verana.io',
             },
             {
               label: 'Foundation Website',
-              href: 'https://verana.foundation',
+              href: 'https://veranafoundation.org',
             }
             
           ],
