@@ -21,7 +21,7 @@ On the [components overview](https://verana.io/page/developers/components/) this
 
 Before deploying the Verana frontend, ensure you have the following:
 
-- **Node.js**: Version 24 (the version CI builds and tests against; Node 22+ has worked in practice, but 24 is the tested target)
+- **Node.js**: Version 24
 - **Package Manager**: pnpm, enabled through Corepack (bundled with Node)
 - **Docker**: Version 20.10 or higher (for containerized deployment)
 - **Kubernetes**: Version 1.24 or higher (for Kubernetes deployment)
