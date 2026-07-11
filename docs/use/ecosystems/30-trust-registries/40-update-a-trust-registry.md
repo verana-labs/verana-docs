@@ -46,8 +46,16 @@ veranad tx tr update-trust-registry $AUTHORITY_ACC ${TRUST_REG_ID} did:example:n
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: describe here
-    :::
+
+**Prerequisite:** [connect the wallet](../../using-the-frontend) that controls the ecosystem.
+
+1. Open the ecosystem's detail page and click **Edit Configuration**.
+2. Update the editable fields:
+   - **DID**
+   - **AKA (URI)** — leave empty to clear it.
+3. Confirm and approve the transaction in Keplr.
+
+![Edit Configuration form in the frontend](/img/frontend/tr/edit-configuration.png)
+
   </TabItem>
 </Tabs>

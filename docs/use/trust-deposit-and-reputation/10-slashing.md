@@ -193,9 +193,9 @@ veranad tx td repay-slashed-td $SLASHED_ACCOUNT $SLASHED_AMOUNT \
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: When available in the UI, link and screenshots will be added here.
-    :::
+
+Network governance slashing isn't performed in the frontend. Use the CLI tab above. (Slashing a specific permission's deposit is available in the frontend, see [Slash a permission](../ecosystems/permissions/slash-a-permission).)
+
   </TabItem>
 </Tabs>
 

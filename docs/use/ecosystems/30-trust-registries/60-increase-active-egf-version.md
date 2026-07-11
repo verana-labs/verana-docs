@@ -48,8 +48,15 @@ veranad tx tr increase-active-gf-version $AUTHORITY_ACC ${TRUST_REG_ID} \
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: describe here
-    :::
+
+**Prerequisite:** [connect the controlling wallet](../../using-the-frontend). The **Increase Active EGF** action appears only once a newer EGF version exists (see [Add a Governance Framework Document](./add-a-gf-document)).
+
+1. Open the ecosystem's detail page and click **Increase Active EGF**.
+2. Confirm and approve the transaction in Keplr.
+
+The active version advances to the next EGF version, which must have at least one document in the ecosystem's primary language.
+
+![Increase Active EGF in the frontend](/img/frontend/tr/increase-active-egf.png)
+
   </TabItem>
 </Tabs>

@@ -98,6 +98,12 @@ curl -X GET "https://api.testnet.verana.network/verana/tr/v1/list?response-max-s
     :::
   </TabItem>
   <TabItem value="frontend" label="Frontend">
-    You can explore and interact with Trust Registries directly via the [Verana Frontend](https://app.testnet.verana.network/tr). This interface allows you to browse trust registries, view governance frameworks, and inspect individual versions and documents.
+
+Use **Discover & Join** to browse and search every ecosystem on the connected network. Each card shows the ecosystem DID, its credential schemas, and trust deposit, with **EGF** and **View Ecosystem** actions. The **Ecosystems** page lists the ecosystems you own or have joined.
+
+Browsing is read-only and needs no wallet. Live: [app.testnet.verana.network/discover](https://app.testnet.verana.network/discover).
+
+![Discover and join ecosystems in the frontend](/img/frontend/tr/list.png)
+
   </TabItem>
 </Tabs>

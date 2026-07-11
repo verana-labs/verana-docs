@@ -21,87 +21,140 @@ On the [components overview](https://verana.io/page/developers/components/) this
 
 Before deploying the Verana frontend, ensure you have the following:
 
-- **Node.js**: Version 22 or higher
-- **Package Manager**: Yarn (recommended) or npm
+- **Node.js**: Version 24 (the version CI builds and tests against; Node 22+ has worked in practice, but 24 is the tested target)
+- **Package Manager**: pnpm, enabled through Corepack (bundled with Node)
 - **Docker**: Version 20.10 or higher (for containerized deployment)
 - **Kubernetes**: Version 1.24 or higher (for Kubernetes deployment)
 - **Access**: Network access to Verana chain RPC and REST endpoints
 
-### Install Yarn (Recommended)
+### Enable pnpm
 
-If you don't have yarn installed, you can install it globally:
+The repository pins its package manager in the `packageManager` field of `package.json` (`pnpm@9.15.9`). Enable it with Corepack, which ships with Node:
 
 ```bash
-npm install --global yarn
+corepack enable
 ```
+
+Corepack downloads the pinned pnpm version automatically the first time you run a `pnpm` command inside the repo, so there is nothing else to install globally.
 
 ---
 
 ## Environment Configuration
 
-The frontend requires several environment variables to connect to the Verana blockchain network. These variables must be prefixed with `NEXT_PUBLIC_` to be accessible in the browser.
+The frontend connects to the Verana network entirely through environment variables. Every browser-facing variable is prefixed with `NEXT_PUBLIC_`.
+
+These public variables are read at **runtime**, not baked into the build. The app uses [`next-runtime-env`](https://github.com/expatfile/next-runtime-env), which reads `NEXT_PUBLIC_*` from the process environment when the server starts and exposes them to the browser. One built image can therefore serve devnet, testnet, or your own infrastructure: point it at a different environment by changing the variables the container starts with, then restart it. You never rebuild to change configuration.
 
 ### Required Environment Variables
 
+Only these four are mandatory. The container entrypoint (`entrypoint.sh`) validates them on startup and exits before Next.js launches if any are missing.
+
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `NEXT_PUBLIC_BASE_URL` | Base URL for the application | `http://localhost:3000` |
-| `NEXT_PUBLIC_VERANA_CHAIN_ID` | Verana chain identifier | `vna-devnet-1` |
-| `NEXT_PUBLIC_VERANA_CHAIN_NAME` | Human-readable chain name | `VeranaDevnet1` |
-| `NEXT_PUBLIC_VERANA_RPC_ENDPOINT` | RPC endpoint URL | `http://node1.devnet.verana.network:26657` |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT` | REST API endpoint URL | `http://node1.devnet.verana.network:1317` |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT` | Trust Deposit REST endpoint | `http://node1.devnet.verana.network:1317/verana/td/v1` |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID` | DID REST endpoint | `http://node1.devnet.verana.network:1317/verana/dd/v1` |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY` | Trust Registry REST endpoint | `http://node1.devnet.verana.network:1317/verana/tr/v1` |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA` | Credential Schema REST endpoint | `http://node1.devnet.verana.network:1317/verana/cs/v1` |
+| `NEXT_PUBLIC_VERANA_CHAIN_ID` | Cosmos chain ID | `vna-testnet-1` |
+| `NEXT_PUBLIC_VERANA_CHAIN_NAME` | Human-readable chain name | `VeranaTestnet1` |
+| `NEXT_PUBLIC_VERANA_RPC_ENDPOINT` | Tendermint RPC endpoint | `https://rpc.testnet.verana.network` |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT` | Verana REST API endpoint | `https://api.testnet.verana.network` |
 
 ### Optional Environment Variables
 
+Everything below has a working default in the checked-in `.env` (testnet). Override only what you need for your environment.
+
+**REST and websocket endpoints**
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY` | Trust registry module | `https://idx.testnet.verana.network/verana/tr/v1` |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA` | Credential schema module | `https://idx.testnet.verana.network/verana/cs/v1` |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID` | DID module | `https://idx.testnet.verana.network/verana/dd/v1` |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_PERM` | Permission module | `https://idx.testnet.verana.network/verana/perm/v1` |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT` | Trust deposit module | `https://idx.testnet.verana.network/verana/td/v1` |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_INDEXER` | Indexer high-level reads | `https://idx.testnet.verana.network/verana/indexer/v1` |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_METRICS` | Metrics | `https://idx.testnet.verana.network/verana/metrics/v1` |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_RESOLVER` | DID universal resolver | `https://resolver.testnet.verana.network/v1` |
+| `NEXT_PUBLIC_VERANA_WEBSOCKET` | Indexer events websocket | `wss://idx.testnet.verana.network/verana/indexer/v1/events` |
+
+**Wallet provider (WalletConnect / Cosmos-Kit)**
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_VERANA_CHAIN_PROVIDER_PROJECT_ID` | WalletConnect project ID | `e09f8de2a0b30d2e2ee9d061afb2667b` |
+| `NEXT_PUBLIC_VERANA_CHAIN_PROVIDER_RELAY_URL` | WalletConnect relay | `wss://relay.walletconnect.org` |
+| `NEXT_PUBLIC_VERANA_CHAIN_PROVIDER_METADATA_NAME` | App name shown in the wallet | `Verana` |
+| `NEXT_PUBLIC_VERANA_CHAIN_PROVIDER_METADATA_DESCRIPTION` | App description shown in the wallet | `Verana dashboard for managing and joining digital trust Ecosystems` |
+| `NEXT_PUBLIC_VERANA_CHAIN_PROVIDER_METADATA_URL` | App URL | `https://verana.io` |
+| `NEXT_PUBLIC_VERANA_CHAIN_PROVIDER_METADATA_ICONS` | App icon URL | `https://verana.io/logo.svg` |
+
+**Runtime tuning**
+
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `NEXT_PUBLIC_PORT` | Port displayed/consumed by the frontend bundle | `3000` |
-| `NEXT_PUBLIC_VERANA_SIGN_DIRECT_MODE` | Force direct signing mode for Cosmos clients (`true`/`false`) | `false` |
-| `NEXT_PUBLIC_SESSION_LIFETIME_SECONDS` | Session lifetime (in seconds) used by the provider | `86400` |
+| `NEXT_PUBLIC_VERANA_SIGN_DIRECT_MODE` | Force Direct signing mode (`false` leaves the Amino fallback) | `false` |
+| `NEXT_PUBLIC_SESSION_LIFETIME_SECONDS` | Auth session lifetime, in seconds | `86400` |
+| `NEXT_PUBLIC_LOW_BALANCE_WARN_UVNA` | Low-balance warning threshold, in uvna | `1000000` |
+
+**External links**
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_VERANA_EXPLORER_URL` | Block explorer | `https://explorer.testnet.verana.network/Verana%20Testnet` |
+| `NEXT_PUBLIC_VERANA_VISUALIZER_URL` | Sister read-only visualizer | `https://vis.testnet.verana.network` |
+| `NEXT_PUBLIC_VERANA_TOPUP_VS` | Faucet / topup verifiable service | `did:web:faucet-vs.testnet.verana.network` |
 
 ### Server Runtime Variables
 
-These variables are only read by the Next.js server process. They are **not** exposed to the browser bundle, so they do not use the `NEXT_PUBLIC_` prefix.
+This variable is read only by the Next.js server process. It is **not** exposed to the browser bundle, so it does not use the `NEXT_PUBLIC_` prefix.
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `PORT` | Port used by `next dev`/`next start` | `3000` |
+| `PORT` | Port the Node.js server binds to (`pnpm dev` / `pnpm start`) | `3000` |
 
-> Use `PORT` (or `next dev --port <value>`) to change the port the Node.js server binds to. `NEXT_PUBLIC_PORT` is still useful for generating links or displaying the port inside the UI (and is dynamically substituted in our Docker/Kubernetes images), but it does not affect the server listener.
+> Use `PORT` (or `next dev --port <value>`) to change the port the server listens on. There is no `NEXT_PUBLIC_PORT` listener knob: that variable is not read by the app, so setting it has no effect on the running server.
 
-> **How the Docker/Kubernetes images work:** the build stage leaves placeholder values like `APP_NEXT_PUBLIC_PORT` inside `.next`. At runtime, `entrypoint.sh` replaces those placeholders with the current `NEXT_PUBLIC_*` values, so the container only needs those variables to update the browser bundle. The Node.js server still listens on `PORT` (default 3000); most clusters just expose that port through a Service or `-p` mapping without overriding it.
+> **How the Docker/Kubernetes images work:** the image is built once with no chain configuration compiled in. At container start, `entrypoint.sh` validates that the four required variables are present (and exits early if any are missing), then launches Next.js. `next-runtime-env` reads the current `NEXT_PUBLIC_*` values from the container environment at runtime and serves them to the browser, so the same image is reconfigured entirely through container env vars, with no rebuild required. The Node.js server listens on `PORT` (default 3000); most clusters simply expose that port through a Service or `-p` mapping.
 
 ### Environment Examples
 
+#### Testnet Configuration
+
+The checked-in `.env` already targets testnet, so this mirrors the shipped defaults. It shows the four required variables plus the most commonly overridden optional ones:
+
+```bash
+# Required
+NEXT_PUBLIC_VERANA_CHAIN_ID=vna-testnet-1
+NEXT_PUBLIC_VERANA_CHAIN_NAME=VeranaTestnet1
+NEXT_PUBLIC_VERANA_RPC_ENDPOINT=https://rpc.testnet.verana.network
+NEXT_PUBLIC_VERANA_REST_ENDPOINT=https://api.testnet.verana.network
+
+# REST module + websocket endpoints (optional, defaults shown)
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=https://idx.testnet.verana.network/verana/tr/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=https://idx.testnet.verana.network/verana/cs/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=https://idx.testnet.verana.network/verana/dd/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_PERM=https://idx.testnet.verana.network/verana/perm/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=https://idx.testnet.verana.network/verana/td/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_INDEXER=https://idx.testnet.verana.network/verana/indexer/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_METRICS=https://idx.testnet.verana.network/verana/metrics/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_RESOLVER=https://resolver.testnet.verana.network/v1
+NEXT_PUBLIC_VERANA_WEBSOCKET=wss://idx.testnet.verana.network/verana/indexer/v1/events
+
+# External links (optional)
+NEXT_PUBLIC_VERANA_EXPLORER_URL=https://explorer.testnet.verana.network/Verana%20Testnet
+NEXT_PUBLIC_VERANA_VISUALIZER_URL=https://vis.testnet.verana.network
+NEXT_PUBLIC_VERANA_TOPUP_VS=did:web:faucet-vs.testnet.verana.network
+```
+
 #### Devnet Configuration
+
+For devnet, override at least the four required variables:
 
 ```bash
 NEXT_PUBLIC_VERANA_CHAIN_ID=vna-devnet-1
 NEXT_PUBLIC_VERANA_CHAIN_NAME=VeranaDevnet1
 NEXT_PUBLIC_VERANA_RPC_ENDPOINT=http://node1.devnet.verana.network:26657
 NEXT_PUBLIC_VERANA_REST_ENDPOINT=http://node1.devnet.verana.network:1317
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=http://node1.devnet.verana.network:1317/verana/td/v1
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=http://node1.devnet.verana.network:1317/verana/dd/v1
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=http://node1.devnet.verana.network:1317/verana/tr/v1
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=http://node1.devnet.verana.network:1317/verana/cs/v1
 ```
 
-#### Testnet Configuration
-
-```bash
-NEXT_PUBLIC_VERANA_CHAIN_ID=vna-testnet-1
-NEXT_PUBLIC_VERANA_CHAIN_NAME=VeranaTestnet1
-NEXT_PUBLIC_VERANA_RPC_ENDPOINT=https://rpc.testnet.verana.network
-NEXT_PUBLIC_VERANA_REST_ENDPOINT=https://api.testnet.verana.network
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=https://api.testnet.verana.network/verana/td/v1
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=https://api.testnet.verana.network/verana/dd/v1
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=https://api.testnet.verana.network/verana/tr/v1
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=https://api.testnet.verana.network/verana/cs/v1
-```
+> The checked-in `.env` ships testnet values, so when you run against devnet also point the optional REST/websocket/resolver endpoints at your devnet hosts. Otherwise those calls keep hitting testnet.
 
 ---
 
@@ -117,15 +170,15 @@ cd verana-frontend
 ### 2. Install Dependencies
 
 ```bash
-yarn install
+pnpm install
 ```
 
 ### 3. Configure Environment Variables
 
-Create a `.env.local` file (loaded automatically by Next.js) in the root directory. The repository already includes a checked-in `.env` with default values, and an `.env-local` example if you prefer to keep a separate template. Copy whichever suits your workflow into `.env.local` and then customize it:
+Create a `.env.local` file (loaded automatically by Next.js) in the root directory. The repository ships a checked-in `.env` with testnet defaults; copy it and customize:
 
 ```bash
-cp .env .env.local        # or: cp .env-local .env.local
+cp .env .env.local
 # Edit .env.local with your configuration (git ignores this file)
 ```
 
@@ -134,17 +187,17 @@ cp .env .env.local        # or: cp .env-local .env.local
 Start the development server with hot-reloading:
 
 ```bash
-yarn dev
+pnpm dev
 ```
 
-The application will be available at `http://localhost:3000` (or any port you supply via `PORT`/`--port`). If your UI needs to know the port (for example, to build a base URL), also set `NEXT_PUBLIC_PORT=3003` in your `.env`.
+The application will be available at `http://localhost:3000` (or any port you supply via `PORT`/`--port`).
 
 To bind the dev server to a different port:
 
 ```bash
-PORT=3003 yarn dev
+PORT=3003 pnpm dev
 # or
-yarn dev --port 3003
+pnpm dev --port 3003
 ```
 
 > **Tip:** The development server uses Turbopack for faster builds and hot module replacement.
@@ -158,17 +211,17 @@ yarn dev --port 3003
 #### 1. Build the Application
 
 ```bash
-yarn install
-yarn build
+pnpm install
+pnpm build
 ```
 
 #### 2. Start the Production Server
 
 ```bash
-yarn start
+pnpm start
 ```
 
-The application will run on the port specified by `PORT` (default: 3000). Set it with `PORT=4000 yarn start` or via your process manager. Remember to keep `NEXT_PUBLIC_PORT` aligned if the UI makes assumptions about the exposed port.
+The application will run on the port specified by `PORT` (default: 3000). Set it with `PORT=4000 pnpm start` or via your process manager.
 
 ### Method 2: Docker Deployment
 
@@ -225,8 +278,6 @@ Set `PORT` if the server should listen on something other than `3000` (the defau
 ```bash
 docker run -d \
   -p 4000:3000 \
-  -e NEXT_PUBLIC_PORT=3000 \
-  -e NEXT_PUBLIC_BASE_URL=http://localhost:4000 \
   -e NEXT_PUBLIC_VERANA_CHAIN_ID=vna-devnet-1 \
   -e NEXT_PUBLIC_VERANA_CHAIN_NAME=VeranaDevnet1 \
   -e NEXT_PUBLIC_VERANA_RPC_ENDPOINT=http://node1.devnet.verana.network:26657 \
@@ -254,23 +305,35 @@ The repository includes a Kubernetes deployment template at `kubernetes/verana-f
 export DEPLOYMENT_NAME=verana-frontend
 export IMAGE_NAME=verana-front
 export IMAGE_TAG=main
-export NEXT_PUBLIC_PORT=3000
-export NEXT_PUBLIC_BASE_URL=https://your-domain.com
+export CLUSTER_NODE=<your-node-hostname>        # matches kubernetes.io/hostname on the target node
+
+# Required
 export NEXT_PUBLIC_VERANA_CHAIN_ID=vna-testnet-1
 export NEXT_PUBLIC_VERANA_CHAIN_NAME=VeranaTestnet1
 export NEXT_PUBLIC_VERANA_RPC_ENDPOINT=https://rpc.testnet.verana.network
 export NEXT_PUBLIC_VERANA_REST_ENDPOINT=https://api.testnet.verana.network
-export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=https://api.testnet.verana.network/verana/td/v1
-export NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=https://api.testnet.verana.network/verana/dd/v1
-export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=https://api.testnet.verana.network/verana/tr/v1
-export NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=https://api.testnet.verana.network/verana/cs/v1
+
+# Optional (defaults target testnet)
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=https://idx.testnet.verana.network/verana/tr/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=https://idx.testnet.verana.network/verana/cs/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=https://idx.testnet.verana.network/verana/dd/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_PERM=https://idx.testnet.verana.network/verana/perm/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=https://idx.testnet.verana.network/verana/td/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_INDEXER=https://idx.testnet.verana.network/verana/indexer/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_METRICS=https://idx.testnet.verana.network/verana/metrics/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_RESOLVER=https://resolver.testnet.verana.network/v1
+export NEXT_PUBLIC_VERANA_WEBSOCKET=wss://idx.testnet.verana.network/verana/indexer/v1/events
+export NEXT_PUBLIC_VERANA_EXPLORER_URL=https://explorer.testnet.verana.network/Verana%20Testnet
+export NEXT_PUBLIC_VERANA_VISUALIZER_URL=https://vis.testnet.verana.network
+export NEXT_PUBLIC_VERANA_TOPUP_VS=did:web:faucet-vs.testnet.verana.network
 export NEXT_PUBLIC_VERANA_SIGN_DIRECT_MODE=false
 export NEXT_PUBLIC_SESSION_LIFETIME_SECONDS=86400
+export NEXT_PUBLIC_LOW_BALANCE_WARN_UVNA=1000000
+
 export KUBE_NAMESPACE=$NEXT_PUBLIC_VERANA_CHAIN_ID   # or set your own namespace
-# ... set other environment variables
 ```
 
-> The provided manifest only wires `NEXT_PUBLIC_*` variables. If you need to override server-side values such as `PORT`, add them to the `env` array in `kubernetes/verana-frontend-deployment.yaml` before applying.
+> The manifest wires the `NEXT_PUBLIC_*` variables above. It also still carries two legacy placeholders, `NEXT_PUBLIC_PORT` and `NEXT_PUBLIC_BASE_URL`, that the app no longer reads; `envsubst` resolves them to empty strings, which is harmless. If you need to set a server-side value such as `PORT`, add it to the `env` array in `kubernetes/verana-frontend-deployment.yaml` before applying.
 
 > **Custom infrastructure:** The example above uses the public Verana RPC/REST endpoints for convenience. If you run your own validators, API nodes, or related services, point the `NEXT_PUBLIC_VERANA_*` variables to your infrastructure instead so the frontend talks to your cluster.
 
@@ -306,7 +369,7 @@ kubectl -n $KUBE_NAMESPACE logs -f "$POD"
 
 #### 5. Expose the Service
 
-Create a service to expose the deployment (a ready-to-use manifest lives at `kubernetes/verana-frontend-service.yaml` in the repo root):
+Create a service to expose the deployment. Save the following manifest as `verana-frontend-service.yaml` and apply it:
 
 ```yaml
 apiVersion: v1
@@ -323,10 +386,10 @@ spec:
   type: ClusterIP
 ```
 
-`targetPort: 3000` sends traffic to the container's listener, which defaults to the `PORT` value discussed earlier (3000 unless overridden). Apply the provided service manifest directly from the repo root, then (if needed) forward it to your workstation:
+`targetPort: 3000` sends traffic to the container's listener, which defaults to the `PORT` value discussed earlier (3000 unless overridden). Apply the manifest, then (if needed) forward it to your workstation:
 
 ```bash
-kubectl apply -f kubernetes/verana-frontend-service.yaml -n $KUBE_NAMESPACE
+kubectl apply -f verana-frontend-service.yaml -n $KUBE_NAMESPACE
 kubectl port-forward -n $KUBE_NAMESPACE service/verana-frontend-service 4000:80
 ```
 
@@ -347,7 +410,7 @@ The repository includes multiple Docker Compose configurations:
 
 ### Port Configuration
 
-By default, the application runs on port 3000. Change the listening port by setting the `PORT` environment variable or by passing `--port` to `next dev`/`next start`. In Docker/Kubernetes we usually keep the internal port at 3000 and map/expose it externally; `NEXT_PUBLIC_PORT` only controls what the frontend bundle thinks the port is.
+By default, the application runs on port 3000. Change the listening port by setting the `PORT` environment variable or by passing `--port` to `next dev`/`next start`. In Docker/Kubernetes we usually keep the internal port at 3000 and map or expose it externally. There is no `NEXT_PUBLIC_PORT` equivalent: the app does not read that variable, so it has no effect on the port.
 
 ```yaml
 ports:
@@ -369,8 +432,8 @@ The Docker Compose files include a `verana` network. If you're deploying multipl
 **Solution**: Clear the cache and reinstall dependencies:
 
 ```bash
-rm -rf node_modules yarn.lock
-yarn install
+rm -rf node_modules pnpm-lock.yaml
+pnpm install
 ```
 
 ### Port Already in Use
@@ -380,17 +443,17 @@ yarn install
 **Solution**: Change the port by setting `PORT` (or by passing `--port`):
 
 ```bash
-PORT=3001 yarn dev
+PORT=3001 pnpm dev
 ```
 
 ### Environment Variables Not Loading
 
 **Issue**: Environment variables are not being picked up
 
-**Solution**: 
-- Ensure variables are prefixed with `NEXT_PUBLIC_`
-- Restart the development server after changing `.env` file
-- For production builds, environment variables are baked in at build time
+**Solution**:
+- Ensure browser-facing variables are prefixed with `NEXT_PUBLIC_`
+- Restart the dev server after changing `.env`
+- In production, `NEXT_PUBLIC_*` values are read at runtime by `next-runtime-env`, not baked into the build. If a container serves stale values, update the environment it starts with and restart the container. You do not rebuild the image to change configuration.
 
 ### Docker Build Fails
 

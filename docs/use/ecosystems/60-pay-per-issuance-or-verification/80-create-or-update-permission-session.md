@@ -104,8 +104,8 @@ Explanation:
  </TabItem>
   
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: describe here
-    :::
+
+Permission sessions aren't managed in the frontend. Use the CLI tab above.
+
   </TabItem>
 </Tabs>
