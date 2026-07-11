@@ -1,4 +1,4 @@
-# .github/workflows/deploy.yml
+# .github/workflows/build.yml
 
 name: Build Docusaurus
 
@@ -7,6 +7,10 @@ on:
     branches:
       - feat/*
       - fix/*
+      - docs/*
+      - chore/*
+      - ci/*
+      - refactor/*
 
   workflow_dispatch:
 
