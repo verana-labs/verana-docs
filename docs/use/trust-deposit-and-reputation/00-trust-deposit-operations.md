@@ -96,9 +96,9 @@ veranad q td get-trust-deposit $AUTHORITY_ACC --node $NODE_RPC --output json
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: When available in the UI, link and screenshots will be added here.
-    :::
+
+Open the [Account](../account/account) page to see your **Trust Deposit** balance and account stats (DIDs managed, transactions, slashing events).
+
   </TabItem>
 </Tabs>
 
@@ -144,9 +144,9 @@ veranad tx td reclaim-yield \
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: When available in the UI, link and screenshots will be added here.
-    :::
+
+On the [Account](../account/account) page, use **Claim Yield** to reclaim your accrued yield, then confirm and approve in Keplr.
+
   </TabItem>
 </Tabs>
 
@@ -202,9 +202,9 @@ veranad tx td reclaim-deposit $RECLAIM_AMOUNT \
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: When available in the UI, link and screenshots will be added here.
-    :::
+
+Reclaiming freed trust deposit is not yet available in the frontend. Use the CLI tab above.
+
   </TabItem>
 </Tabs>
 
@@ -278,9 +278,9 @@ veranad q td params --node $NODE_RPC --output json
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: When available in the UI, link and screenshots will be added here.
-    :::
+
+Module parameters aren't surfaced in the frontend. Use the CLI (or the REST API).
+
   </TabItem>
 </Tabs>
 

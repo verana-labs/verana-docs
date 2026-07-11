@@ -98,8 +98,8 @@ curl -X GET "https://api.testnet.verana.network/verana/de/v1/authz/list?authorit
 
   </TabItem>
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: describe here
-    :::
+
+Operator delegation isn't available in the frontend yet. Use the CLI tab above.
+
   </TabItem>
 </Tabs>

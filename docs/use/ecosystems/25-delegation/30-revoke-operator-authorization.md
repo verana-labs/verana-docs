@@ -68,8 +68,8 @@ veranad tx group vote $PROPOSAL_ID $GROUP_MEMBER2_ACC VOTE_OPTION_YES "" \
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: describe here
-    :::
+
+Operator delegation isn't available in the frontend yet. Use the CLI tab above.
+
   </TabItem>
 </Tabs>

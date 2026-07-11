@@ -98,11 +98,11 @@ curl -X GET "https://api.testnet.verana.network/verana/tr/v1/get/1" -H  "accept:
   </TabItem>
   <TabItem value="frontend" label="Frontend">
 
-You can view Trust Registries in the frontend UI by navigating to:
+Open any ecosystem, from **Discover & Join** or your **Ecosystems** page, to see its detail page. It lays out **Basic Information** (id, DID, controller, deposit), **Mutable Configuration**, **Governance Framework Documents** (each EGF version and its documents), and the **Credential Schemas** registered under the ecosystem.
 
-[https://app.testnet.verana.network/tr](https://app.testnet.verana.network/tr)
+Live: [app.testnet.verana.network/tr](https://app.testnet.verana.network/tr).
 
-Click on a registry entry to inspect its metadata, DID, active governance framework, and associated documents.
+![Trust registry detail in the frontend](/img/frontend/tr/detail.png)
 
   </TabItem>
 </Tabs>

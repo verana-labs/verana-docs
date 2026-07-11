@@ -90,9 +90,22 @@ Replace with the correct transaction hash.
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: describe here
-    :::
+
+**Prerequisite:** [connect your wallet](../../using-the-frontend) and make sure it holds some VNA for fees.
+
+1. Open the **Ecosystems** page and click **Create Ecosystem**.
+2. Fill in the form:
+   - **Organization Name** and **Ecosystem Service Name** — display names for your ecosystem.
+   - **DID** — the DID that identifies your ecosystem (DID-CORE syntax).
+   - **AKA (URI)** — an alternate identifier (Also Known As) for the ecosystem.
+   - **Primary Governance Framework Language** — the default language of your EGF (e.g. English).
+   - **Governance Framework Primary Document URL** — public URL of your EGF; the frontend fetches it and computes the SRI digest for you.
+3. Review the estimated fee, confirm, and approve the transaction in Keplr.
+
+The new ecosystem opens to its detail page (Basic Information, Mutable Configuration, Governance Framework Documents, Credential Schemas).
+
+![Create Ecosystem form in the frontend](/img/frontend/tr/create.png)
+
   </TabItem>
 </Tabs>
 

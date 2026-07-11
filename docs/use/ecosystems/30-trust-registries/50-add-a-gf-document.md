@@ -72,11 +72,15 @@ veranad tx tr add-governance-framework-document $AUTHORITY_ACC ${TRUST_REG_ID} e
 
   <TabItem value="frontend" label="Frontend">
 
-You can also add a Governance Framework document using the [Verana Testnet Frontend](https://app.testnet.verana.network/tr).
+**Prerequisite:** [connect the wallet](../../using-the-frontend) that controls the ecosystem.
 
-:::tip
-Make sure your wallet is connected and you're using an account with operator authorization for the Trust Registry's authority.
-:::
+1. Open the ecosystem's detail page and, under **Governance Framework Documents**, click **Add New EGF Document**.
+2. Fill in:
+   - **Governance Framework Language** — the document's language.
+   - **Governance Framework Document URL** — public URL; the frontend computes its SRI digest.
+3. Confirm and approve in Keplr. On success you'll see "Governance Framework Document successfully added".
+
+![Add EGF Document form in the frontend](/img/frontend/tr/add-egf-document.png)
 
   </TabItem>
 </Tabs>

@@ -54,6 +54,21 @@ const sidebars = {
           },
         {
             type: 'category',
+            label: 'Frontend',
+            link: {
+              type: 'doc',
+              id: 'use/using-the-frontend',
+            },
+            items: [
+              { type: 'doc', id: 'use/dashboard', label: 'Dashboard' },
+              { type: 'doc', id: 'use/account/account', label: 'Account' },
+              { type: 'doc', id: 'use/discover-and-join', label: 'Discover & Join' },
+              { type: 'doc', id: 'use/onboarding-process', label: 'Onboarding Process' },
+              { type: 'doc', id: 'use/pending-tasks', label: 'Pending Tasks' },
+            ],
+          },
+        {
+            type: 'category',
             label: 'DID Directory',
             items: [
              

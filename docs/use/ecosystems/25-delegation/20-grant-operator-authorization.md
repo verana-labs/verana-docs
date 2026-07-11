@@ -122,8 +122,8 @@ Add these fields to the message in the proposal JSON:
   </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: describe here
-    :::
+
+Operator delegation isn't available in the frontend yet. Use the CLI tab above.
+
   </TabItem>
 </Tabs>

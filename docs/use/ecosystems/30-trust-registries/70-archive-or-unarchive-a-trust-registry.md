@@ -51,8 +51,16 @@ veranad tx tr archive-trust-registry $AUTHORITY_ACC ${TRUST_REG_ID} false \
  </TabItem>
 
   <TabItem value="frontend" label="Frontend">
-    :::tip
-    TODO: describe here
-    :::
+
+**Prerequisite:** [connect the controlling wallet](../../using-the-frontend).
+
+1. Open the ecosystem's detail page.
+2. Click **Archive** to archive it, or **Unarchive** to restore an archived ecosystem.
+3. Confirm and approve the transaction in Keplr.
+
+Archived ecosystems remain visible in the **Ecosystems** list when **Show archived** is enabled.
+
+![Archive confirmation in the frontend](/img/frontend/tr/archive.png)
+
   </TabItem>
 </Tabs>
