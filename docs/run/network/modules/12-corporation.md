@@ -3,7 +3,7 @@
 The **Corporation** module (`x/co`, spec `MOD-CO`) manages on-chain Corporations — the entities that own and govern every other Verana resource. A Corporation is an [`x/group`](https://docs.cosmos.network/main/build/modules/group) policy; its **`policy_address`** is the identity passed as the `corporation` argument to commands in the other modules.
 
 :::warning No CLI
-`x/co` ships **no** `veranad tx co` or `veranad query co` commands (its autocli is intentionally absent). Corporation transactions are submitted by broadcasting a signed tx built from JSON, and Corporations are inspected through the `x/group` queries. A step-by-step walkthrough is in [Create a Corporation](../../../use/ecosystems/corporation).
+`x/co` ships **no** `veranad tx co` or `veranad query co` commands (its autocli is intentionally absent). Corporation transactions are submitted by broadcasting a signed tx built from JSON, and Corporations are inspected through the `x/group` queries. A step-by-step walkthrough is in [Create a Corporation](../../../use/corporation/create-a-corporation).
 :::
 
 ## Transactions
@@ -39,7 +39,7 @@ Since there is no CLI, build a transaction JSON and broadcast it. The message:
 }
 ```
 
-Wrap it in an unsigned tx, then `veranad tx sign … | veranad tx broadcast …` (full commands in the [how-to](../../../use/ecosystems/corporation)). On success the `create_corporation` event returns the identity:
+Wrap it in an unsigned tx, then `veranad tx sign … | veranad tx broadcast …` (full commands in the [how-to](../../../use/corporation/create-a-corporation)). On success the `create_corporation` event returns the identity:
 
 ```json
 {

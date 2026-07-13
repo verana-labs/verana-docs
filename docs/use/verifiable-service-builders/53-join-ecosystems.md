@@ -26,7 +26,7 @@ W3C JSON-LD credentials follow the [W3C Verifiable Credentials Data Model](https
 
 **Use cases for W3C JSON-LD:**
 
-- ECS credentials (Organization, Service, Persona, UserAgent)
+- The ECS credentials that identify entities: Service, Organization, Persona
 - Verifiable Trust JSON Schema Credentials (VTJSCs) — the on-chain schema references
 - Any credential that should be **publicly visible** in a DID Document
 - Service-to-service credential exchange
@@ -45,6 +45,7 @@ AnonCreds credentials follow the [AnonCreds specification](https://hyperledger.g
 
 **Use cases for AnonCreds:**
 
+- The ECS credentials issued to people and software instances: **UserAgent** (issued to a user agent instance) and **Badge** (issued to a human, e.g. an employee of the organization behind a service). Both are presented over DIDComm and are **never** declared in a DID Document.
 - Citizen ID credentials (privacy-preserving identity)
 - Age verification
 - Membership credentials
@@ -68,15 +69,26 @@ Many ecosystems use **both formats**: W3C JSON-LD for entity identification (who
 
 ## How to Join an Ecosystem
 
-The process for joining an ecosystem depends on how the ecosystem has configured its credential schemas. There are three onboarding processes:
+The process for joining an ecosystem depends on how the ecosystem configured the schema you want to work with. Each `CredentialSchema` carries an **`issuer_onboarding_mode`** and a **`verifier_onboarding_mode`** — these are what determine how you get an ISSUER or VERIFIER participant, and each has three possible values: `OPEN`, `ECOSYSTEM_VALIDATION_PROCESS`, `GRANTOR_VALIDATION_PROCESS`.
 
-### Mode 1: `ISSUER_VALIDATION_PROCESS`
+Check them before you start:
+
+```bash
+veranad q cs get-schema <schema-id> --node <rpc-url> --output json \
+  | jq '.schema | {issuer_onboarding_mode, verifier_onboarding_mode, holder_onboarding_mode}'
+```
+
+:::note
+A schema's third mode, **`holder_onboarding_mode`** (`ISSUER_VALIDATION_PROCESS` or `PERMISSIONLESS`), is about the **holders** of the credential, not about you as issuer or verifier. `ISSUER_VALIDATION_PROCESS` means holders get their `Participant` entry through their issuer (which is what lets an issuer track revocation); `PERMISSIONLESS` means holders need no `Participant` entry at all. It never grants issuer or verifier rights.
+:::
+
+### Mode 1: `OPEN`
 
 Anyone can self-create an ISSUER or VERIFIER participant — no onboarding process needed.
 
 ```bash
-# Self-create an ISSUER participant for an ISSUER_VALIDATION_PROCESS schema
-veranad tx pp self-create-participant issuer <root-participant-id> "<your-did>" \
+# Self-create an ISSUER participant for a schema whose issuer_onboarding_mode is OPEN
+veranad tx pp self-create-participant issuer <validator-participant-id> "<your-did>" \
   --corporation <corporation> \
   --effective-from "<future-timestamp>" \
   --from <your-account> --chain-id <chain-id> --keyring-backend test \
@@ -84,16 +96,22 @@ veranad tx pp self-create-participant issuer <root-participant-id> "<your-did>" 
   --output json -y
 ```
 
-This is how the **Service** schema works in the ECS ecosystem. After creating the participant and waiting for it to become effective, you can immediately start issuing credentials.
+This is how the **Service** and **Badge** schemas work in the ECS ecosystem. After creating the participant and waiting for it to become effective, you can immediately start issuing credentials.
+
+To find every schema you can join this way:
+
+```bash
+veranad q cs list-schemas --issuer-onboarding-mode open --node <rpc-url> --output json | jq .
+```
 
 ### Mode 2: `ECOSYSTEM_VALIDATION_PROCESS`
 
-The Ecosystem's Corporation directly validates applicants. You must:
+The Ecosystem's Corporation directly validates applicants. This is how the **Organization**, **Persona** and **UserAgent** schemas work in the ECS ecosystem. You must:
 
 1. **Start an onboarding process (OP):**
 
    ```bash
-   veranad tx pp start-participant-op issuer <root-participant-id> "<your-did>" \
+   veranad tx pp start-participant-op issuer <validator-participant-id> "<your-did>" \
      --from <your-account> --chain-id <chain-id> --keyring-backend test \
      --fees 600000uvna --gas auto --node <rpc-url> \
      --output json -y
@@ -113,7 +131,7 @@ The Ecosystem's Corporation directly validates applicants. You must:
 
 ### Mode 3: `GRANTOR_VALIDATION_PROCESS`
 
-The ecosystem delegates validation to **Grantors** (intermediate authorities). The process is similar to the `ECOSYSTEM_VALIDATION_PROCESS`, but you interact with a Grantor instead of the Ecosystem's Corporation directly:
+The ecosystem delegates validation to **Grantors** (intermediate authorities). The process is the same as `ECOSYSTEM_VALIDATION_PROCESS`, but you interact with a Grantor instead of the Ecosystem's Corporation directly:
 
 1. Find an active ISSUER_GRANTOR or VERIFIER_GRANTOR participant for the schema.
 2. Start an onboarding process targeting that Grantor's participant.
@@ -186,6 +204,8 @@ curl -s http://localhost:3001/.well-known/did.json | jq '.service[] | select(.ty
 ```
 
 Each entry has a `serviceEndpoint` URL where the VP can be fetched and verified.
+
+For the Essential Credentials, the fragment names are fixed by the Verifiable Trust spec — a Verifiable Service presents its Service credential at `#vpr-schemas-service-vtc-vp` and its Organization *or* Persona credential at `#vpr-schemas-org-vtc-vp` / `#vpr-schemas-persona-vtc-vp` (see [Deploy your first Verifiable Service](./52-deploy-first-vs.md#step-8-verify-your-setup)). Credentials from other ecosystems are presented as additional `LinkedVerifiablePresentation` entries alongside them.
 
 ### List and remove linked credentials
 

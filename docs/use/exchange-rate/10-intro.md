@@ -60,7 +60,7 @@ Because exchange rates feed protocol-level pricing consumed network-wide, an `Ex
 - A designated **operator**, holding an `ExchangeRateAuthorization` granted by governance, pushes fresh values with [`update-exchange-rate`](./manage-exchange-rates#update-an-exchange-rate-operator) — the module's **only** direct CLI transaction — signing with its own key, without a vote, but bounded by optional guardrails (`expiration`, `min_interval` anti-spam, `max_deviation_bps` circuit breaker).
 
 :::info Not the same as `de` operator delegation
-The operator authorization here is **specific to the `xr` module** (an `ExchangeRateAuthorization`, granted by governance, keyed by `(xr_id, operator)`). It is unrelated to the Corporation-scoped operator delegation granted through the [Delegation (`de`) module](../ecosystems/delegation/grant-operator-authorization). An `xr` operator signs `update-exchange-rate` directly with its own key.
+The operator authorization here is **specific to the `xr` module** (an `ExchangeRateAuthorization`, granted by governance, keyed by `(xr_id, operator)`). It is unrelated to the Corporation-scoped operator delegation granted through the [Delegation (`de`) module](../corporation/delegation/grant-operator-authorization). An `xr` operator signs `update-exchange-rate` directly with its own key.
 :::
 
 ## In this section

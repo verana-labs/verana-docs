@@ -12,9 +12,9 @@ A **non-empty reason** is required (`MOD-PP-MSG-12-1`). The slashed amount is **
 
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
-1. A **Corporation** (`policy_address`) that controls the validator participant or the schema's Ecosystem — see [Create a Corporation](../corporation).
+1. A **Corporation** (`policy_address`) that controls the validator participant or the schema's Ecosystem — see [Create a Corporation](../../corporation/create-a-corporation).
 2. The policy funded with `uvna` for fees.
-3. An **operator** granted authorization for `/verana.pp.v1.MsgSlashParticipantTrustDeposit` via [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. An **operator** granted authorization for `/verana.pp.v1.MsgSlashParticipantTrustDeposit` via [Grant Operator Authorization](../../corporation/delegation/grant-operator-authorization).
 
 Sign with `--from <operator>` and pass the corporation with `--corporation <policy_address>`.
 :::

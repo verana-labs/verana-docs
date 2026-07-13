@@ -88,7 +88,7 @@ Before running it you need:
 1. A **Corporation** (`policy_address`) that controls the Participant `[id]`.
 2. The policy funded with `uvna` for fees.
 3. An **operator** granted authorization for `/verana.pp.v1.MsgTriggerResolver` via
-   [Grant Operator Authorization](../ecosystems/delegation/grant-operator-authorization).
+   [Grant Operator Authorization](../corporation/delegation/grant-operator-authorization).
 
 Pass the corporation as `--corporation` and the authorized operator as `--operator`, and
 sign with `--from <operator>`.

@@ -1,13 +1,13 @@
 # Digest Module
 
-The Digest (`di`) module is a minimal registry of content hashes. It **replaces** the removed **DID Directory** (`dd`) module: the DID-lifecycle feature (`add-did` / `renew-did` / `remove-did` / `touch-did`, per-DID deposits, expiry, grace, `list-dids`) is gone. `di` stores content **digests** — proving that off-chain content existed and has not changed — and exposes a single transaction and two queries. See the [usage guide](../../../use/digest/digest) and the [DID Indexing & Digest](../../../learn/verifiable-public-registry/did-indexing-and-digest) learn page.
+The Digest (`di`) module is a minimal registry of content hashes. It **replaces** the removed **DID Directory** (`dd`) module: the DID-lifecycle feature (`add-did` / `renew-did` / `remove-did` / `touch-did`, per-DID deposits, expiry, grace, `list-dids`) is gone. `di` stores content **digests** — proving that off-chain content existed and has not changed — and exposes a single transaction and two queries. See the [usage guide](../../../use/digest/digest) and the [Digest](../../../learn/verifiable-public-registry/digest) learn page.
 
 The single `store-digest` transaction is **delegable**: it is signed by an `operator` (`--from`) and executed on behalf of a **Corporation** whose `policy_address` is passed as the positional `[authority]` argument. `/verana.di.v1.MsgStoreDigest` is a member of the VPR delegable message-type set, so an operator must have been granted authorization for it via the [Delegation (`de`) module](./delegation). The `update-params` message is governance-only.
 
 Refer to the [Environments section](../environments/10-environments.md) for RPC endpoints, and [set up environment variables](../run-a-node/30-remote-cli.md) for the target network.
 
 :::warning Delegable prerequisites
-`store-digest` requires a registered [Corporation](../../../use/ecosystems/corporation) (`policy_address`), a funded policy, and an operator granted authorization for `/verana.di.v1.MsgStoreDigest`. Sign with `--from <operator>` and pass the corporation as the `[authority]` argument.
+`store-digest` requires a registered [Corporation](../../../use/corporation/create-a-corporation) (`policy_address`), a funded policy, and an operator granted authorization for `/verana.di.v1.MsgStoreDigest`. Sign with `--from <operator>` and pass the corporation as the `[authority]` argument.
 :::
 
 ## Transaction Messages

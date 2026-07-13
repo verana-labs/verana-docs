@@ -25,9 +25,9 @@ Refer to the [learn section](../../../learn/verifiable-public-registry/onboardin
 
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
-1. A **Corporation** (`policy_address`) that owns the applying Verifiable Service — see [Create a Corporation](../corporation).
+1. A **Corporation** (`policy_address`) that owns the applying Verifiable Service — see [Create a Corporation](../../corporation/create-a-corporation).
 2. The policy funded with `uvna` for fees and deposit.
-3. An **operator** granted authorization for `/verana.pp.v1.MsgStartParticipantOP` via [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. An **operator** granted authorization for `/verana.pp.v1.MsgStartParticipantOP` via [Grant Operator Authorization](../../corporation/delegation/grant-operator-authorization).
 4. The numeric **validator participant ID** you are applying under — find it with `veranad query pp list-participants`.
 
 Sign with `--from <operator>` and pass the corporation with `--corporation <policy_address>`.

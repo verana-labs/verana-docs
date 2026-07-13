@@ -2,7 +2,7 @@
 
 `MOD-GF-QRY-2`
 
-List the `GovernanceFrameworkVersion` entries owned by a single subject — either an [Ecosystem](../../../learn/verifiable-public-registry/ecosystems) or a [Corporation](../corporation) (its own Corporation Governance Framework, or CGF). Each version is returned with its nested documents, ordered by ascending `version`.
+List the `GovernanceFrameworkVersion` entries owned by a single subject — either an [Ecosystem](../../../learn/verifiable-public-registry/ecosystems) or a [Corporation](../../corporation/create-a-corporation) (its own Corporation Governance Framework, or CGF). Each version is returned with its nested documents, ordered by ascending `version`.
 
 ## Query Parameters
 

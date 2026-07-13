@@ -4,15 +4,15 @@
 
 Make sure you've read [the Learn section](../../../learn/verifiable-public-registry/credential-schema).
 
-Post a message that creates a new credential schema attached to an [Ecosystem](../ecosystem/create-an-ecosystem), on behalf of a [Corporation](../corporation). This operation is **delegable**.
+Post a message that creates a new credential schema attached to an [Ecosystem](../ecosystem/create-an-ecosystem), on behalf of a [Corporation](../../corporation/create-a-corporation). This operation is **delegable**.
 
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
 
-1. A **Corporation** (`policy_address`) — see [Create a Corporation](../corporation).
+1. A **Corporation** (`policy_address`) — see [Create a Corporation](../../corporation/create-a-corporation).
 2. The policy funded with `uvna` for fees.
 3. An existing **Ecosystem** controlled by that Corporation — see [Create an Ecosystem](../ecosystem/create-an-ecosystem). Its numeric `id` is the `[ecosystem-id]` argument.
-4. An **operator** granted authorization for `/verana.cs.v1.MsgCreateCredentialSchema` via [Grant Operator Authorization](../delegation/grant-operator-authorization).
+4. An **operator** granted authorization for `/verana.cs.v1.MsgCreateCredentialSchema` via [Grant Operator Authorization](../../corporation/delegation/grant-operator-authorization).
 
 Sign with `--from <operator>` and pass the corporation's `policy_address` with the `--corporation` flag.
 :::

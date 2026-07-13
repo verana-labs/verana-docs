@@ -9,9 +9,9 @@ Use [find-beneficiaries](./find-beneficiaries) first to compute the trust fees a
 
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation, typically signed by the **VS operator**. Before running it you need:
-1. A **Corporation** (`policy_address`) that owns the acting Verifiable Service — see [Create a Corporation](../corporation).
+1. A **Corporation** (`policy_address`) that owns the acting Verifiable Service — see [Create a Corporation](../../corporation/create-a-corporation).
 2. The policy (or VS operator) funded with `uvna` for fees and trust fees.
-3. Authorization for `/verana.pp.v1.MsgCreateOrUpdateParticipantSession` — granted to the VS operator via the participant's VS-operator authorization or via [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. Authorization for `/verana.pp.v1.MsgCreateOrUpdateParticipantSession` — granted to the VS operator via the participant's VS-operator authorization or via [Grant Operator Authorization](../../corporation/delegation/grant-operator-authorization).
 
 Sign with `--from <operator>` and pass the corporation with `--corporation <policy_address>`.
 :::

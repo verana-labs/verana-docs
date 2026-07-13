@@ -2,13 +2,13 @@
 
 A **Participant** is an on-chain entry in the Participant (`pp`) module that authorizes a Verifiable Service to act under a Credential Schema — as an **Issuer**, **Verifier**, **Issuer-Grantor**, **Verifier-Grantor**, **Ecosystem** (root), or **Holder**. The `pp` module is the v4 replacement for the retired Permission (`perm`) module: every "permission" is now a "participant", and the old **Validation Process (VP)** is now the **onboarding process (OP)**.
 
-Participants are owned and controlled by a [Corporation](../corporation). All `pp` transactions are **delegable**: they are signed by an authorized `operator` (`--from`) and executed on behalf of a Corporation whose `policy_address` is passed with the `--corporation` flag.
+Participants are owned and controlled by a [Corporation](../../corporation/create-a-corporation). All `pp` transactions are **delegable**: they are signed by an authorized `operator` (`--from`) and executed on behalf of a Corporation whose `policy_address` is passed with the `--corporation` flag.
 
 ## Before you start
 
 - Read the [learn section](../../../learn/verifiable-public-registry/onboarding-participants) for background on onboarding participants.
-- Create and register a [Corporation](../corporation).
-- Grant your operator authorization for the relevant `pp` message type-URLs — see [Grant Operator Authorization](../delegation/grant-operator-authorization).
+- Create and register a [Corporation](../../corporation/create-a-corporation).
+- Grant your operator authorization for the relevant `pp` message type-URLs — see [Grant Operator Authorization](../../corporation/delegation/grant-operator-authorization).
 
 ## Pages in this section
 

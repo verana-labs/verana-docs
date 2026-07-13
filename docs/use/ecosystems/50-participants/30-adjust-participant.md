@@ -9,9 +9,9 @@ Executed by the participant's own Corporation (for ECOSYSTEM or self-created par
 
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
-1. A **Corporation** (`policy_address`) that controls the participant — the participant's own Corporation (ECOSYSTEM / self-created) or the validator's Corporation (OP-managed) — see [Create a Corporation](../corporation).
+1. A **Corporation** (`policy_address`) that controls the participant — the participant's own Corporation (ECOSYSTEM / self-created) or the validator's Corporation (OP-managed) — see [Create a Corporation](../../corporation/create-a-corporation).
 2. The policy funded with `uvna` for fees.
-3. An **operator** granted authorization for `/verana.pp.v1.MsgSetParticipantEffectiveUntil` via [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. An **operator** granted authorization for `/verana.pp.v1.MsgSetParticipantEffectiveUntil` via [Grant Operator Authorization](../../corporation/delegation/grant-operator-authorization).
 
 Sign with `--from <operator>` and pass the corporation with `--corporation <policy_address>`.
 :::

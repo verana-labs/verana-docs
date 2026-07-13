@@ -7,7 +7,7 @@ All `pp` transaction messages are **delegable**: they are signed by an `operator
 Refer to the [Environments section](../environments/10-environments.md) for RPC endpoints, and [set up environment variables](../run-a-node/30-remote-cli.md) for the target network.
 
 :::warning Delegable prerequisites
-Every tx below requires a registered [Corporation](../../../use/ecosystems/corporation) (`policy_address`), a funded policy, and an operator granted authorization for the relevant type-URL. Sign with `--from <operator>` and pass `--corporation <policy_address>`. The delegable type-URLs are:
+Every tx below requires a registered [Corporation](../../../use/corporation/create-a-corporation) (`policy_address`), a funded policy, and an operator granted authorization for the relevant type-URL. Sign with `--from <operator>` and pass `--corporation <policy_address>`. The delegable type-URLs are:
 
 `/verana.pp.v1.MsgCreateRootParticipant`, `MsgSelfCreateParticipant`, `MsgStartParticipantOP`, `MsgSetParticipantOPToValidated`, `MsgRenewParticipantOP`, `MsgCancelParticipantOPLastRequest`, `MsgSetParticipantEffectiveUntil`, `MsgRevokeParticipant`, `MsgSlashParticipantTrustDeposit`, `MsgRepayParticipantSlashedTrustDeposit`, `MsgCreateOrUpdateParticipantSession`, `MsgTriggerResolver`.
 :::

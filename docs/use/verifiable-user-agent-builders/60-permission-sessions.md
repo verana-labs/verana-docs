@@ -46,7 +46,7 @@ a Corporation. Before running it you need:
 2. The policy funded with `uvna` for fees.
 3. An **operator** granted authorization for
    `/verana.pp.v1.MsgCreateOrUpdateParticipantSession` via
-   [Grant Operator Authorization](../ecosystems/delegation/grant-operator-authorization).
+   [Grant Operator Authorization](../corporation/delegation/grant-operator-authorization).
 
 Sign with `--from <operator>` and pass the corporation as `--corporation`.
 :::

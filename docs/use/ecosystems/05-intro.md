@@ -13,15 +13,15 @@ Ecosystems are the entities that define credential schemas, governance framework
 In Specs v4, most module operations follow a **delegable** pattern:
 - A **Corporation** (group-backed account) controls resources. Its `policy_address` is threaded as the `corporation` argument to nearly every module command.
 - An **operator** executes transactions on behalf of the Corporation.
-- Operators must be authorized via the [Delegation module](delegation/intro).
+- Operators must be authorized via the [Delegation module](../corporation/delegation/intro).
 
 ## Create Your Own Ecosystem
 
 1. **Create a Corporation**
-   - [Create a Corporation](../ecosystems/corporation) — the group-backed entity that will own your Ecosystem.
+   - [Create a Corporation](../corporation/create-a-corporation) — the group-backed entity that will own your Ecosystem.
 
 2. **Grant operator authorization**
-   - [Grant operator authorization](../ecosystems/delegation/grant-operator-authorization) so your operator account can execute transactions on behalf of the Corporation.
+   - [Grant operator authorization](../corporation/delegation/grant-operator-authorization) so your operator account can execute transactions on behalf of the Corporation.
 
 3. **Publish an Ecosystem Governance Framework (EGF)**
    - For fast setup you can use our EGF template.

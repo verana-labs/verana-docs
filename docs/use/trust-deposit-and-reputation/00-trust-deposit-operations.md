@@ -112,9 +112,9 @@ Reclaim the earned interest (yield) accrued on a Corporation's trust deposit (sp
 
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
-1. A **Corporation** (`policy_address`) — see [Create a Corporation](../ecosystems/corporation).
+1. A **Corporation** (`policy_address`) — see [Create a Corporation](../corporation/create-a-corporation).
 2. The Corporation's trust deposit must have claimable yield (`share × trust_deposit_share_value − deposit > 0`).
-3. An **operator** granted authorization for `/verana.td.v1.MsgReclaimTrustDepositYield` via [Grant Operator Authorization](../ecosystems/delegation/grant-operator-authorization).
+3. An **operator** granted authorization for `/verana.td.v1.MsgReclaimTrustDepositYield` via [Grant Operator Authorization](../corporation/delegation/grant-operator-authorization).
 
 Sign with `--from <operator>` and pass the Corporation as the `[corporation]` positional argument.
 :::
@@ -184,8 +184,8 @@ The `deposit` argument **must exactly equal** the outstanding slashed amount (`s
 
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
-1. A **Corporation** (`policy_address`) with an outstanding slashed trust deposit — see [Create a Corporation](../ecosystems/corporation).
-2. An **operator** granted authorization for `/verana.td.v1.MsgRepaySlashedTrustDeposit` via [Grant Operator Authorization](../ecosystems/delegation/grant-operator-authorization).
+1. A **Corporation** (`policy_address`) with an outstanding slashed trust deposit — see [Create a Corporation](../corporation/create-a-corporation).
+2. An **operator** granted authorization for `/verana.td.v1.MsgRepaySlashedTrustDeposit` via [Grant Operator Authorization](../corporation/delegation/grant-operator-authorization).
 3. Sufficient balance to cover the repayment amount plus fees.
 
 Sign with `--from <operator>` and pass the Corporation as the `[corporation]` positional argument.

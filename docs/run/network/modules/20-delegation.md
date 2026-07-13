@@ -96,7 +96,7 @@ delegable and must go through a governance proposal.
 :::warning Prerequisites
 These are **delegable** transactions executed on behalf of a Corporation. Before running one you need:
 
-1. A **Corporation** (`policy_address`) — see [Create a Corporation](../../../use/ecosystems/corporation).
+1. A **Corporation** (`policy_address`) — see [Create a Corporation](../../../use/corporation/create-a-corporation).
 2. The policy funded with `uvna` for fees.
 3. A signer (`--from`) that is either the corporation's `policy_address` (group-proposal path) or an operator the corporation has already authorized.
 

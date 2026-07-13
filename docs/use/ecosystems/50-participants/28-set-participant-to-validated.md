@@ -7,9 +7,9 @@ Finalize an **onboarding process (OP)** by setting the applicant's participant t
 
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
-1. A **Corporation** (`policy_address`) that controls the **validator** participant (the ECOSYSTEM root or the Grantor the applicant applied under) — see [Create a Corporation](../corporation).
+1. A **Corporation** (`policy_address`) that controls the **validator** participant (the ECOSYSTEM root or the Grantor the applicant applied under) — see [Create a Corporation](../../corporation/create-a-corporation).
 2. The policy funded with `uvna` for fees.
-3. An **operator** granted authorization for `/verana.pp.v1.MsgSetParticipantOPToValidated` via [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. An **operator** granted authorization for `/verana.pp.v1.MsgSetParticipantOPToValidated` via [Grant Operator Authorization](../../corporation/delegation/grant-operator-authorization).
 4. A **pending OP** — the target participant must be in `op_state = PENDING`.
 
 Sign with `--from <operator>` and pass the corporation with `--corporation <policy_address>`.

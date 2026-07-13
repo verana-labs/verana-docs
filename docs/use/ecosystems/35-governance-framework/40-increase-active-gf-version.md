@@ -2,14 +2,14 @@
 
 `MOD-GF-MSG-2`
 
-Post a message that activates the next Governance Framework version of the target subject — either an [Ecosystem](../../../learn/verifiable-public-registry/ecosystems) (set `--ecosystem-id`) or the signing [Corporation](../corporation)'s own CGF (omit `--ecosystem-id`). It sets the subject's `active_version` to `active_version + 1`.
+Post a message that activates the next Governance Framework version of the target subject — either an [Ecosystem](../../../learn/verifiable-public-registry/ecosystems) (set `--ecosystem-id`) or the signing [Corporation](../../corporation/create-a-corporation)'s own CGF (omit `--ecosystem-id`). It sets the subject's `active_version` to `active_version + 1`.
 
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
 
-1. A **Corporation** (`policy_address`) — see [Create a Corporation](../corporation).
+1. A **Corporation** (`policy_address`) — see [Create a Corporation](../../corporation/create-a-corporation).
 2. The policy funded with `uvna` for fees.
-3. An **operator** granted authorization for `/verana.gf.v1.MsgIncreaseActiveGovernanceFrameworkVersion` via [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. An **operator** granted authorization for `/verana.gf.v1.MsgIncreaseActiveGovernanceFrameworkVersion` via [Grant Operator Authorization](../../corporation/delegation/grant-operator-authorization).
 4. A draft version `active_version + 1` that already exists and contains a document in the subject's default language — [add the document first](./add-a-governance-framework-document).
 
 Sign with `--from <operator>` and pass the corporation's `policy_address` as `[corporation]` and the operator as `[operator]`.

@@ -37,14 +37,14 @@ In spec v4, on-chain resources (Ecosystems, Credential Schemas, Participants, �
 :::info Corporation → Operator → Transaction
 - A **Corporation** is created with `MsgCreateCorporation` and is identified on-chain by its **`policy_address`** (a group policy address). This address is the `corporation` argument passed to nearly every module command.
 - An **Operator** is an account that has been **granted authorization** by the Corporation to submit specific message types on its behalf. You sign transactions with the operator key (`--from`).
-- A transaction therefore has two roles: the **corporation** (the resource owner, authenticated via its group policy) and the **operator** (the signer). Both are enforced on-chain by the [Delegation module](./delegation/grant-operator-authorization) (AUTHZ-CHECK).
+- A transaction therefore has two roles: the **corporation** (the resource owner, authenticated via its group policy) and the **operator** (the signer). Both are enforced on-chain by the [Delegation module](../corporation/delegation/grant-operator-authorization) (AUTHZ-CHECK).
 :::
 
 Before you can run any resource-creating command you must, once:
 
-1. **[Create a Corporation](./corporation)** — this returns its `policy_address`.
+1. **[Create a Corporation](../corporation/create-a-corporation)** — this returns its `policy_address`.
 2. **Fund the `policy_address`** with `uvna` so it can pay fees.
-3. **[Grant an operator authorization](./delegation/grant-operator-authorization)** for the message types you intend to use.
+3. **[Grant an operator authorization](../corporation/delegation/grant-operator-authorization)** for the message types you intend to use.
 
 :::note Governance-only messages
 A few messages are **not** delegable and can only be executed through an on-chain **governance proposal** — every module's `update-params`, plus `td slash-trust-deposit`, `ec update-params`, and the `xr` create/state/authorization messages. These are called out on their respective pages.

@@ -6,8 +6,8 @@ A **Verifiable Service (VS)** is a service uniquely identified by a [DID](https:
 
 Unlike traditional web services that rely on domain certificates and centralized trust, a Verifiable Service proves:
 
-- **Who operates it** — via an Organization credential.
 - **What it is** — via a Service credential.
+- **Who operates it** — via **exactly one of** an Organization credential (a legal entity) **or** a Persona credential (an individual), per `[VS-REQ]`.
 - **What it is authorized to do** — via participants registered in a Verifiable Public Registry (VPR).
 
 This means that any entity connecting to a VS can verify its identity, its operator, and its authorization to issue or verify credentials — all without trusting a central authority.
@@ -38,12 +38,15 @@ This is particularly important as AI agents become more autonomous and interact 
 
 ## Essential Credential Schemas (ECS) Credentials
 
-Every Verifiable Service **must** present certain mandatory credentials so that entities connecting to it can identify the service and its owner. These are called **Essential Credential Schema (ECS)** credentials:
+Every Verifiable Service **must** present certain mandatory credentials so that entities connecting to it can identify the service and its owner. These are called **Essential Credential Schema (ECS)** credentials. Per `[VS-REQ]`, a VS presents a **Service** credential plus **exactly one of** Organization **or** Persona:
 
-| Credential | Purpose |
-|---|---|
-| **Organization** | Identifies the legal entity (company, government, person) that operates the service |
-| **Service** | Identifies the service itself: its name, type, description, terms, and privacy policy |
+| Credential | Required | Purpose |
+|---|---|---|
+| **Service** | always | Identifies the service itself: its name, type, description, terms, and privacy policy |
+| **Organization** | one of | Identifies the legal entity (company, government, NGO) that operates the service |
+| **Persona** | one of | Identifies the individual who operates the service |
+
+The full ECS set defined by the Verifiable Trust spec has **five** schemas — Service, Organization, Persona, UserAgent, and Badge. A VS presents the first three; UserAgent and Badge are AnonCreds credentials used by user agents and their human operators. See [ECS Trust Registries](./ecs-trust-registries).
 
 These credentials are exposed in the VS's **DID Document** as [Linked Verifiable Presentations](https://www.w3.org/TR/vc-data-model-2.0/), making them publicly discoverable and verifiable by anyone who resolves the DID.
 

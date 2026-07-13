@@ -64,9 +64,12 @@ const config: Config = {
         // Redirect the v4 module/section renames so links to the old paths resolve.
         createRedirects(existingPath: string) {
           const renames: [string, string][] = [
+            ['/use/corporation/delegation/', '/use/ecosystems/delegation/'],
+            ['/use/corporation/create-a-corporation', '/use/ecosystems/corporation'],
             ['/use/ecosystems/participants/', '/use/ecosystems/permissions/'],
             ['/use/ecosystems/ecosystem/', '/use/ecosystems/trust-registries/'],
             ['/use/digest/', '/use/did-directory/'],
+            ['/learn/verifiable-public-registry/did-indexing', '/learn/verifiable-public-registry/did-indexing-and-digest'],
             ['/run/network/modules/participant', '/run/network/modules/credential-schema-permissions'],
             ['/run/network/modules/digest', '/run/network/modules/did-directory'],
             ['/run/network/modules/ecosystem', '/run/network/modules/trust-registry'],

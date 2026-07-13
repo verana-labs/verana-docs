@@ -2,9 +2,9 @@
 
 `MOD-DI-MSG-1` · `MOD-DI-QRY-1`
 
-Make sure you've read [DID Indexing & Digest](../../learn/verifiable-public-registry/did-indexing-and-digest) in the Learn section.
+Make sure you've read [Digest](../../learn/verifiable-public-registry/digest) in the Learn section.
 
-The **Digest** (`di`) module is a minimal, standalone registry of content hashes. It lets a [Corporation](../ecosystems/corporation) **anchor the existence and integrity of off-chain content at a point in time** — proving that a document existed and has not changed — without storing the content itself on-chain.
+The **Digest** (`di`) module is a minimal, standalone registry of content hashes. It lets a [Corporation](../corporation/create-a-corporation) **anchor the existence and integrity of off-chain content at a point in time** — proving that a document existed and has not changed — without storing the content itself on-chain.
 
 :::info Not a DID directory
 The `di` module **replaces** the former *DID Directory* (`dd`). The DID-lifecycle feature — `add-did` / `renew-did` / `remove-did` / `touch-did`, per-DID deposits, expiry, grace periods, and `list-dids` — has been **removed**, not renamed. `di` is a different, smaller primitive: a content-digest store with two transactions/queries only. Discovery in v4 is built directly over the `Participant` registry (see the Learn page).
@@ -28,9 +28,9 @@ Adds a digest to the registry on behalf of a Corporation (`MOD-DI-MSG-1`).
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
 
-1. A **Corporation** (`policy_address`) — see [Create a Corporation](../ecosystems/corporation).
+1. A **Corporation** (`policy_address`) — see [Create a Corporation](../corporation/create-a-corporation).
 2. The policy funded with `uvna` for fees.
-3. An **operator** granted authorization for `/verana.di.v1.MsgStoreDigest` via [Grant Operator Authorization](../ecosystems/delegation/grant-operator-authorization).
+3. An **operator** granted authorization for `/verana.di.v1.MsgStoreDigest` via [Grant Operator Authorization](../corporation/delegation/grant-operator-authorization).
 
 Sign with `--from <operator>` and pass the corporation's `policy_address` as the `[authority]` argument.
 :::

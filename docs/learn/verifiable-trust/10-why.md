@@ -34,7 +34,7 @@ Today, identifying who is truly behind a digital service is incredibly difficult
 
 - Even in basic **phone communication**, receiving a call from an unknown number provides no indication of the caller's true identity, making fraud and scams rampant.
 
-In short, the internet today **lacks a verifiable identity layer**: a way to confirm who you're interacting with before you share information, take action, or trust a service. This missing layer is one of the fundamental weaknesses that the Verana Foundation seeks to address.
+In short, the internet today **lacks a verifiable identity layer**: a way to confirm who you're interacting with before you share information, take action, or trust a service. This missing layer is one of the fundamental weaknesses that the Verana Council seeks to address.
 
 ### Reputation
 

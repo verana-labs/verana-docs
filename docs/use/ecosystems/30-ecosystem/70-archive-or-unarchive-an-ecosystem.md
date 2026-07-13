@@ -7,9 +7,9 @@ Archive or unarchive an [Ecosystem](../../../learn/verifiable-public-registry/ec
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
 
-1. A **Corporation** (`policy_address`) that controls the ecosystem — see [Create a Corporation](../corporation).
+1. A **Corporation** (`policy_address`) that controls the ecosystem — see [Create a Corporation](../../corporation/create-a-corporation).
 2. The policy funded with `uvna` for fees.
-3. An **operator** granted authorization for `/verana.ec.v1.MsgArchiveEcosystem` via [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. An **operator** granted authorization for `/verana.ec.v1.MsgArchiveEcosystem` via [Grant Operator Authorization](../../corporation/delegation/grant-operator-authorization).
 
 Sign with `--from <operator>` and pass the corporation's `policy_address` as the `[corporation]` argument.
 :::

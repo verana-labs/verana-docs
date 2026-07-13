@@ -175,7 +175,7 @@ Note than information stored in VPRs is not verified, it is verifiable by using 
 
 ### DID Indexing
 
-Added to ecosystem features, the VPR's **Participant registry** is the foundation for building searchable, trust-typed indexes of [DIDs](https://www.w3.org/TR/did-1.0/) and the **verifiable services (VSs)** they operate. Crawlers iterate over Participant entries and index the metadata associated with these DIDs. [DID indexing is detailed here](../verifiable-public-registry/did-indexing-and-digest).
+Added to ecosystem features, the VPR's **Participant registry** is the foundation for building searchable, trust-typed indexes of [DIDs](https://www.w3.org/TR/did-1.0/) and the **verifiable services (VSs)** they operate. Crawlers iterate over Participant entries and index the metadata associated with these DIDs. [DID indexing is detailed here](../verifiable-public-registry/did-indexing).
 
 ## Trust Resolver
 

@@ -4,14 +4,14 @@
 
 Make sure you've read [the Learn section](../../../learn/verifiable-public-registry/ecosystems).
 
-Post a message that creates a new [Ecosystem](../../../learn/verifiable-public-registry/ecosystems) on behalf of a [Corporation](../corporation). In a single transaction this creates the `Ecosystem`, its first `GovernanceFrameworkVersion` (version 1), and a `GovernanceFrameworkDocument` seeded from `doc-url` / `doc-digest-sri`.
+Post a message that creates a new [Ecosystem](../../../learn/verifiable-public-registry/ecosystems) on behalf of a [Corporation](../../corporation/create-a-corporation). In a single transaction this creates the `Ecosystem`, its first `GovernanceFrameworkVersion` (version 1), and a `GovernanceFrameworkDocument` seeded from `doc-url` / `doc-digest-sri`.
 
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
 
-1. A **Corporation** (`policy_address`) — see [Create a Corporation](../corporation).
+1. A **Corporation** (`policy_address`) — see [Create a Corporation](../../corporation/create-a-corporation).
 2. The policy funded with `uvna` for fees.
-3. An **operator** granted authorization for `/verana.ec.v1.MsgCreateEcosystem` via [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. An **operator** granted authorization for `/verana.ec.v1.MsgCreateEcosystem` via [Grant Operator Authorization](../../corporation/delegation/grant-operator-authorization).
 
 Sign with `--from <operator>` and pass the corporation's `policy_address` as the `[corporation]` argument.
 :::
@@ -127,15 +127,37 @@ authorization check failed: operator authorization not found for this corporatio
 
 ## Publish your Ecosystem in your DID Document
 
-Add the corresponding `service` entry to your DID Document to prove control of the DID, replacing `1` with your ecosystem `id`:
+Add a `VerifiablePublicRegistry` `service` entry to your DID Document to declare the VPR your ecosystem is registered in. Replace `1` with your ecosystem `id`, and set `serviceEndpoint` to the `vpr:` scheme prefix of the registry you created the ecosystem in (`vpr:verana:vna-testnet-1` for the Verana testnet, `vpr:verana:vna-mainnet-1` for mainnet):
 
 ```json
 "service": [
     {
-      "id": "did:example:ecosystem#vpr-ecosystem-1",
+      "id": "did:example:ecosystem#vpr-schemas-ecosystem-1",
       "type": "VerifiablePublicRegistry",
       "version": "1.0",
-      "serviceEndpoint": ["vpr:verana:testnet"]
+      "serviceEndpoint": ["vpr:verana:vna-testnet-1"]
     }
   ]
 ```
+
+Once you [create credential schemas](../../ecosystems/credential-schemas/create-a-credential-schema) under this ecosystem, the same `service` array must also present each Verifiable Trust JSON Schema Credential (VTJSC) you issue with the ecosystem DID, as a `LinkedVerifiablePresentation` entry whose fragment starts with `#vpr-schemas-` and ends with `-vtjsc-vp`:
+
+```json
+"service": [
+    {
+      "id": "did:example:ecosystem#vpr-schemas-example-vtjsc-vp",
+      "type": "LinkedVerifiablePresentation",
+      "serviceEndpoint": ["https://ecosystem/schemas-example-vtjsc-vp.json"]
+    },
+    {
+      "id": "did:example:ecosystem#vpr-schemas-ecosystem-1",
+      "type": "VerifiablePublicRegistry",
+      "version": "1.0",
+      "serviceEndpoint": ["vpr:verana:vna-testnet-1"]
+    }
+  ]
+```
+
+:::note Providing Essential Credential Schemas
+An ecosystem that provides the five [Essential Credential Schemas](../../../learn/verifiable-trust/ecs) (Service, Organization, Persona, User Agent, Badge) must publish them under five reserved fragments — `#vpr-schemas-service-vtjsc-vp`, `#vpr-schemas-org-vtjsc-vp`, `#vpr-schemas-persona-vtjsc-vp`, `#vpr-schemas-ua-vtjsc-vp` and `#vpr-schemas-badge-vtjsc-vp` — one per ECS. See [Credential Schemas](../../../learn/verifiable-public-registry/credential-schema) for the full DID Document layout.
+:::

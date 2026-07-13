@@ -2,16 +2,16 @@
 
 `MOD-GF-MSG-1`
 
-Post a message that adds (or replaces) a Governance Framework document for a **draft** `GovernanceFrameworkVersion`. The target subject is either an [Ecosystem](../../../learn/verifiable-public-registry/ecosystems) (set `--ecosystem-id`) or the signing [Corporation](../corporation)'s own Corporation Governance Framework (CGF, omit `--ecosystem-id`).
+Post a message that adds (or replaces) a Governance Framework document for a **draft** `GovernanceFrameworkVersion`. The target subject is either an [Ecosystem](../../../learn/verifiable-public-registry/ecosystems) (set `--ecosystem-id`) or the signing [Corporation](../../corporation/create-a-corporation)'s own Corporation Governance Framework (CGF, omit `--ecosystem-id`).
 
 If a document already exists for the given language and version, it is replaced; otherwise a new document is created. Only future versions can be edited — the active version cannot be modified.
 
 :::warning Prerequisites
 This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
 
-1. A **Corporation** (`policy_address`) — see [Create a Corporation](../corporation).
+1. A **Corporation** (`policy_address`) — see [Create a Corporation](../../corporation/create-a-corporation).
 2. The policy funded with `uvna` for fees.
-3. An **operator** granted authorization for `/verana.gf.v1.MsgAddGovernanceFrameworkDocument` via [Grant Operator Authorization](../delegation/grant-operator-authorization).
+3. An **operator** granted authorization for `/verana.gf.v1.MsgAddGovernanceFrameworkDocument` via [Grant Operator Authorization](../../corporation/delegation/grant-operator-authorization).
 
 Sign with `--from <operator>` and pass the corporation's `policy_address` as `[corporation]` and the operator as `[operator]`.
 :::

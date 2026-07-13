@@ -104,5 +104,5 @@ Both are versioned and published as governance-framework documents (URL + `diges
 A Corporation's economic accountability is anchored by a single **`TrustDeposit`**, keyed by `corporation_id`. All trust-deposit growth, yield, and slashing accrue to the Corporation — not to individual accounts or Participant entries. See [Trust Deposit and Reputation](./trust-deposit-and-reputation).
 
 :::tip Ready to create one?
-This page is conceptual. For the step-by-step transaction (building `MsgCreateCorporation`, funding the `policy_address`, granting an operator), see the how-to guide [Create a Corporation](../../use/ecosystems/corporation).
+This page is conceptual. For the step-by-step transaction (building `MsgCreateCorporation`, funding the `policy_address`, granting an operator), see the how-to guide [Create a Corporation](../../use/corporation/create-a-corporation).
 :::

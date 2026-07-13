@@ -7,7 +7,7 @@ All `ec` transaction messages are **delegable**: they are signed by an `operator
 Refer to the [Environments section](../environments/10-environments.md) for RPC endpoints, and [set up environment variables](../run-a-node/30-remote-cli.md) for the target network.
 
 :::warning Delegable prerequisites
-The tx commands below require a registered [Corporation](../../../use/ecosystems/corporation) (`policy_address`), a funded policy, and an operator granted authorization for the relevant type-URL (`/verana.ec.v1.MsgCreateEcosystem`, `/verana.ec.v1.MsgUpdateEcosystem`, `/verana.ec.v1.MsgArchiveEcosystem`). Sign with `--from <operator>`.
+The tx commands below require a registered [Corporation](../../../use/corporation/create-a-corporation) (`policy_address`), a funded policy, and an operator granted authorization for the relevant type-URL (`/verana.ec.v1.MsgCreateEcosystem`, `/verana.ec.v1.MsgUpdateEcosystem`, `/verana.ec.v1.MsgArchiveEcosystem`). Sign with `--from <operator>`.
 :::
 
 ## Transaction Messages
