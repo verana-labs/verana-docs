@@ -3,14 +3,9 @@
 name: Build Docusaurus
 
 on:
-  push:
-    branches:
-      - feat/*
-      - fix/*
-      - docs/*
-      - chore/*
-      - ci/*
-      - refactor/*
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled]
 
   workflow_dispatch:
 
