@@ -6,9 +6,9 @@ A **Verifiable Service (VS)** is a service uniquely identified by a [DID](https:
 
 Unlike traditional web services that rely on domain certificates and centralized trust, a Verifiable Service proves:
 
-- **Who operates it** — via an Organization credential.
 - **What it is** — via a Service credential.
-- **What it is authorized to do** — via permissions registered in a Verifiable Public Registry (VPR).
+- **Who operates it** — via **exactly one of** an Organization credential (a legal entity) **or** a Persona credential (an individual), per `[VS-REQ]`.
+- **What it is authorized to do** — via participants registered in a Verifiable Public Registry (VPR).
 
 This means that any entity connecting to a VS can verify its identity, its operator, and its authorization to issue or verify credentials — all without trusting a central authority.
 
@@ -18,7 +18,7 @@ Verifiable Services are the building blocks of trust ecosystems. They can:
 
 - **Issue credentials** — e.g., a government civil registry issuing citizen ID credentials, or a university issuing diploma credentials.
 - **Verify credentials** — e.g., a bank requesting proof of identity, or an employer verifying a candidate's qualifications.
-- **Participate in multiple ecosystems** — a single VS can hold permissions from several Trust Registries, allowing it to issue and verify credentials across different ecosystems simultaneously.
+- **Participate in multiple ecosystems** — a single VS can be a participant in several Ecosystems, allowing it to issue and verify credentials across different ecosystems simultaneously.
 
 :::tip
 A Verifiable Service can be any application: an AI agent, a chatbot, an API gateway, a web portal, or any backend system that needs to interact with users or other Verifiable Services in a trusted manner.
@@ -38,12 +38,15 @@ This is particularly important as AI agents become more autonomous and interact 
 
 ## Essential Credential Schemas (ECS) Credentials
 
-Every Verifiable Service **must** present certain mandatory credentials so that entities connecting to it can identify the service and its owner. These are called **Essential Credential Schema (ECS)** credentials:
+Every Verifiable Service **must** present certain mandatory credentials so that entities connecting to it can identify the service and its owner. These are called **Essential Credential Schema (ECS)** credentials. Per `[VS-REQ]`, a VS presents a **Service** credential plus **exactly one of** Organization **or** Persona:
 
-| Credential | Purpose |
-|---|---|
-| **Organization** | Identifies the legal entity (company, government, person) that operates the service |
-| **Service** | Identifies the service itself: its name, type, description, terms, and privacy policy |
+| Credential | Required | Purpose |
+|---|---|---|
+| **Service** | always | Identifies the service itself: its name, type, description, terms, and privacy policy |
+| **Organization** | one of | Identifies the legal entity (company, government, NGO) that operates the service |
+| **Persona** | one of | Identifies the individual who operates the service |
+
+The full ECS set defined by the Verifiable Trust spec has **five** schemas — Service, Organization, Persona, UserAgent, and Badge. A VS presents the first three; UserAgent and Badge are AnonCreds credentials used by user agents and their human operators. See [ECS Trust Registries](./ecs-trust-registries).
 
 These credentials are exposed in the VS's **DID Document** as [Linked Verifiable Presentations](https://www.w3.org/TR/vc-data-model-2.0/), making them publicly discoverable and verifiable by anyone who resolves the DID.
 
@@ -67,7 +70,7 @@ A single VS Agent exposes **both** the Organization and Service credentials unde
 │                                  │
 │  • Organization credential (VP)  │
 │  • Service credential (VP)       │
-│  • Ecosystem permissions         │
+│  • Ecosystem participants        │
 └──────────────────────────────────┘
 ```
 
@@ -83,7 +86,7 @@ The Organization runs a dedicated VS Agent that holds the Organization credentia
 │   (did:webvh:...org-host)       │
 │                                 │
 │   • Organization credential     │
-│   • ISSUER permission for       │
+│   • ISSUER participant for      │
 │     Service schema              │
 │   • Issues Service credentials  │
 │     to child services           │
@@ -128,7 +131,7 @@ The following diagram shows how a Verifiable Service interacts with the broader 
 │  (Hologram)  │         │   (issues Org creds)     │
 │              │◄───────►│                          │
 │  Resolves VS │         │   Organization schema    │
-│  credentials │         │   Service schema (OPEN)  │
+│  credentials │         │   Service schema         │
 └──────┬───────┘         └──────────────────────────┘
        │ connects                      │
        ▼                               │ issues Org credential
@@ -138,16 +141,16 @@ The following diagram shows how a Verifiable Service interacts with the broader 
 │              │         ┌──────────────────────────┐
 │  Org VP      │         │   Verana Blockchain      │
 │  Service VP  │         │   (VPR)                  │
-│  Permissions │◄───────►│                          │
-│              │         │   Trust Registries       │
-└──────────────┘         │   Schemas & Permissions  │
+│  Participants│◄───────►│                          │
+│              │         │   Ecosystems             │
+└──────────────┘         │   Schemas & Participants │
                          └──────────────────────────┘
 ```
 
 1. Your VS Agent obtains an **Organization credential** from the ECS Trust Registry.
 2. Your VS Agent self-issues (or receives from the Org agent) a **Service credential**.
 3. Both credentials are exposed as **Linked Verifiable Presentations** in your DID Document.
-4. When a user or service connects, they **resolve your DID**, verify your credentials, and check your **permissions** against the VPR.
+4. When a user or service connects, they **resolve your DID**, verify your credentials, and check your **participants** against the VPR.
 5. Only then is a trusted connection established.
 
 ## Next Steps

@@ -6,7 +6,7 @@ This documentation will guide you through:
 
 - Setting up and running a node
 - Interacting with the blockchain using CLI
-- Working with modules like Trust Registry and DID Directory
+- Working with modules like Ecosystem, Participant, and Digest
 - Performing governance and upgrades
 
 VVTN inherits all cool features of the Cosmos SDK, including:

@@ -5,24 +5,40 @@ import TabItem from '@theme/TabItem';
 
 `MOD-CS-MSG-2`
 
-Update the **validity periods** attached to an existing credential schema. This operation is **delegable**. This does **not** change the JSON Schema itself or the permission management modes; it only adjusts how long validations remain effective for each role.
+Update the **validity periods** attached to an existing credential schema. This operation is **delegable**. It does **not** change the JSON Schema itself or the onboarding modes; it only adjusts how long validations remain effective for each role.
 
 :::warning Prerequisites
-1. **Group account (authority)** — You need a [Cosmos SDK group account](https://docs.cosmos.network/v0.50/build/modules/group) that controls the trust registry owning this schema.
-2. **Operator authorization** — Your operator account must be granted authorization for `MsgUpdateCredentialSchema` by the authority. See [Grant Operator Authorization](../delegation/grant-operator-authorization).
-3. **Existing, non-archived schema** — The credential schema must already exist and must not be archived.
+This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
+
+1. A **Corporation** (`policy_address`) that controls the Ecosystem owning this schema — see [Create a Corporation](../../corporation/create-a-corporation).
+2. The policy funded with `uvna` for fees.
+3. An **operator** granted authorization for `/verana.cs.v1.MsgUpdateCredentialSchema` via [Grant Operator Authorization](../../corporation/delegation/grant-operator-authorization).
+
+Sign with `--from <operator>` and pass the corporation's `policy_address` with the `--corporation` flag.
 :::
 
 ## Message Parameters
 
-| Name                           | Description                                                             | Mandatory |
-|--------------------------------|-------------------------------------------------------------------------|-----------|
-| credential-schema-id           | ID of the credential schema to update                                   | yes       |
-| issuer-grantor-validity        | Max days an **Issuer-Grantor** validation remains valid                 | yes       |
-| verifier-grantor-validity      | Max days a **Verifier-Grantor** validation remains valid                | yes       |
-| issuer-validity                | Days an **Issuer** validation remains valid                             | yes       |
-| verifier-validity              | Max days a **Verifier** validation remains valid                        | yes       |
-| holder-validity                | Max days a **Holder** validation remains valid                          | yes       |
+| Name                        | Description                                        | Mandatory |
+|-----------------------------|----------------------------------------------------|-----------|
+| `id`                        | ID of the credential schema to update              | yes       |
+| `--issuer-grantor-validation-validity-period`   | Days an issuer-grantor validation remains valid  | no |
+| `--verifier-grantor-validation-validity-period` | Days a verifier-grantor validation remains valid | no |
+| `--issuer-validation-validity-period`           | Days an issuer validation remains valid          | no |
+| `--verifier-validation-validity-period`         | Days a verifier validation remains valid         | no |
+| `--holder-validation-validity-period`           | Days a holder validation remains valid           | no |
+
+Each flag takes the wrapped-integer form `'{"value":N}'`. A value of `0` means *never expires*.
+
+## Required Environment Variables
+
+```bash
+CORPORATION=verana1f6fyc0ptxh7padqr3hnrw6sm8wjfr93w6cgv39jwm00nd6kh08esdak22l
+OPERATOR=verana1qrdyvgf74jpu5kxufg0gczz5rfv0ws646t3kw4
+SCHEMA_ID=1
+CHAIN_ID=vna-testnet-1
+NODE_RPC=https://rpc.testnet.verana.network
+```
 
 ## Post the Message
 
@@ -33,7 +49,7 @@ Update the **validity periods** attached to an existing credential schema. This 
 
 ```bash
 veranad tx cs update [id] \
-  --authority <authority> \
+  --corporation <policy_address> \
   [--issuer-grantor-validation-validity-period '{"value":N}'] \
   [--verifier-grantor-validation-validity-period '{"value":N}'] \
   [--issuer-validation-validity-period '{"value":N}'] \
@@ -42,31 +58,56 @@ veranad tx cs update [id] \
   --from <operator> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
 ```
 
-:::info
-The `--authority` flag specifies the group account that controls the trust registry owning this schema. The `--from` flag specifies the **operator** (transaction signer) who must be authorized by the authority.
-:::
+The `--from` flag is the **operator** (transaction signer); `--corporation` is the `policy_address` of the Corporation that controls the ecosystem owning this schema.
 
-### Copy-pasteable example
+### Example
 
-Set your environment (adjust values):
-```bash
-SCHEMA_ID=10
-AUTHORITY_ACC=<your-group-policy-address>
-USER_ACC="mat-test-acc"
-CHAIN_ID="vna-testnet-1"
-NODE_RPC=https://rpc.testnet.verana.network
-```
-
-Increase Issuer/Verifier periods and keep grantor/holder at 365 days:
 ```bash
 veranad tx cs update $SCHEMA_ID \
-  --authority $AUTHORITY_ACC \
+  --corporation $CORPORATION \
   --issuer-grantor-validation-validity-period '{"value":365}' \
   --verifier-grantor-validation-validity-period '{"value":365}' \
-  --issuer-validation-validity-period '{"value":280}' \
-  --verifier-validation-validity-period '{"value":280}' \
-  --holder-validation-validity-period '{"value":365}' \
-  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+  --issuer-validation-validity-period '{"value":180}' \
+  --verifier-validation-validity-period '{"value":180}' \
+  --holder-validation-validity-period '{"value":90}' \
+  --from $OPERATOR --chain-id $CHAIN_ID --keyring-backend test --fees 750000uvna --gas auto --node $NODE_RPC
+```
+
+### Example response
+
+The transaction emits an `update_credential_schema` event echoing the new validity periods:
+
+```yaml
+code: 0
+events:
+- type: message
+  attributes:
+  - key: action
+    value: /verana.cs.v1.MsgUpdateCredentialSchema
+  - key: module
+    value: cs
+- type: update_credential_schema
+  attributes:
+  - key: credential_schema_id
+    value: "1"
+  - key: ecosystem_id
+    value: "3"
+  - key: corporation
+    value: verana1f6fyc0ptxh7padqr3hnrw6sm8wjfr93w6cgv39jwm00nd6kh08esdak22l
+  - key: operator
+    value: verana1qrdyvgf74jpu5kxufg0gczz5rfv0ws646t3kw4
+  - key: issuer_grantor_validation_validity_period
+    value: "365"
+  - key: verifier_grantor_validation_validity_period
+    value: "365"
+  - key: issuer_validation_validity_period
+    value: "180"
+  - key: verifier_validation_validity_period
+    value: "180"
+  - key: holder_validation_validity_period
+    value: "90"
+gas_used: "95271"
+txhash: 497FB6ED9CA9822444366FB56DE495991E6244E1F7768A1C47A95DEEEC531015
 ```
 
   </TabItem>
@@ -81,11 +122,13 @@ veranad tx cs update $SCHEMA_ID \
 ## Verify the update
 
 Query the schema and inspect the validity fields:
+
 ```bash
-veranad q cs get-schema $SCHEMA_ID --node $NODE_RPC --output json | jq
+veranad query cs get-schema $SCHEMA_ID --node $NODE_RPC --output json | jq
 ```
 
 ## Notes
-- Validity values must be **positive integers** (days) and within module parameter limits.
-- You cannot change **permission management modes** (`OPEN`, `GRANTOR_VALIDATION`, `ECOSYSTEM`) with this command; create a new schema if you need different modes.
-- Only the **authority** controlling the trust registry that owns the schema can update it.
+
+- Validity values must be within the module parameter limits (see [Module Parameters](./module-params)).
+- You cannot change **onboarding modes** with this command; create a new schema if you need different modes.
+- Only an operator authorized by the Corporation that controls the ecosystem owning the schema can update it.

@@ -9,13 +9,13 @@ To interact with the Verana blockchain remotely, you can use the CLI (`veranad`)
 
 > **Tip:** If you have not created an account yet, see [Create and Fund an Account](./prerequisites#3-create-and-fund-an-account).
 
-3. Environmnet Variables to use with documentation examples
+Environment variables to use with the documentation examples:
 
-Local environment
+Local environment (isolated node from `setup_primary_validator.sh`)
 ```
 FAUCET_ACC="cooluser"
 FAUCET_ACC_LIT=verana16mzeyu9l6kua2cdg9x0jk5g6e7h0kk8q6uadu4
-CHAIN_ID="vna-local-1"
+CHAIN_ID="vna-testnet-1"
 NODE_RPC=http://localhost:26657
 ```
 
@@ -69,18 +69,17 @@ veranad tx bank send <from-wallet> <to-wallet> 100000uvna \
   --gas auto --fees 600000uvna
 ```
 
-Create a Trust Registry:
+Query the Ecosystem module (`ec`, which replaces the former Trust Registry module):
 ```bash
-veranad tx trustregistry create-trust-registry \
-    did:example:123456789abcdefghi en \
-    https://example.com/framework.pdf "sha256-315f5bdb76d078c43b8ac00641b2a6ea241e27fcb60e23f9e6acfa2c05b9e36a" \
-    --from $FAUCET_ACC --keyring-backend test --chain-id $CHAIN_ID --node $NODE_RPC --fees 600000uvna
+veranad q ec list-ecosystems --node $NODE_RPC
 ```
 
-List Trust Registries:
+Query a single ecosystem by id:
 ```bash
-veranad q trustregistry list-trust-registries --node $NODE_RPC
+veranad q ec get-ecosystem 1 --node $NODE_RPC
 ```
+
+Creating ecosystems, participants, and credential schemas is done on behalf of a Corporation. See the [module reference](../modules/ecosystem) for the full transaction flow.
 
 Query Blocks
 

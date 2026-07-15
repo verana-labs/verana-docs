@@ -36,7 +36,7 @@ VALIDATOR_ACC_LIT=verana1z2epxhjn6qrg0uca6j0rq7llupe3n0nl0gjt7d
 ## Phase 1: Submitting the Upgrade Proposal
 
 Note: For Trust Deposit yield funding, see the continuous funding proposal guide:
-[yield-funding](/docs/next/use/trust-deposit-and-reputation/yield-funding).
+[yield-funding](../../../use/trust-deposit-and-reputation/yield-funding).
 
 ### 1. Prepare the proposal JSON
 
@@ -51,7 +51,7 @@ Example `draft_proposal.json`:
         "name": "v0.9.1",
         "time": "0001-01-01T00:00:00Z",
         "height": "1195481",
-        "info": "{\"binaries\":{\"darwin/arm64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-darwin-arm64\",\"darwin/amd64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-darwin-amd64\",\"linux/arm64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-linux-arm64\",\"linux/amd64\":\"https://github.com/verana-labs/verana/releases/download/v0.9.1-dev.1/veranad-linux-amd64\"}}",
+        "info": "{\"binaries\":{\"darwin/arm64\":\"https://github.com/verana-labs/verana-node/releases/download/v0.9.1-dev.1/veranad-darwin-arm64\",\"darwin/amd64\":\"https://github.com/verana-labs/verana-node/releases/download/v0.9.1-dev.1/veranad-darwin-amd64\",\"linux/arm64\":\"https://github.com/verana-labs/verana-node/releases/download/v0.9.1-dev.1/veranad-linux-arm64\",\"linux/amd64\":\"https://github.com/verana-labs/verana-node/releases/download/v0.9.1-dev.1/veranad-linux-amd64\"}}",
          "upgraded_client_state": null
       }
     }
@@ -70,7 +70,7 @@ veranad q auth module-accounts --node $NODE_RPC
 ```
 
 ### 2. Calculate Upgrade Height
-- Use current height plus voting period margin. Testnet voting period = 10 mins (~160 blocks).
+- Use the current height plus a margin that covers the governance voting period. Check the deployed voting period with the command below rather than assuming a fixed value.
 - Check with:
 ```
 veranad q gov params --node $NODE_RPC
@@ -107,14 +107,14 @@ veranad tx gov deposit $PROP_ID 40000000uvna --from $PROPOSAL_FUNDING_ACC --keyr
 ```
 
 
-### 5. Vote
+### 6. Vote
 ```bash
 veranad tx gov vote $PROP_ID yes --from $VALIDATOR_ACC --keyring-backend test --chain-id $CHAIN_ID --fees 650000uvna --gas auto --node $NODE_RPC
 ```
 
 Ensure your validator account has tokens. If not:
 ```bash
-veranad tx bank send faucet $VALIDATOR_ACC 10000000uvna --from faucet --keyring-backend test --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC --yes
+veranad tx bank send faucet $VALIDATOR_ACC_LIT 10000000uvna --from faucet --keyring-backend test --chain-id $CHAIN_ID --fees 600000uvna --node $NODE_RPC --yes
 ```
 
 ---
@@ -165,8 +165,8 @@ kubectl rollout restart -n $CHAIN_ID deployment snapshot-node-deployment
 
 ## Debugging & Verification
 ```
-veranad q staking delegations $VALIDATOR_ACC --node $NODE_RPC
-veranad q bank balance $VALIDATOR_ACC uvna --node $NODE_RPC
+veranad q staking delegations $VALIDATOR_ACC_LIT --node $NODE_RPC
+veranad q bank balance $VALIDATOR_ACC_LIT uvna --node $NODE_RPC
 veranad keys list --keyring-backend test
 journalctl -u veranad -f
 ```

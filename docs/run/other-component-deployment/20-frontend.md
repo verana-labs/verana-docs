@@ -2,7 +2,7 @@
 
 This guide provides comprehensive instructions for deploying the Verana frontend application. The frontend is a Next.js application that provides a web interface for interacting with the Verana blockchain network.
 
-On the [components overview](https://verana.io/page/developers/components/) this app is referred to as the “Ledger Interface.” It is the primary control plane for ecosystem builders—allowing them to create or join ecosystems, manage trust registries, register credential schemas, and administer DID directory entries without touching CLI tooling. The codebase lives in [`verana-labs/verana-frontend`](https://github.com/verana-labs/verana-frontend); this document focuses on running it reliably once you have the source.
+On the [components overview](https://verana.io/page/developers/components/) this app is referred to as the “Ledger Interface.” It is the primary control plane for ecosystem builders—allowing them to create or join ecosystems, manage participants, register credential schemas, and store content digests without touching CLI tooling. The codebase lives in [`verana-labs/verana-frontend`](https://github.com/verana-labs/verana-frontend); this document focuses on running it reliably once you have the source.
 
 ---
 
@@ -50,10 +50,14 @@ The frontend requires several environment variables to connect to the Verana blo
 | `NEXT_PUBLIC_VERANA_CHAIN_NAME` | Human-readable chain name | `VeranaDevnet1` |
 | `NEXT_PUBLIC_VERANA_RPC_ENDPOINT` | RPC endpoint URL | `http://node1.devnet.verana.network:26657` |
 | `NEXT_PUBLIC_VERANA_REST_ENDPOINT` | REST API endpoint URL | `http://node1.devnet.verana.network:1317` |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT` | Trust Deposit REST endpoint | `http://node1.devnet.verana.network:1317/verana/td/v1` |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID` | DID REST endpoint | `http://node1.devnet.verana.network:1317/verana/dd/v1` |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY` | Trust Registry REST endpoint | `http://node1.devnet.verana.network:1317/verana/tr/v1` |
-| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA` | Credential Schema REST endpoint | `http://node1.devnet.verana.network:1317/verana/cs/v1` |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT` | Trust Deposit (`td`) REST endpoint | `http://node1.devnet.verana.network:1317/td/v1` |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_DIGEST` | Digest (`di`) REST endpoint (replaces the former DID Directory) | `http://node1.devnet.verana.network:1317/di/v1` |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_ECOSYSTEM` | Ecosystem (`ec`) REST endpoint (replaces the former Trust Registry) | `http://node1.devnet.verana.network:1317/ec/v1` |
+| `NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA` | Credential Schema (`cs`) REST endpoint | `http://node1.devnet.verana.network:1317/cs/v1` |
+
+:::info Spec v4 REST paths
+The node's REST server (port `1317`) does **not** use a single uniform prefix. Verified against a running v4 node: the Ecosystem (`ec`) and Corporation (`co`) modules serve their endpoints under a **bare** prefix (`/ec/v1/list`, `/co/v1/list`), while Credential Schema (`cs`), Trust Deposit (`td`) and Digest (`di`) serve their data endpoints under **`/verana/<module>/v1`** (`/verana/cs/v1/list`, `/verana/td/v1/get/{corporation_id}`, `/verana/di/v1/get`). The former `tr` (Trust Registry) and `dd` (DID Directory) modules no longer exist; they are replaced by `ec` (Ecosystem) and `di` (Digest). Confirm the exact variable names and paths your `verana-frontend` version expects in its checked-in `.env` — the current `.env` still ships the older `_TRUST_REGISTRY` / `_DID` / `_PERM` variable names.
+:::
 
 ### Optional Environment Variables
 
@@ -84,10 +88,10 @@ NEXT_PUBLIC_VERANA_CHAIN_ID=vna-devnet-1
 NEXT_PUBLIC_VERANA_CHAIN_NAME=VeranaDevnet1
 NEXT_PUBLIC_VERANA_RPC_ENDPOINT=http://node1.devnet.verana.network:26657
 NEXT_PUBLIC_VERANA_REST_ENDPOINT=http://node1.devnet.verana.network:1317
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=http://node1.devnet.verana.network:1317/verana/td/v1
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=http://node1.devnet.verana.network:1317/verana/dd/v1
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=http://node1.devnet.verana.network:1317/verana/tr/v1
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=http://node1.devnet.verana.network:1317/verana/cs/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=http://node1.devnet.verana.network:1317/td/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_DIGEST=http://node1.devnet.verana.network:1317/di/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_ECOSYSTEM=http://node1.devnet.verana.network:1317/ec/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=http://node1.devnet.verana.network:1317/cs/v1
 ```
 
 #### Testnet Configuration
@@ -97,10 +101,10 @@ NEXT_PUBLIC_VERANA_CHAIN_ID=vna-testnet-1
 NEXT_PUBLIC_VERANA_CHAIN_NAME=VeranaTestnet1
 NEXT_PUBLIC_VERANA_RPC_ENDPOINT=https://rpc.testnet.verana.network
 NEXT_PUBLIC_VERANA_REST_ENDPOINT=https://api.testnet.verana.network
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=https://api.testnet.verana.network/verana/td/v1
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=https://api.testnet.verana.network/verana/dd/v1
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=https://api.testnet.verana.network/verana/tr/v1
-NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=https://api.testnet.verana.network/verana/cs/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=https://api.testnet.verana.network/td/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_DIGEST=https://api.testnet.verana.network/di/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_ECOSYSTEM=https://api.testnet.verana.network/ec/v1
+NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=https://api.testnet.verana.network/cs/v1
 ```
 
 ---
@@ -231,10 +235,10 @@ docker run -d \
   -e NEXT_PUBLIC_VERANA_CHAIN_NAME=VeranaDevnet1 \
   -e NEXT_PUBLIC_VERANA_RPC_ENDPOINT=http://node1.devnet.verana.network:26657 \
   -e NEXT_PUBLIC_VERANA_REST_ENDPOINT=http://node1.devnet.verana.network:1317 \
-  -e NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=http://node1.devnet.verana.network:1317/verana/td/v1 \
-  -e NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=http://node1.devnet.verana.network:1317/verana/dd/v1 \
-  -e NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=http://node1.devnet.verana.network:1317/verana/tr/v1 \
-  -e NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=http://node1.devnet.verana.network:1317/verana/cs/v1 \
+  -e NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=http://node1.devnet.verana.network:1317/td/v1 \
+  -e NEXT_PUBLIC_VERANA_REST_ENDPOINT_DIGEST=http://node1.devnet.verana.network:1317/di/v1 \
+  -e NEXT_PUBLIC_VERANA_REST_ENDPOINT_ECOSYSTEM=http://node1.devnet.verana.network:1317/ec/v1 \
+  -e NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=http://node1.devnet.verana.network:1317/cs/v1 \
   -e NEXT_PUBLIC_VERANA_SIGN_DIRECT_MODE=false \
   -e NEXT_PUBLIC_SESSION_LIFETIME_SECONDS=86400 \
   --name verana-frontend \
@@ -260,10 +264,10 @@ export NEXT_PUBLIC_VERANA_CHAIN_ID=vna-testnet-1
 export NEXT_PUBLIC_VERANA_CHAIN_NAME=VeranaTestnet1
 export NEXT_PUBLIC_VERANA_RPC_ENDPOINT=https://rpc.testnet.verana.network
 export NEXT_PUBLIC_VERANA_REST_ENDPOINT=https://api.testnet.verana.network
-export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=https://api.testnet.verana.network/verana/td/v1
-export NEXT_PUBLIC_VERANA_REST_ENDPOINT_DID=https://api.testnet.verana.network/verana/dd/v1
-export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_REGISTRY=https://api.testnet.verana.network/verana/tr/v1
-export NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=https://api.testnet.verana.network/verana/cs/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_TRUST_DEPOSIT=https://api.testnet.verana.network/td/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_DIGEST=https://api.testnet.verana.network/di/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_ECOSYSTEM=https://api.testnet.verana.network/ec/v1
+export NEXT_PUBLIC_VERANA_REST_ENDPOINT_CREDENTIAL_SCHEMA=https://api.testnet.verana.network/cs/v1
 export NEXT_PUBLIC_VERANA_SIGN_DIRECT_MODE=false
 export NEXT_PUBLIC_SESSION_LIFETIME_SECONDS=86400
 export KUBE_NAMESPACE=$NEXT_PUBLIC_VERANA_CHAIN_ID   # or set your own namespace

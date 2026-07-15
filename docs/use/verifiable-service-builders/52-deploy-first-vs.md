@@ -79,7 +79,7 @@ The full DID includes a **Self-Certifying Identifier (SCID)** generated at first
 
 ### Step 4: Set up your Verana account
 
-You need a funded account on the Verana blockchain to create permissions:
+You need a funded account on the Verana blockchain to create participants:
 
 ```bash
 # Create a new account (if you don't have one)
@@ -110,9 +110,15 @@ The ECS Trust Registry issues Organization credentials. On testnet, you can requ
 AGENT_DID="did:webvh:Qm...:abc123.ngrok-free.app"  # from Step 3
 ECS_TR_ADMIN="https://admin-ecs-trust-registry.testnet.verana.network"
 
-# Discover the Organization VTJSC URL from the ECS TR DID Document
+# Discover the Organization VTJSC URL from the ECS TR DID Document.
+# The ECS Ecosystem declares one LinkedVerifiablePresentation per Essential Credential
+# Schema, with the fragment names fixed by the Verifiable Trust spec:
+#   #vpr-schemas-service-vtjsc-vp   #vpr-schemas-org-vtjsc-vp   #vpr-schemas-persona-vtjsc-vp
+#   #vpr-schemas-ua-vtjsc-vp        #vpr-schemas-badge-vtjsc-vp
+# The regexes below are tolerant, so they also match the fragment names currently
+# served by the deployed devnet/testnet ECS Trust Registries.
 ECS_DID_DOC=$(curl -s https://ecs-trust-registry.testnet.verana.network/.well-known/did.json)
-ORG_VP_URL=$(echo "$ECS_DID_DOC" | jq -r '.service[] | select(.type == "LinkedVerifiablePresentation") | select(.id | test("organization-jsc-vp")) | .serviceEndpoint')
+ORG_VP_URL=$(echo "$ECS_DID_DOC" | jq -r '.service[] | select(.type == "LinkedVerifiablePresentation") | select(.id | test("schemas-(org|organization)-(vt)?jsc-vp")) | .serviceEndpoint | if type == "array" then .[0] else . end')
 ORG_VP=$(curl -s "$ORG_VP_URL")
 ORG_JSC_URL=$(echo "$ORG_VP" | jq -r '.verifiableCredential[0].id')
 
@@ -149,35 +155,43 @@ curl -s -X POST "http://localhost:3000/v1/vt/linked-credentials" \
   }"
 ```
 
-### Step 6: Create an ISSUER permission for the Service schema
+### Step 6: Create an ISSUER participant for the Service schema
 
-The Service schema uses OPEN permission mode, so you can self-create an ISSUER permission:
+The Service schema sets `issuer_onboarding_mode` = `OPEN`, so you can self-create an ISSUER participant — no onboarding process required. (`ISSUER_VALIDATION_PROCESS` is the Service schema's **holder** mode, and governs how *holders* of Service credentials are onboarded; it is not what allows you to become an issuer.)
 
 ```bash
 # Discover the Service VTJSC URL and schema ID from the ECS TR DID Document
-SERVICE_VP_URL=$(echo "$ECS_DID_DOC" | jq -r '.service[] | select(.type == "LinkedVerifiablePresentation") | select(.id | test("service-jsc-vp")) | .serviceEndpoint')
+SERVICE_VP_URL=$(echo "$ECS_DID_DOC" | jq -r '.service[] | select(.type == "LinkedVerifiablePresentation") | select(.id | test("schemas-service-(vt)?jsc-vp")) | .serviceEndpoint | if type == "array" then .[0] else . end')
 SERVICE_VP=$(curl -s "$SERVICE_VP_URL")
 SERVICE_JSC_URL=$(echo "$SERVICE_VP" | jq -r '.verifiableCredential[0].id')
 SERVICE_SCHEMA_REF=$(echo "$SERVICE_VP" | jq -r '.verifiableCredential[0].credentialSubject.jsonSchema."$ref"')
 CS_SERVICE_ID=$(echo "$SERVICE_SCHEMA_REF" | grep -oE '[0-9]+$')
 
-# Create the permission (effective 15 seconds from now)
+# Confirm the schema is OPEN for issuers before self-creating a participant
+veranad q cs get-schema "$CS_SERVICE_ID" --node https://rpc.testnet.verana.network --output json \
+  | jq '.schema | {issuer_onboarding_mode, holder_onboarding_mode}'
+
+# Look up the Service schema's root participant (the validator you self-onboard under)
+# veranad q pp list-participants --node https://rpc.testnet.verana.network --output json
+
+# Create the participant (effective 15 seconds from now)
 EFFECTIVE_FROM=$(date -u -v+15S +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null \
   || date -u -d "+15 seconds" +"%Y-%m-%dT%H:%M:%SZ")
 
-veranad tx perm create-perm "$CS_SERVICE_ID" issuer "$AGENT_DID" \
+veranad tx pp self-create-participant issuer <validator-participant-id> "$AGENT_DID" \
+  --corporation <corporation> \
   --effective-from "$EFFECTIVE_FROM" \
   --from my-vs-account --chain-id vna-testnet-1 --keyring-backend test \
   --fees 600000uvna --gas auto --node https://rpc.testnet.verana.network \
   --output json -y
 
-# Wait for the permission to become effective
+# Wait for the participant to become effective
 sleep 21
 ```
 
 ### Step 7: Self-issue your Service credential
 
-As an authorized issuer (with a valid ISSUER permission), you issue credentials directly against the **VTJSC presented by the Trust Registry's DID** — there is no need to create a local VTJSC. The `SERVICE_JSC_URL` discovered in Step 6 is used as the `jsonSchemaCredentialId`:
+As an authorized issuer (with a valid ISSUER participant), you issue credentials directly against the **VTJSC presented by the ECS Trust Registry's DID** — there is no need to create a local VTJSC. The `SERVICE_JSC_URL` discovered in Step 6 is used as the `jsonSchemaCredentialId`:
 
 ```bash
 # Self-issue the Service credential using the ECS TR's VTJSC
@@ -215,10 +229,55 @@ curl -s -X POST "http://localhost:3000/v1/vt/linked-credentials" \
 Check your DID Document to confirm both credentials are linked:
 
 ```bash
-curl -s http://localhost:3001/.well-known/did.json | jq '[.service[] | select(.type == "LinkedVerifiablePresentation")]'
+curl -s http://localhost:3001/.well-known/did.json | jq '.service'
 ```
 
-You should see two `LinkedVerifiablePresentation` entries — one for Organization, one for Service.
+A conforming Verifiable Service DID Document declares its Essential Credentials as Linked Verifiable Presentations, with the fragment names fixed by the Verifiable Trust spec, **plus** at least one `DIDCommMessaging` entry — DIDComm is the mandatory bootstrap channel over which trust is established. Any other endpoint (MCP, A2A, a website) is optional, and a peer may only consume it *after* trust resolution of your DID has succeeded:
+
+```json
+"service": [
+  {
+    "id": "did:example:service#vpr-schemas-service-vtc-vp",
+    "type": "LinkedVerifiablePresentation",
+    "serviceEndpoint": ["https://example.com/vpr-schemas-service-vtc-vp.json"]
+  },
+  {
+    "id": "did:example:service#vpr-schemas-org-vtc-vp",
+    "type": "LinkedVerifiablePresentation",
+    "serviceEndpoint": ["https://example.com/vpr-schemas-org-vtc-vp.json"]
+  },
+  {
+    "id": "did:example:service#didcomm",
+    "type": "DIDCommMessaging",
+    "serviceEndpoint": {
+      "uri": "https://example.com/didcomm",
+      "accept": ["didcomm/v2"],
+      "routingKeys": []
+    }
+  },
+  {
+    "id": "did:example:service#mcp",
+    "type": "MCP",
+    "serviceEndpoint": "https://example.com/mcp"
+  },
+  {
+    "id": "did:example:service#a2a",
+    "type": "A2A",
+    "serviceEndpoint": "https://example.com/a2a"
+  },
+  {
+    "id": "did:example:service#website",
+    "type": "LinkedDomains",
+    "serviceEndpoint": "https://example.com/"
+  }
+]
+```
+
+- `#vpr-schemas-service-vtc-vp` — your **Service** credential. Mandatory for every VS.
+- `#vpr-schemas-org-vtc-vp` — your **Organization** credential. A VS presents **exactly one** of Organization (`#vpr-schemas-org-vtc-vp`) or Persona (`#vpr-schemas-persona-vtc-vp`) when it is the issuer of its own Service credential; if the Service credential was issued by someone else, that issuer's DID Document carries the Organization or Persona credential instead.
+- `#didcomm` — the mandatory DIDComm endpoint.
+
+Note that the `-vtc-vp` fragments here present *credentials*; the `-vtjsc-vp` fragments in the ECS Ecosystem's DID Document present *schema credentials* (see [ECS Trust Registries](./51-ecs-trust-registries.md#the-ecs-ecosystem-did-document)). UserAgent and Badge credentials are AnonCreds credentials and are never declared in a DID Document.
 
 Optionally, verify through the Trust Resolver:
 
@@ -330,11 +389,11 @@ chmod +x scripts/vs-demo/*.sh
 # Part 1: Deploy VS Agent + obtain ECS credentials
 ./scripts/vs-demo/01-deploy-vs.sh
 
-# Part 2 (optional): Create your own Trust Registry
+# Part 2 (optional): Create your own Ecosystem
 ./scripts/vs-demo/02-create-trust-registry.sh
 ```
 
-The scripts handle everything: Docker deployment, ngrok tunneling, schema discovery, credential issuance, permission creation, and verification.
+The scripts handle everything: Docker deployment, ngrok tunneling, schema discovery, credential issuance, participant creation, and verification.
 
 ### Configuration
 
@@ -383,4 +442,4 @@ helm uninstall my-vs-agent -n my-namespace
 
 Your Verifiable Service is now deployed with ECS credentials. To go further:
 
-- [**Join other ecosystems**](./53-join-ecosystems.md) — obtain permissions to issue and verify credentials from custom Trust Registries.
+- [**Join other ecosystems**](./53-join-ecosystems.md) — obtain the participants needed to issue and verify credentials in custom Ecosystems.

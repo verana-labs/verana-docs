@@ -76,3 +76,120 @@ Verifiable Trust introduces the following core concepts, concepts that are fully
 The Proof-of-Trust is established by recursively resolving the credentials presented by (in this example) a service. What makes this trust verifiable is the use of cryptographic mechanisms built into Decentralized Identifiers (DIDs) and Verifiable Credentials, as applied across these five key concepts.
 
 Because these concepts are deeply interdependent, you may need to explore them together, and revisit them several times to fully grasp the Verifiable Trust model.
+
+## Where trust resolution reads from: the DID Document
+
+Everything trust resolution needs is published in DID Documents, as `service` entries. Two kinds of DID Document matter.
+
+### The DID Document of a verifiable service
+
+A verifiable service must be identified by a DID that resolves to a DID Document presenting, as linked verifiable presentations:
+
+- a **Service** ECS credential (`#vpr-schemas-service-vtc-vp`) — mandatory;
+- **exactly one** of an **Organization** (`#vpr-schemas-org-vtc-vp`) or **Persona** (`#vpr-schemas-persona-vtc-vp`) ECS credential — presented by the service itself when it issued its own Service credential, or by the DID Document of the issuer of that Service credential otherwise.
+
+That is what binds every verifiable service to an accountable legal entity or natural person.
+
+The same DID Document declares the endpoints through which the service is actually consumed. It must declare **at least one `DIDCommMessaging` entry**: DIDComm is the bootstrapping channel over which trust is established and over which credentials, tokens, and other authentication material for the remaining endpoints are obtained. It may declare any number of additional endpoints (MCP, A2A, a plain website, ...):
+
+```json
+"service": [
+  {
+    "id": "did:example:service#vpr-schemas-service-vtc-vp",
+    "type": "LinkedVerifiablePresentation",
+    "serviceEndpoint": ["https://example.com/vpr-schemas-service-vtc-vp.json"]
+  },
+  {
+    "id": "did:example:service#vpr-schemas-org-vtc-vp",
+    "type": "LinkedVerifiablePresentation",
+    "serviceEndpoint": ["https://example.com/vpr-schemas-org-vtc-vp.json"]
+  },
+  {
+    "id": "did:example:service#didcomm",
+    "type": "DIDCommMessaging",
+    "serviceEndpoint": {
+      "uri": "https://example.com/didcomm",
+      "accept": ["didcomm/v2"],
+      "routingKeys": []
+    }
+  },
+  {
+    "id": "did:example:service#mcp",
+    "type": "MCP",
+    "serviceEndpoint": "https://example.com/mcp"
+  },
+  {
+    "id": "did:example:service#a2a",
+    "type": "A2A",
+    "serviceEndpoint": "https://example.com/a2a"
+  },
+  {
+    "id": "did:example:service#website",
+    "type": "LinkedDomains",
+    "serviceEndpoint": "https://example.com/"
+  }
+]
+```
+
+The `LinkedVerifiablePresentation` entries are **identity layer**: they are consumed *during* trust resolution and are not consumable service endpoints. A peer must trust-resolve the DID — and succeed — **before** using `#didcomm`, `#mcp`, `#a2a` or `#website`. In practice DIDComm is the control plane of a verifiable service and the other endpoints are its data plane.
+
+:::note
+The `MCP` and `A2A` type strings are illustrative: ecosystems are free to standardize type names for emerging protocols. What is required is DID Core `service` syntax, and at least one `DIDCommMessaging` entry.
+:::
+
+### The DID Document of an ECS ecosystem
+
+Trust resolution terminates at an **ecosystem DID**, which is the issuer of the Verifiable Trust JSON Schema Credential (VTJSC) behind each credential. An ecosystem that provides Essential Credential Schemas must present, in its DID Document, one self-issued VTJSC per ECS, under these five exact fragments:
+
+```json
+"service": [
+  {
+    "id": "did:example:ecosystem#vpr-schemas-service-vtjsc-vp",
+    "type": "LinkedVerifiablePresentation",
+    "serviceEndpoint": ["https://ecosystem/ecs-service-vtjsc-vp.json"]
+  },
+  {
+    "id": "did:example:ecosystem#vpr-schemas-org-vtjsc-vp",
+    "type": "LinkedVerifiablePresentation",
+    "serviceEndpoint": ["https://ecosystem/ecs-org-vtjsc-vp.json"]
+  },
+  {
+    "id": "did:example:ecosystem#vpr-schemas-persona-vtjsc-vp",
+    "type": "LinkedVerifiablePresentation",
+    "serviceEndpoint": ["https://ecosystem/ecs-persona-vtjsc-vp.json"]
+  },
+  {
+    "id": "did:example:ecosystem#vpr-schemas-ua-vtjsc-vp",
+    "type": "LinkedVerifiablePresentation",
+    "serviceEndpoint": ["https://ecosystem/ecs-ua-vtjsc-vp.json"]
+  },
+  {
+    "id": "did:example:ecosystem#vpr-schemas-badge-vtjsc-vp",
+    "type": "LinkedVerifiablePresentation",
+    "serviceEndpoint": ["https://ecosystem/ecs-badge-vtjsc-vp.json"]
+  },
+  {
+    "id": "did:example:ecosystem#vpr-schemas-ecosystem-1234",
+    "type": "VerifiablePublicRegistry",
+    "version": "1.0",
+    "serviceEndpoint": ["vpr:verana:vna-mainnet-1"]
+  }
+]
+```
+
+The `VerifiablePublicRegistry` entry tells a resolver **which VPR** to verify the ecosystem's schema entries against: its `serviceEndpoint` carries the `vpr:` scheme prefix of that registry (`vpr:verana:vna-mainnet-1` for Verana mainnet, `vpr:verana:vna-testnet-1` for testnet). Individual schemas are referenced from the VTJSCs with `vpr:verana:<vpr-id>:cs:<credential-schema-id>` URIs.
+
+See [Essential Credential Schemas](./ecs) and [Credential Schemas](../verifiable-public-registry/credential-schema) for how these entries are produced.
+
+## How trust resolution runs
+
+Given a DID, resolution is **recursive**, and each step is verifiable:
+
+1. **Resolve the DID** and fetch the linked verifiable presentations declared in its DID Document.
+2. **Verify each credential**: the signature for W3C VTCs, the zero-knowledge proof for AnonCreds VTCs.
+3. **Resolve the VTJSC** referenced by each credential (directly via `credentialSchema.id` for W3C VTCs, via the credential definition's `relatedJsonSchemaCredentialId` for AnonCreds VTCs), verify its signature, and confirm it is issued by an ecosystem DID and binds to a `Credential Schema` entry that exists in the VPR.
+4. **Determine the effective issuance time** of W3C VTCs by recomputing the credential digest and looking it up in the VPR: the `created` timestamp of the [`Digest`](../verifiable-public-registry/digest) entry is the issuance time.
+5. **Check issuer authorization** in the VPR: for W3C VTCs, the issuer must have held the relevant issuer `Participant` entry *at that effective issuance time*; for AnonCreds VTCs, the issuer must be authorized now.
+6. **Recurse into the issuer**: every DID encountered as an issuer must itself resolve as a verifiable service and have its own credentials verified the same way.
+
+The recursion terminates at the **ecosystem DID** — the issuer of the VTJSC, and the trust root. If any step fails, trust resolution fails, and the credential or the connection is rejected.

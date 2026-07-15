@@ -3,55 +3,55 @@ import TabItem from '@theme/TabItem';
 
 # Trust Deposit Operations
 
-Trust deposits are used to lock trust value as a stake for participating in the Verana ecosystem. When you create trust registries, credential schemas, or permissions, a trust deposit is required and held in the trust deposit module.
+A **Trust Deposit** is trust value locked as a stake for participating in the Verana ecosystem. Trust deposits grow automatically as a Corporation performs trust operations — running onboarding processes, creating ecosystems and participants, issuing and verifying credentials.
 
-Make sure you've read [the Learn section](../../learn/verifiable-public-registry/trust-deposit-and-reputation) to understand how trust deposits work in the ecosystem.
+:::info Trust Deposit is keyed by `corporation_id`
+In VPR v4 a `TrustDeposit` is held **per Corporation**, identified by the numeric `corporation_id` — **not** per account address and **not** per Participant entry. Every query and transaction on this page targets a Corporation. See [Trust Deposit and Reputation](../../learn/verifiable-public-registry/trust-deposit-and-reputation) in the Learn section for the conceptual model.
+:::
 
-### Environment Setup
-
-#### Set Environment Variables
+## Environment Setup
 
 ```bash
-AUTHORITY_ACC="verana1groupaccountaddress..."   # Group account (authority)
-OPERATOR_ACC="my-operator-key"                  # Operator key name in keyring
+CORPORATION="verana1n64en27u7qckklkk4twkkun5h6v5dsur7g6l4pfmfhydvfru9upq5w4nlu"   # Corporation policy_address
+CORP_ID=6                                                                          # Numeric corporation_id
+OPERATOR_ACC="my-operator-key"    # Operator key name in keyring (signer)
 CHAIN_ID="vna-testnet-1"
-NODE_RPC=https://rpc.testnet.verana.network
+NODE_RPC="https://rpc.testnet.verana.network"
 ```
 
-*These variables are required to target the correct environment (testnet, mainnet, or local). Adjust values accordingly.*
+*These variables target the correct environment (testnet, mainnet, or local). Adjust values accordingly.*
 
-> **Prerequisite:** Ensure the `veranad` binary is installed and up-to-date.
+> **Prerequisite:** Ensure the `veranad` binary is installed and up to date.
 > See [Install or Update Veranad Binary](/docs/next/run/network/run-a-node/prerequisites).
 
 ---
 
 ## Trust Deposit Structure
 
-Understanding your trust deposit structure is essential for managing operations effectively:
+A Corporation's trust deposit record (`TrustDeposit`) has the following fields:
 
 | Field | Description |
 |-------|-------------|
-| `account` | Your account address |
-| `amount` | Current deposited amount in uvna |
-| `share` | Number of shares you own in the trust deposit pool |
-| `claimable` | Freed deposit amount available for reclaim |
-| `slashed_deposit` | Amount that has been slashed |
-| `repaid_deposit` | Amount repaid after slashing |
-| `last_slashed` | Timestamp of most recent slash |
-| `last_repaid` | Timestamp of most recent repayment |
-| `slash_count` | Number of times account has been slashed |
-| `last_repaid_by` | Account that made the last repayment |
+| `corporation_id` | Numeric id of the Corporation that owns this deposit (primary key). |
+| `share` | The Corporation's share of the trust deposit pool, in `trust_deposit_share_value` units (high-precision decimal). |
+| `deposit` | Current deposited amount, in `uvna`. |
+| `refunded` | Amount freed and eligible to be recycled/reused before drawing additional funds. |
+| `slashed_deposit` | Amount that has been slashed. |
+| `repaid_deposit` | Amount repaid after slashing. |
+| `last_slashed` | Timestamp of the most recent slash. |
+| `last_repaid` | Timestamp of the most recent repayment. |
+| `slash_count` | Number of times the deposit has been slashed. |
 
-**Key Concepts:**
-- **Yield Calculation**: `yield = share × share_value - deposit`
-- **Share Value**: Increases over time as fees are distributed to trust deposit holders
-- **Burn Rate**: When reclaiming freed deposits, a percentage is burned to discourage early withdrawal
+**Key concepts:**
+- **Yield calculation** — `yield = share × trust_deposit_share_value − deposit` (spec `MOD-TD-MSG-2`).
+- **Share value** — `trust_deposit_share_value` starts at 1 and increases over time as block-reward yield is produced, so a deposit appreciates automatically.
+- **Non-withdrawable** — there is no CLI command to withdraw principal from a trust deposit. Value locked as a trust deposit stays locked; only earned **yield** can be reclaimed (see below).
 
 ---
 
-## View your Trust Deposit
+## View a Trust Deposit
 
-Use this query to view your current trust deposit information, including deposited amounts, shares, claimable balances, and yield calculations.
+Query the trust deposit for a given Corporation (spec `MOD-TD-QRY-1`).
 
 <Tabs>
   <TabItem value="cli" label="CLI" default>
@@ -59,39 +59,33 @@ Use this query to view your current trust deposit information, including deposit
 ### Usage
 
 ```bash
-veranad q td get-trust-deposit [account] --node <rpc-endpoint> --output json
+veranad q td get-trust-deposit [corporation-id] --node <rpc-endpoint> --output json
 ```
 
 ### Parameters
 
-| Name        | Description                   | Mandatory |
-|-------------|-------------------------------|-----------|
-| `account`   | Account address to query      | yes       |
+| Name             | Description                          | Mandatory |
+|------------------|--------------------------------------|-----------|
+| `corporation-id` | Numeric `corporation_id` to query    | yes       |
 
-### Examples
+### Example
 
-View your own trust deposit:
 ```bash
-veranad q td get-trust-deposit $AUTHORITY_ACC --node $NODE_RPC --output json
+veranad q td get-trust-deposit $CORP_ID --node $NODE_RPC --output json
 ```
 
 **Example Output:**
 ```json
 {
   "trust_deposit": {
-    "account": "verana1sxau0xyttphpck7vhlvt8s82ez70nlzw2mhya0",
-    "amount": 10000000,
-    "share": 8695652,
-    "claimable": 2000000,
-    "slashed_deposit": 0,
-    "repaid_deposit": 0,
-    "last_slashed": null,
-    "last_repaid": null,
-    "slash_count": 0,
-    "last_repaid_by": ""
+    "share": "45999999850000003749999907",
+    "deposit": "46000000",
+    "corporation_id": "6"
   }
 }
 ```
+
+Zero-valued fields (`slashed_deposit`, `repaid_deposit`, `refunded`, `slash_count`) are omitted from JSON output. They appear once the deposit has been slashed or partially freed.
 
   </TabItem>
 
@@ -102,9 +96,9 @@ veranad q td get-trust-deposit $AUTHORITY_ACC --node $NODE_RPC --output json
   </TabItem>
 </Tabs>
 
-### Calculate Your Available Yield
+### Check the Current Share Value
 
-To understand your potential yield, check the current share value:
+To estimate available yield, read the live `trust_deposit_share_value` from the module parameters:
 
 ```bash
 veranad q td params --node $NODE_RPC --output json
@@ -114,9 +108,16 @@ veranad q td params --node $NODE_RPC --output json
 
 ## Reclaim Trust Deposit Yield
 
-Reclaim earned interest (yield) from your trust deposits. Yield is generated when transaction fees are distributed to trust deposit holders, increasing the share value over time.
+Reclaim the earned interest (yield) accrued on a Corporation's trust deposit (spec `MOD-TD-MSG-2`). Yield is generated as block-reward funds are distributed to trust deposit holders, increasing `trust_deposit_share_value` over time. The **entire** claimable yield is drained — there is no amount argument.
 
-This is a **non-delegable** message — the signer (`--from`) is the account whose trust deposit yield is being reclaimed.
+:::warning Prerequisites
+This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
+1. A **Corporation** (`policy_address`) — see [Create a Corporation](../corporation/create-a-corporation).
+2. The Corporation's trust deposit must have claimable yield (`share × trust_deposit_share_value − deposit > 0`).
+3. An **operator** granted authorization for `/verana.td.v1.MsgReclaimTrustDepositYield` via [Grant Operator Authorization](../corporation/delegation/grant-operator-authorization).
+
+Sign with `--from <operator>` and pass the Corporation as the `[corporation]` positional argument.
+:::
 
 <Tabs>
   <TabItem value="cli" label="CLI" default>
@@ -124,21 +125,22 @@ This is a **non-delegable** message — the signer (`--from`) is the account who
 ### Usage
 
 ```bash
-veranad tx td reclaim-yield \
-  --from <user-account> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+veranad tx td reclaim-yield [corporation] \
+  --from <operator> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node <rpc-endpoint>
 ```
 
 ### Message Parameters
 
-| Name     | Description                                                   | Mandatory |
-|----------|---------------------------------------------------------------|-----------|
-| `--from` | Account whose trust deposit yield will be reclaimed           | yes       |
+| Name          | Description                                                 | Mandatory |
+|---------------|-------------------------------------------------------------|-----------|
+| `corporation` | Corporation `policy_address` that owns the trust deposit     | yes       |
+| `--from`      | Operator account signing the transaction                    | yes       |
 
 ### Example
 
 ```bash
-veranad tx td reclaim-yield \
-  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+veranad tx td reclaim-yield $CORPORATION \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
   </TabItem>
@@ -150,29 +152,44 @@ veranad tx td reclaim-yield \
   </TabItem>
 </Tabs>
 
-**Prerequisites:**
-- You must have a trust deposit with available yield
-- Your deposit must not be slashed (or must be fully repaid)
-- Sufficient balance for transaction fees
+**Response shape** (proto `MsgReclaimTrustDepositYieldResponse`):
 
-**What Happens:**
-1. Calculates your available yield: `yield = share × share_value - deposit`
-2. Reduces your share count accordingly
-3. Transfers yield amount to your account
-4. Updates your trust deposit record
+```json
+{
+  "claimed_amount": "1250000"
+}
+```
 
-#### Verify Yield Claim
+**What happens** (spec `MOD-TD-MSG-2`):
+1. Computes claimable yield: `yield = share × trust_deposit_share_value − deposit`.
+2. Reduces the Corporation's `share` accordingly.
+3. Transfers the yield amount to the Corporation.
+4. If the truncated claimable yield is `0`, the operation is rejected ("no claimable yield").
 
-Check your updated trust deposit after claiming:
+#### Verify the Claim
+
 ```bash
-veranad q td get-trust-deposit $USER_ACC --node $NODE_RPC --output json
+veranad q td get-trust-deposit $CORP_ID --node $NODE_RPC --output json
 ```
 
 ---
 
-## Reclaim Freed Trust Deposit
+## Repay a Slashed Trust Deposit
 
-Reclaim a specified amount from your claimable trust deposit balance. This is used when you have freed deposits (from terminated permissions, etc.) that you want to withdraw.
+If a Corporation's trust deposit has been slashed (see [Network Governance Slashing](./slashing)), the outstanding slashed amount must be repaid before the Corporation can fully participate again. Repayment is done on behalf of the Corporation (spec `MOD-TD-MSG-6`).
+
+:::warning[Exact Amount Required]
+The `deposit` argument **must exactly equal** the outstanding slashed amount (`slashed_deposit − repaid_deposit`). Partial repayments are rejected.
+:::
+
+:::warning Prerequisites
+This is a **delegable** transaction executed on behalf of a Corporation. Before running it you need:
+1. A **Corporation** (`policy_address`) with an outstanding slashed trust deposit — see [Create a Corporation](../corporation/create-a-corporation).
+2. An **operator** granted authorization for `/verana.td.v1.MsgRepaySlashedTrustDeposit` via [Grant Operator Authorization](../corporation/delegation/grant-operator-authorization).
+3. Sufficient balance to cover the repayment amount plus fees.
+
+Sign with `--from <operator>` and pass the Corporation as the `[corporation]` positional argument.
+:::
 
 <Tabs>
   <TabItem value="cli" label="CLI" default>
@@ -180,23 +197,27 @@ Reclaim a specified amount from your claimable trust deposit balance. This is us
 ### Usage
 
 ```bash
-veranad tx td reclaim-deposit [amount] \
-  --from <user> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node $NODE_RPC
+veranad tx td repay-slashed-td [corporation] [deposit] \
+  --from <operator> --chain-id <chain-id> --keyring-backend test --fees <amount> --gas auto --node <rpc-endpoint>
 ```
 
 ### Message Parameters
 
-| Name      | Description                                              | Mandatory |
-|-----------|----------------------------------------------------------|-----------|
-| `amount`  | Amount to reclaim in uvna (must be ≤ claimable balance)  | yes       |
+| Name          | Description                                                             | Mandatory |
+|---------------|-------------------------------------------------------------------------|-----------|
+| `corporation` | Corporation `policy_address` that owns the slashed trust deposit         | yes       |
+| `deposit`     | Repayment amount in `uvna` (must equal the outstanding slashed amount)   | yes       |
+| `--from`      | Operator account signing the transaction                                | yes       |
 
-### Examples
+### Example
 
-Reclaim 1,000,000 uvna from claimable balance:
 ```bash
-RECLAIM_AMOUNT=1000000
-veranad tx td reclaim-deposit $RECLAIM_AMOUNT \
-  --from $USER_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
+# First, read the outstanding slashed amount (slashed_deposit − repaid_deposit)
+veranad q td get-trust-deposit $CORP_ID --node $NODE_RPC --output json
+
+# Repay the exact outstanding amount
+veranad tx td repay-slashed-td $CORPORATION 1000000 \
+  --from $OPERATOR_ACC --chain-id $CHAIN_ID --keyring-backend test --fees 600000uvna --gas auto --node $NODE_RPC
 ```
 
   </TabItem>
@@ -208,42 +229,24 @@ veranad tx td reclaim-deposit $RECLAIM_AMOUNT \
   </TabItem>
 </Tabs>
 
-:::warning[Burn Rate Applied]
-**Discouraged Operation**: To discourage frequent withdrawals, a portion of your reclaimed amount will be burned according to the `trust_deposit_reclaim_burn_rate` (default 60%). Only the remaining amount will be transferred to your account.
+**What happens** (spec `MOD-TD-MSG-6`):
+1. Verifies the operator authorization (AUTHZ-CHECK).
+2. Validates that `deposit` exactly matches the outstanding slashed amount.
+3. Increases `deposit` and `repaid_deposit` by the repayment amount.
+4. Increases `share` proportionally at the current `trust_deposit_share_value`.
+5. Updates `last_repaid`.
 
-**Example**: If you reclaim 1,000,000 uvna with a 60% burn rate:
-- Burned: 600,000 uvna
-- Transferred to you: 400,000 uvna
+Once `repaid_deposit` equals `slashed_deposit`, the Corporation is restored to good standing.
+
+:::info No `reclaim-deposit` command
+Earlier drafts exposed a `reclaim-deposit` command to withdraw freed (`refunded`) balance, subject to a burn rate. **That command does not exist in the node.** The `trust_deposit_reclaim_burn_rate` parameter still exists (see [Query Module Parameters](#query-module-parameters)) and governs how freed deposit is recycled internally, but there is no user-facing CLI to withdraw principal.
 :::
-
-**Prerequisites:**
-- You must have claimable balance > 0
-- Claimed amount must be ≤ claimable balance
-- Sufficient balance for transaction fees
-
-**What Happens:**
-1. Reduces your claimable balance by the claimed amount
-2. Reduces your deposited amount by the claimed amount
-3. Reduces your share count proportionally
-4. Burns the burn rate percentage of claimed amount
-5. Transfers the remaining amount to your account
-
-#### How to Find Your Transaction Hash
-
-```bash
-TX_HASH=<Tx_Hash>
-veranad q tx $TX_HASH \
-  --node $NODE_RPC --output json \
-| jq '.events[] | select(.type == "trust_deposit_reclaimed") | .attributes | map({(.key): .value}) | add'
-```
-
-Replace with the correct transaction hash.
 
 ---
 
 ## Query Module Parameters
 
-View the current trust deposit module parameters, including share values and burn rates.
+View the current trust deposit module parameters (spec `MOD-TD-QRY-2`).
 
 <Tabs>
   <TabItem value="cli" label="CLI" default>
@@ -260,17 +263,18 @@ veranad q td params --node <rpc-endpoint> --output json
 veranad q td params --node $NODE_RPC --output json
 ```
 
-**Example Output:**
+**Example Output** (live testnet values):
 ```json
 {
   "params": {
-    "trust_deposit_reclaim_burn_rate": "600000000000000000",
-    "trust_deposit_share_value": "1000000000000000000",
+    "trust_deposit_reclaim_burn_rate": "0",
+    "trust_deposit_share_value": "1000000025000000000",
     "trust_deposit_rate": "200000000000000000",
-    "wallet_user_agent_reward_rate": "200000000000000000",
-    "user_agent_reward_rate": "200000000000000000",
-    "trust_deposit_max_yield_rate": "150000000000000000",
-    "yield_intermediate_pool": "verana1..."
+    "wallet_user_agent_reward_rate": "100000000000000000",
+    "user_agent_reward_rate": "100000000000000000",
+    "trust_deposit_max_yield_rate": "200000000000000000",
+    "yield_intermediate_pool": "verana1wjnrmvjlgxvs098cnu3jaczzjjm4csmqep067h",
+    "trust_deposit_block_reward_share": "200000000000000000"
   }
 }
 ```
@@ -286,15 +290,22 @@ veranad q td params --node $NODE_RPC --output json
 
 ### Parameter Descriptions
 
-| Parameter | Description | Default Value |
-|-----------|-------------|---------------|
-| `trust_deposit_reclaim_burn_rate` | Percentage burned when reclaiming freed deposits | 0.60 (60%) |
-| `trust_deposit_share_value` | Current value of one share (increases over time) | 1.0 (initial) |
-| `trust_deposit_rate` | Rate for calculating deposits from fees | 0.20 (20%) |
-| `wallet_user_agent_reward_rate` | Reward rate for wallet user agents | 0.20 (20%) |
-| `user_agent_reward_rate` | Reward rate for user agents | 0.20 (20%) |
-| `trust_deposit_max_yield_rate` | Maximum annual yield percentage | 0.15 (15%) |
-| `yield_intermediate_pool` | Address of the yield intermediate pool account | (module account) |
+All rate values are encoded as 18-decimal fixed-point integers (`200000000000000000` = 0.20 = 20%).
+
+| Parameter | Description |
+|-----------|-------------|
+| `trust_deposit_reclaim_burn_rate` | Fraction burned when freed deposit is recycled. |
+| `trust_deposit_share_value` | Live value of one share, in `uvna`. Starts at 1 and increases per block as yield accrues. |
+| `trust_deposit_rate` | Fraction of trust fees added to the executing Corporation's trust deposit. |
+| `wallet_user_agent_reward_rate` | Reward rate for wallet user agents. |
+| `user_agent_reward_rate` | Reward rate for user agents. |
+| `trust_deposit_max_yield_rate` | Maximum annualized yield a trust deposit can earn from block rewards. |
+| `yield_intermediate_pool` | Bech32 address of the Yield Intermediate Pool module account. |
+| `trust_deposit_block_reward_share` | Target fraction of block rewards directed to trust deposit yield. |
+
+:::info Share value is preserved across param updates
+`trust_deposit_share_value` is a **live, per-block value**, not a static setting. Governance parameter updates no longer reset it (audit finding **TD-CRIT-1**, fixed). See [Update Trust Deposit Params](./update-params).
+:::
 
 ---
 
@@ -303,3 +314,4 @@ veranad q td params --node $NODE_RPC --output json
 - [Network Governance Slashing](./slashing)
 - [Update Trust Deposit Params](./update-params)
 - [Yield Funding Setup](./yield-funding)
+- [Reputation Computation](./reputation-computation)

@@ -7,8 +7,8 @@ The component catalog published at [verana.io/page/developers/components](https:
 ## Component overview
 
 - **Indexer (Horoscope v2 fork)** – Replays every block, persists historical state, and exposes richer query surfaces than the base Cosmos endpoints. The Trust Resolver, Visualizer, and analytics tooling rely on it for consistent data snapshots.
-- **Trust Resolver** – Subscribes to the indexer and DID directory to build a synchronized query store. It crawls verifiable services, dereferences credentials, and exposes a universal API for verifiable search as well as downstream applications.
-- **Frontend (Ledger Interface)** – The primary web experience for builders and operators. It lets you create or join ecosystems, manage trust registries, schemas, issuers, verifiers, and interact with DID directory entries.
+- **Trust Resolver** – Subscribes to the indexer to build a synchronized query store. It crawls verifiable services, dereferences credentials, and exposes a universal API for verifiable search as well as downstream applications.
+- **Frontend (Ledger Interface)** – The primary web experience for builders and operators. It lets you create or join ecosystems, manage participants (issuers, verifiers, grantors), register credential schemas, and store content digests.
 - **Ping.pub Explorer** – A familiar Cosmos-style block explorer, preconfigured for Verana networks, so operators can quickly inspect transactions, balances, and consensus state without building an explorer from scratch.
 - **Faucet Chatbot (Hologram)** – A verifiable-service chatbot that airdrops VNA to testnet accounts. Running it locally keeps onboarding smooth for your contributors, especially in isolated or private environments.
 - **Verana Visualizer** – A Next.js dashboard that transforms resolver/indexer data into ecosystem analytics: trust deposit balances, credential flow, slashing history, and high-level network KPIs.

@@ -2,7 +2,7 @@
 
 ## "Pay-Per" Fees
 
-**Pay-per-issuance** and **pay-per-verification** fees are defined **at the permission level** of participants for a given `Credential Schema` of a given the ecosystem.
+**Pay-per-issuance** and **pay-per-verification** trust fees are defined **on each `Participant` entry** for each role within the ecosystem, for a given `Credential Schema`.
 
 Example:
 
@@ -13,56 +13,58 @@ scale max 800 width
  
 package "Ecosystem #A - Credential Schema #1" as cs {
 
-    object "Ecosystem #A - Credential Schema #1 Root Permission" as tr #3fbdb6 {
+    object "Ecosystem #A - Credential Schema #1 Root Participant" as tr #3fbdb6 {
         did:example:ecosystemA
         issuance cost: 10 TUs
         verification cost: 20 TUs
     }
-    object "Issuer Grantor #B - Credential Schema #1 Permission" as ig {
+    object "Issuer Grantor #B - Credential Schema #1 Participant" as ig {
         did:example:igB
         issuance cost: 5 TUs
         verification cost: 5 TUs
     }
-    object "Issuer #C - Credential Schema #1 Permission" as issuer #b99bce  {
+    object "Issuer #C - Credential Schema #1 Participant" as issuer #7677ed  {
         did:example:iC
         verification cost: 30 TUs
     }
-    object "Verifier Grantor #D - Credential #1 Schema Permission" as vg {
+    object "Verifier Grantor #D - Credential #1 Schema Participant" as vg {
         did:example:vgD
         verification cost: 2 TUs
     }
-    object "Verifier #E - Credential Schema #1 Permission" as verifier #D88AB3 {
+    object "Verifier #E - Credential Schema #1 Participant" as verifier #00b0f0 {
         did:example:vE
     }
 }
 
 
 
-tr --> ig : granted schema permission
-ig --> issuer : granted schema permission
+tr --> ig : creates schema participant
+ig --> issuer : creates schema participant
 
-tr --> vg : granted schema permission
-vg --> verifier : granted schema permission
+tr --> vg : creates schema participant
+vg --> verifier : creates schema participant
 
 @enduml
 
 ```
 
-Entities acting as **issuers** or **verifiers** for a given credential schema **may be required to pay trust fees** based on the schema's configuration and permission tree.
+Corporations acting as **issuers** or **verifiers** for a given credential schema **may be required to pay trust fees** based on the schema's configuration and `Participant` tree.
 
-If trust fee payment is required, the entity **must execute a transaction** in the VPR to pay the appropriate fees **before issuing or verifying a credential**.
+If trust fee payment is required, the entity **must execute a transaction** in the VPR to pay the appropriate fees **before issuing or verifying a credential**, else the HOLDER agent will not accept the operation.
 
 Key points for "Pay-Per" business models
 
-- For a given credential schema, **ecosystem** and their participants may define **pay-per-issuance** (or **pay-per-verification**) trust fees in their respective permissions.
+- For a given credential schema, the **ecosystem** and its participants may define **pay-per-issuance** (or **pay-per-verification**) trust fees on their respective `Participant` entries.
 
-- In such cases, a participant ISSUER (or VERIFIER) **must pay**:
-  - The corresponding **issuance** (or **verification**) trust fees **for each involved permission in the tree**;
-  - An additional amount equal to the `trust_deposit_rate` of the calculated trust fees, allocated to the **applicant’s trust deposit**;
-  - An amount equal to `wallet_user_agent_reward_rate` of the calculated trust fees, used to **reward the wallet user agent** that receives or present the credential;
-  - An amount equal to `user_agent_reward_rate` of the calculated trust fees, used to **reward the user agent** (browser, app...).
+- In such cases, an `ISSUER` (or `VERIFIER`) `Participant` **must pay**:
+  - the corresponding **issuance** (or **verification**) trust fees for each involved `Participant` entry along the `Participant` tree;
+  - an additional amount equal to the `trust_deposit_rate` of the calculated trust fees, allocated to the **payer's trust deposit**;
+  - (optional) an amount equal to `wallet_user_agent_reward_rate` of the calculated trust fees, used to **reward the Wallet User Agent** that receives or presents the credential;
+  - (optional) an amount equal to `user_agent_reward_rate` of the calculated trust fees, used to **reward the User Agent** (browser, app...).
 
-Example with the permission tree above:
+Fees denominated in trust units (TUs) are converted to native denom at execution time through the [Exchange Rate](./exchange-rate) oracle.
+
+Example with the Participant tree above:
 
 - Total paid by issuer #C for issuing a credential: (10 + 5) * (1 + `user_agent_reward_rate` + `wallet_user_agent_reward_rate` + `trust_deposit_rate`) = 21 TUs
 - Total paid by `Verifier E` for verifying a credential: (20 + 5 + 2 + 30) * (1 + `user_agent_reward_rate` + `wallet_user_agent_reward_rate` + `trust_deposit_rate`) = 79.8 TUs
@@ -81,7 +83,7 @@ If not, they **must reject** the issuance or verification request.
 The **user agent** and **wallet user agent** may refer to the same implementation.
 :::
 
-Distribution example for the issuance by ISSUER #C of a credential, using the permission tree above, 20% for `trust_deposit_rate`, 10% for `wallet_user_agent_reward_rate` and `user_agent_reward_rate`.
+Distribution example for the issuance by `ISSUER` #C of a credential, using the `Participant` tree above, 20% for `trust_deposit_rate`, 10% for `wallet_user_agent_reward_rate` and `user_agent_reward_rate`.
 
 ```plantuml
 
@@ -149,7 +151,7 @@ issuera --> issuertd:  \t+3 TUs
 
 ```
 
-Distribution example for the verification by VERIFIER #E of a credential issued by ISSUER #C, using the permission tree above, 20% for `trust_deposit_rate`, 10% for `wallet_user_agent_reward_rate` and `user_agent_reward_rate`.
+Distribution example for the verification by `VERIFIER` #E of a credential issued by `ISSUER` #C, using the `Participant` tree above, 20% for `trust_deposit_rate`, 10% for `wallet_user_agent_reward_rate` and `user_agent_reward_rate`.
 
 ```plantuml
 

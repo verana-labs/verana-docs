@@ -99,22 +99,22 @@ curl -s https://utc-public-bucket.s3.bhs.io.cloud.ovh.net/vna-testnet-1/persiste
 ## Verana-Specific Parameters
 
 ### Trust Parameters
-| Parameter | Value |
-|-----------|-------|
-| Trust Unit Price | 1,000,000 uvna |
-| Trust Registry Deposit | 10 units |
-| Credential Schema Deposit | 10 units |
-| DID Directory Deposit | 5 units |
-| DID Directory Grace Period | 30 days |
+| Parameter | Module | Value |
+|-----------|--------|-------|
+| Trust Unit Price | `ec` (`trust_unit_price`) | 1,000,000 uvna |
+
+:::info Spec v4 change
+The fixed per-entity deposit parameters from earlier versions — **Trust Registry Deposit**, **Credential Schema Deposit**, and **DID Directory Deposit / Grace Period** — were **removed** in spec v4. The Ecosystem (`ec`) module no longer charges a trust deposit for ecosystem operations (`trust_registry_trust_deposit` is reserved and removed per spec), and the former DID Directory module was replaced by the **Digest** (`di`) module, which stores content digests and exposes no deposit or grace-period parameters. Trust deposits are now driven proportionally by the Trust Deposit (`td`) module's `trust_deposit_rate` (see below).
+:::
 
 ### Trust Deposit Parameters
 | Parameter | Value |
 |-----------|-------|
-| Reclaim Burn Rate | 60% |
-| Share Value | 1.0 |
+| Reclaim Burn Rate | 0% (unused; retained for proto back-compat) |
+| Share Value | 1.0 (initial; grows as yield accrues) |
 | Deposit Rate | 20% |
-| Wallet User Agent Reward Rate | 20% |
-| User Agent Reward Rate | 20% |
+| Wallet User Agent Reward Rate | 10% |
+| User Agent Reward Rate | 10% |
 
 ### Validation Parameters
 | Parameter | Value |
