@@ -196,7 +196,12 @@ const config: Config = {
           position: 'left',
           label: 'Run',
         },
-        
+        {
+          to: '/docs/next/implementations/intro',
+          position: 'left',
+          label: 'Implementations',
+        },
+
         {
           href: 'https://github.com/verana-labs',
           label: 'GitHub',
