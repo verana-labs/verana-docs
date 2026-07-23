@@ -269,7 +269,7 @@ veranad q td params --node $NODE_RPC --output json
   "params": {
     "trust_deposit_reclaim_burn_rate": "0",
     "trust_deposit_share_value": "1000000025000000000",
-    "trust_deposit_rate": "200000000000000000",
+    "trust_deposit_rate": "50000000000000000",
     "wallet_user_agent_reward_rate": "100000000000000000",
     "user_agent_reward_rate": "100000000000000000",
     "trust_deposit_max_yield_rate": "200000000000000000",

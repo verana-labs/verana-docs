@@ -222,7 +222,7 @@ When the schema prices fees in trust units, these TU amounts are converted to na
 Trust deposit is explained in [Trust Deposit and Reputation](./trust-deposit-and-reputation).
 :::
 
-Example, using 20% for `trust_deposit_rate`:
+Example, using 5% for `trust_deposit_rate`:
 
 ```plantuml
 
@@ -233,10 +233,10 @@ scale max 1200 width
 
 package "Applicant" as issuer #7677ed {
     object "A Account" as issuera {
-         \t-1200 TUs
+         \t-1050 TUs
     }
     object "A Trust Deposit" as issuertd {
-         \t+200 TUs
+         \t+50 TUs
     }
 
 }
@@ -244,7 +244,7 @@ package "Applicant" as issuer #7677ed {
 object "Escrow Account" as escrow
 
 issuera -r-> escrow: \t+1000 TUs
-issuera --> issuertd:  \t+200 TUs
+issuera --> issuertd:  \t+50 TUs
 
 
 @enduml
@@ -263,10 +263,10 @@ scale max 1200 width
 
 package "Issuer Grantor B" as ig {
     object "IG Account" as iga {
-        \t+800 TUs
+        \t+950 TUs
     }
     object "IG Trust Deposit" as igtd {
-        \t+200 TUs
+        \t+50 TUs
     }
 }
 object "Escrow Account" as escrow
@@ -274,8 +274,8 @@ object "Escrow Account" as escrow
 
 
 escrow -r-> ig: \t+1000 TUs \t\t\t\t\t
-ig --> iga: \t+800 TUs
-ig --> igtd: \t+200 TUs
+ig --> iga: \t+950 TUs
+ig --> igtd: \t+50 TUs
 
 @enduml
 

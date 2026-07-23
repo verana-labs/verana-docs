@@ -66,8 +66,8 @@ Fees denominated in trust units (TUs) are converted to native denom at execution
 
 Example with the Participant tree above:
 
-- Total paid by issuer #C for issuing a credential: (10 + 5) * (1 + `user_agent_reward_rate` + `wallet_user_agent_reward_rate` + `trust_deposit_rate`) = 21 TUs
-- Total paid by `Verifier E` for verifying a credential: (20 + 5 + 2 + 30) * (1 + `user_agent_reward_rate` + `wallet_user_agent_reward_rate` + `trust_deposit_rate`) = 79.8 TUs
+- Total paid by issuer #C for issuing a credential: (10 + 5) * (1 + `user_agent_reward_rate` + `wallet_user_agent_reward_rate` + `trust_deposit_rate`) = 18.75 TUs
+- Total paid by `Verifier E` for verifying a credential: (20 + 5 + 2 + 30) * (1 + `user_agent_reward_rate` + `wallet_user_agent_reward_rate` + `trust_deposit_rate`) = 71.25 TUs
 
 ## Fee Distribution Model
 
@@ -83,7 +83,7 @@ If not, they **must reject** the issuance or verification request.
 The **user agent** and **wallet user agent** may refer to the same implementation.
 :::
 
-Distribution example for the issuance by `ISSUER` #C of a credential, using the `Participant` tree above, 20% for `trust_deposit_rate`, 10% for `wallet_user_agent_reward_rate` and `user_agent_reward_rate`.
+Distribution example for the issuance by `ISSUER` #C of a credential, using the `Participant` tree above, 5% for `trust_deposit_rate`, 10% for `wallet_user_agent_reward_rate` and `user_agent_reward_rate`.
 
 ```plantuml
 
@@ -93,46 +93,46 @@ scale max 800 width
 
 package "Ecosystem #A" as tr #3fbdb6 {
     object "E Account" as tra {
-         \t+8 TUs
+         \t+9.5 TUs
     }
     object "E Trust Deposit" as trtd {
-         \t+2 TUs
+         \t+0.5 TUs
     }
 }
 
 package "Issuer Grantor #B" as ig {
     object "IG Account" as iga {
-        \t+4 TUs
+        \t+4.75 TUs
     }
     object "IG Trust Deposit" as igtd {
-        \t+1 TUs
+        \t+0.25 TUs
     }
 }
 package "Issuer #C" as issuer #b99bce {
     object "I Account" as issuera {
-         \t-21 TUs
+         \t-18.75 TUs
     }
     object "I Trust Deposit" as issuertd {
-         \t+3 TUs
+         \t+0.75 TUs
     }
 
 }
 
 package "User Agent" as ua {
     object "UA Account" as uaa {
-         \t+1.2 TUs
+         \t+1.425 TUs
     }
     object "UA Trust Deposit" as uatd {
-        \t+0.3 TUs
+        \t+0.075 TUs
     }
 
 }
 package "Wallet User Agent" as wua {
     object "WUA Account" as wuaa {
-         \t+1.2 TUs
+         \t+1.425 TUs
     }
     object "WUA Trust Deposit" as wuatd {
-        \t+0.3 TUs
+        \t+0.075 TUs
     }
 
 }
@@ -145,13 +145,13 @@ issuera -d-> ua: \t+1.5 TUs
 
 issuera -d-> wua: \t+1.5 TUs
 
-issuera --> issuertd:  \t+3 TUs
+issuera --> issuertd:  \t+0.75 TUs
 
 @enduml
 
 ```
 
-Distribution example for the verification by `VERIFIER` #E of a credential issued by `ISSUER` #C, using the `Participant` tree above, 20% for `trust_deposit_rate`, 10% for `wallet_user_agent_reward_rate` and `user_agent_reward_rate`.
+Distribution example for the verification by `VERIFIER` #E of a credential issued by `ISSUER` #C, using the `Participant` tree above, 5% for `trust_deposit_rate`, 10% for `wallet_user_agent_reward_rate` and `user_agent_reward_rate`.
 
 ```plantuml
 
@@ -160,63 +160,63 @@ Distribution example for the verification by `VERIFIER` #E of a credential issue
 
 package "Ecosystem #A" as tr #3fbdb6 {
     object "E Account" as tra {
-         \t+16 TUs
+         \t+19 TUs
     }
     object "E Trust Deposit" as trtd {
-         \t+4 TUs
+         \t+1 TUs
     }
 }
 
 package "Issuer Grantor #B" as ig {
     object "IG Account" as iga {
-        \t+4 TUs
+        \t+4.75 TUs
     }
     object "IG Trust Deposit" as igtd {
-        \t+1 TUs
+        \t+0.25 TUs
     }
 }
 package "Issuer #C" as issuer #b99bce {
     object "I Account" as issuera {
-         \t+24 TUs
+         \t+28.5 TUs
     }
     object "I Trust Deposit" as issuertd {
-         \t+6 TUs
+         \t+1.5 TUs
     }
 
 }
 package "Verifier Grantor #D" as vg {
     object "VG Account" as vga {
-        \t+1.6 TUs
+        \t+1.9 TUs
     }
     object "VG Trust Deposit" as vgtd {
-        \t+0.4 TUs
+        \t+0.1 TUs
     }
 
 }
 package "Verifier #E" as verifier #D88AB3 {
     object "V Account" as verifiera {
-        \t-79.8 TUs
+        \t-71.25 TUs
     }
     object "V Trust Deposit" as verifiertd {
-        \t+11.4 TUs
+        \t+2.85 TUs
     }
 
 }
 package "User Agent" as ua {
     object "UA Account" as uaa {
-         \t+4.56 TUs
+         \t+5.415 TUs
     }
     object "UA Trust Deposit" as uatd {
-        \t+1.14 TUs
+        \t+0.285 TUs
     }
 
 }
 package "Wallet User Agent" as wua {
     object "WUA Account" as wuaa {
-         \t+4.56 TUs
+         \t+5.415 TUs
     }
     object "WUA Trust Deposit" as wuatd {
-        \t+1.14 TUs
+        \t+0.285 TUs
     }
 
 }
@@ -234,7 +234,7 @@ verifiera -d-> ua: \t+5.7 TUs
 
 verifiera -d-> wua: \t+5.7 TUs
 
-verifiera --> verifiertd:  \t+11.4 TUs
+verifiera --> verifiertd:  \t+2.85 TUs
 
 @enduml
 

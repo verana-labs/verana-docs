@@ -110,11 +110,11 @@ verifiera --> verifiertd:  \t+11.4 TUs
 
 ```
 
-- Each time fees are charged, an additional **20%** (`trust_deposit_rate`) is added and allocated to the **trust deposit** of the Corporation executing the transaction. This amount is also linked to the specific `Participant` entry that authorized the transaction (tracked in the entry's `deposit` field).
+- Each time fees are charged, an additional **5%** (`trust_deposit_rate`) is added and allocated to the **trust deposit** of the Corporation executing the transaction. This amount is also linked to the specific `Participant` entry that authorized the transaction (tracked in the entry's `deposit` field).
 
-- When fees are distributed to other participants (e.g., issuers, grantors, etc.), **20%** of the distributed amount is redirected to their **trust deposit**, while the remaining **80%** is **liquid and immediately available** for use.
+- When fees are distributed to other participants (e.g., issuers, grantors, etc.), **5%** of the distributed amount is redirected to their **trust deposit**, while the remaining **95%** is **liquid and immediately available** for use.
 
-- The percentage allocated to trust deposits (`trust_deposit_rate`, default 20%) is a global variable configurable by the **VPR governance authority**.
+- The percentage allocated to trust deposits (`trust_deposit_rate`, default 5%) is a global variable configurable by the **VPR governance authority**.
 
 ### Trust Deposit Yield
 

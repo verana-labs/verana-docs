@@ -8,7 +8,7 @@ This page describes the on-chain signals the model is built from and how to read
 
 Reputation is anchored in the trust deposit economics:
 
-- A trust deposit is keyed by **`corporation_id`** and **grows automatically** as the Corporation performs trust operations (onboarding processes, credential issuance and verification, participant registration). Each trust fee adds `trust_deposit_rate` (default 20%) to the executing Corporation's deposit.
+- A trust deposit is keyed by **`corporation_id`** and **grows automatically** as the Corporation performs trust operations (onboarding processes, credential issuance and verification, participant registration). Each trust fee adds `trust_deposit_rate` (default 5%) to the executing Corporation's deposit.
 - A trust deposit is **non-withdrawable** and earns **yield**: `trust_deposit_share_value` starts at 1 and increases every block as block-reward yield is distributed (capped by `trust_deposit_max_yield_rate`). A larger, longer-held deposit therefore signals sustained, rule-abiding participation.
 - **Slashing** subtracts from the deposit and is permanently recorded (`slashed_deposit`, `slash_count`, `last_slashed`), acting as a negative signal until repaid.
 
