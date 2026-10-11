@@ -12,7 +12,7 @@ Rendered from the JSON schemas published by the [Verifiable Trust specification]
 | Service | the service | W3C JSON-LD | the service itself or its parent organization (OPEN issuer mode) | `#vpr-schemas-service-vtc-vp` |
 | Organization | the legal entity | W3C JSON-LD | accredited ECS issuers (onboarding process) | `#vpr-schemas-org-vtc-vp` |
 | Persona | the human-controlled persona | W3C JSON-LD | accredited ECS issuers (onboarding process) | `#vpr-schemas-persona-vtc-vp` |
-| User Agent | a wallet or agent instance | AnonCreds | accredited wallet vendors | none, private |
+| User Agent | a wallet or agent instance | AnonCreds or SD-JWT VC | accredited wallet vendors | none, private |
 | Badge | a human | AnonCreds or SD-JWT VC | any Verifiable Service (OPEN issuer mode, permissionless holders) | none, private |
 
 The ECS ecosystem publishes the matching VTJSCs under the reserved fragments `#vpr-schemas-{service,org,persona,ua,badge}-vtjsc-vp`.
@@ -77,7 +77,7 @@ Schema id: `https://verana-labs.github.io/verifiable-trust-spec/schemas/v4/perso
 
 ## User Agent (`UserAgentCredential`)
 
-ECS User Agent: identifies a user agent instance and the software it runs; the issuer identifies the product line. Private, AnonCreds, presented over DIDComm, never in a DID Document.
+ECS User Agent: identifies a user agent instance and the software it runs; the issuer identifies the product line. Private, AnonCreds or SD-JWT VC, never in a DID Document.
 
 Schema id: `https://verana-labs.github.io/verifiable-trust-spec/schemas/v4/ua.json`
 

@@ -51,7 +51,7 @@ The [playground](https://playground.testnet.verana.network/personal-wallets) ren
 Issuance of User Agent credentials by wallet vendors is not yet generally available, so services do not request the credential today and wallets do not check each other's. Wallets integrated under the current guideline are not presented as full Verifiable User Agents for that reason.
 :::
 
-A full Verifiable User Agent also carries an ECS User Agent credential, issued by its vendor, which a service may ask for before serving it, and which identifies the software without identifying the person. It is an AnonCreds credential, presented with unlinkable proofs. It says nothing about the person: identifying the human behind the agent is out of its scope, and a service that needs it does so separately, through whatever credential its own context calls for, such as an ECS Badge for an employee or member, or an identity credential from an ecosystem that governs one.
+A full Verifiable User Agent also carries an ECS User Agent credential, issued by its vendor, which a service may ask for before serving it, and which identifies the software without identifying the person. It is a private credential, AnonCreds or SD-JWT VC depending on the wallet's rail, presented with selective disclosure. It says nothing about the person: identifying the human behind the agent is out of its scope, and a service that needs it does so separately, through whatever credential its own context calls for, such as an ECS Badge for an employee or member, or an identity credential from an ecosystem that governs one.
 
 ## Where next
 

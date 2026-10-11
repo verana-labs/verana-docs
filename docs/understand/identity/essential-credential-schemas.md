@@ -13,7 +13,7 @@ Before an ecosystem can govern anything, somebody has to answer the basic questi
 | Service | a Verifiable Service: name, type, description, logo, minimum age, terms, privacy policy | public, in the DID Document | the organisation behind the service; the schema is open to issuers |
 | Organization | the legal entity operating services: name, logo, registry identifier, address, country, optional jurisdiction and LEI | public | accredited ECS issuers, after verifying the entity |
 | Persona | a human-controlled persona operating services, the alternative to Organization | public | accredited ECS issuers |
-| User Agent | an instance of wallet or agent software and its version; the issuer identifies the product line | private, AnonCreds | accredited wallet vendors |
+| User Agent | an instance of wallet or agent software and its version; the issuer identifies the product line | private, AnonCreds or SD-JWT VC | accredited wallet vendors |
 | Badge | a human: badge number, name, photo, optional title, department, birth date, biometric template; the issuer identifies whom they represent | private, AnonCreds or SD-JWT VC | any Verifiable Service, for its own people; the schema is open to issuers and permissionless for holders |
 
 ```mermaid
@@ -27,7 +27,7 @@ flowchart LR
 
 ## Public and private
 
-Service, Organization and Persona credentials are W3C credentials published as linked presentations in DID Documents: anyone resolving the DID sees them, which is the point. User Agent credentials are AnonCreds credentials held by wallet instances. Badge credentials are held by people, as AnonCreds over DIDComm or as SD-JWT VC over OpenID4VC, presented with selective disclosure. Neither is ever declared in a DID Document: a person's badge is shown to the service that asks, not to the world.
+Service, Organization and Persona credentials are W3C credentials published as linked presentations in DID Documents: anyone resolving the DID sees them, which is the point. User Agent credentials are held by wallet instances and Badge credentials by people, in either private format: AnonCreds over DIDComm, or SD-JWT VC over OpenID4VC, presented with selective disclosure. Neither is ever declared in a DID Document: a person's badge is shown to the service that asks, not to the world.
 
 ## How they chain
 
