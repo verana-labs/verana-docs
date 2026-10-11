@@ -20,7 +20,7 @@ When a corporation applies for an accreditation that names your ecosystem (or on
 
 1. Review the applicant: its Proof-of-Trust (is it a trusted Verifiable Service, who operates it), the governance framework acceptance, the evidence your process requires. Send an out-of-band link from the agent when you need a form or documents.
 2. Decide. **Validate** from the participant card: confirm or adjust the fees the applicant will charge below it, set an end date within the schema's validity period, sign. Or **reject** from the agent with a reason; the applicant may cancel and recover its escrow.
-3. For a holder role on a schema with issuer validation, the agent issues the credential after validation, with the claims you set.
+3. For a holder role on a schema with issuer onboarding process, the agent issues the credential after validation, with the claims you set.
 
 When your agent holds the VS operator authorization covering validation, `validate` on the agent signs the transaction itself; otherwise the frontend's pending task is where an operator signs it.
 

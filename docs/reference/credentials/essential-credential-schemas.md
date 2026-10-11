@@ -10,8 +10,8 @@ Rendered from the JSON schemas published by the [Verifiable Trust specification]
 | Schema | Subject | Format | Who issues | DID Document fragment |
 |---|---|---|---|---|
 | Service | the service | W3C JSON-LD | the service itself or its parent organization (OPEN issuer mode) | `#vpr-schemas-service-vtc-vp` |
-| Organization | the legal entity | W3C JSON-LD | accredited ECS issuers (validation process) | `#vpr-schemas-org-vtc-vp` |
-| Persona | the human-controlled persona | W3C JSON-LD | accredited ECS issuers (validation process) | `#vpr-schemas-persona-vtc-vp` |
+| Organization | the legal entity | W3C JSON-LD | accredited ECS issuers (onboarding process) | `#vpr-schemas-org-vtc-vp` |
+| Persona | the human-controlled persona | W3C JSON-LD | accredited ECS issuers (onboarding process) | `#vpr-schemas-persona-vtc-vp` |
 | User Agent | a wallet or agent instance | AnonCreds | accredited wallet vendors | none, private |
 | Badge | a human | AnonCreds | any Verifiable Service (OPEN issuer mode, permissionless holders) | none, private |
 

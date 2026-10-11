@@ -29,14 +29,14 @@ For each role the schema says how an accreditation is obtained:
 
 | Role | Modes |
 |---|---|
-| Issuer, verifier | **Open**: any corporation self-creates its accreditation, no questions asked. **Ecosystem validation**: the ecosystem itself validates each applicant. **Grantor validation**: accredited grantors validate applicants on the ecosystem's behalf. |
-| Holder | **Issuer validation**: the issuer creates an accreditation for each holder, which is how an issuer tracks and later revokes a credential it issued to a service. **Permissionless**: holders need no entry at all, the normal case for credentials issued to people. |
+| Issuer, verifier | **Open**: any corporation self-creates its accreditation, no questions asked. **Ecosystem onboarding process**: the ecosystem itself validates each applicant. **Grantor onboarding process**: accredited grantors validate applicants on the ecosystem's behalf. |
+| Holder | **Issuer onboarding process**: the issuer creates an accreditation for each holder, which is how an issuer tracks and later revokes a credential it issued to a service. **Permissionless**: holders need no entry at all, the normal case for credentials issued to people. |
 
-The ECS schemas illustrate the range: the Service schema is open to issuers, because a service may describe itself; the Organization schema requires ecosystem validation, because somebody must verify a legal entity; the Badge schema is open to issuers and permissionless for holders, because a company badges its own people.
+The ECS schemas illustrate the range: the Service schema is open to issuers, because a service may describe itself; the Organization schema requires ecosystem onboarding process, because somebody must verify a legal entity; the Badge schema is open to issuers and permissionless for holders, because a company badges its own people.
 
 ## Validity periods
 
-Each role has a validity period in days, zero meaning no expiry. An accreditation obtained through validation lasts that long and must be renewed, which re-enters the validation process. Expiry is one of the ways an ecosystem keeps its tree current.
+Each role has a validity period in days, zero meaning no expiry. An accreditation obtained through an onboarding process lasts that long and must be renewed, which re-enters the onboarding process. Expiry is one of the ways an ecosystem keeps its tree current.
 
 ## Pricing asset
 

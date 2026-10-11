@@ -45,7 +45,7 @@ description: The v4 vocabulary of Verana, in plain words.
 
 **MCP server (Verana).** The server that exposes the registry, the graph and a VS Agent to AI agents as Model Context Protocol tools.
 
-**Onboarding modes.** How a role is obtained for a schema: `OPEN` (self-create), `ECOSYSTEM_VALIDATION_PROCESS` (the ecosystem validates), `GRANTOR_VALIDATION_PROCESS` (a grantor validates); for holders, `ISSUER_VALIDATION_PROCESS` or `PERMISSIONLESS`.
+**Onboarding modes.** How a role is obtained for a schema: `OPEN` (self-create), `ECOSYSTEM_ONBOARDING_PROCESS` (the ecosystem validates), `GRANTOR_ONBOARDING_PROCESS` (a grantor validates); for holders, `ISSUER_ONBOARDING_PROCESS` or `PERMISSIONLESS`.
 
 **Onboarding process.** The applicant and validator interaction that turns a pending participant entry into a validated one: on-chain start, off-chain evidence over vt-flow, on-chain validation.
 

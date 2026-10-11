@@ -17,7 +17,7 @@ Schema page or participants view, **Create root participant**: the ecosystem DID
 
 ## Accredit grantors
 
-When a schema uses grantor validation, grantors apply like any participant: a corporation starts an onboarding process for the grantor role with the root as validator, and your operator validates it from **Pending tasks** ([validate applicants](./40-validate-applicants.md)). A grantor then validates issuers or verifiers in its branch and sets its own fees.
+When a schema uses grantor onboarding process, grantors apply like any participant: a corporation starts an onboarding process for the grantor role with the root as validator, and your operator validates it from **Pending tasks** ([validate applicants](./40-validate-applicants.md)). A grantor then validates issuers or verifiers in its branch and sets its own fees.
 
 ## Effective windows
 

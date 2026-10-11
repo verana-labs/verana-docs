@@ -41,9 +41,9 @@ The [five Essential Credential Schemas](../../reference/credentials/essential-cr
 
 | Setting | Options | Think about |
 |---|---|---|
-| Issuer onboarding mode | open, ecosystem validation, grantor validation | Who may issue. Open is right when anyone may describe themselves; validation when the ecosystem vouches. |
+| Issuer onboarding mode | open, ecosystem onboarding process, grantor onboarding process | Who may issue. Open is right when anyone may describe themselves; validation when the ecosystem vouches. |
 | Verifier onboarding mode | same | Who may ask people for this credential. Open is common for low-sensitivity credentials. |
-| Holder onboarding mode | issuer validation, permissionless | Issuer validation gives each holder an entry the issuer can revoke; required for credentials issued to services. Permissionless for credentials issued to people. |
+| Holder onboarding mode | issuer onboarding process, permissionless | Issuer onboarding process gives each holder an entry the issuer can revoke; required for credentials issued to services. Permissionless for credentials issued to people. |
 | Validity periods | days per role, zero for none | How often grantors, issuers, verifiers and holders must renew |
 | Pricing asset | native coin (frontend today), trust unit, fiat | The unit of every fee on this schema |
 | Digest algorithm | sha384 or sha512 | Used to anchor public credentials |

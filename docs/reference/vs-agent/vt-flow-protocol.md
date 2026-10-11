@@ -11,7 +11,7 @@ description: The DIDComm protocol that runs onboarding processes and credential 
 
 | Flow | When | On-chain anchor |
 |---|---|---|
-| Onboarding process | The schema's onboarding mode for the requested role is a validation process (ecosystem or grantor). | The applicant creates the participant entry in `PENDING` (`StartParticipantOP`) before connecting; the validator sets it to `VALIDATED`. A credential is issued only when the validated role is `HOLDER`. |
+| Onboarding process | The schema's onboarding mode for the requested role is an onboarding process (ecosystem or grantor). | The applicant creates the participant entry in `PENDING` (`StartParticipantOP`) before connecting; the validator sets it to `VALIDATED`. A credential is issued only when the validated role is `HOLDER`. |
 | Direct issuance | The applicant already holds the participant entry (or the schema is permissionless for holders) and asks an authorized issuer for the credential. | None beyond the issuer's accreditation. |
 
 In OPEN mode nothing runs over `vt-flow`: the applicant self-creates its participant entry on chain.

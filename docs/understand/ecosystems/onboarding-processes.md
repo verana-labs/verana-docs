@@ -39,9 +39,9 @@ An accreditation with a validity period must be renewed before it ends. Renewal 
 
 | Schema mode | Validator |
 |---|---|
-| Ecosystem validation | the ecosystem's root entry, operated by the controlling corporation |
-| Grantor validation | an accredited issuer grantor or verifier grantor |
-| Issuer validation (holders) | the issuer that will issue the credential |
+| Ecosystem onboarding process | the ecosystem's root entry, operated by the controlling corporation |
+| Grantor onboarding process | an accredited issuer grantor or verifier grantor |
+| Issuer onboarding process (holders) | the issuer that will issue the credential |
 
 The validator's side is a workflow in its agent and its frontend: a pending task appears, the operator reviews the evidence the agent collected, and validates or rejects. The applicant's side is handled by its agent once the application is on the registry.
 
