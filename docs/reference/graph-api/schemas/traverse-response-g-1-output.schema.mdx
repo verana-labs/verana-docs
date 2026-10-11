@@ -1,0 +1,32 @@
+---
+id: traverse-response-g-1-output
+title: "traverse_response_G1Output"
+description: "G1 — Validator chain. Ordered `ParticipantRef[]` from **root to leaf inclusive**: the first element has `role = ECOSYSTEM` and `validatorParticipantId = null` (the permission-tree root for the input Participant's Ecosystem; see [[TG-EDGE-4]]); the last element is the input Participant itself. Every element's `ecosystemId` MUST be identical (a validator chain never crosses Ecosystem boundaries). If the input Participant is itself the ECOSYSTEM root, this is a 1-element array containing only the input."
+sidebar_label: "traverse_response_G1Output"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: [{"id":0,"didId":"string","vsOperator":"string","credentialSchemaId":0,"ecosystemId":0,"weight":"string","issuedCredentials":0,"verifiedCredentials":0,"validatorParticipantId":0,"lastObservedAtTime":"2024-07-29T15:51:28.071Z"}]
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"traverse_response_G1Output"}
+>
+</Heading>
+
+
+
+G1 — Validator chain. Ordered `ParticipantRef[]` from **root to leaf inclusive**: the first element has `role = ECOSYSTEM` and `validatorParticipantId = null` (the permission-tree root for the input Participant's Ecosystem; see [[TG-EDGE-4]]); the last element is the input Participant itself. Every element's `ecosystemId` MUST be identical (a validator chain never crosses Ecosystem boundaries). If the input Participant is itself the ECOSYSTEM root, this is a 1-element array containing only the input.
+
+<Schema
+  {...require("./traverse-response-g-1-output.Schema.json")}
+>
+  
+</Schema>
+            

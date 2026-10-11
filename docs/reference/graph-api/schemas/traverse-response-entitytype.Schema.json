@@ -1,0 +1,1 @@
+{"schema":{"enum":["Did","Corporation","Ecosystem","CredentialSchema","Participant","EcsCredential","Vtc","LinkedVerifiablePresentation","ServiceEndpoint"],"title":"traverse_response_EntityType"},"schemaType":"response"}

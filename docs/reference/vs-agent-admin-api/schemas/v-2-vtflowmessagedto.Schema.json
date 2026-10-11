@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"type":{"type":"string","enum":["oob-link","validating","problem-report"]},"text":{"type":"string","description":"Absent for a validating sent without a comment."},"at":{"type":"string"},"url":{"type":"string","description":"Set for an oob-link only."}},"required":["type","at"],"title":"V2VtFlowMessageDto"},"schemaType":"response"}

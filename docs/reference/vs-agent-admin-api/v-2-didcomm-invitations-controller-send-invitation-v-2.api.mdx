@@ -1,0 +1,70 @@
+---
+id: v-2-didcomm-invitations-controller-send-invitation-v-2
+title: "Send an invitation"
+description: "Sends an Out-of-Band invitation on an established connection. A v1 connection carries the Out-of-Band 1.1 message. A v2 connection carries the Out-of-Band 2.0 invitation in the `application/didcomm-plain+json` attachment of a Media Sharing share-media message. Without `did`, the invitation opens a single-use sub-connection to this agent, correlated through `parentConnectionId`. With `did`, it refers the peer to that service and creates no record."
+sidebar_label: "Send an invitation"
+hide_title: true
+hide_table_of_contents: true
+api: eJztV21v2zYQ/isEP22Y5NiO46T6liZZEWBdurgva4OgPpEni51EqiTl1Ajy34ejZFuK0zTb+mEY5g+JzbfjPffcc8dbLtEJqyqvjOYJn6GWjoFmF7WPTRY/By2Z0kvlgVYwo2kSnYe0UC5HyYTRGgVNDtgxW446A0yAtQod8zn2DhwNRqxE52CBYdP4KZvGg2H3JkqHFXOoqkKJMLYnlRSmLOOqAKV/+uSMnjPwHkReovbMZAzYS5QK2CwHq/SCuRwsxmUY29zonfK5qT2bSyXnUTDThaBC7Rgwp/SiwLh2yFydxh0PvGE+V47BArWPmDDWYgEeJfO5NfUiZ/MKLGp/stlzLueN3bVR5ZnFDG2DQ4Vom2PBM4d2qQQyAkVYBI+OacMsCmPlgEfcVGihOZUn/O34tIHlfOODOzHaW1MUaD861HI783E55hGvwEKJHq3jydV1xC1+rtH550aueHIbfiqLkife1hhxYbRH7WmqGw3Cn8acyLEE+uZXFfKEm/QTCk92LF3VK3Q0KzpodFY7T5Hi0T2mnvTwJi92AqV5xPELlFVB5+xncHSQTSfxweHoMJ4cTMdxup+JeCyeTfez6RQymPK7iEv1BOun56dEJ7K4DscmTso1t6B4mzWz6esPIaIWih8H7F2OmkHqAkO+xrBHaDXo+SaVTG4wXebJb2Wauffi08+zcapNffP785n58GF68Ony7Gzx4cXslRTgxc37QzV68XmcLNGqTKEdtGcNhCkJhAJSLL4Nw2v84reOu9zcOJYZe8+hAbvQDO6lufLMW1hi4Rg0JJ93zp5v0N1N0ED89Z4SPUjwMPDKFxi2Ke+Y8lgO2KwPoMQM6sInzU4NJW7MnJ3M4lkbSGFRovYKivVsm8imVJ6iekOxU57lppCUehr70Xi5Yu1ZBKUqYYFv7BPQfHP5S9AozcKe7wfsBiQlOtASRo/A3Pcp975yyd5ehyd7hVmYQaUX5OXCwFP4QrehpdtLbJzpmbuoKD2Yq6vKWM9EDn5t5cRI/AuWPgoj8VvmWjtxY+cu6kjcVV+XriMemNbWyq1ykjieekO3bM8NoubqdKtUzUBZgl3R/kfSm0d8CUWNu7r4NB3bZDCfNa7xLhEfjGaLQQjoOp4PxqEbhoeQazSu7+tlO0pegjY+J1a3OfKPXQ2K/Z01cIPAW5pdsZWpLVNBF/yqD8F6NG4OaqofvwsfwsNVRruGDePhiP7tUrXb2DiqZgTzd6qrT6ln58EHQmFb1rRfS0HyYAd3ry3s937RV9U79DBPbPLMjrz1VSmdwjgbykl8KEYYT7IpxM/kOI2H2b44wCMYpYeSMtLU/iIjA0/pLHax6N6wabPaxksGUd6p1F2FPg41vl23To4Bo6B3k7/PgcoaWQt0HZyUYyFNSNTnHX/mfUSOshGO5b6IJ+kBxBMxlfERHmbxMximIzGW+zjJdhROPaJrly1/g7YFRk+Gw4dJnBq5YhmoIlxVyTYRaMdkd8evpgvADfW+hMJCLam6ynBJDwtqQflyvO7t6aIl+txQylfGBbqDz3nC97ar9rZYOh5xUppNM0vpc7ltaM/W0P271Gct351e4psKvqnHf1e+I650ZkKGtFw4fnXOTo2o6f20Lpv9MD60gsBuZkeDYStkIEjIKKgUtRKChFEP1jIutD3d6twzc7sVw//fqP+FN2orwR6/+L0ABbGvbrrkJp8p65v0CnlP3Nzm9HXEc0r+5Irf3qbgKCvu7mj4c43UcVCmL8EqSInHV9d3Ec8RJFqeXN3yP3DVPCGJUvFrusumC9mttXfResexEFj5R9d29enVxew1j3javpvLJucs3PAo/E14eK03LtHDmsZueQF6UcOC1jZn0udPjbUiLA==
+sidebar_class_name: "post api-method"
+info_path: docs/reference/vs-agent-admin-api/api-documentation
+custom_edit_url: null
+hide_send_button: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Send an invitation"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/v2/didcomm/invitations"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Sends an Out-of-Band invitation on an established connection. A v1 connection carries the Out-of-Band 1.1 message. A v2 connection carries the Out-of-Band 2.0 invitation in the `application/didcomm-plain+json` attachment of a Media Sharing share-media message. Without `did`, the invitation opens a single-use sub-connection to this agent, correlated through `parentConnectionId`. With `did`, it refers the peer to that service and creates no record.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./v-2-didcomm-invitations-controller-send-invitation-v-2.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./v-2-didcomm-invitations-controller-send-invitation-v-2.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./v-2-didcomm-invitations-controller-send-invitation-v-2.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

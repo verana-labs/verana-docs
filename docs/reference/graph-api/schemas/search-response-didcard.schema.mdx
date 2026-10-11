@@ -1,0 +1,32 @@
+---
+id: search-response-didcard
+title: "search_response_DidCard"
+description: "[TG-FCT-6b] shared `didCard` group: the surface's bound DID rendered as a result card. Never `null` (the bound DID always exists as a `Did` record); `trusted` / `isTrustExpired` describe the bound DID and never gate the hit ([TG-FCT-2] non-propagation)."
+sidebar_label: "search_response_DidCard"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"did":"string","trusted":true,"isTrustExpired":true,"service":{"name":"string","type":"string","description":"string","logoUri":"string","logoDigestSri":"string"},"operator":{"name":"string","logoUri":"string","logoDigestSri":"string","countryCode":"string","registryId":"string","address":"string"}}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"search_response_DidCard"}
+>
+</Heading>
+
+
+
+[TG-FCT-6b] shared `didCard` group: the surface's bound DID rendered as a result card. Never `null` (the bound DID always exists as a `Did` record); `trusted` / `isTrustExpired` describe the bound DID and never gate the hit ([TG-FCT-2] non-propagation).
+
+<Schema
+  {...require("./search-response-didcard.Schema.json")}
+>
+  
+</Schema>
+            

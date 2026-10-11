@@ -1,0 +1,32 @@
+---
+id: search-response-didsnippetcorporation
+title: "search_response_DidSnippetCorporation"
+description: "[TG-FCT-6b] `corporation` group: a Corporation's identity and trust signals, anchored on the hit's corporation binding — `Did.corporationId` (the owner Corporation per the VPR DID ownership invariant) on the `Did` surface, `Ecosystem.corporationId` (the controlling Corporation) on the `Ecosystem` surface. Never `null` as a group: `id` is always known; the other fields are `null` only while the referenced Corporation record is not yet materialised (bootstrap transient)."
+sidebar_label: "search_response_DidSnippetCorporation"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":0,"deposit":"string","slashedEvents":0,"lastSlashedAtTime":"2024-07-29T15:51:28.071Z","slashedValue":"string"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"search_response_DidSnippetCorporation"}
+>
+</Heading>
+
+
+
+[TG-FCT-6b] `corporation` group: a Corporation's identity and trust signals, anchored on the hit's corporation binding — `Did.corporationId` (the owner Corporation per the VPR DID ownership invariant) on the `Did` surface, `Ecosystem.corporationId` (the controlling Corporation) on the `Ecosystem` surface. Never `null` as a group: `id` is always known; the other fields are `null` only while the referenced Corporation record is not yet materialised (bootstrap transient).
+
+<Schema
+  {...require("./search-response-didsnippetcorporation.Schema.json")}
+>
+  
+</Schema>
+            

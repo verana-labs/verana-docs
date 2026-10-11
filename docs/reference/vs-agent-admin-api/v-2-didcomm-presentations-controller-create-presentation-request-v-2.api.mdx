@@ -1,0 +1,70 @@
+---
+id: v-2-didcomm-presentations-controller-create-presentation-request-v-2
+title: "Create a presentation request"
+description: "Creates a Presentation Request. The body names the credentials, and the attributes of them, that the holder is asked to present. An entry that omits `attributes` asks for every attribute the schema defines. With a `connectionId` the agent sends the request on that connection and answers with neither `invitation` nor `shortUrl`; without one it mints an Out-of-Band invitation."
+sidebar_label: "Create a presentation request"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/reference/vs-agent-admin-api/api-documentation
+custom_edit_url: null
+hide_send_button: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Create a presentation request"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/v2/didcomm/presentation-request"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Creates a Presentation Request. The body names the credentials, and the attributes of them, that the holder is asked to present. An entry that omits `attributes` asks for every attribute the schema defines. With a `connectionId` the agent sends the request on that connection and answers with neither `invitation` nor `shortUrl`; without one it mints an Out-of-Band invitation.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./v-2-didcomm-presentations-controller-create-presentation-request-v-2.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./v-2-didcomm-presentations-controller-create-presentation-request-v-2.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./v-2-didcomm-presentations-controller-create-presentation-request-v-2.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

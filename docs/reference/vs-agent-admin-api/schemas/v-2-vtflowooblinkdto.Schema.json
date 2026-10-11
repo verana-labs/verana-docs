@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"url":{"type":"string"},"description":{"type":"string"},"expiresAt":{"type":"string","description":"expires_time of the message, when the sender set one."},"at":{"type":"string","description":"When the agent sent or received the message."}},"required":["url","description","at"],"title":"V2VtFlowOobLinkDto"},"schemaType":"response"}

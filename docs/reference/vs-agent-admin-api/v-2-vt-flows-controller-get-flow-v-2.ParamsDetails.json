@@ -1,0 +1,1 @@
+{"parameters":[{"name":"participantSessionId","required":true,"in":"path","description":"DIDComm session identifier of the target flow","schema":{"type":"string"}}]}

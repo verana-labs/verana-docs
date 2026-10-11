@@ -1,0 +1,32 @@
+---
+id: search-response-didsnippetparticipations
+title: "search_response_DidSnippetParticipations"
+description: "[TG-FCT-6b] `participations` group: the DID's ACTIVE `Participant` entries (non-ACTIVE entries never reach the search surface, per [TG-ACT-1]; the full lifecycle view is traversal query A7). `entries` MAY be truncated to an implementation-defined maximum; `total`, `ecosystemCount`, and `byRole` always reflect the untruncated population."
+sidebar_label: "search_response_DidSnippetParticipations"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"total":0,"ecosystemCount":0,"byRole":{},"entries":[{"id":0,"credentialSchemaId":0,"schemaTitle":"string","ecosystemId":0}]}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"search_response_DidSnippetParticipations"}
+>
+</Heading>
+
+
+
+[TG-FCT-6b] `participations` group: the DID's ACTIVE `Participant` entries (non-ACTIVE entries never reach the search surface, per [TG-ACT-1]; the full lifecycle view is traversal query A7). `entries` MAY be truncated to an implementation-defined maximum; `total`, `ecosystemCount`, and `byRole` always reflect the untruncated population.
+
+<Schema
+  {...require("./search-response-didsnippetparticipations.Schema.json")}
+>
+  
+</Schema>
+            

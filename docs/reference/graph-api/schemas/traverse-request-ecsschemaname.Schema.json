@@ -1,0 +1,1 @@
+{"schema":{"enum":["ServiceCredential","OrganizationCredential","PersonaCredential","UserAgentCredential"],"description":"ECS schema discriminator.","title":"traverse_request_EcsSchemaName"},"schemaType":"response"}

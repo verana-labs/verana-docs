@@ -1,0 +1,1 @@
+{"responses":{"200":{"description":"The agent process is alive","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"string","enum":["live"],"description":"Fixed marker that the agent process accepted the request","example":"live"}},"required":["status"],"title":"LivenessDto"}}}},"503":{"description":"A bootstrap step failed beyond recovery"}}}

@@ -1,0 +1,1 @@
+{"schema":{"enum":["ACTIVE","FUTURE","INACTIVE","EXPIRED","REVOKED","SLASHED","REPAID"],"title":"traverse_response_ParticipantState"},"schemaType":"response"}

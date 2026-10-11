@@ -1,0 +1,1 @@
+{"schema":{"enum":["HOLDER","ISSUER","VERIFIER","ISSUER_GRANTOR","VERIFIER_GRANTOR","ECOSYSTEM"],"description":"Participant role per the `Participant` entity table.","title":"search_response_ParticipantRole"},"schemaType":"response"}

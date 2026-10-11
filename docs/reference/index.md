@@ -9,9 +9,10 @@ Exact contracts, generated from the component repositories where a machine-reada
 
 | Reference | Source | Status |
 |---|---|---|
+| [VS Agent Admin API v2](./vs-agent-admin-api/index.md) | OpenAPI exported by vs-agent | generated |
 | [Indexer API](./indexer-api/index.md) | OpenAPI from verana-indexer | generated |
-| VS Agent Admin API v2, events, environment variables | OpenAPI exported by vs-agent | coming |
-| Graph API | OpenAPI from verana-graph | coming |
+| [Graph API](./graph-api/index.md) | OpenAPI from verana-graph | generated |
+| VS Agent events, environment variables, public endpoints | VS Agent specification | coming |
 | MCP server tools, resources, prompts | tool catalog from mcp-server | coming |
 | Network parameters and message catalog | chain queries and the VPR specification | coming |
 | Essential Credential Schemas | verifiable-trust-spec schemas | coming |

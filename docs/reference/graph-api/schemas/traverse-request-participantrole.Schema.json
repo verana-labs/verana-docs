@@ -1,0 +1,1 @@
+{"schema":{"enum":["HOLDER","ISSUER","VERIFIER","ISSUER_GRANTOR","VERIFIER_GRANTOR","ECOSYSTEM"],"title":"traverse_request_ParticipantRole"},"schemaType":"response"}

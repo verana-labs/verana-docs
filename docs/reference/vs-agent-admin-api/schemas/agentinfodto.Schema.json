@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"did":{"type":"string","description":"DID of the agent, created on its first startup","example":"did:webvh:QmScid:agent.example.com"},"version":{"type":"string","description":"Running application version","example":"1.8.1"}},"required":["version"],"title":"AgentInfoDto"},"schemaType":"response"}

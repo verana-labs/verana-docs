@@ -1,0 +1,1 @@
+{"schema":{"type":"object","additionalProperties":false,"required":["corporationId"],"properties":{"corporationId":{"type":"integer","minimum":0,"description":"Stable `uint64` id of the Corporation (mirrors VPR `Corporation.id`)."}},"title":"traverse_request_CorporationIdInput"},"schemaType":"response"}

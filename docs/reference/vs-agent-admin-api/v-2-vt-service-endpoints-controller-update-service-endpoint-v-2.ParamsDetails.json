@@ -1,0 +1,1 @@
+{"parameters":[{"name":"serviceEndpointId","required":true,"in":"path","description":"Percent-encoded entry id (e.g. %23mcp for #mcp)","schema":{"example":"%23mcp","type":"string"}}]}

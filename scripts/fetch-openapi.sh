@@ -6,5 +6,6 @@ cd "$(dirname "$0")/.."
 mkdir -p openapi
 curl -sfL -o openapi/indexer.json https://raw.githubusercontent.com/verana-labs/verana-indexer/main/docs/api/openapi.json
 curl -sfL -o openapi/node.yml   https://raw.githubusercontent.com/verana-labs/verana-node/main/docs/static/openapi.yml
-# vs-agent and verana-graph: added when their repositories publish a file (see plan step 2, section 7).
+curl -sfL -o openapi/graph.json          https://raw.githubusercontent.com/verana-labs/verana-graph/main/docs/api/openapi.json
+curl -sfL -o openapi/vs-agent-admin.json https://raw.githubusercontent.com/verana-labs/vs-agent/main/docs/api/openapi.json
 echo "fetched:"; ls -la openapi

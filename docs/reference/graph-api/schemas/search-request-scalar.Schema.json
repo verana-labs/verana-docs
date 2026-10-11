@@ -1,0 +1,1 @@
+{"schema":{"description":"anyOf, not oneOf: a JSON integer matches both `number` and `integer`, so a oneOf over both branches rejects every integer.","anyOf":[{"type":"string"},{"type":"number"},{"type":"boolean"}],"title":"search_request_Scalar"},"schemaType":"response"}

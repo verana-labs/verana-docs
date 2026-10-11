@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"connectionId":{"type":"string","description":"Connection to send the message on","example":"3fa85f64-5717-4562-b3fc-2c963f66afa6"},"content":{"type":"string","description":"Text of the message","example":"Hello"}},"required":["connectionId","content"],"title":"SendBasicMessageBodyDto"},"schemaType":"response"}

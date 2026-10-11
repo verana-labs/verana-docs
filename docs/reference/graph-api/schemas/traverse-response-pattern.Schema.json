@@ -1,0 +1,1 @@
+{"schema":{"enum":["A","B",null],"description":"Architecture pattern per VS-REQ-3 / VS-REQ-4 (A: self-issued; B: delegated); null when the DID presents no ServiceCredential (untrusted DID).","title":"traverse_response_Pattern"},"schemaType":"response"}

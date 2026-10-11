@@ -1,0 +1,70 @@
+---
+id: v-2-didcomm-presentations-controller-accept-presentation-v-2
+title: "Accept a presentation"
+description: "Acknowledges a received presentation as verifier, and completes the exchange. This method does not change the verification result: the agent verified the presentation when it received it, and stored the result in `verified`."
+sidebar_label: "Accept a presentation"
+hide_title: true
+hide_table_of_contents: true
+api: eJzlV9ty2zYQ/RUMntoZSrJlWXb4ptpuanfi+Fq78XgiiFiKSEiABkDKikb/3lmAFKlL4nSmb32yTC4Wu2fP7h4uKAcTaZFboSQN6Sj6KtUsBT4FQxjREIEogZNcgwFpGZoRZkgJWsQCdECY5CRSWZ6CBUNsAgReo4TJKXTJXSIMycAmihOuwBCpLPEvnaX3EnmvGkyR2tC9YFOQtr6Eu0drEcwSkETYJj5hfSTGKl0d8P6IkGRcOxp3aUBVDtp5Oec0pH/1TwWPVJZdtfybEyWtVmkK+jOLIsht++3nsk8DmjPNMrCgDQ2fFlSyDGhIc61UfFYBcM5pQDW8FEIDp6HVBQRUIMw5swkNNrBv30HiVM2I4CCtw5kG1EQJZIyGCwqvDPGmIT2I2fFhPBx0Do/2jzqDw2G/MzmIo04/ejc8iIdDFrMhDaid52htrBZySpfLZwzL5EoaMOiwv7eHf9bDuUuAFDlndrP8GiKleYDIGssskDFXEsY0oJGSFqRFXyzP06qyvS8GHS5aGVQBqckXiCyCqbEqVvhwNkFsDlQZbCJ3vsKJqLhii1Lxiok0aGHmXnX2+weDzuHw6JguA+rS2HUNyCKj4ZOLTxmWdhCFKl73f03AqtBgbG1S/9uyaKPYeGo9a9lyiFIh3U82YRIRdo+VBPq8mf9JoTU2jC/HCoINOmGmWqU/TLTua59jCXr7shuVVncIUzWqkO7G+pJISQlR3WJvFe9kZb1yQnQhDVFyrW7odb1sFcTATzQ4BrDU7OZx1Bj4OcGs1WJS4MjycGUBsQmzPisXAzNfgZNY6aaBmNZsTgMqLGTmbR43t55CLKT4WURGUklMybTiJnzlYru6wuC0s1pE2KxWreHGBQ9nMCmT8Dpjn/7+9PuAsT/u7x6+sT+L/sGdmk1L83h08RCf3EyvPz0Ojo/PRsZcXYc860YJsxNluxwyZbocym5/b7jXFaqnwahCR2B6364zKNm3+/v542/Je/V4Mbu4vDx7eZyWV1fXhw96dnd2/P7wA0/iB5O9fsDC4UC4dcOgqdzPAHNx+/GS+IOkOfkv8UiszU3Y6/GsO1VlR/CO1TsSLG3PzyvTqcy+mKjrRtkyoA1/tgk3arjlOVQ3S1PNLjkrQc8bGtZN66/0+01lwlrg3Xb0TzQW2thL3DYBTVn18/lNiq5m/zKgVliHxM12/5xaRdEkSpnIvtdM7h3RUAJLgZPJfKsCXXKW5XZOCmmFr0+iUg6aMGlmoM16Tqvt2c6tZGmBz0apiIAu386wakKMvt73rbcTpVJgcotSDwnYBPQ2h2ofXXIL1hdkN8/8yA5IzFIDZCZsQpgkY9Ba6Q9gDJvCuDnv97oh49VUH6+BgSIBS5RoYPxneuL0/PREZRnxJ9YlQ0N6/7ZzfDQ87AwO+vvI4XaEb99zhtYk8+akmkJtqVerNgPWoDZbpVwboTjLTduUpUat2wtLqs1nEMXVUZzZDn4ATaZ4Qipc8pMUMqIhV9p23erRgIJlZHclFCudMYsjkVnoWOF4tkWHVp1mzDUtekTnlRr6D51jA9ciyzG3UYtPO7Sk1ynVFv/O/lv1bqsN2ri003huZkFbfN44gedHAQY12BtsT4JLtSHJkfiY3FSUWEiH2GDv3e4Zsiqs8B8FjZbcKYjGDhzLpsaJlH6Pe9GOGfjvCxR2yrgdjNo6pL3Gqtf2aXqLDWCXPa/xO20zRBt06eX9M8r2WLmyV3iNrs7JqYqKrHVgYw3ssEB//u1+d68SzCxCPmF+mEDGnFSuBuLIBUYY2Qht7aZFo7v/D99vVeNZeLW9PGXC7eNCp+7LwdUeGYIgVRxZF9nYGOF2a+2iwHNAE+RU+EQXiwkzcK/T5RIfvxSg554YJdOCTao9xoXB35yGbhv8oFC/3FSd/it547tvZ771LpTz1qqkAf0K8x1focvnZUATYBy0C9NbeXK1zm99sy3b7XX18faOLpf/AJOKspE=
+sidebar_class_name: "post api-method"
+info_path: docs/reference/vs-agent-admin-api/api-documentation
+custom_edit_url: null
+hide_send_button: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Accept a presentation"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/v2/didcomm/presentations/{proofExchangeId}/accept-presentation"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Acknowledges a received presentation as verifier, and completes the exchange. This method does not change the verification result: the agent verified the presentation when it received it, and stored the result in `verified`.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./v-2-didcomm-presentations-controller-accept-presentation-v-2.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./v-2-didcomm-presentations-controller-accept-presentation-v-2.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./v-2-didcomm-presentations-controller-accept-presentation-v-2.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

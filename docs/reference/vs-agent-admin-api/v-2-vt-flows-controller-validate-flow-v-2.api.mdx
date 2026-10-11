@@ -1,0 +1,70 @@
+---
+id: v-2-vt-flows-controller-validate-flow-v-2
+title: "Record the validation decision of a flow"
+description: "Validator action. Checks the claim set, records the fee terms, and submits SetParticipantOPtoValidated under the agent VS operator authorization, or leaves it to an operator of the Corporation. A transaction failure is not an error: the flow reports it in validation.tx."
+sidebar_label: "Record the validation decision of a flow"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/reference/vs-agent-admin-api/api-documentation
+custom_edit_url: null
+hide_send_button: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Record the validation decision of a flow"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/v2/vt/flows/{participantSessionId}/validate"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Validator action. Checks the claim set, records the fee terms, and submits SetParticipantOPtoValidated under the agent VS operator authorization, or leaves it to an operator of the Corporation. A transaction failure is not an error: the flow reports it in validation.tx.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./v-2-vt-flows-controller-validate-flow-v-2.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./v-2-vt-flows-controller-validate-flow-v-2.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./v-2-vt-flows-controller-validate-flow-v-2.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,32 @@
+---
+id: search-response-ecosystemsnippet
+title: "search_response_EcosystemSnippet"
+description: "An `Ecosystem` hit snippet: the [TG-FCT-6a] core plus the [TG-FCT-6b] Ecosystem-surface groups selected by the projection (default set: `corporation`, `stats`, `didCard`). An unselected group is omitted entirely, never `null`."
+sidebar_label: "search_response_EcosystemSnippet"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":0,"did":"string","archived":true,"lastObservedAtTime":"2024-07-29T15:51:28.071Z","corporation":{"id":0,"deposit":"string","slashedEvents":0,"lastSlashedAtTime":"2024-07-29T15:51:28.071Z","slashedValue":"string"},"stats":{"participants":{},"issuedCredentials":0,"verifiedCredentials":0},"governance":{"version":0,"activeSince":"2024-07-29T15:51:28.071Z","documents":[{"language":"string","url":"string","digestSri":"string"}]},"schemas":[{"id":0,"title":"string","archived":true,"participants":{}}],"didCard":{"did":"string","trusted":true,"isTrustExpired":true,"service":{"name":"string","type":"string","description":"string","logoUri":"string","logoDigestSri":"string"},"operator":{"name":"string","logoUri":"string","logoDigestSri":"string","countryCode":"string","registryId":"string","address":"string"}}}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"search_response_EcosystemSnippet"}
+>
+</Heading>
+
+
+
+An `Ecosystem` hit snippet: the [TG-FCT-6a] core plus the [TG-FCT-6b] Ecosystem-surface groups selected by the projection (default set: `corporation`, `stats`, `didCard`). An unselected group is omitted entirely, never `null`.
+
+<Schema
+  {...require("./search-response-ecosystemsnippet.Schema.json")}
+>
+  
+</Schema>
+            

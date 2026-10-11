@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"name":{"type":"string","description":"Name of the attribute","example":"phoneNumber"},"value":{"type":"string","description":"Value of the attribute","example":"+57128348520"},"mimeType":{"type":"string","description":"MIME type of the value","example":"image/png"}},"required":["name","value"],"title":"ClaimDto"},"schemaType":"response"}

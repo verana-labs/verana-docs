@@ -1,0 +1,70 @@
+---
+id: v-2-vt-flows-controller-reject-flow-v-2
+title: "Reject a flow"
+description: "Validator action. Sends a problem-report and moves the flow to TERMINATED_BY_VALIDATOR, with no on-chain transaction."
+sidebar_label: "Reject a flow"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/reference/vs-agent-admin-api/api-documentation
+custom_edit_url: null
+hide_send_button: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Reject a flow"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/v2/vt/flows/{participantSessionId}/reject"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Validator action. Sends a problem-report and moves the flow to TERMINATED_BY_VALIDATOR, with no on-chain transaction.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./v-2-vt-flows-controller-reject-flow-v-2.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./v-2-vt-flows-controller-reject-flow-v-2.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./v-2-vt-flows-controller-reject-flow-v-2.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

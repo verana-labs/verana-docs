@@ -1,0 +1,1 @@
+{"schema":{"type":"string","pattern":"^sha(256|384|512)-","title":"search_response_DigestSri"},"schemaType":"response"}

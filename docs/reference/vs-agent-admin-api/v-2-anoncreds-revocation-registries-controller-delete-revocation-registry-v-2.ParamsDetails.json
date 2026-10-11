@@ -1,0 +1,1 @@
+{"parameters":[{"name":"revocationRegistryDefinitionId","required":true,"in":"path","description":"Percent-encoded identifier of the revocation registry definition to delete","schema":{"example":"did%3Aweb%3Achatbot-demo.dev.2060.io%3Fservice%3Danoncreds%26relativeRef%3D%2FrevRegDef%2F8TsGLaSPVKPVMXK8APzBRcXZryxutvQuZnnTcDmbqd9p","type":"string"}}]}
