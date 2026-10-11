@@ -1,0 +1,69 @@
+---
+id: get-stats-range
+title: "Get Statistics"
+description: "Retrieve statistics with buckets and/or totals for a time range. If granularity is not specified, the method returns the smallest number of buckets by combining MONTH/DAY/HOUR buckets as needed. The response `granularity` will be the smallest granularity present in the returned buckets."
+sidebar_label: "Get Statistics"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get Statistics"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/stats/stats"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retrieve statistics with buckets and/or totals for a time range. If granularity is not specified, the method returns the smallest number of buckets by combining MONTH/DAY/HOUR buckets as needed. The response `granularity` will be the smallest granularity present in the returned buckets.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./get-stats-range.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./get-stats-range.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./get-stats-range.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

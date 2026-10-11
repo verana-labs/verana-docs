@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"gfv_id":{"type":"integer","format":"int64"},"language":{"type":"string"},"url":{"type":"string"},"digest_sri":{"type":"string"},"created":{"type":"string","format":"date-time"}},"title":"CoGovernanceFrameworkDocument"},"schemaType":"response"}

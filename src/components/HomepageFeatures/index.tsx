@@ -1,45 +1,48 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
+import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
-import Link from "@docusaurus/Link";
 
 type FeatureItem = {
   title: string;
   Svg: React.ComponentType<React.ComponentProps<'svg'>>;
   description: JSX.Element;
-  to?: string; 
+  to: string;
 };
 
 const FeatureList: FeatureItem[] = [
-  
   {
-    title: 'Learn',
+    title: 'Understand',
     Svg: require('@site/static/img/learn.svg').default,
-    to: '/docs/next/learn/verifiable-trust/introduction',
+    to: '/docs/understand',
     description: (
       <>
-        Learn how Verifiable Trust empowers user-centric privacy, verifiable credentials, decentralized governance, and ethical monetization, enabling verifiable services and ecosystems built on transparency, not surveillance.
+        The model in plain words: sovereign ecosystems that publish who may issue and verify,
+        services and agents that prove who they are before connecting, and a trust graph that
+        makes all of it discoverable.
       </>
     ),
-    
   },
   {
-    title: 'Use',
+    title: 'Build',
     Svg: require('@site/static/img/use.svg').default,
-    to: '/docs/next/use/ecosystems/intro',
+    to: '/docs/build',
     description: (
       <>
-        Create your Trust Registry, define credential schemas, authorize trust registry operators, issuers, verifiers, and implement privacy-preserving verifiable credential monetization in your ecosystem.
+        Guides by job: make a service verifiable with VS Agent, create and govern an ecosystem
+        with the Frontend, integrate a personal wallet, connect an AI agent through MCP, run the
+        infrastructure.
       </>
     ),
   },
   {
-    title: 'Run',
+    title: 'Reference',
     Svg: require('@site/static/img/run-a-node.svg').default,
-    to: '/docs/next/run/getting-started/infrastructure',
+    to: '/docs/reference',
     description: (
       <>
-        Learn how to run Verana, the Verana Verifiable Trust Network (VVTN), and its companion components. This section guides validators and community members who want to operate nodes and help secure and grow the network.
+        APIs, parameters, messages, schemas and events, generated from the component
+        repositories so they match what runs.
       </>
     ),
   },
@@ -55,7 +58,9 @@ function Feature({title, to, Svg, description}: FeatureItem) {
           </div>
         </Link>
         <div className="text--center padding-horiz--md">
-          <Heading as="h3">{title}</Heading>
+          <Heading as="h3">
+            <Link to={to}>{title}</Link>
+          </Heading>
           <p>{description}</p>
         </div>
       </div>

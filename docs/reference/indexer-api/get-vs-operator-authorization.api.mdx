@@ -1,0 +1,69 @@
+---
+id: get-vs-operator-authorization
+title: "Get VS Operator Authorization"
+description: "Retrieve a specific VSOperatorAuthorization entry by its id, including its nested records[]. Aligned with VPR MOD-DE-QRY-4."
+sidebar_label: "Get VS Operator Authorization"
+hide_title: true
+hide_table_of_contents: true
+api: eJztWG1v40QQ/iuj/UIrOWk45RAKn8q1d1eJg9KWA9Sroo13Yg/Yu2Z3nF6I/N/RrJ3GeYMiIaFDfGpj77w987LPeKVYZ0FN7tUFFphpJmfVQ6IMhtRTFX9O1A2yJ1wgaAgVpjSnFN7ffleh1+z8ec258/R7FAa07JcwWwJxADIJkE2L2pDN4hOLgdGAx9R5E+4fhnBeUGbRwCNxDu+vb+DddxeDi8vB9zc/D8ZDlSgX7ZCzV0ZNVIZ8xLRKVKW9LpHRS0grZXWJaqLIqESRBFJpzlWiPP5Wk0ejJuxrTFRIcyy1mqwUL6soYRkz9CpRc+dLzWqiarL8xVg1u9jc5XgUi6sL1SRPbpzz4OvCpb8O3iJlOa99ylGbaGrj1VwXAXcNvY3ngB38VqNfQk6BnadUFxBYM4Lmfn5mYgryaGoIP+ZoofJuQQZNAh659jYA57gWDkAMjzrAoxyNL1pVaDpdc7IUcjSiJ8UQyGadYlcS867eQjMGBrIGP6JpzQzhXR0YZlJJlQvEtEDowAbrGPBjihiLRVSktfdoNzq2YlJ/mreSLJV1qSajpnkQbEPlbMAgh1+MRvJnG973t+C6JILeyuLc1VYqKHWW0bKI6qoqKI2vz34JIr/ad8bNfsFU0lx50czUWt9Sfuj4tl/nkDpfubYDPgvw/nZwxE/xT5NFn0DuigiiswjX2jOlVGnLW9V5E1sQKvRR0ruiQNM/DSdXFz+tO/HF6XCrRO/brur5No0PFmG6di+ej20uE2UbBDLP7bYdC8+U6ruxEQnsyWbyfu3Y5p32Xi+lJxnL8Jy0VOgHfbSOJ6abeWQDGan8I+NiF+Bqo7zFtgzZVLwKKlEyLadzxMxry/v47sg+E7WNgb/GZY1lk6hQoTXTgkrivwNoP1aD1pUqUbp09aF42veHMtlJHHSMiQt5dCHS5+3BJma/1GTJZtPo+ifg9G75XXsMMhnjsO7hDxQgIA9FYo44/bRScyxKms9hq+AlTLm6J8A5hY5NfBbaQUazWuSTONp6g0CkpxV6ciaRa1RuGJ1lXmgP9g/Ca8Q30cxJQISCAq+fhNMhfOvkop3pQtsUwc0jr3GPNoK+3Zeb0GfOFaitHMGPFfnd6d9B02tLoxkHTCXuzZ5La8Rs/4Z84kiDWW0yZEiXaYFfQdVDsA29qxDQ1rQa5CDkOsgN7RnNOsCFLsgQL+GRrHGPgNbECFs1h1zf9vIbtBnna0cPOwhz5/vlmwgP0WDq9iyc4DAbwgf15Rfj0Sh8UII+LtBDvIAxSBrniGG4VVN/fuOppn/2GJdsEhXZxrRlGwcn6C5JDq5YxDnfspVWEk4wzR0G2KF/XevWMRBz2s2lTdvpHWq75c1DE4MYj8b7REay91ooCwxAyKkoXZPu4GqfIhjxp6VbFPifozbo/aH7dq9+5RiUGILOsL3jDT4D4bd3d9eRR9bS6Qa3kh6Vtu2ly6rAnj8xNTFwiXlD58ToeDRusXx5iBReWUZvdQG36KXsWiP/ebyewg5t2PE5uDROmw12L0ejpgWvRM5dt53FNYxzNVFni/GZeVorzxbhiSANtqr7bEWmETofrbWrW+0L0bAX06tu4OUusBJmT3buIhbrhkavrYar2IQezq+v9jv18vZOXsTpI8Opk2kb108AUxeWQS5HOLl8dZpA6tGgZRJIYm4DnLy6PU2gx7NCIldSYDAYV5sAJ3cXpwmUsjynIYkTtzMhD7XwPYm3derz4Yvh53G+usCljnXULY5vUNglrAcV7G69W9GtNsX5L+/tXXUyfuSzqtAUh2rM66qrkHu1GEf/nz49CHM/UiUqURMywj9i7if3arWa6YA/+KJp5HFci9Xk/iFRC+1Jz6Qe7lfKUJD/j+zVfbxObroBfAp/sdYfiW7Nr6ywq4UuavmlEvUrLtvvEM1Dk6w3/r/n2//r/976fzAFLdT731qesiFfZLpDaYpV/93eLJcB8zTb3lzeqab5Aygru0s=
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get VS Operator Authorization"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/delegation/vs-operator-authorization/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retrieve a specific VSOperatorAuthorization entry by its id, including its nested records[]. Aligned with VPR MOD-DE-QRY-4.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./get-vs-operator-authorization.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./get-vs-operator-authorization.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./get-vs-operator-authorization.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

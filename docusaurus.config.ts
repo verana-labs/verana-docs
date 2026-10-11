@@ -1,12 +1,14 @@
 import type {PrismTheme} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
-import { remarkKroki } from 'remark-kroki';
+import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs';
+import {remarkKroki} from 'remark-kroki';
+import {redirects, createRedirects} from './redirects';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 // "Protocol Grid" code theme (Operator's Console design): the verana.io
-// palette on the console ground. Used for BOTH color modes — code blocks
+// palette on the console ground. Used for BOTH color modes: code blocks
 // stay dark, which is the theme's signature (see src/css/custom.css).
 const protocolGrid: PrismTheme = {
   plain: {color: '#E8E9F0', backgroundColor: '#0E1018'},
@@ -27,59 +29,60 @@ const protocolGrid: PrismTheme = {
 };
 
 const config: Config = {
-  title: 'Explore Verana',
-  tagline: 'Verana is an open initiative providing specifications, public infrastructure, and governance to build a decentralized, verifiable identity layer for the Internet using verifiable credentials and trust registries.',
+  title: 'Verana Docs',
+  tagline: 'Understand the open trust layer, build on it, look things up.',
   favicon: 'img/favicon.ico',
 
-  // Set the production url of your site here
   url: 'https://docs.verana.io',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
-
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'verana-labs', // Your GitHub organization/user name
-  projectName: 'verana-docs', // Your repository name
+  organizationName: 'verana-labs',
+  projectName: 'verana-docs',
 
   onBrokenLinks: 'throw',
   markdown: {
+    mermaid: true,
     hooks: {
       onBrokenMarkdownLinks: 'warn',
     },
   },
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
   },
 
-  plugins: [
+  themes: [
+    '@docusaurus/theme-mermaid',
+    'docusaurus-theme-openapi-docs',
     [
-      '@docusaurus/plugin-client-redirects',
+      '@easyops-cn/docusaurus-search-local',
       {
-        // Redirect the v4 module/section renames so links to the old paths resolve.
-        createRedirects(existingPath: string) {
-          const renames: [string, string][] = [
-            ['/use/corporation/delegation/', '/use/ecosystems/delegation/'],
-            ['/use/corporation/create-a-corporation', '/use/ecosystems/corporation'],
-            ['/use/ecosystems/participants/', '/use/ecosystems/permissions/'],
-            ['/use/ecosystems/ecosystem/', '/use/ecosystems/trust-registries/'],
-            ['/use/digest/', '/use/did-directory/'],
-            ['/learn/verifiable-public-registry/did-indexing', '/learn/verifiable-public-registry/did-indexing-and-digest'],
-            ['/run/network/modules/participant', '/run/network/modules/credential-schema-permissions'],
-            ['/run/network/modules/digest', '/run/network/modules/did-directory'],
-            ['/run/network/modules/ecosystem', '/run/network/modules/trust-registry'],
-          ];
-          for (const [next, old] of renames) {
-            if (existingPath.includes(next)) {
-              return [existingPath.replace(next, old)];
-            }
-          }
-          return undefined;
+        hashed: true,
+        indexBlog: false,
+        docsRouteBasePath: '/docs',
+        highlightSearchTermsOnTargetPage: true,
+      },
+    ],
+  ],
+
+  plugins: [
+    ['@docusaurus/plugin-client-redirects', {redirects, createRedirects}],
+    [
+      'docusaurus-plugin-openapi-docs',
+      {
+        id: 'openapi',
+        docsPluginId: 'classic',
+        config: {
+          indexer: {
+            specPath: 'openapi/indexer.json',
+            outputDir: 'docs/reference/indexer-api',
+            sidebarOptions: {
+              groupPathsBy: 'tag',
+              categoryLinkSource: 'tag',
+            },
+            hideSendButton: false,
+            showSchemas: true,
+          } satisfies OpenApiPlugin.Options,
         },
       },
     ],
@@ -88,79 +91,59 @@ const config: Config = {
   presets: [
     [
       'classic',
-      /** @type {import('@docusaurus/preset-classic').Options} */
-      ({
+      {
         docs: {
-          sidebarPath: require.resolve('./sidebars.ts'),
-          editUrl: undefined,
-          showLastUpdateAuthor: false,
+          sidebarPath: './sidebars.ts',
+          docItemComponent: '@theme/ApiItem',
+          editUrl: 'https://github.com/verana-labs/verana-docs/edit/main/',
           showLastUpdateTime: false,
-          includeCurrentVersion: true, // Ensure the latest docs are included
-          lastVersion: 'v3',
+          includeCurrentVersion: true,
+          // Three versions: v4 is current and served at the root, v5 opens as
+          // "next" when its work starts (docusaurus docs:version v4), v3 is old.
+          lastVersion: 'current',
           versions: {
-            current: {
-              label: 'v4 (next)',
-              path: 'next',
-              banner: 'unreleased',
-            },
-            'v3': {
-              label: 'v3',
-              path: '',
-              banner: 'none',
-            },
+            current: {label: 'v4', path: '', banner: 'none'},
+            v3: {label: 'v3 (old)', path: 'v3', banner: 'unmaintained'},
           },
           remarkPlugins: [
-            [
-              remarkKroki,
-              {
-                // ...options here
-                alias: ['plantuml', 'mermaid'],
-                target: 'mdx3',
-                server: 'https://kroki.io/'
-              }
-            ]
-          ]
+            // Kept for the legacy pages that still carry PlantUML. New pages use Mermaid.
+            [remarkKroki, {alias: ['plantuml'], target: 'mdx3', server: 'https://kroki.io/'}],
+          ],
         },
-        //blog: {
-        //  showReadingTime: true,
-        //  editUrl: 'https://github.com/verana-labs/verana-docs/edit/main/',
-        //},
+        blog: false,
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: './src/css/custom.css',
         },
-      }),
+      } satisfies Preset.Options,
     ],
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-
-    // Operator's Console: dark-first, light kept (user choice persists).
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: false,
       respectPrefersColorScheme: false,
     },
-
     prism: {
       theme: protocolGrid,
       darkTheme: protocolGrid,
+      additionalLanguages: ['bash', 'json', 'yaml'],
     },
-    image: 'img/verana-docs-og.jpg', // Replace with your social card
-
+    mermaid: {
+      theme: {light: 'neutral', dark: 'dark'},
+    },
+    image: 'img/verana-docs-og.jpg',
     metadata: [
       {name: 'twitter:card', content: 'summary_large_image'},
-      {name: 'twitter:title', content: 'Verana'},
-      {name: 'twitter:description', content: 'Building an open, decentralized trust layer for the Internet'},
+      {name: 'twitter:title', content: 'Verana Docs'},
+      {name: 'twitter:description', content: 'Understand the open trust layer, build on it, look things up.'},
       {name: 'twitter:image', content: 'https://docs.verana.io/img/verana-docs-og.jpg'},
-  
-      {property: 'og:title', content: 'Verana'},
-      {property: 'og:description', content: 'Building an open, decentralized trust layer for the Internet'},
+      {property: 'og:title', content: 'Verana Docs'},
+      {property: 'og:description', content: 'Understand the open trust layer, build on it, look things up.'},
       {property: 'og:type', content: 'website'},
       {property: 'og:url', content: 'https://docs.verana.io'},
       {property: 'og:image', content: 'https://docs.verana.io/img/verana-docs-og.jpg'},
     ],
-
     docs: {
       sidebar: {
         hideable: true,
@@ -169,96 +152,64 @@ const config: Config = {
     },
     navbar: {
       title: 'Verana',
-      logo: {
-        alt: 'Verana Logo',
-        src: 'img/verana-mark.svg',
-      },
+      logo: {alt: 'Verana', src: 'img/verana-mark.svg'},
       items: [
+        {type: 'docSidebar', sidebarId: 'understandSidebar', position: 'left', label: 'Understand'},
+        {type: 'docSidebar', sidebarId: 'buildSidebar', position: 'left', label: 'Build'},
+        {type: 'docSidebar', sidebarId: 'referenceSidebar', position: 'left', label: 'Reference'},
+        {href: 'https://playground.testnet.verana.network', label: 'Playground', position: 'left'},
         {
-          type: 'docsVersionDropdown', // This enables the version dropdown
-          position: 'right',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'learnSidebar',
+          type: 'dropdown',
+          label: 'Specs',
           position: 'left',
-          label: 'Learn',
+          items: [
+            {label: 'Verifiable Trust', href: 'https://verana-labs.github.io/verifiable-trust-spec/versions/v4/'},
+            {label: 'Verifiable Public Registry', href: 'https://verana-labs.github.io/verifiable-trust-vpr-spec/versions/v4/'},
+            {label: 'Verana components (verana-spec)', href: 'https://github.com/verana-labs/verana-spec/tree/main/v4'},
+          ],
         },
-        {
-          type: 'docSidebar',
-          sidebarId: 'useSidebar',
-          position: 'left',
-          label: 'Use',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'runSidebar',
-          position: 'left',
-          label: 'Run',
-        },
-        
-        {
-          href: 'https://github.com/verana-labs',
-          label: 'GitHub',
-          position: 'right',
-        },
+        {type: 'docsVersionDropdown', position: 'right'},
+        {href: 'https://github.com/verana-labs', label: 'GitHub', position: 'right'},
       ],
     },
-    
     footer: {
       style: 'dark',
       links: [
         {
           title: 'Specifications',
           items: [
-            {
-              label: 'Verifiable Trust',
-              href: 'https://verana-labs.github.io/verifiable-trust-spec/',
-            },
-            {
-              label: 'Verifiable Public Registry',
-              href: 'https://verana-labs.github.io/verifiable-trust-vpr-spec/',
-            },
-            {
-              label: 'Trust Registry Query Protocol',
-              href: 'https://trustoverip.github.io/tswg-trust-registry-protocol/',
-            },
+            {label: 'Verifiable Trust', href: 'https://verana-labs.github.io/verifiable-trust-spec/versions/v4/'},
+            {label: 'Verifiable Public Registry', href: 'https://verana-labs.github.io/verifiable-trust-vpr-spec/versions/v4/'},
+            {label: 'Verana components', href: 'https://github.com/verana-labs/verana-spec'},
+            {label: 'Trust Registry Query Protocol', href: 'https://trustoverip.github.io/tswg-trust-registry-protocol/'},
           ],
         },
-        
-        
+        {
+          title: 'Try it',
+          items: [
+            {label: 'Playground', href: 'https://playground.testnet.verana.network'},
+            {label: 'Testnet frontend', href: 'https://app.testnet.verana.network'},
+            {label: 'Trust graph search', href: 'https://search.testnet.verana.network'},
+          ],
+        },
         {
           title: 'Community',
           items: [
-            {
-              label: 'Linkedin',
-              href: 'https://www.linkedin.com/company/verana-verifiable-trust-network',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discord.gg/edjaFn252q',
-            }
+            {label: 'LinkedIn', href: 'https://www.linkedin.com/company/verana-verifiable-trust-network'},
+            {label: 'Discord', href: 'https://discord.gg/edjaFn252q'},
+            {label: 'GitHub', href: 'https://github.com/verana-labs'},
           ],
         },
         {
           title: 'About Verana',
           items: [
-            {
-              label: 'Verana.io',
-              href: 'https://verana.io',
-            },
-            {
-              label: 'Foundation Website',
-              href: 'https://veranafoundation.org',
-            }
-            
+            {label: 'Verana.io', href: 'https://verana.io'},
+            {label: 'Foundation website', href: 'https://veranafoundation.org'},
           ],
         },
-        
       ],
       copyright: `©${new Date().getFullYear()} Verana Foundation`,
     },
-   
   } satisfies Preset.ThemeConfig,
 };
 

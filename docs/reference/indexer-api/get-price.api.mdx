@@ -1,0 +1,69 @@
+---
+id: get-price
+title: "Get Price"
+description: "Convert an amount of a base asset to its equivalent in a quote asset using the relevant active, non-expired ExchangeRate entry. Aligned with VPR MOD-XR-QRY-3. When (base_asset_type, base_asset) == (quote_asset_type, quote_asset), price == amount and rate fields are omitted. Otherwise price = floor(amount * rate / 10^rate_scale)."
+sidebar_label: "Get Price"
+hide_title: true
+hide_table_of_contents: true
+api: eJztWFtT20YU/itndjpTu5WNDaadKpMHQmjihwRiTHohhFmkY2sTaVfsrgyMx/+9c3ZlI9kKJYH0Ic1TiLyX7zuX75w9c2b51LDwlB1cRwmXU4QRt8jOAhajibTIrVCShWxfyRlqC1wCz1QhLagJcLjgBoEbgxasAmEN4GUhZjxFaUFI4HBZKLtcUhghp2ATBI0pzri0wCMrZhiAVLKD17nQGMMSCiEBlFbfdGEvFVOJMVwJm8DboxG8Onze+XPUeTP6q7PThT8SlNAiNOfuqnN7k2MAtx/a8PQptByY2orKl3YAuRYR0sqSI5cxaEIxEZjGBrhGUJmwFuMuHNoE9ZUwuNwGk1Qp3Sr3/uR3bkG/957+OjcRT7HdZQFTOWpOhh3GLGRTtEd0AAtYzjXP0KIml8yZ5BmykK3RYgET5JLLAvUNC5gmk2uMWWh1gQEzUYIZZ+GcudUhM1YLOWUBQ1lk5OvxCQvY/uHwNQvY78O9MTtbrPv7WcWxdMoiaIDzpUjuuk3EKK2YCNTQesds8Y7BRGkYnzwBJTtRwoWEGKXK3Gci8QSGx4edwXb/V4gKrVFGNxCpGN0Coteuol8Pgf/Emm8qSbBuzgqgR7Nn9b6qQQ3PEHSRogFuqtlRBeTj98vtknNrUdPe96e9zm9nP//Q7PCOx1emC17nGo3BmJB5Yen0e1BI4xNfSItT1OCvCUhcSEhuBehHTwgKKayp8tmznWepij52XqKYJitiCfIYdY3ZhKcG16G+dOtI3pwpIBHGKi0inoKxlOHcAgeTYyQmIoILugoSd1WpS7lWMxFjHIBGW2hpHPJyswFh4YobuKKl7gd/FMblWRMhhUkwpnMiNKSh5cGlFNXPTblFQ+Ib4zXG/pouvCqMhQsEDrkygjR3ZVGpyPoRYrxUZ59Gt2fUOLEG35dHsYBlQoqM8qK3WJyRbU2upEFDi7d7PfpnvbBkeWEdO6+BkZIWpaWVPM9TETml3PpgaPl882518QEjW/PjKVsetimdNfVqEIN6Ojrm5545FcVck3Zb4Qn5WxpSoCHYPx3Ly1CuVMr1WN7g8blyVGHdpB4bdvjc86tWa7qACuADDKVdDB/6cPeZ4hNfxrUGg+qz17uIp93lxb7yNobrROmMW/9pZ3sD0Osiu0BNrU6Mkch4CrGYUpdTkFBZBe7kB8DzLY9pMs0KWswtdqzIcAPeAe2+AfrNWJ7lBJQiqamB+hJ0tehvMl8dzgiNSmfObV43/E5oYZQoNLAmxB6KKSjJMW6zxSJgVljyFHtR9kSjUj+8rXiWez+Wicf62zuDhiwPl/FZDXtWzCRvyvnQh/FaELOT4+dsGbjuol1WD6dBxX1su7f9S6fX7/R3x/1euNMLe72/2WJBnAZNsveMxzDCy4KkugNDOeOpiOG2/1sVjYcoYl2tUGul/z0JD2gZZGgMnzq7Uy91D++/HI+PXLUpjGu/av50h645scTDNsiHkIpMWMjKmnWB9gpRQt+FbL+3PWBLVINeb2nkwaaRXyvIuI0SEtnNnAC8Fsaab9/Aq6ede5BQuZ+oQsYVIw5KI/YbInWc4J1WFAZiYfhFijEoDeUj7v9m1Tus4EzcL+N0t0kMhpIaZp7CMeoZavDXfvMWXNE2nrb7Dipy7eet7XZ9ji8ClqFNVPlk9g+NhIVsazbYwtIZHXLG1rL78+f6t3ShU1q7gX6/7HUTZSyjllXIiXKsSwZvUXPJYehqmoa9o+Fm4Ts4HtMP7sVJBbjc4+ugDgEjZW6MxcxA62C/HUCk0VVaIu+8aKC1f0wTCK6tiETOpTUBWE0SGKPr2Q20xs/bAWRotYhM4NSwvII+cmrNia8H1e9ud/tk+VwZm3EXMeWL6AVaWI4cakzmtyH3feLzmBOfMoUsXtutPOVCkmNcSM7LMD5lMyprtUB2mUxuOguYi8/wlM3nRPFEp4sFffbPcwrwpfw0P2Ornm2NypdSG9bHPJ9A+hFvGudQM54WtNo9tx8K4KtMfu5J6FG4bEx57ry84e35uBDuN/i5L8ZH8/ZXHfvcyWY12Lolckb/0YKYsPCUXrLlWOjzMur7jGhjRnSHHzYHcrXIKhdFEebV3zY6IHLeqiN4cTBmi8U/LB6N+A==
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get Price"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/exchange-rate/price"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Convert an amount of a base asset to its equivalent in a quote asset using the relevant active, non-expired ExchangeRate entry. Aligned with VPR MOD-XR-QRY-3. When (base_asset_type, base_asset) == (quote_asset_type, quote_asset), price == amount and rate fields are omitted. Otherwise price = floor(amount * rate / 10^rate_scale).
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./get-price.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./get-price.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./get-price.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

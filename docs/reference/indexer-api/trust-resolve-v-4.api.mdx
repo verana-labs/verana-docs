@@ -1,0 +1,69 @@
+---
+id: trust-resolve-v-4
+title: "Resolve (IDX-VT-QRY-1)"
+description: "Resolves the Verifiable Trust state for a DID. Always returns the trust-core fields (`did`, `trusted`, `evaluatedAtTime`, `evaluatedAtBlock`, `expiresAtTime`, `corporationId`); every other section is opt-in via its request selector. Point-in-time is selected via the `At-Block-Height` header."
+sidebar_label: "Resolve (IDX-VT-QRY-1)"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Resolve (IDX-VT-QRY-1)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/v4/verifiable-trust/resolve"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Resolves the Verifiable Trust state for a DID. Always returns the trust-core fields (`did`, `trusted`, `evaluatedAtTime`, `evaluatedAtBlock`, `expiresAtTime`, `corporationId`); every other section is opt-in via its request selector. Point-in-time is selected via the `At-Block-Height` header.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./trust-resolve-v-4.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./trust-resolve-v-4.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./trust-resolve-v-4.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

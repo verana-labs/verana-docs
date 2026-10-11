@@ -1,0 +1,32 @@
+---
+id: participantauthorizationrecord
+title: "ParticipantAuthorizationRecord"
+description: "A per-Participant VS-operator authorization nested inside a VSOperatorAuthorization."
+sidebar_label: "ParticipantAuthorizationRecord"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"participant_id":0,"msg_types":["string"],"spend_limit":[{"denom":"string","amount":"string"}],"remaining_spend":[{"denom":"string","amount":"string"}],"fee_spend_limit":[{"denom":"string","amount":"string"}],"with_feegrant":true,"expiration":"2024-07-29T15:51:28.071Z","period":"string"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"ParticipantAuthorizationRecord"}
+>
+</Heading>
+
+
+
+A per-Participant VS-operator authorization nested inside a VSOperatorAuthorization.
+
+<Schema
+  {...require("./participantauthorizationrecord.Schema.json")}
+>
+  
+</Schema>
+            

@@ -1,0 +1,69 @@
+---
+id: get-indexer-snapshot
+title: "Get DID-linked current indexed snapshot"
+description: "Returns the indexed snapshot for DID-linked objects at the block selected by the At-Block-Height header (or the latest indexed block when omitted). Only applies to current tables that expose a height column; does not query history tables."
+sidebar_label: "Get DID-linked current indexed snapshot"
+hide_title: true
+hide_table_of_contents: true
+api: eJztV01v4zYQ/SsDnhKs7NjZ7KHqaTcOdn0oukjS9mC4BU2OLW4kUiFHTryG/ntBirYl2WkaoLetL4bJmeHMmzcf3jLiK8fSGZtqic9o2TxhEp2wqiRlNEvZLVJltQPKEFQQkuA0L11mCJbGwmQ6GeRKP6AEs/iGghxwCuKL3IgHcJijIJSw2ITTjzT45C8GX1CtMoIMuUQLZ8aG65wTOto/1dh4ylCDKRQRyvMh/KrzDfCyzBU6IAOishY1AfFF7k8yToDPpXEIHLLmGWHyqtA/gzToQBuCxwrtBjLlyNhNVB2yhJkSLffBTyVL2QopQnMXg2YJK7nlBRJaD92WaV4gS5lUkiVMedCCbZYwi4+VsihZSrbChDmRYcFZumW0Kb2OI6v0KpgkQut1/5RKpjM++D4a/DR/lw7fsbqfk8l04sNeIoksgNZOyJDVyd6nHtg7/xrMOw4uee6w/9CXJjdkOmgpwXNwxAl9pjm4EoVaKhGT1QA+hD980kpr1kqiTMC2iBSVHSiCJ+6a/IaLxtQ+8UullctQejsCnVN6FQ1HNnTt9sgTnhnCL5UjWHgulMYpUmvPZMIV2kAEfBaIUulVMLHjUpeAMSZ2IoXRFEtYobQqqoKlo7qee2xdabRD54UvRyP/1YV3RynYibKECaMJNXnhwHARuHjxzXmN7fHzTc15BlnPXFLNe56MJ2iGz7wo88jWdPerTlgI868mzFeCa1kZX76vE4bCuI0jLFxLk1vLfQmo3nn0t653UL5Fqc/Pa4sSNSnPx8YYxFZEJmRzMp34evAVS0qokmt6o5PCVJpex/skBiepcSruFwRf8Po049rFPGv7c3iwZ3HeV2o6WIcKyb+ytINpXrfIEUnYYVqfaOPL913+zOYtfPyPLgb+ZJ+Rtt6opTbqa41q/0nY1aki/MQl3OJj5RvHAKZ6zXMl4dDi9y3svytOtNbYU+XZ9ezGi0GBzvFVKFJhJJ7kQa9r399/Db2vchBUfOykKNR9MMq6eYr+sKPgU8hVoQiK2EEXSE+IGsbAtYTx6PKK7by6Go0akD+cAnmq/XTjOdyhXaOFxosfANAYtmvCDudgRBgyco/dh9GOoQVSZuLe0WwFGUvZxfrqoplH9sId1pDGaLODVDb3gkeuX8dxlhlHzE8lpZcmhBzd/x0t1xzikgMfv06PbNze3N37i7Du+a4adaJLKRwKEc5urs8TEMd9+ez67jyBdl0mQNbzSmIYyw7O7ifnCRRIVgmXBIrFJ/wh99PXx9s4NR5eDsehtRtHBQ90iUvPZ6T2Vtqf6C0EO3FuD2z88bbeWAGEz3RR5lxpD20g1TaycMbWV2F/bP4oJGyP4zxhgV7pjG23C+7wN5vXtT9u9mDPT6mcf+uFRbMN/dltnEjn8Mqe+4LXD7jZb+NrnldeIlB/za3yTvgxUie7Jfht3v2/ER9txP+QhOO/H4eEJNudkBBYtu+OJoFP3r4zfr65Z3X9N4GdHvw=
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get DID-linked current indexed snapshot"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/indexer/snapshot"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Returns the indexed snapshot for DID-linked objects at the block selected by the At-Block-Height header (or the latest indexed block when omitted). Only applies to current tables that expose a height column; does not query history tables.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./get-indexer-snapshot.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./get-indexer-snapshot.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./get-indexer-snapshot.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

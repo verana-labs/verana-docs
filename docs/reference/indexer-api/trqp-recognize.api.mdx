@@ -1,0 +1,67 @@
+---
+id: trqp-recognize
+title: "TRQP Recognize (IDX-TRQP-QRY-2)"
+description: "Trust Registry Query Protocol v2 recognition predicate (corporation -> ecosystem). Answers whether authority_id (a corporation DID) recognizes entity_id (an ecosystem DID) as authoritative for resource (a VPR schema URI) at a given time. Action-invariant in v4: the answer is true iff authority_id is the controlling Corporation of entity_id AND resource is a Credential Schema governed by that ecosystem. Request/response use the upstream ToIP TSWG TRQP schemas verbatim; the response additionally carries an optional top-level `verana` breadcrumb object as described by the Verana TRQP profile descriptor (GET /v4/trqp/v2/profile)."
+sidebar_label: "TRQP Recognize (IDX-TRQP-QRY-2)"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"TRQP Recognize (IDX-TRQP-QRY-2)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/v4/trqp/v2/recognition"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Trust Registry Query Protocol v2 recognition predicate (corporation -&gt; ecosystem). Answers whether authority_id (a corporation DID) recognizes entity_id (an ecosystem DID) as authoritative for resource (a VPR schema URI) at a given time. Action-invariant in v4: the answer is true iff authority_id is the controlling Corporation of entity_id AND resource is a Credential Schema governed by that ecosystem. Request/response use the upstream ToIP TSWG TRQP schemas verbatim; the response additionally carries an optional top-level `verana` breadcrumb object as described by the Verana TRQP profile descriptor (GET /v4/trqp/v2/profile).
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./trqp-recognize.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./trqp-recognize.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,32 @@
+---
+id: resolutionresponse
+title: "ResolutionResponse"
+description: "Response of `POST /v4/verifiable-trust/resolve` (IDX-VT-QRY-1). Core fields are always present; optional sections appear only when their request selector was set."
+sidebar_label: "ResolutionResponse"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"did":"string","trusted":true,"evaluatedAtTime":"2024-07-29T15:51:28.071Z","evaluatedAtBlock":0,"expiresAtTime":"2024-07-29T15:51:28.071Z","corporationId":0,"corporation":{"id":0,"policyAddress":"string","deposit":"string","lastSlashedAtTime":"2024-07-29T15:51:28.071Z","slashedEvents":0,"slashedValue":"string","cgf":{"version":0,"activeSince":"2024-07-29T15:51:28.071Z","documents":[{"language":"string","url":"string","digestSri":"string"}]}},"participations":[{"id":0,"vsOperator":"string","role":"HOLDER","state":"ACTIVE","credentialSchemaId":0,"ecosystemId":0,"weight":"string","issuedCredentials":0,"verifiedCredentials":0,"participants":{"HOLDER":0,"ISSUER":0,"VERIFIER":0,"ISSUER_GRANTOR":0,"VERIFIER_GRANTOR":0,"ECOSYSTEM":0},"validatorParticipantId":0}],"ecsCredentials":[{"ecsSchema":"ServiceCredential","ecsSchemaVersion":"v1","credentialSchemaId":0,"issuerParticipantId":0,"ecosystemId":0,"participantId":0,"id":"string","digestJCS":"string","issuedAtTime":"2024-07-29T15:51:28.071Z","validFrom":"2024-07-29T15:51:28.071Z","validUntil":"2024-07-29T15:51:28.071Z","credentialSubject":{}}],"presentations":[{"id":"string","serviceId":"string","vtcCredentials":[{"id":"string","credentialSchemaId":0,"ecosystemId":0,"participantId":0,"issuerParticipantId":0}],"unresolvableCredentialIds":["string"],"invalidCredentialIds":["string"]}],"services":[{"id":"string","type":"string","serviceEndpoint":"string","accept":["string"]}],"ecosystems":[{"id":0,"corporationId":0,"archived":true,"egf":{"version":0,"activeSince":"2024-07-29T15:51:28.071Z","documents":[{"language":"string","url":"string","digestSri":"string"}]},"credentialSchemas":[{"id":0,"type":"JsonSchema","digestSri":"string","archived":true,"participants":{"HOLDER":0,"ISSUER":0,"VERIFIER":0,"ISSUER_GRANTOR":0,"VERIFIER_GRANTOR":0,"ECOSYSTEM":0},"issuedCredentials":0,"verifiedCredentials":0}],"participants":{"HOLDER":0,"ISSUER":0,"VERIFIER":0,"ISSUER_GRANTOR":0,"VERIFIER_GRANTOR":0,"ECOSYSTEM":0},"issuedCredentials":0,"verifiedCredentials":0}]}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"ResolutionResponse"}
+>
+</Heading>
+
+
+
+Response of `POST /v4/verifiable-trust/resolve` (IDX-VT-QRY-1). Core fields are always present; optional sections appear only when their request selector was set.
+
+<Schema
+  {...require("./resolutionresponse.Schema.json")}
+>
+  
+</Schema>
+            

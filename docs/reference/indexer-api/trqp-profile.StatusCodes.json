@@ -1,0 +1,1 @@
+{"responses":{"200":{"description":"The Verana TRQP profile descriptor.","content":{"application/json":{"schema":{"type":"object"}}}}}}

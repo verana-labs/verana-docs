@@ -1,0 +1,1 @@
+{"schema":{"type":"object","required":["address","weight"],"properties":{"address":{"type":"string"},"weight":{"type":"string","description":"Decimal string"},"metadata":{"type":"string"},"added_at":{"type":"string","format":"date-time"}},"title":"GroupMember"},"schemaType":"response"}

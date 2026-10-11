@@ -1,0 +1,32 @@
+---
+id: operatorauthorization
+title: "OperatorAuthorization"
+description: "A corporation's authorization granted to a specific operator account for one or more module message types (IDX-DE-QRY-3). Fee-payment capability is not part of OperatorAuthorization; it lives on the separate FeeGrant entity, queried via List Fee Grants (IDX-DE-QRY-5)."
+sidebar_label: "OperatorAuthorization"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":0,"corporation_id":0,"operator":"string","msg_types":["string"],"spend_limit":[{"denom":"string","amount":"string"}],"remaining_spend":[{"denom":"string","amount":"string"}],"expiration":"2024-07-29T15:51:28.071Z","period":"string"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"OperatorAuthorization"}
+>
+</Heading>
+
+
+
+A corporation's authorization granted to a specific operator account for one or more module message types (IDX-DE-QRY-3). Fee-payment capability is not part of OperatorAuthorization; it lives on the separate FeeGrant entity, queried via List Fee Grants (IDX-DE-QRY-5).
+
+<Schema
+  {...require("./operatorauthorization.Schema.json")}
+>
+  
+</Schema>
+            

@@ -1,0 +1,69 @@
+---
+id: get-corporation-v-4
+title: "Get Corporation (v4)"
+description: "Retrieve a Corporation by id with indexer-computed aggregates (controlled_ecosystems, participant role counts, trust-deposit snapshot) and CGF versions. Aligned with VPR MOD-CO-QRY-1. When the At-Block-Height header is supplied, the whole Corporation is reconstructed as of that block (404 if it did not exist yet)."
+sidebar_label: "Get Corporation (v4)"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get Corporation (v4)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/corporation/get/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retrieve a Corporation by id with indexer-computed aggregates (controlled_ecosystems, participant role counts, trust-deposit snapshot) and CGF versions. Aligned with VPR MOD-CO-QRY-1. When the At-Block-Height header is supplied, the whole Corporation is reconstructed as of that block (404 if it did not exist yet).
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./get-corporation-v-4.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./get-corporation-v-4.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./get-corporation-v-4.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

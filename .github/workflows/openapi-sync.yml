@@ -1,0 +1,39 @@
+name: Sync OpenAPI references
+
+on:
+  schedule:
+    - cron: '17 5 * * 1'  # Mondays 05:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch OpenAPI documents and regenerate the reference pages
+        run: |
+          npm run fetch-openapi
+          npm run regen-api-docs
+
+      - name: Open a pull request when something changed
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
+        with:
+          branch: chore/openapi-sync
+          commit-message: 'docs(reference): sync generated API pages with upstream OpenAPI'
+          title: 'docs(reference): sync generated API pages with upstream OpenAPI'
+          body: 'Automated weekly sync of `openapi/` and the generated reference pages from the component repositories.'
+          labels: documentation

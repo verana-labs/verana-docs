@@ -1,0 +1,1 @@
+{"parameters":[{"name":"At-Block-Height","in":"header","required":false,"description":"Optional block height for a point-in-time query (capped to the last processed trust block). When omitted, the latest indexed block is used.","schema":{"type":"integer","minimum":0}}]}

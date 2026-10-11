@@ -1,0 +1,69 @@
+---
+id: get-participants-at-height
+title: "Get Participants at Height"
+description: "Returns the number of participants for a given entity (GLOBAL, ECOSYSTEM, CREDENTIAL_SCHEMA, or PARTICIPANT) and role type at the block selected by the At-Block-Height header (or the latest indexed block when omitted), based on the entity_participant_changes log."
+sidebar_label: "Get Participants at Height"
+hide_title: true
+hide_table_of_contents: true
+api: eJztV01v4kgQ/SulPoHUSUgmMwevOBDiTZDyJWBmNYoi1NgV6Ind7XSXSSLk/77qtiEGkyirjfaycwL6o7rq1atXxZKRmFkW3LIRCZKWZGTZHWcx2sjIjKRWLGBDpNwoCzRHUHk6RQP6HjJhSEYyE4os3GsDAmZygQpQkaQXaJ1dXJ/0LjiE/evRz9E4vOTQH4an4dV40LuYjPrn4WWPgzZw0xuOB/3BTe9q3AahYjA6QaCXDEGQf3Wa6OgBLCYYEcYwffGrPdo7cRt75yhnc4I5ihgNtLTx24kgtARSxfjsLnkbT3NUoFNJhHGbw1RYjEErf6F0fFILbBLNhZqhhUTP9hlnOkMjHCqDmAVshnRTA6FHpR+Ms0wYkSKhcdgumRIpsoBV9h+kihln0kH7mKN5YZwZfMylwZgFZHLkzEZzTAULlszBwAImFeEMDeMslUqmecqCDmepeC6/fym2kxaWWXCPBdDprpJx2K2l46i7IyFfurV8sIJvuy/fcf5eJPY979/ycnAKrZUVzyWl1V7pMtRQ+wPS3BJMcZVBf7Y816676gg08W9/Ms7fGhHUGPDKW4d47+pnA+7BaPQ9HE7Ohr2r8fXQYV2ucDju/giHgz8H9d2v6zUO37rn1xen4bAe5Rb/V7GWZbArL5uen5flQho8OjCXlrSRkUjAkiBffAJshpG8l1FVP3P/1D785eooM3ohY4w5mJpEVJctSIInYcuS8xulqXUt3ksl7RxjZydCa6WaVYar9G7a3apn/8w+XFaMEJBpK0kuEKocgtIE+BwhxlLNvIkoNwbVtiZUMbEP0qEo7hy2NtPKonWHjzod9/EmMSxEOle0UjODVieLrecZZ5FWhIqcKZFliYy81Bz8ss7esumcnv7CyMuNccJEsvSmLjM7S/C1kHcFqvIkEdMEyxIpeK2YdlrzQUyqIHYZ3IRlXAcAFyLJfZSbWBReQtfwfcDs1e6+9C7iRVGvkdstfa5ryEaMW77dFYUzdLyLAycihiE+5o63ezBQC5HIGF67w7qCPjH7xmhTO2bJSDVr4BW6Y5CitWKGDu9Ix7sS3BCN8fjGl17uSB2jB5EkOb6URj3DnkWaJVjzhzWCDyCRqaS1pE+RnhAVHPoR4LBzdMxWXh13OiXIX3eBPFCERokERmgWaKD04n8AaBW2LcP266Ajr3HxGruvJXYFZynSXFdziycxzVnADhbHB+55e+A1am+D25yVxssxJjeJu9AIoV+p6lxbYk4cpbrXPvQqjB9ohBIw8KproHczaNgYhqOx2/Ad3ZVsdadUahMARtq+WMLUQivstzlEBmNXsQ4Bn0oLrf6ozTcEgAMZx68YfXew0BqftjmkSEZGlnuqVU+4ReGagIu3dOpw/2j/0IuRtpQKT5uq954hwc2W0qzb8EZoy1ci/p6k15N0VRWEz3SQJUIqB7Mn2LJi5i1bOAXw3PRsbrDzjjNPueCWLZfu/e8mKQq3XI57jrOxtK6ZvTED1XPTGlatoA2fNDu/EeUDvjT+DLg+6E768e7jPn/m+PwRb+W/8LWG7389M78bWr3Pv4Z2534YWQ5Ct3cFX43V/4xUv2fsxoz9Tiqaf2g2uFYdiiLM6nuN5u6St252Z+GYFcXfFLjIgQ==
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get Participants at Height"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/stats/count-participants"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Returns the number of participants for a given entity (GLOBAL, ECOSYSTEM, CREDENTIAL_SCHEMA, or PARTICIPANT) and role type at the block selected by the At-Block-Height header (or the latest indexed block when omitted), based on the entity_participant_changes log.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./get-participants-at-height.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./get-participants-at-height.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./get-participants-at-height.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

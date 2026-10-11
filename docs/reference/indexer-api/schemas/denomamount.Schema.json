@@ -1,0 +1,1 @@
+{"schema":{"type":"object","required":["denom","amount"],"properties":{"denom":{"type":"string"},"amount":{"type":"string"}},"title":"DenomAmount"},"schemaType":"response"}

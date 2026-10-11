@@ -1,0 +1,69 @@
+---
+id: list-indexed-dids
+title: "List Indexed DIDs (IDX-VT-QRY-3)"
+description: "Enumerates the universe of DIDs the indexer can resolve at a frozen snapshot block, so a client with an empty mirror can bootstrap by resolving each via `/v4/verifiable-trust/resolve`. The snapshot block is selected via the `At-Block-Height` header (latest indexed block when omitted). The DID universe is the union of every Corporation `did`, every Ecosystem `did`, the DID of every in-scope Participant, and any DID previously evaluated by the resolver that the indexer still tracks."
+sidebar_label: "List Indexed DIDs (IDX-VT-QRY-3)"
+hide_title: true
+hide_table_of_contents: true
+api: eJztWNtyG7kR/ZUuvESqGlKUTTk282SJdESvHMsS1/ZapYrAmSYH9gwwAnp4kYr/nmoAJMXLqrLZ5CW7TxJxaXSfPt04mEdBcuxE50Z8RqtGSg4LhIGtHYnbRGToUqsqUkaLjujpukQrCR1QjlBrNUHrEMwIuv1uGFQ6wxlaSKUGi84UEwRJIGFkzQNqcFpWLjcEw8KkPxJwBiSkhUJNMFWUg9SAZUVzKJW1JhgaGkOOrKxgOI9WlR4DyjSHiZJwdzRpH01W/jeI/T+Kx981YZDj1sGgHDgsMCXMvAn2/e4tNU55tnGOapzTHeQoM7RwUHDQFIPLoolpjhpMqYgwOwyHdPvdNSxqBZPRjBFO0M7hzNjKWMmQwl2msrskTvRS4+aOsFwOUzS42qp0w6WmQriUllSqKqkpAakzkHrul1YWJ8rUrpgDTmRRSw5vOPemIhwWKJe0kStHqiiArEx/uKZIhKkwONjPREcUylE/BN5VmROJqKSVJRJa5s2j0LJE0RFb4IlEKCZNgFAkwuJ9rSxmojOShcNtcp0HqMnAfc3B5sqRsSqVBTiSFFnkKkzVSKUxBbk/qglfOBWVNROVYZaARaqtDvDHzQ4UwVS6kDU/EUyt0jlSWrkcM7aTonNKj6PhmONNu1uU8Mc04UPtCIYIEirjFKkJo0w4RgvaEOAsRcyYu2wira1l3m/SKsYkEuHSHEspOo+C5hVDHE2JRJRKq7IuRae1WCSrFKS1dcYukfc47gN+x64jq/RYLLZz8rGS9zVCJcdKB8aGEyIQmDGudxpndObH75hrcsVC3ohN+FgqgpGxPuaRso7ChHjq+boq/qmy3x7BGpmRsaWkMPSqvRvTFXK0aagAjB2NQyPjh57U518c4KySOsMMSiyHaF2uKnBIECtoq6kcZMpiSmCmOq6tijrQxWhs5KaCiSxUJsnYBllEGFqp0zwBJ0sEh6XUpFLHsPKmL9fg6iF7P/Rdtt/92vg8aFz/fNo4PtzAr1Clot8D24pQx4ko5Sz+32q1WgzgSNYFhd87gH4Iq0HXjND6MjCRJU3ohv1+jE0kkMqqYvaQ/91qisUtu+sqox06dvBFq8V/No9664nDRyxLxh8VkxEbXLaVFa6k1GhCTWxRVlWhUp/fo++OzT7u4mKG3zGlDQhvhCTf30QistAH18Tnu7Ky3DdJBf+Xi58v3p0bNs0Nh/dMOHCw/6rido+gRk/aoKEc7VQ53NewvDFPohDO2lFprWT6bLp2uQ95pbnxsWRwxhIYyy1cpta4UPz+OlGEpdvTbRYbCO7MJ0LXRcHGRYdsvXNhxOYUO9Kyv7BFf/TfgLfDgbEghw41HYLREYh1B2IncCbLik95krXjE+Zle4nNDf/tTHE4yTufyqv8/enDxYd3ry5eXvVy+Wb2rroYz2r15usJvSvbg+7s3PTOq7evf6psx9ix1OrBE645cc3cFGZsZdl8MBoDl1aGv73+5eXs6sf5i+pz+34wfaMv/urele/Hr9J/nGSnx/LL7KdJ72V9OR+8th1umU2ZlthcBrAy1sGllmhi3aikc5WxtFp3uwm8wPn7ybfy28O3r5/Ux++96Yfu6RuGZpGI9r4yPJUZXOF9zXRqQF/7ngZrVbCi4O+pvM1yQtaC+ziyVT9eMpbonBwjUzs1Ge6twS3xMRhc+iu8duC3cOykiFkRjIpNokR/xE7wHfCtGMooBIZIU0QNx16nHbdetMXSq3arFUA+2QdyXxNaLQu4RsuqLXjxBwA0hu1C2H4cTOq1UrbC7iRgt0hEiZQb1qlj9FFKykVH7H0QxLYdLAftWtuCV+/4fxalWW4c+ctJ6ZHxcccYPqOVWkI/Sui3l/0dG1e96wFPrHpT3BNldwdWVergoHd2mEBqMUNNisP3eXRwcHZ9mDC9loLfJeCjgQy9xHRwMOgeJlAiyxoX3gNLZV8iSW7BHG9w6rj5onnM2FfGUSk9Z6KGuFCOYkCxvR9EwfHp6pfGy8PtAB/XXPzzafgHeRrGsiec0VFVSKWZSr6IHmPp3YhJOzBuA/KlarpNhK+pzo14fBxKhz/bYrHg4aBauSgz5Xjjr7wUn9Luf/xA+ZV4f+D86WPLKy/REV6P//u+/x89RJ7Haftp9x/i9V95Zzzr6fIRtXbwln9YFUToze0iWX7O+G00/fPbxs63jWfSsPshaYMxcVGaYvV0bkcMcfJW4uDvvYFYLP4FLMlO5A==
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List Indexed DIDs (IDX-VT-QRY-3)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/verifiable-trust/dids"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Enumerates the universe of DIDs the indexer can resolve at a frozen snapshot block, so a client with an empty mirror can bootstrap by resolving each via `/v4/verifiable-trust/resolve`. The snapshot block is selected via the `At-Block-Height` header (latest indexed block when omitted). The DID universe is the union of every Corporation `did`, every Ecosystem `did`, the DID of every in-scope Participant, and any DID previously evaluated by the resolver that the indexer still tracks.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./list-indexed-dids.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./list-indexed-dids.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./list-indexed-dids.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      
