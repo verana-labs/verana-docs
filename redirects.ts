@@ -4,6 +4,10 @@
 type RedirectItem = {from: string | string[]; to: string};
 
 export const redirects: RedirectItem[] = [
+  {"from": ["/docs/understand/ecosystems/exchange-rates"], "to": "/docs/understand/ecosystems/business-model"},
+  {"from": ["/docs/understand/ecosystems/participant-tree-and-onboarding"], "to": "/docs/understand/ecosystems/participant-tree-and-accreditation"},
+  {"from": ["/docs/understand/identity/verifiable-services-and-user-agents"], "to": "/docs/understand/identity/verifiable-services"},
+  {"from": ["/docs/understand/network/digest"], "to": "/docs/understand/network/verifiable-public-registry"},
   {
     "from": [
       "/docs/next/use/verifiable-user-agent-builders/intro",
@@ -730,14 +734,14 @@ export const redirects: RedirectItem[] = [
       "/docs/next/learn/verifiable-public-registry/exchange-rate",
       "/docs/learn/verifiable-public-registry/exchange-rate"
     ],
-    "to": "/docs/understand/ecosystems/exchange-rates"
+    "to": "/docs/understand/ecosystems/business-model"
   },
   {
     "from": [
       "/docs/next/learn/verifiable-public-registry/onboarding-participants",
       "/docs/learn/verifiable-public-registry/onboarding-participants"
     ],
-    "to": "/docs/understand/ecosystems/participant-tree-and-onboarding"
+    "to": "/docs/understand/ecosystems/participant-tree-and-accreditation"
   },
   {
     "from": [
@@ -765,7 +769,7 @@ export const redirects: RedirectItem[] = [
       "/docs/next/learn/verifiable-trust/components",
       "/docs/learn/verifiable-trust/components"
     ],
-    "to": "/docs/understand/identity/verifiable-services-and-user-agents"
+    "to": "/docs/understand/identity/verifiable-services"
   },
   {
     "from": [
@@ -779,7 +783,7 @@ export const redirects: RedirectItem[] = [
       "/docs/next/learn/verifiable-public-registry/digest",
       "/docs/learn/verifiable-public-registry/digest"
     ],
-    "to": "/docs/understand/network/digest"
+    "to": "/docs/understand/network/verifiable-public-registry"
   },
   {
     "from": [

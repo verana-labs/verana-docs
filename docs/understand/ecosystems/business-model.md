@@ -1,245 +1,51 @@
 ---
-rework: draft
+title: The business model
+description: "Validation fees, pay per issuance and verification, how fees flow along the tree, pricing assets and exchange rates, rewards for wallets."
+sidebar_position: 6
 ---
 
-# Credential Monetization
+# The business model
 
-## "Pay-Per" Fees
+An ecosystem can run on Verana without charging anything. When it does charge, the registry settles the fees, shares them along the participant tree, and grows every party's trust deposit as a side effect. Three kinds of fees exist, all set by the party that charges them on its own accreditation.
 
-**Pay-per-issuance** and **pay-per-verification** trust fees are defined **on each `Participant` entry** for each role within the ecosystem, for a given `Credential Schema`.
+## Validation fees
 
-Example:
+A validator charges a fee for validating an applicant. The applicant pays it when it applies; the registry holds it in escrow and releases it on validation. The ecosystem charges grantors, grantors charge the issuers and verifiers they validate, issuers may charge the holders they onboard. A renewal pays again.
 
-```plantuml
+## Pay per issuance and pay per verification
 
-@startuml
-scale max 800 width
- 
-package "Ecosystem #A - Credential Schema #1" as cs {
+An issuer may owe a fee each time it issues a credential of the schema, and a verifier each time it verifies one. The fee is the sum of what every party above the payer in the tree charges for that operation, plus the issuer's own verification fee when a verifier presents a credential it issued. The payer settles it by recording a session on the registry before the exchange. Wallets check that the session exists and refuse an exchange that is not paid for.
 
-    object "Ecosystem #A - Credential Schema #1 Root Participant" as tr #3fbdb6 {
-        did:example:ecosystemA
-        issuance cost: 10 TUs
-        verification cost: 20 TUs
-    }
-    object "Issuer Grantor #B - Credential Schema #1 Participant" as ig {
-        did:example:igB
-        issuance cost: 5 TUs
-        verification cost: 5 TUs
-    }
-    object "Issuer #C - Credential Schema #1 Participant" as issuer #7677ed  {
-        did:example:iC
-        verification cost: 30 TUs
-    }
-    object "Verifier Grantor #D - Credential #1 Schema Participant" as vg {
-        did:example:vgD
-        verification cost: 2 TUs
-    }
-    object "Verifier #E - Credential Schema #1 Participant" as verifier #00b0f0 {
-        did:example:vE
-    }
-}
-
-
-
-tr --> ig : creates schema participant
-ig --> issuer : creates schema participant
-
-tr --> vg : creates schema participant
-vg --> verifier : creates schema participant
-
-@enduml
-
+```mermaid
+flowchart TB
+  V[Verifier pays] -->|ecosystem fee| E[Ecosystem]
+  V -->|grantor fee| VG[Verifier grantor]
+  V -->|grantor fee| IG[Issuer grantor]
+  V -->|issuer fee| I[Issuer of the credential]
+  V -->|reward| W[Wallet and user agent]
+  V -->|share of fees| D[Verifier's trust deposit]
 ```
 
-Corporations acting as **issuers** or **verifiers** for a given credential schema **may be required to pay trust fees** based on the schema's configuration and `Participant` tree.
+## Where the money goes
 
-If trust fee payment is required, the entity **must execute a transaction** in the VPR to pay the appropriate fees **before issuing or verifying a credential**, else the HOLDER agent will not accept the operation.
+On every fee paid, a share set by the network (five percent at the time of writing) goes to the payer's trust deposit, and the same share of every amount received goes to the recipient's deposit; the rest is liquid for the recipient. When a wallet took part in the exchange, two further shares reward the wallet and the user agent it runs in: the business model pays the software that protects the user. Because the deposit grows with activity and cannot be withdrawn, long-standing participants accumulate a stake that signals their history.
 
-Key points for "Pay-Per" business models
+## Pricing assets and exchange rates
 
-- For a given credential schema, the **ecosystem** and its participants may define **pay-per-issuance** (or **pay-per-verification**) trust fees on their respective `Participant` entries.
+Each schema prices its fees in one asset. The network's coin is the simplest. The trust unit is a stable unit of account converted to coin at transaction time through an exchange rate that network governance maintains and bounds; it protects an ecosystem from pricing a validation at a coin amount whose value swings. A fiat currency means the registry records who owes what and the payment happens off chain. Whatever the asset, the trust deposit is always taken in coin.
 
-- In such cases, an `ISSUER` (or `VERIFIER`) `Participant` **must pay**:
-  - the corresponding **issuance** (or **verification**) trust fees for each involved `Participant` entry along the `Participant` tree;
-  - an additional amount equal to the `trust_deposit_rate` of the calculated trust fees, allocated to the **payer's trust deposit**;
-  - (optional) an amount equal to `wallet_user_agent_reward_rate` of the calculated trust fees, used to **reward the Wallet User Agent** that receives or presents the credential;
-  - (optional) an amount equal to `user_agent_reward_rate` of the calculated trust fees, used to **reward the User Agent** (browser, app...).
+Exchange rates are owned by network governance, not by ecosystems: governance creates a rate and authorises an operator to refresh it within limits (a minimum interval, a maximum deviation), so the oracle stays responsive and bounded. An expired or disabled rate blocks the transactions that depend on it rather than charging an unknown amount.
 
-Fees denominated in trust units (TUs) are converted to native denom at execution time through the [Exchange Rate](./exchange-rates.md) oracle.
+## A worked example
 
-Example with the Participant tree above:
+An issuer grantor charges 1000 units to validate an issuer; the issuer pays 1050: 1000 go to escrow, 50 to its own deposit. On validation the grantor receives 950 and its deposit grows by 50. Later the issuer issues a credential under a schema where the ecosystem charges 10 per issuance and the grantor 5: it pays 15, plus 10 percent for the wallet, 10 percent for the user agent and 5 percent to its deposit, 18.75 in total.
 
-- Total paid by issuer #C for issuing a credential: (10 + 5) * (1 + `user_agent_reward_rate` + `wallet_user_agent_reward_rate` + `trust_deposit_rate`) = 18.75 TUs
-- Total paid by `Verifier E` for verifying a credential: (20 + 5 + 2 + 30) * (1 + `user_agent_reward_rate` + `wallet_user_agent_reward_rate` + `trust_deposit_rate`) = 71.25 TUs
+## What the frontend supports today
 
-## Fee Distribution Model
+The v4 frontend prices and pays fees in the network's native coin. Schemas priced in trust units or fiat remain browsable but their fee-bearing actions are disabled until a later revision. Yield on trust deposits is a v5 topic.
 
-Trust fees are **consistently distributed** across participants:
+## Where next
 
-- A portion defined by `trust_deposit_rate` is allocated to the **participant’s trust deposit**.  
-- The remaining portion is **transferred directly to the participant’s wallet**.
-
-:::note
-**wallet user agents** and **user agents** that implement the verifiable trust specification **must verify** that the ISSUER or VERIFIER has fulfilled the required trust fee payment.  
-If not, they **must reject** the issuance or verification request.
-
-The **user agent** and **wallet user agent** may refer to the same implementation.
-:::
-
-Distribution example for the issuance by `ISSUER` #C of a credential, using the `Participant` tree above, 5% for `trust_deposit_rate`, 10% for `wallet_user_agent_reward_rate` and `user_agent_reward_rate`.
-
-```plantuml
-
-@startuml
-scale max 800 width
- 
-
-package "Ecosystem #A" as tr #3fbdb6 {
-    object "E Account" as tra {
-         \t+9.5 TUs
-    }
-    object "E Trust Deposit" as trtd {
-         \t+0.5 TUs
-    }
-}
-
-package "Issuer Grantor #B" as ig {
-    object "IG Account" as iga {
-        \t+4.75 TUs
-    }
-    object "IG Trust Deposit" as igtd {
-        \t+0.25 TUs
-    }
-}
-package "Issuer #C" as issuer #b99bce {
-    object "I Account" as issuera {
-         \t-18.75 TUs
-    }
-    object "I Trust Deposit" as issuertd {
-         \t+0.75 TUs
-    }
-
-}
-
-package "User Agent" as ua {
-    object "UA Account" as uaa {
-         \t+1.425 TUs
-    }
-    object "UA Trust Deposit" as uatd {
-        \t+0.075 TUs
-    }
-
-}
-package "Wallet User Agent" as wua {
-    object "WUA Account" as wuaa {
-         \t+1.425 TUs
-    }
-    object "WUA Trust Deposit" as wuatd {
-        \t+0.075 TUs
-    }
-
-}
-
-issuera -r-> tr: \t+10 TUs
-
-issuera -r-> ig: \t+5 TUs
-
-issuera -d-> ua: \t+1.5 TUs
-
-issuera -d-> wua: \t+1.5 TUs
-
-issuera --> issuertd:  \t+0.75 TUs
-
-@enduml
-
-```
-
-Distribution example for the verification by `VERIFIER` #E of a credential issued by `ISSUER` #C, using the `Participant` tree above, 5% for `trust_deposit_rate`, 10% for `wallet_user_agent_reward_rate` and `user_agent_reward_rate`.
-
-```plantuml
-
-@startuml
- 
-
-package "Ecosystem #A" as tr #3fbdb6 {
-    object "E Account" as tra {
-         \t+19 TUs
-    }
-    object "E Trust Deposit" as trtd {
-         \t+1 TUs
-    }
-}
-
-package "Issuer Grantor #B" as ig {
-    object "IG Account" as iga {
-        \t+4.75 TUs
-    }
-    object "IG Trust Deposit" as igtd {
-        \t+0.25 TUs
-    }
-}
-package "Issuer #C" as issuer #b99bce {
-    object "I Account" as issuera {
-         \t+28.5 TUs
-    }
-    object "I Trust Deposit" as issuertd {
-         \t+1.5 TUs
-    }
-
-}
-package "Verifier Grantor #D" as vg {
-    object "VG Account" as vga {
-        \t+1.9 TUs
-    }
-    object "VG Trust Deposit" as vgtd {
-        \t+0.1 TUs
-    }
-
-}
-package "Verifier #E" as verifier #D88AB3 {
-    object "V Account" as verifiera {
-        \t-71.25 TUs
-    }
-    object "V Trust Deposit" as verifiertd {
-        \t+2.85 TUs
-    }
-
-}
-package "User Agent" as ua {
-    object "UA Account" as uaa {
-         \t+5.415 TUs
-    }
-    object "UA Trust Deposit" as uatd {
-        \t+0.285 TUs
-    }
-
-}
-package "Wallet User Agent" as wua {
-    object "WUA Account" as wuaa {
-         \t+5.415 TUs
-    }
-    object "WUA Trust Deposit" as wuatd {
-        \t+0.285 TUs
-    }
-
-}
-
-
-verifiera -r-> tr: \t+20 TUs
-
-verifiera -r-> vg: \t+2 TUs
-
-verifiera -r-> ig: \t+5 TUs
-
-verifiera -d-> issuer: \t+30 TUs
-
-verifiera -d-> ua: \t+5.7 TUs
-
-verifiera -d-> wua: \t+5.7 TUs
-
-verifiera --> verifiertd:  \t+2.85 TUs
-
-@enduml
-
-```
+- [Trust deposit, slashing and reputation](./trust-deposit-and-reputation.md).
+- Build: [Design the fee model](../../build/ecosystems/index.md); [Pay per issuance and verification](../../build/verifiable-services/index.md).
+- Specification: VPR v4, Participant sessions, Exchange Rate module, Trust Deposit module.

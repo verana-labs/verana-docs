@@ -1,5 +1,4 @@
 ---
-rework: draft
 ---
 
 # Why we need Verifiable Trust

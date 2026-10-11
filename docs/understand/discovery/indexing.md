@@ -1,65 +1,45 @@
 ---
-rework: draft
+title: Indexing the trust network
+description: "What the indexer does: replay the chain, resolve every DID, evaluate trust, serve queries and streams. Why anyone can run one."
+sidebar_position: 1
 ---
 
-# DID Indexing
+# Indexing the trust network
 
-**DID indexing** is how verifiable services (VSs) — and the DIDs that identify them — are discovered in v4: crawlers build searchable, trust-typed indexes directly over the VPR's **`Participant` registry**.
+The registry stores facts; it does not interpret them. The indexer is the component that reads every block, follows every DID the registry mentions to its DID Document and its credentials, runs trust resolution on each, and serves the result. It is where the network becomes queryable.
 
-:::info No more "DID Directory"
-Earlier versions of Verana exposed a dedicated **DID Directory**: a separate database where anyone registered a DID for crawlers to index. That entity no longer exists. Discovery in v4 is built **directly over the `Participant` registry**. Content integrity is handled by a separate, unrelated primitive — see [Digest](../network/digest.md).
-:::
-
-## DID Indexing over the Participant registry
-
-The `Participant` registry is the foundation for building **searchable indexes of verifiable services (VSs) and the verifiable metadata they expose**. Crawlers iterate over `Participant` entries, resolve each service identifier (currently a DID, extensible in the future), verify that the service is a verifiable service, and extract its verifiable metadata — most notably the credentials presented through [linked-vp](https://identity.foundation/linked-vp/) — together with the ecosystem memberships, credential-schema permissions, and trust-deposit level associated with the controlling [Corporation](../ecosystems/corporations-and-operators.md).
-
-Everything a crawler needs is published as `service` entries of the DID Document: the `LinkedVerifiablePresentation` entries carrying the service's Essential Credential Schema credentials (`#vpr-schemas-service-vtc-vp`, plus `#vpr-schemas-org-vtc-vp` or `#vpr-schemas-persona-vtc-vp`), and the consumable endpoints (a mandatory `DIDCommMessaging` entry, and optionally MCP, A2A, or a website). See [Trust Resolution](../identity/trust-resolution.md) for the full DID Document layout.
-
-Unlike a traditional web index, this index is **trust-typed**: every entry carries cryptographically verifiable claims about *what* the service is, *who* operates it, and *under which governance frameworks* it is accredited. This unlocks discovery use cases that traditional search engines cannot serve.
-
-```plantuml
-
-@startuml
-scale max 1000 width
-
-object "Participant registry" as didd
-object "Crawler" as crawler #3fbdb6
-object "Index" as index #3fbdb6
-
-object "VS #1" as dts1 #7677ed
-object "VS #2" as dts2 #7677ed
-
-object "AI agent" as aiagent #ffb347
-object "VUA" as browser #00b0f0
-object "Search engine" as search #d3d3d3
-object "Governance /\nAudit / Analytics" as gov #f5b7b1
-
-object "User" as user
-
-didd <|-- crawler : iterate Participant registry
-crawler --|> dts1 : resolve DID, fetch linked-vps,\nindex verifiable metadata
-crawler --|> dts2 : resolve DID, fetch linked-vps,\nindex verifiable metadata
-crawler --|> index : create / update index
-
-aiagent --|> index : query (find counterparts\nby credentials presented)
-browser --|> index : query (find content\ncompatible with user context)
-search --|> index : query (enrich links\nwith trust signals)
-gov --|> index : query (monitor accreditations,\naudit, build reputation)
-
-user <|-- browser : show feed of\nverifiable services
-user <|-- search : show enriched\nsearch results
-@enduml
-
+```mermaid
+flowchart LR
+  N[(Registry blocks)] --> R[Replay and store<br/>every entity with its history]
+  R --> D[Resolve DIDs<br/>fetch DID Documents and presentations]
+  D --> T[Evaluate trust<br/>verdict and expiry per DID]
+  T --> Q[Serve<br/>REST, WebSocket, TRQP]
+  Q --> G[Trust graph]
+  Q --> W[Wallets, agents, frontend]
 ```
 
-## Who consumes the index
+## What it keeps
 
-- **AI agents** — before delegating a task or accepting a connection, an agent queries the index to find counterparts whose **presented credentials match the capabilities required** (e.g. a KYC issuer recognized by a target ecosystem, or an MCP-style service whose operator holds a recognized organization credential). It can restrict the search to a specific ecosystem or schema, and rank candidates by trust-deposit size, accreditations held, slashing history, or credential freshness. Because every indexed claim is anchored in the VPR, an agent can verify a counterpart end-to-end *before* interacting.
-- **Verifiable User Agents (VUAs)** — social browsers, agentic browsers, and similar clients use the index to **find content and services compatible with the user's context**: *"show only services accredited under ecosystem X"*, *"show services that accept the credentials currently in my wallet"*, *"show issuers of schema Y operating in jurisdiction Z"*. The result is a feed of VSs for which a proof of trust can be displayed to the user before connection.
-- **Search engines** — trust-aware and traditional, form-based engines return ordinary links to VSs enriched with verifiable trust signals.
-- **Governance authorities, auditors, and analytics services** — monitor accredited issuers, verifiers, and grantors; map the supply chain of trust behind a service or credential; and combine indexed metadata with on-chain history to produce reputational signals at the Corporation level.
+Every corporation, ecosystem, governance framework, schema, participant entry, deposit, delegation, digest and exchange rate, with the block at which each changed, so a question can be asked as of any height. Statistics per ecosystem, schema and participant: how many active participants, how many credentials issued and verified, how much deposit, how many slashes.
 
-:::tip Unbiased by design
-An indexer can be run as a container alongside a locally deployed VPR node for total **unlinkability**, then power a familiar search prompt. Results are not biased nor manipulable, because **they rely on verifiable data**.
-:::
+## What it computes
+
+For every DID it meets it performs trust resolution and records the verdict, the time of evaluation and the exact moment the verdict expires. It re-evaluates when a transaction touches the DID or anything the verdict depended on, and when a service asks it to after changing its DID Document. The verdict is not a cache with a time to live; it is a derived fact with a known boundary.
+
+## What it serves
+
+- A REST API over every entity, with filtering, keyset pagination and point-in-time reads.
+- A resolve endpoint that returns the verdict and the material of a Proof-of-Trust, section by section.
+- A WebSocket stream of registry events, scoped to DIDs or to a corporation, with a catch-up pattern that leaves no gap.
+- The ToIP Trust Registry Query Protocol, for relying parties that speak that standard.
+
+## Why run your own
+
+The public indexer is a convenience. A wallet vendor, a service operator or an auditor that wants to depend on nobody runs its own indexer against its own node: the data is public, the computation is deterministic, and two indexers agree. That is also what makes search results on Verana unmanipulable: they rest on verifiable data.
+
+## Where next
+
+- [The trust graph](./trust-graph.md): the query layer built on the indexer.
+- Build: [Run the indexer](../../build/run-infrastructure/index.md).
+- Reference: [Indexer API](../../reference/indexer-api/index.md).
+- Specification: Indexer v4.

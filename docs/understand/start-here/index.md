@@ -4,12 +4,11 @@ title: Start here
 
 # Start here
 
-Four pages to read in order.
+Four pages, in order.
 
-| Page | Status |
-|---|---|
-| [What is Verana](./what-is-verana.md) | draft, being rewritten |
-| [Why verifiable trust](./why-verifiable-trust.md) | draft |
-| [How the pieces fit](./how-the-pieces-fit.md) | draft, being rewritten |
-| What you can do (job map) | coming |
-| Glossary | coming |
+1. [What is Verana](./what-is-verana.md)
+2. [Why verifiable trust](./why-verifiable-trust.md): the problems the open web never solved
+3. [How the pieces fit](./how-the-pieces-fit.md)
+4. [What you can do](./what-you-can-do.md)
+
+Vocabulary: the [glossary](../../reference/glossary.md).

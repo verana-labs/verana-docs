@@ -1,33 +1,45 @@
 ---
-rework: draft
+title: Essential Credential Schemas
+description: "The five schemas that make a minimum trust resolution possible, who issues each, and why two of them never appear in a DID Document."
+sidebar_position: 4
 ---
 
 # Essential Credential Schemas
 
-**Essential Credential Schemas (ECSs)** are the Verifiable Trust basic needed schemas for **enabling a minimum trust resolution** in Services and User Agents by answering these questions:
+Before an ecosystem can govern anything, somebody has to answer the basic questions: what is this service, who operates it, is this user agent genuine, who is the person behind it. The Essential Credential Schemas are the five schemas that answer them. They are governed by the ECS ecosystem, the first ecosystem on every Verana network, under the Verana Council.
 
-- who is the provider of this Verifiable Service?
-- what is the minimum age required to access this Verifiable Service?
-- is the User Agent trying to connect to a Verifiable Service a Verifiable User Agent?
-- who is the human operating this Verifiable User Agent, and whom do they represent?
-- ...
+| Schema | Identifies | Public or private | Who issues |
+|---|---|---|---|
+| Service | a Verifiable Service: name, type, description, logo, minimum age, terms, privacy policy | public, in the DID Document | the organisation behind the service; the schema is open to issuers |
+| Organization | the legal entity operating services: name, logo, registry identifier, address, country, optional jurisdiction and LEI | public | accredited ECS issuers, after verifying the entity |
+| Persona | a human-controlled persona operating services, the alternative to Organization | public | accredited ECS issuers |
+| User Agent | an instance of wallet or agent software and its version; the issuer identifies the product line | private, AnonCreds | accredited wallet vendors |
+| Badge | a human: badge number, name, photo, optional title, department, birth date, biometric template; the issuer identifies whom they represent | private, AnonCreds | any Verifiable Service, for its own people; the schema is open to issuers and permissionless for holders |
 
-[The Verana Council](https://veranacouncil.org) defined an Ecosystem Governance Framework and created an Ecosystem in the Verana Verifiable Trust Network (VVTN) for providing Essential Credential Schemas (ECS) to the community. Governance framework will be published in the [council website](https://veranacouncil.org).
+```mermaid
+flowchart LR
+  ECS[ECS ecosystem DID] -->|schema credentials| S[Service] & O[Organization] & P[Persona] & U[User Agent] & B[Badge]
+  O -.->|issued to| Org[An organisation]
+  Org -->|issues| S
+  Org -->|issues| B
+  Vendor[Wallet vendor] -->|issues| U
+```
 
-There are 5 kinds of ECS:
+## Public and private
 
-- **Service** — describes services;
-- **Organization** — identifies organizations, used to identify the owner of a service;
-- **Persona** — identifies individuals, used to identify the owner of a service;
-- **UserAgent** — describes user agents, such as browsers, mobile apps, and similar software;
-- **Badge** — identifies humans, such as the employees or members of the organization that operates a service.
+Service, Organization and Persona credentials are W3C credentials published as linked presentations in DID Documents: anyone resolving the DID sees them, which is the point. User Agent and Badge credentials are AnonCreds credentials held by instances and by people, presented over DIDComm with selective disclosure and unlinkable proofs, and never declared in a DID Document: a person's badge is shown to the service that asks, not to the world.
 
-Service, Organization and Persona credentials are public: they are presented in DID Documents as linked verifiable presentations. UserAgent and Badge credentials are private (AnonCreds), presented over DIDComm with selective disclosure, and are never declared in a DID Document.
+## How they chain
 
-The Service schema is `OPEN` to anyone. Participants that want to obtain an Organization, Persona, or UserAgent Verifiable Trust Credential (VTC) must contact an authorized issuer and perform a validation process in order to obtain their credential. The Badge schema is different: its `issuer_onboarding_mode` is `OPEN` and its `holder_onboarding_mode` is `PERMISSIONLESS`, so any corporation whose service qualifies as a verifiable service can self-create its issuer `Participant` entry and issue Badges to the humans it stands behind — trust in a Badge comes from trust-resolving its issuer, not from an onboarding gate.
+A Badge is trusted because its issuer is trust-resolved: the issuer is a Verifiable Service, which presents a Service credential, which leads to an Organization credential, which was issued by an accredited ECS issuer, which the ECS ecosystem accredited. The Badge's title and department are facts about the person, not authorizations: the authorization is the issuer's.
 
-An ecosystem that provides ECS must publish, in its ecosystem DID Document, one Verifiable Trust JSON Schema Credential (VTJSC) per ECS, under five reserved `LinkedVerifiablePresentation` fragments: `#vpr-schemas-service-vtjsc-vp`, `#vpr-schemas-org-vtjsc-vp`, `#vpr-schemas-persona-vtjsc-vp`, `#vpr-schemas-ua-vtjsc-vp`, and `#vpr-schemas-badge-vtjsc-vp`. See [Credential Schemas](../ecosystems/credential-schemas.md) and [Trust Resolution](./trust-resolution.md).
+## Reserved fragments
 
-Remember the popup presented by a Verifiable Service: in this example you can see that information comes from Organization and Service Verifiable Trust Credentials (VTCs).
+The ECS ecosystem publishes one schema credential per ECS under fixed DID Document fragments, and services publish their Service, Organization and Persona credentials under fixed fragments too. The fixed names are what let a resolver find them without guessing.
 
-<Image url="/img/vt-creds-explained.png" floating="none" caption="Verifiable Service" border="1px solid #DDDDDD" align="center"/>
+## Where next
+
+- [Verifiable Trust Credentials](./verifiable-trust-credentials.md): the formats these schemas use.
+- Reference: the [five schemas, claim by claim](../../reference/credentials/essential-credential-schemas.md).
+- Build: [Become trusted](../../build/verifiable-services/index.md).
+- Specification: Verifiable Trust v4, Essential Credential Schemas.

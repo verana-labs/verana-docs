@@ -4,7 +4,7 @@ rework: legacy
 
 # Exchange Rate
 
-Make sure you've read [Exchange Rate & Trust Units](../../../../understand/ecosystems/exchange-rates.md) in the Learn section.
+Make sure you've read [Exchange Rate & Trust Units](../../../../understand/ecosystems/business-model.md) in the Learn section.
 
 The **Exchange Rate** (`xr`) module is the VPR's on-chain **pricing oracle**. It converts fees expressed in **Trust Units (TU)** or **FIAT** into the native on-chain COIN (`uvna`) at the moment a fee is charged, so that value-stable pricing set by ecosystems resolves to a concrete `uvna` amount.
 

@@ -1,112 +1,53 @@
 ---
-rework: draft
+title: Corporations and operators
+description: "The actor model of the registry: a corporation is a group with a decision policy, operators and agents act for it within scoped authorizations."
+sidebar_position: 2
 ---
 
-# Corporations
+# Corporations and operators
 
-## What is a Corporation?
+Nothing of value on the registry belongs to a single key. The actor is the corporation: a legal or organisational entity represented on chain by a group of member accounts and a decision policy. The group's policy address is the corporation's identity, and everything the corporation owns, its ecosystems, its accreditations, its trust deposit, points back to it.
 
-A **Corporation** is the foundational actor of a Verifiable Public Registry (VPR). It is the VPR-level entity that represents an authority acting in the registry: it controls Ecosystems, owns Participant entries, and holds a Trust Deposit. Almost every other entity in the registry — `Ecosystem`, `CredentialSchema` (through its ecosystem), `Participant`, `GovernanceFrameworkVersion`, `TrustDeposit` — points back to a Corporation through a `corporation_id` foreign key.
-
-A `Corporation` carries VPR-specific attributes and is anchored on-chain by a **`policy_address`** account that signs on its behalf:
-
-- `id` — the numeric primary key other entities reference as `corporation_id`.
-- `policy_address` — the on-chain account that signs transactions on behalf of the Corporation. It is globally unique: no two Corporations share the same `policy_address`.
-- `did` — the resolvable DID of the Corporation, globally unique across Corporations.
-- `language` — primary language tag (BCP 47).
-- `active_version` — the active Corporation Governance Framework (CGF) version.
-
-(Spec: [Corporation Management](https://verana-labs.github.io/verifiable-trust-vpr-spec/) — non-normative overview, and the `Corporation` data model, `MOD-CO-MSG-1`.)
-
-:::info Replaces the old "authority"
-In earlier versions of Verana, resources were owned by a bare "authority" account. In v4 that loose notion is replaced by the `Corporation` — a first-class, governance-capable entity. Wherever older material said "authority", read **Corporation**.
-:::
-
-## Group-based governance
-
-Under the hood, a Corporation's `policy_address` can be any account able to sign — a single key, a multisig, or a **[Cosmos SDK `x/group`](https://docs.cosmos.network/main/build/modules/group) group policy**. The reference implementation provisions it as a group policy, which gives a Corporation **multi-member, on-chain governance** out of the box:
-
-- a **group** holds the Corporation's members, each with a voting `weight`;
-- a **group policy** defines the **decision policy** (a threshold or a percentage of the total weight) required to execute a proposal;
-- the resulting **`policy_address`** is the Corporation's on-chain identity.
-
-Any action taken on behalf of the Corporation — updating its DID, creating an Ecosystem, granting an operator — is either signed directly by the `policy_address` (through a group proposal that members vote on) or by an authorized **operator** (see below). How the account is provisioned is an implementation concern; the data model only cares that a single `policy_address` signs for the Corporation.
-
-## Operators and delegation
-
-Voting on a group proposal for every routine transaction would be impractical. A Corporation therefore delegates day-to-day execution to **operators**: regular accounts authorized to submit specific message types on the Corporation's behalf.
-
-- The Corporation grants an operator an **`OperatorAuthorization`** that allow-lists the exact message type-URLs the operator may sign, optionally with a spend limit and an expiry.
-- A transaction executed by an operator is signed with the operator's key but acts **on behalf of the Corporation** — it is a *delegable* transaction that carries the Corporation as an argument.
-- A separate **`VSOperatorAuthorization`** (with per-Participant `ParticipantAuthorizationRecord` entries) delegates the narrower right to manage a Participant's sessions to a verifiable-service operator account.
-
-This separation lets a Corporation keep governance in the hands of its members while allowing automated agents and operators to carry out the high-volume work.
-
-## Controls vs. owns
-
-A Corporation interacts with the VPR in two **independent** ways:
-
-- as the **controller** of zero or more **Ecosystems** — it owns the corresponding `Ecosystem` entries and manages each ecosystem's governance framework (EGF), credential schemas, and root `ECOSYSTEM` Participant entries;
-- as the **owner** of zero or more **Participant** entries in zero or more ecosystems — acting as `ISSUER`, `VERIFIER`, `ISSUER_GRANTOR`, `VERIFIER_GRANTOR`, or `HOLDER` for credential schemas of those ecosystems.
-
-The two roles are decoupled: a Corporation may control no ecosystem and only hold Participant entries in third-party ecosystems; or control several ecosystems and additionally hold Participant entries in others; or any combination.
-
-```plantuml
-
-@startuml
-scale max 800 width
-
-object "Corporation X" as corpX #FFD580 {
-  policy_address
-  did:example:corpX
-}
-
-object "Ecosystem A" as eA #3fbdb6 {
-  did:example:eA
-}
-object "Ecosystem B" as eB #3fbdb6 {
-  did:example:eB
-}
-
-object "Ecosystem C" as eC #3fbdb6 {
-  did:example:eC
-}
-object "Ecosystem D" as eD #3fbdb6 {
-  did:example:eD
-}
-
-object "ISSUER Participant\n(Ecosystem C, Schema #1)" as pC #7677ed
-object "VERIFIER Participant\n(Ecosystem D, Schema #1)" as pD #00b0f0
-object "HOLDER Participant\n(Ecosystem A, Schema #2)" as pA #FFB073
-
-corpX --> eA : controls
-corpX --> eB : controls
-
-corpX --> pC : owns
-corpX --> pD : owns
-corpX --> pA : owns
-
-pC ..> eC : in
-pD ..> eD : in
-pA ..> eA : in
-
-@enduml
-
+```mermaid
+flowchart LR
+  subgraph corp[Corporation]
+    M1[Member account] & M2[Member account] & M3[Member account] -->|vote on proposals| P[Policy address<br/>the corporation's identity]
+  end
+  P -->|operator authorization<br/>message types, limits, expiry| O[Operator account<br/>a person or a backend]
+  P -->|VS operator authorization<br/>one participant entry, message types| A[VS Agent account]
+  P -.->|fee grant| O
+  P -.->|fee grant| A
+  O -->|signs for the corporation| R[(Registry)]
+  A -->|signs for the corporation| R
+  P -->|group proposal, then execution| R
 ```
 
-## Governance frameworks: CGF and EGF
+## Members and proposals
 
-A `GovernanceFrameworkVersion` is owned by **exactly one** of an ecosystem or a corporation (XOR):
+Members hold voting weight. A decision policy says what it takes to pass: a threshold of weight, or a percentage, within a voting window. The corporation acts by proposal: a member submits a message to execute, members vote, and the policy address executes it. This is how a corporation does the things that must stay in human hands: admit members, change its decision policy, authorise or revoke an operator. A corporation with a single member and a threshold of one is still a corporation; the model scales up without changing shape.
 
-- an **Ecosystem Governance Framework (EGF)** governs the roles, permissions, and compliance rules **within an ecosystem**;
-- a **Corporation Governance Framework (CGF)** governs the **Corporation itself** — how its members reach decisions and operate the entity.
+## Operators
 
-Both are versioned and published as governance-framework documents (URL + `digest_sri`). Version 1 of the CGF is seeded when the Corporation is created.
+Voting on every routine transaction would be impractical, so a corporation delegates. An operator authorization names an account and the exact list of message types it may sign on the corporation's behalf, optionally with a spending limit per period and an expiry. An operator is typically a person at the console, or a backend. The transaction is signed by the operator and executed as the corporation: the registry checks the authorization before anything else.
 
-## Trust deposit is per-Corporation
+Operators pay transaction fees themselves unless the corporation grants them a fee grant, which lets them charge the corporation's account within limits.
 
-A Corporation's economic accountability is anchored by a single **`TrustDeposit`**, keyed by `corporation_id`. All trust-deposit growth, yield, and slashing accrue to the Corporation — not to individual accounts or Participant entries. See [Trust Deposit and Reputation](./trust-deposit-and-reputation.md).
+## Agents as operators
 
-:::tip Ready to create one?
-This page is conceptual. For the step-by-step transaction (building `MsgCreateCorporation`, funding the `policy_address`, granting an operator), see the how-to guide [Create a Corporation](../../reference/cli/how-tos/corporation/10-create-a-corporation.md).
-:::
+A VS Agent needs a narrower power: to act for one accreditation at a time. When a corporation creates or applies for a participant entry, it can name the agent's account as the VS operator of that entry and list the message types the agent may send for it, typically starting and validating onboarding processes, recording credential sessions, and asking the indexer to re-resolve its DID. This authorization lives and dies with the entry: a revoked, expired or slashed entry disables it. A fee grant can accompany it so the agent never needs to hold funds.
+
+## Why this model
+
+- No single point of compromise: the key that pays fees is not the key that governs, and neither can do what the other does.
+- Accountability: every transaction names the corporation it was executed for, and the registry knows which operator signed it.
+- Automation with bounds: an agent runs unattended, but only the operations its corporation listed, only for the entries it was named on, only within the budget it was given.
+
+## The corporation's own governance
+
+A corporation publishes its own governance framework, the documents that say how it reaches decisions and who may represent it, versioned like an ecosystem's. The first version is created with the corporation.
+
+## Where next
+
+- [Participant tree and accreditation](./participant-tree-and-accreditation.md): what a corporation holds in an ecosystem.
+- Build: [Create a corporation](../../build/ecosystems/index.md); [Let the agent pay with corporation funds](../../build/verifiable-services/index.md).
+- Specification: VPR v4, Corporation module, Delegation module, authorization checks.

@@ -10,7 +10,7 @@ Participants are owned and controlled by a [Corporation](../../corporation/10-cr
 
 ## Before you start
 
-- Read the [learn section](../../../../../understand/ecosystems/participant-tree-and-onboarding.md) for background on onboarding participants.
+- Read the [learn section](../../../../../understand/ecosystems/participant-tree-and-accreditation.md) for background on onboarding participants.
 - Create and register a [Corporation](../../corporation/10-create-a-corporation.md).
 - Grant your operator authorization for the relevant `pp` message type-URLs — see [Grant Operator Authorization](../../corporation/20-delegation/20-grant-operator-authorization.md).
 

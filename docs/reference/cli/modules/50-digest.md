@@ -4,7 +4,7 @@ rework: legacy
 
 # Digest Module
 
-The Digest (`di`) module is a minimal registry of content hashes. It **replaces** the removed **DID Directory** (`dd`) module: the DID-lifecycle feature (`add-did` / `renew-did` / `remove-did` / `touch-did`, per-DID deposits, expiry, grace, `list-dids`) is gone. `di` stores content **digests** — proving that off-chain content existed and has not changed — and exposes a single transaction and two queries. See the [usage guide](../how-tos/digest/10-digest.md) and the [Digest](../../../understand/network/digest.md) learn page.
+The Digest (`di`) module is a minimal registry of content hashes. It **replaces** the removed **DID Directory** (`dd`) module: the DID-lifecycle feature (`add-did` / `renew-did` / `remove-did` / `touch-did`, per-DID deposits, expiry, grace, `list-dids`) is gone. `di` stores content **digests** — proving that off-chain content existed and has not changed — and exposes a single transaction and two queries. See the [usage guide](../how-tos/digest/10-digest.md) and the [Digest](../../../understand/network/verifiable-public-registry.md) learn page.
 
 The single `store-digest` transaction is **delegable**: it is signed by an `operator` (`--from`) and executed on behalf of a **Corporation** whose `policy_address` is passed as the positional `[authority]` argument. `/verana.di.v1.MsgStoreDigest` is a member of the VPR delegable message-type set, so an operator must have been granted authorization for it via the [Delegation (`de`) module](./20-delegation.md). The `update-params` message is governance-only.
 

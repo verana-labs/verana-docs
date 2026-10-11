@@ -4,7 +4,7 @@ rework: legacy
 
 # Exchange Rate Module
 
-The Exchange Rate (`xr`) module is the VPR's on-chain **pricing oracle**. It stores exchange rates between asset pairs — Trust Units (`TU`), native COIN (`uvna`), and FIAT — and converts fee amounts between them at execution time, so that value-stable fees defined on credential schemas resolve to a concrete `uvna` amount when charged. See the [usage guide](../how-tos/exchange-rate/10-intro.md) and the [Exchange Rate & Trust Units](../../../understand/ecosystems/exchange-rates.md) learn page.
+The Exchange Rate (`xr`) module is the VPR's on-chain **pricing oracle**. It stores exchange rates between asset pairs — Trust Units (`TU`), native COIN (`uvna`), and FIAT — and converts fee amounts between them at execution time, so that value-stable fees defined on credential schemas resolve to a concrete `uvna` amount when charged. See the [usage guide](../how-tos/exchange-rate/10-intro.md) and the [Exchange Rate & Trust Units](../../../understand/ecosystems/business-model.md) learn page.
 
 Assets are typed with the `PricingAssetType` enum (shared with `cs`): `TU` (1), `COIN` (2), `FIAT` (3), plus the invalid sentinel `PRICING_ASSET_TYPE_UNSPECIFIED` (0). On the CLI the enum is written in **lower-case short form** — `tu`, `coin`, `fiat` — for both positional arguments and `--*-asset-type` flags; the upper-case proto names and integer values are rejected.
 

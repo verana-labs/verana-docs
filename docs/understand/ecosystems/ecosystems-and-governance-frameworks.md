@@ -1,86 +1,49 @@
 ---
-rework: draft
+title: Ecosystems and governance frameworks
+description: "What an ecosystem is on the registry, who controls it, and what its governance framework commits to."
+sidebar_position: 1
 ---
 
-# Ecosystems
+# Ecosystems and governance frameworks
 
-## What is an Ecosystem?
+An ecosystem is a domain of trust with an owner. A chamber of commerce that attests companies, a certification body that attests quality systems, a civil registry that attests citizens, a company that attests its authorised repairers: each is an ecosystem. On Verana an ecosystem is a registry entry, controlled by a corporation, that carries a DID, a governance framework, credential schemas, and the tree of participants accredited for them.
 
-An **Ecosystem** is an approved list of recognized participants — ecosystem operators, credential issuers, and verifiers — that are authorized to onboard participants and/or issue and verify certain credentials within the ecosystem, in accordance with the ecosystem's governance rules.
+Other communities call this a trust registry. Verana reserves "registry" for the shared public ledger, and calls each domain of trust an ecosystem, because that is what it governs: not a list, a set of rules and the parties bound by them.
 
-An ecosystem typically exposes APIs that are consumed by services wishing to query its database and take decisions based on the returned result:
-
-- can participant #1 issue a credential for schema ABC of ecosystem E1?
-- can participant #2 request credential presentation of a credential issued by issuer DEF from schema GHI of ecosystem E2 in context CONTEXT?
-
-An `Ecosystem` entry is always **controlled by a [Corporation](./corporations-and-operators.md)** through a `corporation_id` foreign key. The controlling Corporation manages the ecosystem's governance framework, its credential schemas, and the root `ECOSYSTEM` Participant entries of those schemas.
-
-## The Verifiable Public Registry
-
-Corporations create the Ecosystems they control in the **Verana Verifiable Trust Network**, a Verifiable Public Registry (VPR).
-
-A VPR is a **"registry of registries"**, a public service that provides foundational infrastructure for decentralized trust ecosystems, as specified in the [Verifiable Public Registry (VPR) specification](https://verana-labs.github.io/verifiable-trust-vpr-spec/). It offers Corporation lifecycle and directory services, ecosystem management, and a query API for trust resolution.
-
-```plantuml
-
-@startuml
-scale max 800 width
-
-package "Verifiable Public Registry" as vpr {
-
-    object "Ecosystem #A" as tra #3fbdb6 {
-    }
-
-    object "Ecosystem #B" as trb #3fbdb6 {
-
-    }
-
-    object "Ecosystem #C" as trc #3fbdb6 {
-
-    }
-
-    object "Ecosystem #D" as trd #3fbdb6 {
-
-    }
-    object "Ecosystem #E" as tre #3fbdb6 {
-
-    }
-    
-   
-}
-
-
-@enduml
-
+```mermaid
+flowchart TB
+  C[Corporation<br/>the controller] -->|controls| E[Ecosystem<br/>DID]
+  E --> GF[Governance framework<br/>versions and documents]
+  E --> S1[Credential schema A]
+  E --> S2[Credential schema B]
+  S1 --> T1[Participant tree<br/>root, grantors, issuers,<br/>verifiers, holders]
+  S2 --> T2[Participant tree]
 ```
 
-In a VPR, each `Ecosystem` entry specifies, at a minimum:
+## The ecosystem DID
 
-- an ecosystem-controlled resolvable DID;
-- one or more ecosystem governance framework document(s);
-- zero or more credential schemas.
+The ecosystem DID is the trust root of everything the ecosystem governs. It issues, for each credential schema, the credential that binds the schema on the registry to the ecosystem: the Verifiable Trust JSON Schema Credential. Every credential later issued under that schema points back to it, and every trust resolution ends there. In practice the ecosystem DID is a VS Agent run by the controlling corporation: the anchor service. It publishes those schema credentials automatically when a schema is created.
 
-```plantuml
+## The governance framework
 
-@startuml
-scale max 800 width
- 
-object "Ecosystem" as tra #3fbdb6 {
-    ecosystem did
-    ecosystem credential schemas
-    ecosystem governance framework docs
-}
+The ecosystem governance framework is the written law of the ecosystem: its mission, the credential schemas it governs, how one joins and in which role, what evidence a validator asks for, what it costs, what behaviour gets a participant revoked or slashed, how disputes are handled. The registry holds versions of it, each version with one document per language, identified by URL and content digest so nobody can alter a published text unnoticed. Only the active version binds participants; future versions are prepared and then activated.
 
-@enduml
+The governance framework is a commitment to the participants and to the wallets that will trust the ecosystem's credentials. The Verana Council publishes templates, and the ECS ecosystem's own framework is the first example.
 
-```
+## Who controls an ecosystem
 
-A VPR is agnostic to the specific DID methods used. Trust resolution is performed externally, outside the VPR, allowing flexibility and interoperability across ecosystems.
+A corporation. It creates the entry, publishes and activates governance framework versions, defines credential schemas, creates the root of each participant tree, and may validate applicants itself or delegate that to grantors. It can rotate the ecosystem DID and archive the ecosystem; an archived ecosystem stays readable and its existing accreditations remain valid until they expire, but no new participant can join.
 
-:::info Corporation vs. Ecosystem
-A **Corporation** is the *actor* — the governance-capable entity that signs transactions and holds the trust deposit. An **Ecosystem** is a *resource* the Corporation controls. One Corporation may control several Ecosystems; a single DID may even back several Ecosystem entries, provided they all share the same controlling Corporation. See [Corporations](./corporations-and-operators.md).
-:::
+One corporation can control several ecosystems, and can at the same time be a mere participant in ecosystems it does not control. A company network, for instance, controls the ecosystem of its partners while holding an organization credential from the ECS ecosystem and a certification from a sector body.
 
-:::tip
-To create and manage an Ecosystem entry, see the how-to guide [Create an Ecosystem](../../reference/cli/how-tos/ecosystems/30-ecosystem/30-create-an-ecosystem.md).
-:::
+## The ECS ecosystem
+
+Every Verana network has one ecosystem that comes first: the ECS ecosystem, which governs the five Essential Credential Schemas that identify services, organisations, personas, user agents and the people behind them. It is governed by the Verana Council, and its accredited issuers are the organisations that verify legal entities. Every other ecosystem relies on it: a participant of any ecosystem is first a Verifiable Service identified through ECS credentials.
+
+## Where next
+
+- [Corporations and operators](./corporations-and-operators.md): who signs for an ecosystem.
+- [Credential schemas](./credential-schemas.md): what an ecosystem governs.
+- Build: [Ecosystems with the Frontend](../../build/ecosystems/index.md).
+- Try it live: the [Vesta story](https://playground.testnet.verana.network/usecases/vesta) follows a company that joins ecosystems and then builds its own.
+- Specification: VPR v4, Ecosystem and Governance Framework modules.

@@ -10,7 +10,7 @@ This section documents the **Specs v4** implementation of the Verana Verifiable 
 
 Ecosystems are the entities that define credential schemas, governance frameworks, and participation rules in Verana. Every Ecosystem is owned and governed by a **Corporation** — the on-chain, group-backed entity that controls the Ecosystem's resources and authorizes operators to act on its behalf.
 
-➡️ **Learn the basics first** in the [Learn section](../../../../understand/ecosystems/participant-tree-and-onboarding.md).
+➡️ **Learn the basics first** in the [Learn section](../../../../understand/ecosystems/participant-tree-and-accreditation.md).
 
 ## Key Concepts in Specs v4
 

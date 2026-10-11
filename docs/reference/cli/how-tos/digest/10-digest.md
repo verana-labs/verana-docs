@@ -6,7 +6,7 @@ rework: legacy
 
 `MOD-DI-MSG-1` · `MOD-DI-QRY-1`
 
-Make sure you've read [Digest](../../../../understand/network/digest.md) in the Learn section.
+Make sure you've read [Digest](../../../../understand/network/verifiable-public-registry.md) in the Learn section.
 
 The **Digest** (`di`) module is a minimal, standalone registry of content hashes. It lets a [Corporation](../corporation/10-create-a-corporation.md) **anchor the existence and integrity of off-chain content at a point in time** — proving that a document existed and has not changed — without storing the content itself on-chain.
 

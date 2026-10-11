@@ -4,9 +4,6 @@ title: The network
 
 # The network
 
-| Page | Status |
-|---|---|
-| [The Verifiable Public Registry](./verifiable-public-registry.md) | draft |
-| [Digest](./digest.md) | draft, to be folded into the registry page |
-| Environments | see [Run the infrastructure](../../build/run-infrastructure/environments/10-environments.md) for now |
-| Versions and roadmap | coming |
+1. [The Verifiable Public Registry](./verifiable-public-registry.md)
+2. [Environments](./environments.md)
+3. [Versions and roadmap](./versions-and-roadmap.md)

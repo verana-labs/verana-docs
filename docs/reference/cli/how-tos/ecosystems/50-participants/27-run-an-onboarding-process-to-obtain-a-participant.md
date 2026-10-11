@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 Use this flow when you want to join an ecosystem's **credential schema** but self-creation is **not** allowed (the schema's management mode is not `OPEN`), or when a validator charges `validation_fees`. It starts a participant **onboarding process (OP)** — the v4 replacement for the old Validation Process (VP) — via `MsgStartParticipantOP` (`MOD-PP-MSG-1`).
 
-Refer to the [learn section](../../../../../understand/ecosystems/participant-tree-and-onboarding.md) for background on onboarding processes.
+Refer to the [learn section](../../../../../understand/ecosystems/participant-tree-and-accreditation.md) for background on onboarding processes.
 
 ## When do you need an onboarding process?
 

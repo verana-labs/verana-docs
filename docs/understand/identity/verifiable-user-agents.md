@@ -1,0 +1,47 @@
+---
+title: Verifiable User Agents and wallets
+description: "What a wallet, messenger or agentic browser does on Verana: three questions, a Proof-of-Trust, two integration tracks."
+sidebar_position: 3
+---
+
+# Verifiable User Agents and wallets
+
+A Verifiable User Agent is software that acts for a person, a mobile identity wallet, a DIDComm messenger, an agentic browser, and that refuses to trust blindly. Before it connects to a service, accepts a credential or shares one, it asks the network and shows the person the answer.
+
+## The three questions
+
+| | Question | When | Answer from |
+|---|---|---|---|
+| Q1 | Is this service a trusted Verifiable Service, and who operates it? | on every new connection | trust resolution of the service DID |
+| Q2 | Is this service accredited to issue this credential, in this ecosystem? | on every credential offer | the issuer's accreditation on the registry |
+| Q3 | Is this service accredited to request this credential? | on every presentation request | the verifier's accreditation on the registry |
+
+A failed Q1 means no connection. A failed Q2 or Q3 means the accept or share action is blocked or demoted behind an explicit warning; it never happens silently.
+
+## The Proof-of-Trust
+
+The answer to Q1 is shown the same way in every integrated wallet, so people learn to read it once:
+
+1. The verdict: trusted, untrusted, or could not verify, with the service DID and the time of evaluation.
+2. The service: name, type, logo, description, from its ECS Service credential.
+3. Who operates it: legal name, country, registry identifier, from the ECS Organization or Persona credential.
+4. The other credentials the service or its operator present, each with its own validity mark.
+5. The trust chain behind each credential, issuer to grantor to ecosystem, with the failures, when any, as first-class content.
+
+Wallets keep their own look; the order, the states and the iconography are the shared contract. Nothing is invented: no stars, no scores beyond what resolution returned.
+
+## Two integration tracks
+
+**Native.** The wallet speaks DIDComm. It connects to services over the bootstrap channel, resolves trust before the connection is used, receives AnonCreds or W3C credentials and presents them with selective disclosure.
+
+**Bridge.** The wallet is built on OpenID4VC, in the style of the European wallets. It keeps its OpenID4VCI and OpenID4VP flows unchanged and adds trust resolution of the issuer or verifier DID around its consent screens, rendering the Proof-of-Trust above the fold. Only resolvable DID methods qualify, did:web and did:webvh: a bare key cannot present credentials, so it cannot be trusted.
+
+## The user agent credential
+
+A full Verifiable User Agent also carries an ECS User Agent credential, issued by its vendor, which a service may ask for before serving it, and which identifies the software without identifying the person. It is an AnonCreds credential, presented with unlinkable proofs. Services that need to know the human behind the agent ask for a Badge instead.
+
+## Where next
+
+- Build: [Personal wallets](../../build/personal-wallets/index.md), and the normative [integration guideline](https://github.com/verana-labs/verana-spec/blob/main/playground/guidelines/personal-wallet-integration.md).
+- Try it live: six integrated wallets on the [playground](https://playground.testnet.verana.network/personal-wallets).
+- Specification: Verifiable Trust v4, `VUA-REQ`, `VUA-CONN-VS`, `CIT`, `PRT`.
