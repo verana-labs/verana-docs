@@ -4,6 +4,12 @@
 type RedirectItem = {from: string | string[]; to: string};
 
 export const redirects: RedirectItem[] = [
+  {"from": ["/docs/build/personal-wallets/legacy/intro"], "to": "/docs/build/personal-wallets"},
+  {"from": ["/docs/build/personal-wallets/legacy/trust-resolution"], "to": "/docs/build/personal-wallets/calls"},
+  {"from": ["/docs/build/personal-wallets/legacy/agent-certification"], "to": "/docs/build/personal-wallets/integrate"},
+  {"from": ["/docs/build/personal-wallets/legacy/user-agent-credentials"], "to": "/docs/understand/identity/essential-credential-schemas"},
+  {"from": ["/docs/build/personal-wallets/legacy/permission-sessions"], "to": "/docs/build/verifiable-services/pay-per-issuance-verification"},
+  {"from": ["/docs/build/personal-wallets/legacy/ecosystem-rewards"], "to": "/docs/understand/ecosystems/business-model"},
   {"from": ["/docs/build/verifiable-services/legacy/overview"], "to": "/docs/build/verifiable-services"},
   {"from": ["/docs/build/verifiable-services/legacy/ecs-trust-registries"], "to": "/docs/understand/identity/essential-credential-schemas"},
   {"from": ["/docs/build/verifiable-services/legacy/deploy-first-vs"], "to": "/docs/build/verifiable-services/quickstart"},
@@ -17,42 +23,42 @@ export const redirects: RedirectItem[] = [
       "/docs/next/use/verifiable-user-agent-builders/intro",
       "/docs/use/verifiable-user-agent-builders/intro"
     ],
-    "to": "/docs/build/personal-wallets/legacy/intro"
+    "to": "/docs/build/personal-wallets"
   },
   {
     "from": [
       "/docs/next/use/verifiable-user-agent-builders/trust-resolution",
       "/docs/use/verifiable-user-agent-builders/trust-resolution"
     ],
-    "to": "/docs/build/personal-wallets/legacy/trust-resolution"
+    "to": "/docs/build/personal-wallets/calls"
   },
   {
     "from": [
       "/docs/next/use/verifiable-user-agent-builders/agent-certification",
       "/docs/use/verifiable-user-agent-builders/agent-certification"
     ],
-    "to": "/docs/build/personal-wallets/legacy/agent-certification"
+    "to": "/docs/build/personal-wallets/integrate"
   },
   {
     "from": [
       "/docs/next/use/verifiable-user-agent-builders/user-agent-credentials",
       "/docs/use/verifiable-user-agent-builders/user-agent-credentials"
     ],
-    "to": "/docs/build/personal-wallets/legacy/user-agent-credentials"
+    "to": "/docs/understand/identity/essential-credential-schemas"
   },
   {
     "from": [
       "/docs/next/use/verifiable-user-agent-builders/permission-sessions",
       "/docs/use/verifiable-user-agent-builders/permission-sessions"
     ],
-    "to": "/docs/build/personal-wallets/legacy/permission-sessions"
+    "to": "/docs/build/verifiable-services/pay-per-issuance-verification"
   },
   {
     "from": [
       "/docs/next/use/verifiable-user-agent-builders/ecosystem-rewards",
       "/docs/use/verifiable-user-agent-builders/ecosystem-rewards"
     ],
-    "to": "/docs/build/personal-wallets/legacy/ecosystem-rewards"
+    "to": "/docs/understand/ecosystems/business-model"
   },
   {
     "from": [

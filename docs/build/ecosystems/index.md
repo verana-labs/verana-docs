@@ -4,16 +4,15 @@ title: Ecosystems with the Frontend
 
 # Ecosystems with the Frontend
 
-The Verana Frontend is where a corporation administers what it controls: its members and operators, its ecosystems and governance frameworks, its credential schemas, the participants it accredits, its trust deposit.
+The Verana Frontend is the console of a corporation: members and operators, ecosystems and governance frameworks, credential schemas, the participants it accredits, its trust deposit, its pending validations. These guides follow the [ecosystem builder's path](./00-path.md).
 
-| Guide | Status |
+| Step | Guides |
 |---|---|
-| The ecosystem builder's path | coming |
-| Create a corporation; operators, proposals and fee grants; corporation governance framework | coming |
-| Create an ecosystem and publish its governance framework; run the ecosystem anchor | coming |
-| Define a credential schema; root participants and grantors | coming |
-| Validate applicants; revoke, slash and repay | coming |
-| Design the fee model | coming |
-| Offer identity schemas for your sector | coming |
+| Corporation | [create a corporation](./10-create-corporation.md), [operators, proposals and fee grants](./11-operators-proposals.md), [corporation governance framework](./12-corporation-governance.md) |
+| Ecosystem | [create an ecosystem and publish its governance framework](./20-create-ecosystem.md), [run the ecosystem anchor](./21-ecosystem-anchor.md) |
+| Schemas and tree | [define a credential schema](./30-credential-schemas.md), [root participants and grantors](./31-root-participants-grantors.md) |
+| Operate | [validate applicants](./40-validate-applicants.md), [revoke, slash and repay](./41-revoke-slash-repay.md) |
+| Money | [design the fee model](./50-fee-model.md) |
+| Identity for your sector | [offer identity schemas for your sector](./60-identity-schemas-for-your-sector.md) |
 
-Until these guides land, the command-line pages under [Reference, command line (legacy)](../../reference/cli/index.md) describe the same operations message by message.
+Guides are written against the frontend 0.17 and the v4 testnet; `verified_on` in each front matter says when they were last run end to end.
