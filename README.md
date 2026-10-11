@@ -24,7 +24,7 @@ Versions: v4 is `current`. When v5 work starts, run `npm run docusaurus docs:ver
 - Concept pages (Understand) carry no field names, commands or API paths. One diagram minimum, in Mermaid.
 - Guides (Build) follow `templates/guide.md`: Goal, Prerequisites, Steps, Verify, Troubleshooting, Next. Code comes from `examples/`.
 - Front matter `rework: legacy | draft` shows a banner; remove it when a page is final.
-- Copy rules: say participants and accreditations, not permissions; no em-dashes; Verana with a capital V.
+- Copy rules: say participants and accreditations, not permissions; say onboarding process, never validation process (the modes are `ECOSYSTEM_ONBOARDING_PROCESS`, `GRANTOR_ONBOARDING_PROCESS`, `ISSUER_ONBOARDING_PROCESS`); no em-dashes; Verana with a capital V.
 
 ## Reference generation
 
