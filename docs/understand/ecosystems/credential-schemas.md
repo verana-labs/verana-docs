@@ -9,14 +9,14 @@ sidebar_position: 3
 A credential schema is what an ecosystem governs. It is a JSON schema, the shape of a credential, together with the policy that says how one becomes its issuer, its verifier or its holder, how long those accreditations last, and in what asset the ecosystem prices them. It belongs to one ecosystem and, once created, its shape and policy never change; only the validity periods can be adjusted. A new shape is a new schema.
 
 ```mermaid
-flowchart LR
-  S[Credential schema<br/>on the registry] --> J[JSON schema<br/>the claims]
-  S --> M[Onboarding modes<br/>issuer, verifier, holder]
-  S --> V[Validity periods<br/>per role]
-  S --> P[Pricing asset<br/>coin, trust unit or fiat]
-  E[Ecosystem DID] -->|issues| C[Schema credential<br/>VTJSC]
+flowchart TB
+  S[Credential schema on the registry] --> J[JSON schema: the claims]
+  S --> M[Onboarding modes: issuer, verifier, holder]
+  S --> V[Validity periods per role]
+  S --> P[Pricing asset: coin, trust unit or fiat]
+  E[Ecosystem DID] -->|issues| C[Schema credential, VTJSC]
   C -->|binds to| S
-  I[Accredited issuer] -->|issues credentials<br/>that reference| C
+  I[Accredited issuer] -->|issues credentials referencing| C
 ```
 
 ## The shape

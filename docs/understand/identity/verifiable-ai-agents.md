@@ -10,9 +10,9 @@ An AI agent that talks to other agents and services has the same problem as any 
 
 ```mermaid
 flowchart LR
-  A1[AI agent A<br/>VS Agent + DID] -->|resolve B before connecting| R[(Registry and indexer)]
-  A2[AI agent B<br/>VS Agent + DID] -->|resolve A| R
-  A1 <-->|DIDComm bootstrap,<br/>then MCP or A2A| A2
+  A1[AI agent A<br/>VS Agent and DID] -->|resolves B| R[(Registry and indexer)]
+  A2[AI agent B<br/>VS Agent and DID] -->|resolves A| R
+  A1 <-->|DIDComm, then MCP or A2A| A2
   H[Human operator] -->|Badge| A1
 ```
 

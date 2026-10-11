@@ -26,11 +26,11 @@ Verana puts three things on a public, decentralised registry, and gives every pa
 
 ```mermaid
 flowchart LR
-  E[Ecosystem<br/>governance framework<br/>schemas and accreditations] -->|publishes on| R[(Verana network<br/>public registry)]
-  S[Verifiable Service<br/>or AI agent] -->|presents credentials<br/>in its DID Document| W[Wallet or peer service]
-  W -->|resolves trust<br/>before connecting| R
+  E[Ecosystem<br/>governance framework,<br/>schemas, accreditations] -->|publishes| R[(Verana network<br/>public registry)]
+  S[Verifiable Service<br/>or AI agent] -->|presents credentials| W[Wallet or peer service]
+  W -->|resolves trust first| R
   R --> I[Indexer and trust graph]
-  I -->|search and MCP| W
+  I -->|search, MCP| W
 ```
 
 ## How it is run

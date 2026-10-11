@@ -11,9 +11,9 @@ Every corporation on the registry has one trust deposit. It is not paid in up fr
 ```mermaid
 flowchart LR
   F[Fees paid and received] -->|a share of each| D[Trust deposit<br/>one per corporation]
-  D -->|ecosystem slash<br/>per its governance framework| S1[Burned]
-  D -->|network slash<br/>by governance| S2[Burned]
-  S1 & S2 -->|repayment restores standing| D
+  D -->|ecosystem slash| S1[Burned]
+  D -->|network slash| S2[Burned]
+  S1 & S2 -->|repayment| D
 ```
 
 ## How it grows

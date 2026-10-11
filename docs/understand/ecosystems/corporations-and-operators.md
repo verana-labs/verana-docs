@@ -9,17 +9,18 @@ sidebar_position: 2
 Nothing of value on the registry belongs to a single key. The actor is the corporation: a legal or organisational entity represented on chain by a group of member accounts and a decision policy. The group's policy address is the corporation's identity, and everything the corporation owns, its ecosystems, its accreditations, its trust deposit, points back to it.
 
 ```mermaid
-flowchart LR
+flowchart TB
   subgraph corp[Corporation]
-    M1[Member account] & M2[Member account] & M3[Member account] -->|vote on proposals| P[Policy address<br/>the corporation's identity]
+    direction LR
+    M1[Member] & M2[Member] & M3[Member] -->|vote| P[Policy address<br/>the corporation's identity]
   end
-  P -->|operator authorization<br/>message types, limits, expiry| O[Operator account<br/>a person or a backend]
-  P -->|VS operator authorization<br/>one participant entry, message types| A[VS Agent account]
-  P -.->|fee grant| O
-  P -.->|fee grant| A
-  O -->|signs for the corporation| R[(Registry)]
+  P -->|group proposal| R[(Registry)]
+  P --> OA[Operator authorization<br/>message types, limits, expiry<br/>optional fee grant]
+  P --> VA[VS operator authorization<br/>one participant entry, message types<br/>optional fee grant]
+  OA --> O[Operator account<br/>a person or a backend]
+  VA --> A[VS Agent account]
+  O -->|signs for the corporation| R
   A -->|signs for the corporation| R
-  P -->|group proposal, then execution| R
 ```
 
 ## Members and proposals
