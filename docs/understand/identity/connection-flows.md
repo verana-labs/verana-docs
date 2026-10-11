@@ -41,6 +41,10 @@ The wallet resolves the service, shows the Proof-of-Trust, and connects only aft
 
 Two user agents each request the other's user agent credential, and the channel opens only when both have verified. No service is involved; what each side learns is which software it talks to, not who the person is.
 
+:::warning Not yet enforced
+The user agent credential exchanges in the wallet-to-service and wallet-to-wallet flows are specified but not enforced today; see [Verifiable Services](./verifiable-services.md#what-a-verifiable-service-does).
+:::
+
 ## Over OpenID4VC
 
 Wallets on the bridge track have no DIDComm connection to resolve before. They resolve the issuer's DID when a credential offer arrives and the verifier's DID when a presentation request arrives, and show the Proof-of-Trust inside their consent screen before the person can accept.

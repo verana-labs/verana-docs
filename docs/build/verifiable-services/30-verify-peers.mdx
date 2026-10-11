@@ -19,7 +19,7 @@ The one exception is the validator role: when a pending accreditation on an ECS 
 
 ## Wallets
 
-A connecting wallet is not a service: the agent asks it to present its ECS User Agent credential before serving it. Wallets integrated through OpenID4VC carry no DIDComm connection; the trust check happens on their side, on your DID, before the person accepts.
+A connecting wallet is not a service: the specification has the agent ask it to present its ECS User Agent credential before serving it. This is not enforced in VS Agent today, because wallet vendors cannot yet issue that credential; the agent serves connecting wallets and relies on the credential-level checks below. Wallets integrated through OpenID4VC carry no DIDComm connection; the trust check happens on their side, on your DID, before the person accepts.
 
 ## What your backend sees
 

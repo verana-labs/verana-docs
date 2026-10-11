@@ -38,6 +38,10 @@ Wallets keep their own look; the order, the states and the iconography are the s
 
 ## The user agent credential
 
+:::warning Not yet enforced
+Issuance of User Agent credentials by wallet vendors is not yet generally available, so services do not request the credential today and wallets do not check each other's. Wallets integrated under the current guideline are not presented as full Verifiable User Agents for that reason.
+:::
+
 A full Verifiable User Agent also carries an ECS User Agent credential, issued by its vendor, which a service may ask for before serving it, and which identifies the software without identifying the person. It is an AnonCreds credential, presented with unlinkable proofs. Services that need to know the human behind the agent ask for a Badge instead.
 
 ## Where next

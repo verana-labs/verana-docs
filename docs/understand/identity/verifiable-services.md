@@ -34,7 +34,11 @@ A Verifiable Service declares at least one DIDComm endpoint. DIDComm is the boot
 
 ## What a Verifiable Service does
 
-It verifies the trust of every peer before serving it. A connecting service must itself be a Verifiable Service; a connecting wallet must present a user agent credential. It issues credentials only under schemas it is accredited for, requests presentations only of credentials it is accredited to verify, and it refuses offers and requests from peers that are not. Those are not courtesies: wallets and peer services enforce the same rules from their side, so an unaccredited offer is refused twice.
+It verifies the trust of every peer before serving it. A connecting service must itself be a Verifiable Service; a connecting wallet must present a user agent credential.
+
+:::warning Not yet enforced: the user agent credential
+The specification requires a wallet to present its ECS User Agent credential before a service serves it, and two wallets to exchange theirs before they talk. Neither is enforced today: VS Agent does not request the credential from connecting wallets, and wallet-to-wallet connections do not check it either, because the issuance of User Agent credentials by wallet vendors is not yet generally available. Services currently rely on the trust decisions around credentials (who may issue, who may verify); the user agent check is added when the issuance infrastructure ships.
+::: It issues credentials only under schemas it is accredited for, requests presentations only of credentials it is accredited to verify, and it refuses offers and requests from peers that are not. Those are not courtesies: wallets and peer services enforce the same rules from their side, so an unaccredited offer is refused twice.
 
 ## Two patterns
 
