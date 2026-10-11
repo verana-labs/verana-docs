@@ -1,6 +1,6 @@
 ---
 title: Public endpoints and DID Document
-description: What a VS Agent publishes to peers and wallets: DID Document service entries, DIDComm endpoints, trust resources, AnonCreds registry, OpenID4VC endpoints, invitations.
+description: "What a VS Agent publishes to peers and wallets: DID Document service entries, DIDComm endpoints, trust resources, AnonCreds registry, OpenID4VC endpoints, invitations."
 ---
 
 # Public endpoints and DID Document
