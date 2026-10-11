@@ -1,28 +1,26 @@
 ---
-rework: draft
+title: Environments and endpoints
+sidebar_position: 1
 ---
 
-# Environments
+# Environments and endpoints
 
-This section lists all the available environments for the Verana blockchain, including their entry points and attributes.
+| | devnet | testnet | mainnet |
+|---|---|---|---|
+| Chain id | `vna-devnet-1` | `vna-testnet-1` | `vna-mainnet-1` (planned, Q1 2027) |
+| Version | v4 | v4 from 13 October 2026 | |
+| Stability | reset without notice | stable within a version; coins have no value | |
+| Node RPC | `https://rpc.devnet.verana.network` | `https://rpc.testnet.verana.network` | |
+| Node REST | `https://api.devnet.verana.network` | `https://api.testnet.verana.network` | |
+| Indexer | `https://idx.devnet.verana.network` | `https://idx.testnet.verana.network` | |
+| Trust graph | `https://graph.devnet.verana.network` | published with the v4 upgrade | |
+| Search | `https://search.devnet.verana.network` | published with the v4 upgrade | |
+| Frontend | `https://app.devnet.verana.network` | `https://app.testnet.verana.network` | |
+| Faucet | `https://faucet.devnet.verana.network` | `https://faucet.testnet.verana.network` | |
+| Explorer | `https://explorer.devnet.verana.network` | `https://explorer.testnet.verana.network` | |
+| Playground | | `https://playground.testnet.verana.network` | |
+| ECS ecosystem DID | `did:web:ecs-ecosystem.devnet.verana.network` | published with the v4 upgrade | |
 
+A local chain for development uses the conventional chain id `vna-local-1`; the helper script of [Run an isolated local node](../run-a-node/20-local-node-isolated.md) initialises it as `vna-testnet-1`, so pass that chain id when you talk to it.
 
-| Environment Name         | Chain ID     | API Endpoint                 | RPC Endpoint                |
-|--------------------------|--------------|------------------------------|-----------------------------|
-| Local Development Environment  | `vna-local-1`  | `http://localhost:1317` | `http://localhost:26657` |
-| devnet Environment  | `vna-devnet-1`  | `http://node1.devnet.verana.network:1317` | `http://node1.devnet.verana.network:26657` |
-| Testnet Environment         | `vna-testnet-1` | `https://api.testnet.verana.network` | `https://rpc.testnet.verana.network` |
-| Production Environment   | `vna-mainnet-1` | `https://api.verana.network`        | `https://rpc.verana.network`        |
-
-**Attribute Descriptions**:
-
-- **Environment Name**: The name of the environment (e.g., Development, Test, Production).
-- **Chain ID**: The unique identifier for the blockchain network.
-- **API Endpoint**: The REST API endpoint for the environment.
-- **RPC Endpoint**: The Tendermint RPC endpoint for the environment.
-
-:::note Local chain ID
-`vna-local-1` is the conventional label for a local development chain, but the helper script `scripts/setup_primary_validator.sh` initializes the isolated local node with chain ID **`vna-testnet-1`**. When interacting with a node started by that script, pass `--chain-id vna-testnet-1`. See [Run an Isolated Local Node](../run-a-node/20-local-node-isolated.md).
-:::
-
-Use these attributes to configure your CLI or client applications to interact with the appropriate Verana blockchain environment.
+Each network page carries the peers, the chain parameters and the registry parameters: [devnet](./15-devnet.md), [testnet](./20-testnet.md), [mainnet](./30-mainnet.md).

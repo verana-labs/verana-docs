@@ -1,0 +1,30 @@
+name: Docs checks against testnet
+
+on:
+  schedule:
+    - cron: '23 3 * * *'  # daily 03:23 UTC
+  workflow_dispatch:
+    inputs:
+      did:
+        description: DID expected to resolve as trusted (defaults to the docs-check agent)
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    env:
+      VERANA_INDEXER: ${{ vars.VERANA_INDEXER || 'https://idx.testnet.verana.network' }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: The docs-check agent resolves as trusted
+        if: ${{ inputs.did != '' || vars.DOCS_CHECK_AGENT_DID != '' }}
+        run: examples/checks/resolve.sh "${{ inputs.did || vars.DOCS_CHECK_AGENT_DID }}" trusted
+
+      - name: The untrusted demo service resolves as untrusted
+        if: ${{ vars.DEMO_UNTRUSTED_DID != '' }}
+        run: examples/checks/resolve.sh "${{ vars.DEMO_UNTRUSTED_DID }}" untrusted

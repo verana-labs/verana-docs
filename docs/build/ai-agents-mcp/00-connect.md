@@ -52,4 +52,4 @@ Ask the agent to call `verana.wallet.getStatus` (connections, heights, bootstrap
 ## Next
 
 - [Tools by job](./10-tools-by-job.md).
-- Reference: the tool catalog (published with the repository); specification MCP server v4, `VMS-CFG`, `VMS-TRANS`, `VMS-AUTH`.
+- Reference: [MCP server](../../reference/mcp-server.md); specification MCP server v4, `VMS-CFG`, `VMS-TRANS`, `VMS-AUTH`.

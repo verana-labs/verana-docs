@@ -4,6 +4,76 @@
 type RedirectItem = {from: string | string[]; to: string};
 
 export const redirects: RedirectItem[] = [
+  {"from": ["/docs/reference/cli/how-tos/corporation/create-a-corporation"], "to": "/docs/reference/cli/veranad/co"},
+  {"from": ["/docs/reference/cli/how-tos/corporation/delegation/grant-operator-authorization"], "to": "/docs/reference/cli/veranad/de"},
+  {"from": ["/docs/reference/cli/how-tos/corporation/delegation/intro"], "to": "/docs/reference/cli/veranad/de"},
+  {"from": ["/docs/reference/cli/how-tos/corporation/delegation/list-operator-authorizations"], "to": "/docs/reference/cli/veranad/de"},
+  {"from": ["/docs/reference/cli/how-tos/corporation/delegation/revoke-operator-authorization"], "to": "/docs/reference/cli/veranad/de"},
+  {"from": ["/docs/reference/cli/how-tos/digest/digest"], "to": "/docs/reference/cli/veranad/di"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/credential-schemas/archive-or-unarchive-a-credential-schema"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/credential-schemas/create-a-credential-schema"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/credential-schemas/create-schema-authorization-policy"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/credential-schemas/get-a-credential-schema"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/credential-schemas/get-schema-authorization-policy"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/credential-schemas/increase-active-schema-authorization-policy-version"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/credential-schemas/list-credential-schemas"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/credential-schemas/list-schema-authorization-policies"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/credential-schemas/module-params"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/credential-schemas/render-json-schema"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/credential-schemas/revoke-schema-authorization-policy"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/credential-schemas/update-a-credential-schema"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/ecosystem/archive-or-unarchive-an-ecosystem"], "to": "/docs/reference/cli/veranad/ec"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/ecosystem/common-issues-and-solutions"], "to": "/docs/reference/cli/veranad/ec"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/ecosystem/create-an-ecosystem"], "to": "/docs/reference/cli/veranad/ec"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/ecosystem/get-an-ecosystem"], "to": "/docs/reference/cli/veranad/ec"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/ecosystem/list-ecosystems"], "to": "/docs/reference/cli/veranad/ec"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/ecosystem/module-params"], "to": "/docs/reference/cli/veranad/ec"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/ecosystem/update-an-ecosystem"], "to": "/docs/reference/cli/veranad/ec"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/environment-setup"], "to": "/docs/reference/cli/veranad/"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/governance-framework/add-a-governance-framework-document"], "to": "/docs/reference/cli/veranad/gf"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/governance-framework/get-a-governance-framework-version"], "to": "/docs/reference/cli/veranad/gf"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/governance-framework/increase-active-gf-version"], "to": "/docs/reference/cli/veranad/gf"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/governance-framework/list-governance-framework-versions"], "to": "/docs/reference/cli/veranad/gf"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/intro"], "to": "/docs/build/ecosystems"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/issue-credentials"], "to": "/docs/build/verifiable-services/issue-openid4vc"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/adjust-participant"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/cancel-op-pending-action"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/create-a-root-participant"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/find-participants-with-did"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/intro"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/list-participants"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/participant-revocation"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/renewal"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/repay-a-slashed-participant-deposit"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/run-an-onboarding-process-to-obtain-a-participant"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/self-create-a-participant"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/set-participant-to-validated"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/slash-a-participant"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/participants/trigger-resolver"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/pay-per-issuance-or-verification/create-or-update-participant-session"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/pay-per-issuance-or-verification/find-beneficiaries"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/pay-per-issuance-or-verification/get-participant-session"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/pay-per-issuance-or-verification/how-ppi-and-ppv-work"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/pay-per-issuance-or-verification/list-participant-sessions"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/how-tos/ecosystems/request-credential-presentation"], "to": "/docs/build/verifiable-services/verify-openid4vp"},
+  {"from": ["/docs/reference/cli/how-tos/exchange-rate/get-price"], "to": "/docs/reference/cli/veranad/xr"},
+  {"from": ["/docs/reference/cli/how-tos/exchange-rate/intro"], "to": "/docs/reference/cli/veranad/xr"},
+  {"from": ["/docs/reference/cli/how-tos/exchange-rate/list-and-get-exchange-rates"], "to": "/docs/reference/cli/veranad/xr"},
+  {"from": ["/docs/reference/cli/how-tos/exchange-rate/manage-exchange-rates"], "to": "/docs/reference/cli/veranad/xr"},
+  {"from": ["/docs/reference/cli/how-tos/trust-deposit/reputation-computation"], "to": "/docs/reference/cli/veranad/td"},
+  {"from": ["/docs/reference/cli/how-tos/trust-deposit/slashing"], "to": "/docs/reference/cli/veranad/td"},
+  {"from": ["/docs/reference/cli/how-tos/trust-deposit/trust-deposit-operations"], "to": "/docs/reference/cli/veranad/td"},
+  {"from": ["/docs/reference/cli/how-tos/trust-deposit/update-params"], "to": "/docs/reference/cli/veranad/td"},
+  {"from": ["/docs/reference/cli/how-tos/trust-deposit/yield-funding"], "to": "/docs/reference/cli/veranad/td"},
+  {"from": ["/docs/reference/cli/modules/corporation"], "to": "/docs/reference/cli/veranad/co"},
+  {"from": ["/docs/reference/cli/modules/credential-schema"], "to": "/docs/reference/cli/veranad/cs"},
+  {"from": ["/docs/reference/cli/modules/delegation"], "to": "/docs/reference/cli/veranad/de"},
+  {"from": ["/docs/reference/cli/modules/digest"], "to": "/docs/reference/cli/veranad/di"},
+  {"from": ["/docs/reference/cli/modules/ecosystem"], "to": "/docs/reference/cli/veranad/ec"},
+  {"from": ["/docs/reference/cli/modules/exchange-rate"], "to": "/docs/reference/cli/veranad/xr"},
+  {"from": ["/docs/reference/cli/modules/governance-framework"], "to": "/docs/reference/cli/veranad/gf"},
+  {"from": ["/docs/reference/cli/modules/participant"], "to": "/docs/reference/cli/veranad/pp"},
+  {"from": ["/docs/reference/cli/modules/trust-deposit"], "to": "/docs/reference/cli/veranad/td"},
   {"from": ["/docs/build/personal-wallets/legacy/intro"], "to": "/docs/build/personal-wallets"},
   {"from": ["/docs/build/personal-wallets/legacy/trust-resolution"], "to": "/docs/build/personal-wallets/calls"},
   {"from": ["/docs/build/personal-wallets/legacy/agent-certification"], "to": "/docs/build/personal-wallets/integrate"},
@@ -219,490 +289,490 @@ export const redirects: RedirectItem[] = [
       "/docs/next/use/corporation/create-a-corporation",
       "/docs/use/corporation/create-a-corporation"
     ],
-    "to": "/docs/reference/cli/how-tos/corporation/create-a-corporation"
+    "to": "/docs/reference/cli/veranad/co"
   },
   {
     "from": [
       "/docs/next/use/corporation/delegation/intro",
       "/docs/use/corporation/delegation/intro"
     ],
-    "to": "/docs/reference/cli/how-tos/corporation/delegation/intro"
+    "to": "/docs/reference/cli/veranad/de"
   },
   {
     "from": [
       "/docs/next/use/corporation/delegation/grant-operator-authorization",
       "/docs/use/corporation/delegation/grant-operator-authorization"
     ],
-    "to": "/docs/reference/cli/how-tos/corporation/delegation/grant-operator-authorization"
+    "to": "/docs/reference/cli/veranad/de"
   },
   {
     "from": [
       "/docs/next/use/corporation/delegation/revoke-operator-authorization",
       "/docs/use/corporation/delegation/revoke-operator-authorization"
     ],
-    "to": "/docs/reference/cli/how-tos/corporation/delegation/revoke-operator-authorization"
+    "to": "/docs/reference/cli/veranad/de"
   },
   {
     "from": [
       "/docs/next/use/corporation/delegation/list-operator-authorizations",
       "/docs/use/corporation/delegation/list-operator-authorizations"
     ],
-    "to": "/docs/reference/cli/how-tos/corporation/delegation/list-operator-authorizations"
+    "to": "/docs/reference/cli/veranad/de"
   },
   {
     "from": [
       "/docs/next/use/digest/digest",
       "/docs/use/digest/digest"
     ],
-    "to": "/docs/reference/cli/how-tos/digest/digest"
+    "to": "/docs/reference/cli/veranad/di"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/intro",
       "/docs/use/ecosystems/intro"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/intro"
+    "to": "/docs/build/ecosystems"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/environment-setup",
       "/docs/use/ecosystems/environment-setup"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/environment-setup"
+    "to": "/docs/reference/cli/veranad/"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/request-credential-presentation",
       "/docs/use/ecosystems/request-credential-presentation"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/request-credential-presentation"
+    "to": "/docs/build/verifiable-services/verify-openid4vp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/ecosystem/list-ecosystems",
       "/docs/use/ecosystems/ecosystem/list-ecosystems"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/ecosystem/list-ecosystems"
+    "to": "/docs/reference/cli/veranad/ec"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/ecosystem/get-an-ecosystem",
       "/docs/use/ecosystems/ecosystem/get-an-ecosystem"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/ecosystem/get-an-ecosystem"
+    "to": "/docs/reference/cli/veranad/ec"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/ecosystem/create-an-ecosystem",
       "/docs/use/ecosystems/ecosystem/create-an-ecosystem"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/ecosystem/create-an-ecosystem"
+    "to": "/docs/reference/cli/veranad/ec"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/ecosystem/update-an-ecosystem",
       "/docs/use/ecosystems/ecosystem/update-an-ecosystem"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/ecosystem/update-an-ecosystem"
+    "to": "/docs/reference/cli/veranad/ec"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/ecosystem/archive-or-unarchive-an-ecosystem",
       "/docs/use/ecosystems/ecosystem/archive-or-unarchive-an-ecosystem"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/ecosystem/archive-or-unarchive-an-ecosystem"
+    "to": "/docs/reference/cli/veranad/ec"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/ecosystem/common-issues-and-solutions",
       "/docs/use/ecosystems/ecosystem/common-issues-and-solutions"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/ecosystem/common-issues-and-solutions"
+    "to": "/docs/reference/cli/veranad/ec"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/ecosystem/module-params",
       "/docs/use/ecosystems/ecosystem/module-params"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/ecosystem/module-params"
+    "to": "/docs/reference/cli/veranad/ec"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/governance-framework/list-governance-framework-versions",
       "/docs/use/ecosystems/governance-framework/list-governance-framework-versions"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/governance-framework/list-governance-framework-versions"
+    "to": "/docs/reference/cli/veranad/gf"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/governance-framework/get-a-governance-framework-version",
       "/docs/use/ecosystems/governance-framework/get-a-governance-framework-version"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/governance-framework/get-a-governance-framework-version"
+    "to": "/docs/reference/cli/veranad/gf"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/governance-framework/add-a-governance-framework-document",
       "/docs/use/ecosystems/governance-framework/add-a-governance-framework-document"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/governance-framework/add-a-governance-framework-document"
+    "to": "/docs/reference/cli/veranad/gf"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/governance-framework/increase-active-gf-version",
       "/docs/use/ecosystems/governance-framework/increase-active-gf-version"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/governance-framework/increase-active-gf-version"
+    "to": "/docs/reference/cli/veranad/gf"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/credential-schemas/list-credential-schemas",
       "/docs/use/ecosystems/credential-schemas/list-credential-schemas"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/credential-schemas/list-credential-schemas"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/credential-schemas/get-a-credential-schema",
       "/docs/use/ecosystems/credential-schemas/get-a-credential-schema"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/credential-schemas/get-a-credential-schema"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/credential-schemas/render-json-schema",
       "/docs/use/ecosystems/credential-schemas/render-json-schema"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/credential-schemas/render-json-schema"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/credential-schemas/create-a-credential-schema",
       "/docs/use/ecosystems/credential-schemas/create-a-credential-schema"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/credential-schemas/create-a-credential-schema"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/credential-schemas/update-a-credential-schema",
       "/docs/use/ecosystems/credential-schemas/update-a-credential-schema"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/credential-schemas/update-a-credential-schema"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/credential-schemas/create-schema-authorization-policy",
       "/docs/use/ecosystems/credential-schemas/create-schema-authorization-policy"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/credential-schemas/create-schema-authorization-policy"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/credential-schemas/increase-active-schema-authorization-policy-version",
       "/docs/use/ecosystems/credential-schemas/increase-active-schema-authorization-policy-version"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/credential-schemas/increase-active-schema-authorization-policy-version"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/credential-schemas/revoke-schema-authorization-policy",
       "/docs/use/ecosystems/credential-schemas/revoke-schema-authorization-policy"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/credential-schemas/revoke-schema-authorization-policy"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/credential-schemas/get-schema-authorization-policy",
       "/docs/use/ecosystems/credential-schemas/get-schema-authorization-policy"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/credential-schemas/get-schema-authorization-policy"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/credential-schemas/list-schema-authorization-policies",
       "/docs/use/ecosystems/credential-schemas/list-schema-authorization-policies"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/credential-schemas/list-schema-authorization-policies"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/credential-schemas/archive-or-unarchive-a-credential-schema",
       "/docs/use/ecosystems/credential-schemas/archive-or-unarchive-a-credential-schema"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/credential-schemas/archive-or-unarchive-a-credential-schema"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/credential-schemas/module-params",
       "/docs/use/ecosystems/credential-schemas/module-params"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/credential-schemas/module-params"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/intro",
       "/docs/use/ecosystems/participants/intro"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/intro"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/list-participants",
       "/docs/use/ecosystems/participants/list-participants"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/list-participants"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/find-participants-with-did",
       "/docs/use/ecosystems/participants/find-participants-with-did"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/find-participants-with-did"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/create-a-root-participant",
       "/docs/use/ecosystems/participants/create-a-root-participant"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/create-a-root-participant"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/self-create-a-participant",
       "/docs/use/ecosystems/participants/self-create-a-participant"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/self-create-a-participant"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/run-an-onboarding-process-to-obtain-a-participant",
       "/docs/use/ecosystems/participants/run-an-onboarding-process-to-obtain-a-participant"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/run-an-onboarding-process-to-obtain-a-participant"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/set-participant-to-validated",
       "/docs/use/ecosystems/participants/set-participant-to-validated"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/set-participant-to-validated"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/adjust-participant",
       "/docs/use/ecosystems/participants/adjust-participant"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/adjust-participant"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/participant-revocation",
       "/docs/use/ecosystems/participants/participant-revocation"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/participant-revocation"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/renewal",
       "/docs/use/ecosystems/participants/renewal"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/renewal"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/slash-a-participant",
       "/docs/use/ecosystems/participants/slash-a-participant"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/slash-a-participant"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/repay-a-slashed-participant-deposit",
       "/docs/use/ecosystems/participants/repay-a-slashed-participant-deposit"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/repay-a-slashed-participant-deposit"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/cancel-op-pending-action",
       "/docs/use/ecosystems/participants/cancel-op-pending-action"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/cancel-op-pending-action"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/participants/trigger-resolver",
       "/docs/use/ecosystems/participants/trigger-resolver"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/participants/trigger-resolver"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/pay-per-issuance-or-verification/how-ppi-and-ppv-work",
       "/docs/use/ecosystems/pay-per-issuance-or-verification/how-ppi-and-ppv-work"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/pay-per-issuance-or-verification/how-ppi-and-ppv-work"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/pay-per-issuance-or-verification/get-participant-session",
       "/docs/use/ecosystems/pay-per-issuance-or-verification/get-participant-session"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/pay-per-issuance-or-verification/get-participant-session"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/pay-per-issuance-or-verification/list-participant-sessions",
       "/docs/use/ecosystems/pay-per-issuance-or-verification/list-participant-sessions"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/pay-per-issuance-or-verification/list-participant-sessions"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/pay-per-issuance-or-verification/find-beneficiaries",
       "/docs/use/ecosystems/pay-per-issuance-or-verification/find-beneficiaries"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/pay-per-issuance-or-verification/find-beneficiaries"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/pay-per-issuance-or-verification/create-or-update-participant-session",
       "/docs/use/ecosystems/pay-per-issuance-or-verification/create-or-update-participant-session"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/pay-per-issuance-or-verification/create-or-update-participant-session"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/use/ecosystems/issue-credentials",
       "/docs/use/ecosystems/issue-credentials"
     ],
-    "to": "/docs/reference/cli/how-tos/ecosystems/issue-credentials"
+    "to": "/docs/build/verifiable-services/issue-openid4vc"
   },
   {
     "from": [
       "/docs/next/use/exchange-rate/intro",
       "/docs/use/exchange-rate/intro"
     ],
-    "to": "/docs/reference/cli/how-tos/exchange-rate/intro"
+    "to": "/docs/reference/cli/veranad/xr"
   },
   {
     "from": [
       "/docs/next/use/exchange-rate/get-price",
       "/docs/use/exchange-rate/get-price"
     ],
-    "to": "/docs/reference/cli/how-tos/exchange-rate/get-price"
+    "to": "/docs/reference/cli/veranad/xr"
   },
   {
     "from": [
       "/docs/next/use/exchange-rate/list-and-get-exchange-rates",
       "/docs/use/exchange-rate/list-and-get-exchange-rates"
     ],
-    "to": "/docs/reference/cli/how-tos/exchange-rate/list-and-get-exchange-rates"
+    "to": "/docs/reference/cli/veranad/xr"
   },
   {
     "from": [
       "/docs/next/use/exchange-rate/manage-exchange-rates",
       "/docs/use/exchange-rate/manage-exchange-rates"
     ],
-    "to": "/docs/reference/cli/how-tos/exchange-rate/manage-exchange-rates"
+    "to": "/docs/reference/cli/veranad/xr"
   },
   {
     "from": [
       "/docs/next/use/trust-deposit-and-reputation/trust-deposit-operations",
       "/docs/use/trust-deposit-and-reputation/trust-deposit-operations"
     ],
-    "to": "/docs/reference/cli/how-tos/trust-deposit/trust-deposit-operations"
+    "to": "/docs/reference/cli/veranad/td"
   },
   {
     "from": [
       "/docs/next/use/trust-deposit-and-reputation/slashing",
       "/docs/use/trust-deposit-and-reputation/slashing"
     ],
-    "to": "/docs/reference/cli/how-tos/trust-deposit/slashing"
+    "to": "/docs/reference/cli/veranad/td"
   },
   {
     "from": [
       "/docs/next/use/trust-deposit-and-reputation/update-params",
       "/docs/use/trust-deposit-and-reputation/update-params"
     ],
-    "to": "/docs/reference/cli/how-tos/trust-deposit/update-params"
+    "to": "/docs/reference/cli/veranad/td"
   },
   {
     "from": [
       "/docs/next/use/trust-deposit-and-reputation/reputation-computation",
       "/docs/use/trust-deposit-and-reputation/reputation-computation"
     ],
-    "to": "/docs/reference/cli/how-tos/trust-deposit/reputation-computation"
+    "to": "/docs/reference/cli/veranad/td"
   },
   {
     "from": [
       "/docs/next/use/trust-deposit-and-reputation/yield-funding",
       "/docs/use/trust-deposit-and-reputation/yield-funding"
     ],
-    "to": "/docs/reference/cli/how-tos/trust-deposit/yield-funding"
+    "to": "/docs/reference/cli/veranad/td"
   },
   {
     "from": [
       "/docs/next/run/network/modules/ecosystem",
       "/docs/run/network/modules/ecosystem"
     ],
-    "to": "/docs/reference/cli/modules/ecosystem"
+    "to": "/docs/reference/cli/veranad/ec"
   },
   {
     "from": [
       "/docs/next/run/network/modules/corporation",
       "/docs/run/network/modules/corporation"
     ],
-    "to": "/docs/reference/cli/modules/corporation"
+    "to": "/docs/reference/cli/veranad/co"
   },
   {
     "from": [
       "/docs/next/run/network/modules/governance-framework",
       "/docs/run/network/modules/governance-framework"
     ],
-    "to": "/docs/reference/cli/modules/governance-framework"
+    "to": "/docs/reference/cli/veranad/gf"
   },
   {
     "from": [
       "/docs/next/run/network/modules/trust-deposit",
       "/docs/run/network/modules/trust-deposit"
     ],
-    "to": "/docs/reference/cli/modules/trust-deposit"
+    "to": "/docs/reference/cli/veranad/td"
   },
   {
     "from": [
       "/docs/next/run/network/modules/delegation",
       "/docs/run/network/modules/delegation"
     ],
-    "to": "/docs/reference/cli/modules/delegation"
+    "to": "/docs/reference/cli/veranad/de"
   },
   {
     "from": [
       "/docs/next/run/network/modules/credential-schema",
       "/docs/run/network/modules/credential-schema"
     ],
-    "to": "/docs/reference/cli/modules/credential-schema"
+    "to": "/docs/reference/cli/veranad/cs"
   },
   {
     "from": [
       "/docs/next/run/network/modules/participant",
       "/docs/run/network/modules/participant"
     ],
-    "to": "/docs/reference/cli/modules/participant"
+    "to": "/docs/reference/cli/veranad/pp"
   },
   {
     "from": [
       "/docs/next/run/network/modules/digest",
       "/docs/run/network/modules/digest"
     ],
-    "to": "/docs/reference/cli/modules/digest"
+    "to": "/docs/reference/cli/veranad/di"
   },
   {
     "from": [
       "/docs/next/run/network/modules/exchange-rate",
       "/docs/run/network/modules/exchange-rate"
     ],
-    "to": "/docs/reference/cli/modules/exchange-rate"
+    "to": "/docs/reference/cli/veranad/xr"
   },
   {
     "from": [

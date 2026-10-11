@@ -1,6 +1,3 @@
----
-rework: draft
----
 
 
 # Verana Devnet
@@ -13,12 +10,15 @@ rework: draft
 
 | Endpoint Type | URL(s) |
 |---------------|--------|
-| **RPC** | http://node1.devnet.verana.network:26657 |
-| **REST API** | http://node1.devnet.verana.network:1317 |
-| **API Proxies** | https://node1.devnet.verana.network |
-| **Faucet** | https://faucet-vs.devnet.verana.network/invitation |
+| **RPC** | https://rpc.devnet.verana.network |
+| **REST API** | https://api.devnet.verana.network |
+| **Indexer** | https://idx.devnet.verana.network |
+| **Trust graph** | https://graph.devnet.verana.network |
+| **Search** | https://search.devnet.verana.network |
+| **Faucet** | https://faucet.devnet.verana.network |
+| **ECS ecosystem DID** | `did:web:ecs-ecosystem.devnet.verana.network` |
 | **Explorer** | https://explorer.devnet.verana.network |
-| **Front-End** | https://app.devnet.verana.network |
+| **Frontend** | https://app.devnet.verana.network |
 
 ## Consensus Parameters
 
@@ -80,54 +80,6 @@ rework: draft
 | Double Sign Slash | 5% |
 | Downtime Slash | 1% |
 
-## Verana-Specific Parameters
+## Registry parameters
 
-### Trust Parameters
-| Parameter | Module | Value |
-|-----------|--------|-------|
-| Trust Unit Price | `ec` (`trust_unit_price`) | 1,000,000 uvna |
-
-:::info Spec v4 change
-The fixed per-entity deposit parameters from earlier versions — **Trust Registry Deposit**, **Credential Schema Deposit**, and **DID Directory Deposit / Grace Period** — were **removed** in spec v4. The Ecosystem (`ec`) module no longer charges a trust deposit for ecosystem operations (`trust_registry_trust_deposit` is reserved and removed per spec), and the former DID Directory module was replaced by the **Digest** (`di`) module, which stores content digests and exposes no deposit or grace-period parameters. Trust deposits are now driven proportionally by the Trust Deposit (`td`) module's `trust_deposit_rate` (see below).
-:::
-
-### Trust Deposit Parameters
-| Parameter | Value |
-|-----------|-------|
-| Reclaim Burn Rate | 0% (unused; retained for proto back-compat) |
-| Share Value | 1.0 (initial; grows as yield accrues) |
-| Deposit Rate | 20% |
-| Wallet User Agent Reward Rate | 10% |
-| User Agent Reward Rate | 10% |
-
-### Validation Parameters
-| Parameter | Value |
-|-----------|-------|
-| Term Requested Timeout Days | 7 |
-| Credential Schema Validity Periods | 3650 days (10 years) |
-
-## Account Configuration
-
-### Genesis Accounts
-| Account Type | Address | Initial Balance | Vesting Period |
-|--------------|---------|-----------------|----------------|
-| Community Pool | `vna1...` | 100,000,000 VNA | N/A |
-| Team Treasury | `vna1...` | 50,000,000 VNA | 24 months cliff, 36 months vesting |
-| Foundation Treasury | `vna1...` | 30,000,000 VNA | 12 months cliff, 24 months vesting |
-| Ecosystem Development | `vna1...` | 20,000,000 VNA | 6 months cliff, 18 months vesting |
-
-### Multi-Signature Accounts
-| Account Purpose | Address | Signers Required | Total Signers |
-|-----------------|---------|------------------|---------------|
-| Genesis Governance | `vna1...` | 3 of 5 | 5 |
-| Team Treasury | `vna1...` | 2 of 3 | 3 |
-| Foundation Treasury | `vna1...` | 2 of 3 | 3 |
-
-### Vesting Schedules
-| Account Type | Cliff Period | Vesting Period | Total Duration |
-|--------------|--------------|----------------|----------------|
-| Team Tokens | 24 months | 36 months | 60 months |
-| Foundation Tokens | 12 months | 24 months | 36 months |
-| Ecosystem Development | 6 months | 18 months | 24 months |
-
-Note: All vesting schedules follow a linear vesting model after the cliff period. Multi-signature accounts are implemented using Cosmos SDK's multi-sig module with appropriate threshold configurations.
+Read from the indexer: `/v4/trust-deposit/params`, `/v4/credential-schema/params`, `/v4/participant/params` on `https://idx.devnet.verana.network`. Devnet runs v4 and is reset without notice.

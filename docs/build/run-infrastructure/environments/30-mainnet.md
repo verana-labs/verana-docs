@@ -1,6 +1,3 @@
----
-rework: draft
----
 
 # Verana Mainnet
 

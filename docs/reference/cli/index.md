@@ -1,10 +1,9 @@
 ---
-title: Command line (legacy)
+title: Command line
 ---
 
-# Command line (legacy)
+# Command line
 
-These pages come from the previous documentation set. They document the Verana network message by message with the `veranad` command line. In v4 most of these operations are done through the Frontend, the VS Agent or the MCP server; the guides in [Build](../../build/index.md) replace them progressively, and a generated `veranad` reference replaces this section.
+The `veranad` command line, one page per registry module, generated from the binary's help output: [veranad command line](./veranad/index.md).
 
-- [Module pages](./modules/10-ecosystem.md): one page per chain module.
-- [How-tos](./how-tos/corporation/10-create-a-corporation.md): one page per message.
+In v4 the command line is a reference, not the daily surface. Corporations administer through the [Frontend](../../build/ecosystems/index.md), services act through [VS Agent](../../build/verifiable-services/index.md), AI agents through the [MCP server](../mcp-server.md). The [message catalog](../network/message-catalog.md) says who signs each message and which surface normally sends it.

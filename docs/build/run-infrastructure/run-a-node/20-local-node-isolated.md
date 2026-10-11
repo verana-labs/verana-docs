@@ -106,4 +106,4 @@ To exercise a Verana module, query the Ecosystem module (`ec`), which replaces t
 veranad q ec list-ecosystems
 ```
 
-On a freshly initialized chain this returns an empty set. To create ecosystems, participants, and credential schemas, see the [module reference](../../../reference/cli/modules/10-ecosystem.md). Most module transactions are executed on behalf of a Corporation, so start there.
+On a freshly initialized chain this returns an empty set. To create ecosystems, participants, and credential schemas, see the [module reference](../../../reference/cli/veranad/02-ec.md). Most module transactions are executed on behalf of a Corporation, so start there.

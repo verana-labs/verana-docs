@@ -83,7 +83,7 @@ Query a single ecosystem by id:
 veranad q ec get-ecosystem 1 --node $NODE_RPC
 ```
 
-Creating ecosystems, participants, and credential schemas is done on behalf of a Corporation. See the [module reference](../../../reference/cli/modules/10-ecosystem.md) for the full transaction flow.
+Creating ecosystems, participants, and credential schemas is done on behalf of a Corporation. See the [module reference](../../../reference/cli/veranad/02-ec.md) for the full transaction flow.
 
 Query Blocks
 

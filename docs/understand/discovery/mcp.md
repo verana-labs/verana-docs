@@ -41,5 +41,5 @@ An agent that must choose a counterpart asks the graph: an issuer accredited for
 ## Where next
 
 - Build: [AI agents and MCP](../../build/ai-agents-mcp/index.md).
-- Reference: the MCP tool catalog, published when the server repository opens.
+- Reference: [MCP server](../../reference/mcp-server.md).
 - Specification: MCP server v4.
