@@ -1,0 +1,25 @@
+---
+title: On Azure (AKS)
+description: "Get an AKS cluster, an ingress, cert-manager and Azure DNS ready for the Helm install."
+sidebar_position: 15
+persona: vs-builder
+surface: deployment
+verified_on: pending
+---
+
+# On Azure (AKS)
+
+Terraform for this page: [verana-deploy-examples](https://github.com/verana-labs/verana-deploy-examples), `vs-agent/azure-aks`.
+
+## Steps
+
+1. **Cluster.** `az aks create --resource-group agents --name agents --node-count 2 --node-vm-size Standard_B2s --generate-ssh-keys`. AKS provides the `managed-csi` storage class.
+2. **Ingress controller.** Install ingress-nginx with a `LoadBalancer` Service; Azure assigns a public IP. Create a static public IP in the node resource group first if you want it stable.
+3. **DNS.** In Azure DNS, create an A record `agent.example.com` to that IP.
+4. **cert-manager.** Install cert-manager and a Let's Encrypt `ClusterIssuer` with the HTTP-01 solver on class `nginx`.
+5. **Storage class.** `storage.storageClassName: managed-csi`.
+6. Continue with [Deploy on Kubernetes with Helm](./12-kubernetes-helm.mdx).
+
+## Notes
+
+- Secrets: Key Vault with the Secrets Store CSI driver, or External Secrets Operator.

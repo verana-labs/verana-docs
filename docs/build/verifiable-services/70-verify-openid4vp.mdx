@@ -1,0 +1,53 @@
+---
+title: Request presentations with OpenID4VP
+description: "Create a presentation request for a schema you are accredited to verify, hand it to a wallet, read the verdict."
+sidebar_position: 70
+persona: vs-builder
+surface: admin-api
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Request presentations with OpenID4VP
+
+Your agent acts as the OpenID4VP verifier: it builds the authorization request, receives the wallet's response, verifies the SD-JWT, and runs the full trust decision on the credential's issuer before your backend sees anything.
+
+## Prerequisites
+
+- An active **Verifier** accreditation for the schema, with the agent as VS operator.
+- OpenID4VC enabled.
+
+## Steps
+
+### 1. Create a request
+
+```bash
+curl -s -X POST http://127.0.0.1:3000/v2/openid4vc/presentation-request -H 'content-type: application/json' -d '{
+  "jsonSchemaCredentialId": "https://ecosystem.example/vt/schemas-membership-jsc.json",
+  "requestedClaims": ["memberName", "memberId"],
+  "queryLanguage": "dcql",
+  "requestSigner": "x5c"
+}' | jq
+```
+
+`url` is the authorization request URL for the wallet; `proofExchangeId` identifies the session. `queryLanguage` is DCQL or Presentation Exchange depending on the wallet population; `requestSigner` is `x5c` (your verifier certificate) or `did`.
+
+### 2. The wallet's side
+
+The wallet resolves your DID, checks you are trusted and accredited to verify this schema (Q1 and Q3), shows the Proof-of-Trust, and the person chooses what to share.
+
+### 3. Read the result
+
+```bash
+curl -s http://127.0.0.1:3000/v2/openid4vc/presentations/<proofExchangeId> | jq '{state, verdict: .trust.verdict, claims: .disclosedClaims, evidence: .trust.evidence}'
+```
+
+Or wait for `openid4vc.presentations.state-updated`. Act only on `TRUSTED_AUTHORIZED`; see [the trust decision](./72-trust-decision.mdx) for the other verdicts.
+
+## Verify
+
+Request the DemoCredential of the playground ecosystem from a wallet that received it from the accredited demo issuer: the verdict is `TRUSTED_AUTHORIZED` and the claims are disclosed. Request it with an agent that holds no verifier accreditation: the wallet refuses before anything reaches you.
+
+## Next
+
+- [Request presentations over DIDComm](./71-verify-didcomm.mdx).
+- Specification: VS Agent v4, `VSA-ADM-OID-PR`, `VSA-VTI-FLOW-VERIFY-OID`.

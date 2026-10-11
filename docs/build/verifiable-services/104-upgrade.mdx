@@ -1,0 +1,27 @@
+---
+title: Upgrade VS Agent
+description: "Image tags, migrations, the three version axes, and how to roll back."
+sidebar_position: 104
+persona: operator
+surface: deployment
+verified_on: pending
+---
+
+# Upgrade VS Agent
+
+Three version numbers move independently: the Verana release (v4), the Admin API version (`/v2`), and the agent's own version (2.0.0 and following). An agent 2.x implements Verana v4 and Admin API v2; a breaking change to the API would bump its prefix.
+
+## Procedure
+
+1. Read the release notes of the new version in the [vs-agent repository](https://github.com/verana-labs/vs-agent/blob/main/CHANGELOG.md).
+2. Back up (database, volume).
+3. Change the image tag (`VS_AGENT_VERSION` in Compose, `image.tag` and chart `--version` with Helm) and roll. The agent migrates its storage at start when the release requires it.
+4. Readiness `200`, `info` shows the new version and the same DID, resolve returns trusted.
+
+## Roll back
+
+Restore the backup from before the upgrade and roll the previous tag. A storage migration is not always reversible; the release notes say so.
+
+## Next
+
+- Reference: [Admin API v2](../../reference/vs-agent-admin-api/index.md).

@@ -1,0 +1,64 @@
+---
+title: Organisation with child services
+description: "One organisation agent, several service agents with their own DIDs: delegated mode, the issuance of Service credentials to children, trust resolution across the pair."
+sidebar_position: 22
+persona: vs-builder
+surface: admin-api, frontend
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Organisation with child services
+
+When an organisation runs more than one service, or wants each service to have its own keys and DID, it runs one agent as the organisation and one agent per service. The organisation agent holds the Organization credential and an issuer accreditation on the ECS Service schema; it issues a Service credential to each child. A child runs in delegated mode and never touches the Organization credential.
+
+```mermaid
+flowchart TB
+  O[Organisation agent<br/>standalone, Organization credential,<br/>Issuer on the Service schema] -->|issues Service credential| C1[Service agent A<br/>delegated]
+  O -->|issues Service credential| C2[Service agent B<br/>delegated]
+  R[Resolver] -->|resolves A, follows the issuer of its Service credential| O
+```
+
+## Goal
+
+Child agents that resolve as trusted through their parent, each with its own DID.
+
+## Prerequisites
+
+- The organisation agent trusted, as in the [quickstart](./00-quickstart.mdx), with an active Issuer accreditation on the Service schema.
+- A public origin per child.
+
+## Steps
+
+### 1. Deploy a child in delegated mode
+
+Same deployment as any agent, with `AGENT_MODE=delegated`, `AGENT_DELEGATED_PARENT_VS_DID` set to the organisation's DID, and no claims: the parent decides the child's Service claims. The same corporation id, and an account of its own.
+
+### 2. Start the child's onboarding process
+
+In the frontend, **Discover & Join**, ECS ecosystem, **Service** schema, role **Holder**, with the child's DID. The validator to choose is your own organisation agent, listed as an accredited issuer. Set the child's account as VS operator. Sign.
+
+### 3. Validate on the parent
+
+The parent agent receives the onboarding request. Review it in the frontend's **Pending tasks** or through the parent's flow routes, set the claims of the child's Service credential (name, type, description, logo, terms, privacy), validate. The parent issues the credential over the connection; the child publishes it.
+
+```bash
+# on the parent
+curl -s http://parent:3000/v2/vt/flows | jq '.items[] | select(.role=="validator")'
+curl -s -X PUT http://parent:3000/v2/vt/flows/<participantSessionId>/claims -H 'content-type: application/json' \
+  -d '{"claims":{"name":"Service A","type":"WEB_PORTAL","description":"…","logoUri":"https://…","minimumAgeRequired":0,"termsAndConditionsUri":"https://…","privacyPolicyUri":"https://…"}}'
+curl -s -X POST http://parent:3000/v2/vt/flows/<participantSessionId>/validate -H 'content-type: application/json' -d '{}'
+```
+
+## Verify
+
+Resolve the child's DID: trusted, with a Service credential whose issuer is the parent, and the parent's Organization credential surfaced as the controller. The frontend's Agents page shows both.
+
+## Notes
+
+- A child has no Organization credential and must not try to obtain one; the parent is the accountable party.
+- Revoking the child's Holder accreditation on the parent revokes the child's Service credential; the child removes it automatically.
+- Several children may share one parent; one child has exactly one parent.
+
+## Next
+
+- Specification: Verifiable Trust v4, `VS-REQ-4`; VS Agent v4, `VSA-VTI-ECS-DELEGATED`.

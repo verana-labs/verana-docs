@@ -1,0 +1,44 @@
+---
+title: Let the agent pay with corporation funds
+description: "VS operator authorization records, message types, fee grants, limits and cycles, and what happens when a limit is hit."
+sidebar_position: 81
+persona: vs-builder
+surface: frontend
+verified_on: pending (testnet v4)
+---
+
+# Let the agent pay with corporation funds
+
+An agent's own account can pay its transaction fees, but topping up a service account by hand does not scale. The corporation can authorise the agent to act for each accreditation and pay from the corporation's account, within limits.
+
+## How it is declared
+
+When the corporation creates or applies for an accreditation in the frontend, the advanced section of the wizard names the agent's account as VS operator and lists the message types the agent may send for that entry. It can also enable a fee grant with a spending limit per period. The resulting record is frozen for the life of the entry; to change it, revoke the entry and create it again.
+
+| Setting | Meaning |
+|---|---|
+| VS operator | The agent's account |
+| Message types | What the agent may sign for this entry, typically session recording, re-resolution, and for validators the validation transaction |
+| Spend limit and period | An operation budget for the registry fees of those messages |
+| Fee grant and limit | Whether and how much of the network fees the corporation pays |
+
+The corporation's fee allowance for an agent is the sum of the limits of its live records, per fee period; the registry enforces it during fee processing.
+
+## What the agent does
+
+It names the corporation's account as fee granter on every transaction a record allows, and pays itself otherwise. When no record exists for an entry, the agent needs balance and the corporation must co-sign, except for the validation transaction, which the agent hands to an operator.
+
+## When a limit is hit
+
+The transaction fails with an authorization error; the agent logs it, the flow waits, and the frontend's Agents page shows the record's limits. Raise them by recreating the entry, or fund the agent's account directly.
+
+## Read the authorizations
+
+```bash
+curl -s 'https://idx.testnet.verana.network/v4/delegation/vs-operator-authorizations?corporation_id=<id>&only_active=true' | jq
+curl -s 'https://idx.testnet.verana.network/v4/delegation/fee-grants?corporation_id=<id>' | jq
+```
+
+## Next
+
+- Specification: VPR v4, `AUTHZ-CHECK-3`, `AUTHZ-CHECK-4`, `MOD-DE-MSG-5`; VS Agent v4, `VSA-VTI-CORP-AUTHZ`.

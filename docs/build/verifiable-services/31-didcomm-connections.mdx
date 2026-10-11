@@ -1,0 +1,61 @@
+---
+title: DIDComm connections between services
+description: "Invitations, connections, messages, sub-connections and referrals, v1 and v2 envelopes, the events to listen to."
+sidebar_position: 31
+persona: vs-builder
+surface: admin-api
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# DIDComm connections between services
+
+DIDComm is the bootstrap channel of every Verifiable Service. Your agent speaks both envelopes (v1, the Aries style, and v2, the DIF style) and runs the standard protocols; your backend drives them through the DIDComm scope of the Admin API and hears about them through events.
+
+## How a connection starts
+
+There is no method that returns a bare connection invitation. A connection starts in one of three ways:
+
+1. From a **credential offer** or a **presentation request** your backend creates: the agent returns an Out-of-Band invitation and a short URL to encode in a QR code or a link.
+2. From an **invitation sent on an existing connection**: a sub-connection to this agent (a second conversation with the same peer) or a referral to another service's DID.
+3. From a **peer that connects to you**, for instance an applicant starting a flow.
+
+```bash
+# a presentation request with no connection yet: the agent returns an invitation
+curl -s -X POST http://127.0.0.1:3000/v2/didcomm/presentation-request -H 'content-type: application/json' \
+  -d '{"requestedCredentials":[{"jsonSchemaCredentialId":"https://…/schemas-x-jsc.json","attributes":["name"]}],"didcommVersion":"v2"}' \
+  | jq '{proofExchangeId, shortUrl}'
+```
+
+Encode `shortUrl` in a QR code, or build a link your wallet audience opens: the invitation is the `oob` parameter.
+
+## Messages
+
+```bash
+curl -s -X POST http://127.0.0.1:3000/v2/didcomm/basic-messages -H 'content-type: application/json' \
+  -d '{"connectionId":"<id>","content":"Hello from a Verifiable Service"}'
+curl -s http://127.0.0.1:3000/v2/didcomm/basic-messages?connectionId=<id> | jq '.items'
+```
+
+Inbound messages arrive as `didcomm.basic-messages.message-received` events.
+
+## Sub-connections and referrals
+
+```bash
+# a second conversation with the same peer, shown as a separate contact in a wallet
+curl -s -X POST http://127.0.0.1:3000/v2/didcomm/invitations -H 'content-type: application/json' \
+  -d '{"connectionId":"<id>","label":"Support","goalCode":"support"}'
+# hand the peer over to another service
+curl -s -X POST http://127.0.0.1:3000/v2/didcomm/invitations -H 'content-type: application/json' \
+  -d '{"connectionId":"<id>","did":"did:webvh:…other-service","label":"Our partner"}'
+```
+
+The connection a sub-connection produces carries the parent connection id, so your backend correlates them.
+
+## Optional protocols
+
+Receipts, reactions, user profile, media sharing, calls, action menu, question and answer, and passport reading (MRTD) are optional modules; `GET /v2/didcomm/protocols` lists what your deployment serves. Each has its own path family and events.
+
+## Next
+
+- [Expose MCP, A2A and web endpoints](./32-endpoints.mdx).
+- Reference: [Admin API v2](../../reference/vs-agent-admin-api/index.md), DIDComm scope; [Events](../../reference/vs-agent/events.md).

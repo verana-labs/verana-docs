@@ -1,0 +1,86 @@
+---
+title: Deploy on one VM with Docker Compose
+description: "The reference Compose stack: VS Agent, PostgreSQL, Redis and a TLS proxy on a single host, on any provider."
+sidebar_position: 11
+persona: vs-builder
+surface: deployment
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+import CodeBlock from '@theme/CodeBlock';
+import Compose from '!!raw-loader!@site/examples/vs-11-docker-compose/docker-compose.yml';
+import Caddy from '!!raw-loader!@site/examples/vs-11-docker-compose/Caddyfile';
+import Env from '!!raw-loader!@site/examples/vs-11-docker-compose/.env.example';
+
+# Deploy on one VM with Docker Compose
+
+The fastest production-shaped deployment: one virtual machine, four containers. It runs the same on an OVHcloud or Hetzner VPS, an EC2 instance, a Compute Engine or Azure VM. For several agents or a team, prefer [Kubernetes with Helm](./12-kubernetes-helm.mdx).
+
+## Goal
+
+A VS Agent reachable at `https://agent.example.com`, with its admin API bound to the host only, data on named volumes, TLS handled automatically.
+
+## Prerequisites
+
+- A VM with Docker Engine and the Compose plugin, ports 80 and 443 open, 2 GB of memory.
+- A DNS A or AAAA record for your hostname pointing at the VM.
+- The values of [What VS Agent needs to run](./10-requirements.mdx) decided.
+
+## Steps
+
+### 1. Lay out the files
+
+Create a directory with three files. The Compose file:
+
+<CodeBlock language="yaml" title="examples/vs-11-docker-compose/docker-compose.yml">{Compose}</CodeBlock>
+
+The TLS proxy configuration, with your hostname:
+
+<CodeBlock language="text" title="examples/vs-11-docker-compose/Caddyfile">{Caddy}</CodeBlock>
+
+The environment, copied to `.env` and filled in:
+
+<CodeBlock language="bash" title="examples/vs-11-docker-compose/.env.example">{Env}</CodeBlock>
+
+### 2. Generate the agent's mnemonic
+
+Any BIP-39 generator works; `veranad keys add agent --keyring-backend test` prints one and the matching address. Put the mnemonic in `.env`, store it in your secret manager, and never commit the file. Fund the address with a few test coins.
+
+### 3. Start
+
+```bash
+docker compose up -d
+docker compose logs -f vs-agent
+```
+
+The first start creates the DID and publishes the DID Document; later starts load it.
+
+## Verify
+
+```bash
+curl -s http://127.0.0.1:3000/v2/agent/health/ready          # 200
+curl -s http://127.0.0.1:3000/v2/agent/info | jq              # did, version
+curl -s https://agent.example.com/.well-known/did.json | jq .id  # the same DID, from the internet
+```
+
+The DID Document must be reachable over HTTPS from outside the VM, otherwise nobody can resolve you.
+
+## Operations
+
+- **Upgrade**: change `VS_AGENT_VERSION` in `.env`, `docker compose pull && docker compose up -d`. Read the release notes first; see [Upgrade VS Agent](./104-upgrade.mdx).
+- **Backup**: the `postgres-data` and `agent-data` volumes, plus `.env`. See [Back up and restore](./102-backup-restore.mdx).
+- **Logs**: `docker compose logs`; levels through `AGENT_LOG_LEVEL` and `ADMIN_API_LOG_LEVEL`.
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Caddy cannot obtain a certificate | DNS does not point at the VM yet, or port 80 is closed | Fix DNS or the firewall, restart Caddy |
+| Agent exits at start naming a variable | A required variable is missing or invalid | Compare with the `.env.example` |
+| Agent exits saying the DID location differs | `PUBLIC_API_BASE_URL` changed after first start | Restore the original value |
+| Admin API answers `403` from your backend | The backend's address is outside `ADMIN_API_TRUSTED_NETWORKS` | Add its network, or switch to corporation mode |
+
+## Next
+
+- [Configuration walk-through](./17-configuration.mdx), then the [quickstart](./00-quickstart.mdx) steps that make the agent trusted.
+- Production hardening: [Production checklist](./18-production-checklist.mdx).

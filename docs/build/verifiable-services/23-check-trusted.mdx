@@ -1,0 +1,48 @@
+---
+title: Check that you are trusted
+description: "Resolve your DID on the indexer, read failures, see yourself in the graph and in wallets, trigger re-resolution after a change."
+sidebar_position: 23
+persona: vs-builder
+surface: indexer
+verified_on: pending (testnet v4)
+---
+
+# Check that you are trusted
+
+Trust is a verdict the indexer computes from public data. This guide shows how to read it, how to read a failure, and how to make the indexer look again after you changed something.
+
+## Resolve
+
+```bash
+curl -s -X POST https://idx.testnet.verana.network/v4/verifiable-trust/resolve \
+  -H 'content-type: application/json' \
+  -d '{"did":"did:webvh:…","ecsCredentials":true,"services":true,"participations":{"states":["ACTIVE"]},"presentations":{"includeInvalid":true}}' | jq
+```
+
+| Field | Meaning |
+|---|---|
+| `trusted` | The verdict: a valid Service credential, and exactly one Organization or Persona credential on you or on the issuer of your Service credential, with every chain intact |
+| `evaluatedAtTime`, `expiresAtTime` | When the verdict was computed and when it stops holding (the earliest expiry involved) |
+| `ecsCredentials[]` | Your identity credentials with their claims, issuer accreditation and anchored issuance time |
+| `participations[]` | Your active accreditations |
+| `presentations[]` | Each linked presentation with its credentials; `invalidCredentialIds` and `unresolvableCredentialIds` name what failed |
+| `services[]` | The endpoints you declare |
+
+## Read a failure
+
+`trusted: false` always has a reason in the response: an invalid credential id (signature, schema, issuer not accredited at issuance time, expired), an unresolvable one (the presentation URL did not answer), or a missing identity credential. Fix the cause, then re-resolve.
+
+## Make the indexer look again
+
+The indexer re-evaluates on its own when a transaction touches your DID. After you changed your DID Document without a transaction (a new endpoint, a republished credential), ask it: the agent does this itself after each publication, and you can do it from the frontend (the participant detail card offers **Trigger resolver**) or let the agent's VS operator authorization cover it. The message carries no state; it emits an event the indexer listens to.
+
+## See yourself where others see you
+
+- The frontend's **Agents** page renders your DID as a card with trust state, identity claims and accreditations.
+- The [playground](https://playground.testnet.verana.network/personal-wallets) renders a Proof-of-Trust for any DID you paste.
+- The [trust graph](./110-graph-and-wallets.mdx) lists you once the indexer trusts you.
+
+## Next
+
+- [Verify a peer before you connect](./30-verify-peers.mdx).
+- Reference: [Indexer API](../../reference/indexer-api/index.md), resolve.

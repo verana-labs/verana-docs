@@ -1,0 +1,86 @@
+---
+title: "Quickstart: a trusted Verifiable Service in one sitting"
+description: "Deploy VS Agent on a public host, obtain its identity credentials from the ECS ecosystem on testnet, and resolve as trusted."
+sidebar_position: 0
+persona: vs-builder
+surface: admin-api, frontend
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+import CodeBlock from '@theme/CodeBlock';
+import Check from '!!raw-loader!@site/examples/vs-00-quickstart/check-trusted.sh';
+
+# Quickstart: a trusted Verifiable Service in one sitting
+
+At the end of this guide you have a VS Agent running under your own domain, with its own DID, holding an ECS Organization credential issued by an accredited issuer of the testnet ECS ecosystem and an ECS Service credential it issued to itself, and the indexer answers `trusted: true` for it. That is the starting point of everything else in this section.
+
+## Goal
+
+A DID of the form `did:webvh:<scid>:agent.example.com` that any wallet or service on testnet resolves as a trusted Verifiable Service operated by your organisation.
+
+## Prerequisites
+
+- A host reachable on the public internet with a DNS name you control, for example `agent.example.com`, with Docker installed. A small virtual machine anywhere is enough.
+- A browser wallet that works with Cosmos chains (Keplr or Leap) with a testnet account. Get test coins from the **Get VNA** action on the frontend's Account page, or from the faucet listed in [Environments and endpoints](../run-infrastructure/environments/10-environments.md).
+- A corporation on testnet that your account can act for. If you have none, [create one](../ecosystems/index.md) first: it takes five minutes in the frontend and you come back here with its id.
+- About an hour, most of it waiting for a validator.
+
+## Steps
+
+### 1. Deploy the agent
+
+Follow [Deploy on one VM with Docker Compose](./11-docker-compose.mdx) with the `.env` values of this quickstart: your corporation id, a freshly generated mnemonic for the agent's account, the testnet endpoints, the DID of the testnet ECS ecosystem, and the claims of your service and organisation. Start the stack and wait for readiness:
+
+```bash
+curl -s http://127.0.0.1:3000/v2/agent/health/ready   # 200 when the agent caught up with the indexer
+curl -s http://127.0.0.1:3000/v2/agent/info | jq .did  # your DID, created on first start
+```
+
+Keep the DID. Everything you do on the registry now names it.
+
+### 2. Give the agent's account a little balance
+
+The agent pays its own transaction fees until the corporation grants it a fee grant. Read its address from the agent info and send it a few test coins from your wallet, or from the faucet.
+
+### 3. Apply for the ECS Organization credential
+
+In the frontend, with your corporation acting, open **Discover & Join**, pick the ECS ecosystem, then the **Organization** schema, then the role **Holder**. The wizard lists the accredited issuers that validate organisations on testnet; choose one and read its fee. In the advanced section, set the agent's account as **VS operator** with the message types the wizard proposes, so the agent can act for this accreditation and later ask the indexer to re-resolve it. Confirm: this creates the pending accreditation on the registry and escrows the fee.
+
+Your agent sees the event through the indexer, connects to the validator's agent, and sends the onboarding request with the organisation claims from your `.env`. The validator reviews the evidence it asks for, on testnet usually a light check, and validates. The agent receives the credential and publishes it in its DID Document. Follow the flow:
+
+```bash
+curl -s http://127.0.0.1:3000/v2/vt/flows | jq '.items[] | {participantSessionId, role, variant, flowState, connectionState}'
+```
+
+The flow ends in `COMPLETED`.
+
+### 4. Issue the ECS Service credential to yourself
+
+The ECS Service schema is open to issuers. In the frontend, join it with the role **Issuer** through **Self-create**, with your agent's DID and, again, the agent's account as VS operator. As soon as the accreditation is active, the agent issues the Service credential to itself from the service claims in your `.env`, anchors its digest on the registry, and publishes it. No validator is involved.
+
+### 5. Check that you are trusted
+
+<CodeBlock language="bash" title="examples/vs-00-quickstart/check-trusted.sh">{Check}</CodeBlock>
+
+Run it with your DID. The first resolution can take a few seconds.
+
+## Verify
+
+The script prints `trusted: true`, two ECS credentials (Organization and Service) with your names, and two active accreditations (Holder on the Organization schema, Issuer on the Service schema). Open your DID in the frontend's **Agents** page, or paste it into the [playground](https://playground.testnet.verana.network/personal-wallets) resolver, and read the Proof-of-Trust: your service, operated by your organisation.
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Readiness stays `503` | The agent has not caught up with the indexer, or cannot reach it | Check `VERANA_INDEXER_BASE_URL` and the container logs |
+| `info` returns a DID with a different host | `PUBLIC_API_BASE_URL` changed after first start | The DID is bound to the first value; restore it, or start over with a fresh volume |
+| The flow stays in `AWAITING_OP` | The accreditation was not started for this DID, or not with the agent as VS operator | Check the participant entry in the frontend |
+| The flow stays in `OR_SENT` | The validator's agent is not answering | Pick another validator, or wait |
+| `trusted: false` with a failed credential | A claim URI (logo, terms, privacy) could not be fetched or its digest changed | Serve stable resources, then ask the agent to republish |
+
+## Next
+
+- [What VS Agent needs to run](./10-requirements.mdx) and the [production checklist](./18-production-checklist.mdx) before you point real users at it.
+- [Verify a peer before you connect](./30-verify-peers.mdx), then [join an ecosystem](./40-find-ecosystems.mdx) to issue and verify credentials.
+- Specification: VS Agent v4, ECS standalone mode (`VSA-VTI-ECS-STANDALONE`) and bootstrap sequence (`VSA-VTI-BOOT`).
+- Try it live: the [Vesta story](https://playground.testnet.verana.network/usecases/vesta), chapter 3, shows this same journey for a fictional company.

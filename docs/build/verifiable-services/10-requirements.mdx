@@ -1,0 +1,63 @@
+---
+title: What VS Agent needs to run
+description: "Ports, a stable public origin, PostgreSQL, Redis, storage, outbound access, and the consequences of the DID method."
+sidebar_position: 10
+persona: vs-builder
+surface: deployment
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# What VS Agent needs to run
+
+One agent is one container with two listeners, a database and a cache. The decisions below are taken once; most cannot be changed without creating a new DID.
+
+## The public origin
+
+`PUBLIC_API_BASE_URL` is the `https://` origin peers use to reach the agent: `https://agent.example.com`, or with a base path, `https://example.com/agents/alpha`. The agent derives its DID from it and refuses to start if the persisted DID and the configured origin disagree. Choose a name you will keep. A port other than 443 works but ends up percent-encoded inside the DID; avoid it.
+
+TLS is terminated in front of the agent: a reverse proxy on a VM, an ingress on Kubernetes. The agent itself speaks plain HTTP on its two ports.
+
+## Two listeners, two exposures
+
+| Listener | Default port | Exposure |
+|---|---|---|
+| Public | 3001 | The internet. DID Document, DIDComm, linked presentations, AnonCreds registry, OpenID4VC endpoints, short invitation URLs. |
+| Admin | 3000 | Your backend only. Either unreachable from outside (internal mode), or reachable at `ADMIN_API_PUBLIC_URL` with corporation authentication (corporation mode), which is what the MCP server and the frontend's agent links need. |
+
+Never publish the admin port through the same ingress as the public one without switching to corporation mode: the agent sees the ingress address, not the caller's, and in internal mode refuses every such request.
+
+## DID method
+
+`did:webvh` (default) gives a self-certifying identifier and a verifiable history of the DID Document; the DID contains an identifier you only know after first start. `did:web` is the plain host-based DID, simpler to predict, weaker in guarantees. Pick once. The reference deployments use `did:webvh`.
+
+## Storage
+
+- PostgreSQL 15 or later: the agent's wallet (keys, credentials), records and flows. This is the state you back up.
+- Redis 7: queues and caches. Loss is tolerable.
+- A persistent volume for the agent's data directory (DID log, tails files).
+
+## Network
+
+Outbound: the registry RPC (to broadcast transactions), the indexer (REST and WebSocket, to read state and receive events), any peer agent and wallet it talks to, and the URIs of its own claims (logo, terms, privacy) which it fetches to compute digests. Inbound: the public port, from anywhere.
+
+## Sizing
+
+A single agent serving a small service runs comfortably in a quarter of a CPU and 512 MB of memory, plus the database. Scale the database with the number of credentials and connections, not with traffic.
+
+## What is decided where
+
+| Decision | Variable | Can change later |
+|---|---|---|
+| Public origin | `PUBLIC_API_BASE_URL` | no |
+| DID method | `AGENT_PUBLIC_DID_METHOD` | no |
+| Corporation | `VERANA_CORPORATION_ID` | no in practice: accreditations belong to it |
+| Agent account | `VERANA_ACCOUNT_MNEMONIC` | yes, with new authorizations |
+| Standalone or delegated | `AGENT_MODE` | yes, before credentials exist |
+| Admin exposure | `ADMIN_API_AUTH_MODE`, `ADMIN_API_PUBLIC_URL` | yes |
+| OpenID4VC | `OID4VC_CONFIG_FILE_LOCATION` | yes |
+
+Full list: [Environment variables](../../reference/vs-agent/environment-variables.md).
+
+## Next
+
+- [Deploy on one VM with Docker Compose](./11-docker-compose.mdx) or [on Kubernetes with Helm](./12-kubernetes-helm.mdx).

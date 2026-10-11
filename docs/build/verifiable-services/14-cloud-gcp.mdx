@@ -1,0 +1,26 @@
+---
+title: On Google Cloud (GKE)
+description: "Get a GKE cluster, an ingress, cert-manager and Cloud DNS ready for the Helm install."
+sidebar_position: 14
+persona: vs-builder
+surface: deployment
+verified_on: pending
+---
+
+# On Google Cloud (GKE)
+
+Terraform for this page: [verana-deploy-examples](https://github.com/verana-labs/verana-deploy-examples), `vs-agent/gcp-gke`.
+
+## Steps
+
+1. **Cluster.** A GKE Autopilot cluster is the least work: `gcloud container clusters create-auto agents --region europe-west1`. Autopilot provides the `standard-rwo` storage class.
+2. **Ingress controller.** Install ingress-nginx with a `LoadBalancer` Service; Google provisions an external load balancer with a static or ephemeral address. Reserve a static address if you want the DNS record to survive recreation.
+3. **DNS.** In Cloud DNS, create an A record `agent.example.com` to that address.
+4. **cert-manager.** Install cert-manager and a Let's Encrypt `ClusterIssuer` with the HTTP-01 solver on class `nginx`.
+5. **Storage class.** `storage.storageClassName: standard-rwo`.
+6. Continue with [Deploy on Kubernetes with Helm](./12-kubernetes-helm.mdx).
+
+## Notes
+
+- Secrets: Secret Manager plus External Secrets Operator, or a Secret created by Cloud Build.
+- Autopilot bills per pod resources; the agent's requests are small.

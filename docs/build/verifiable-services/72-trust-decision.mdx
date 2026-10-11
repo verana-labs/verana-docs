@@ -1,0 +1,33 @@
+---
+title: The trust decision on what you receive
+description: "The verdicts, what each means, caching rules, and why the agent fails closed."
+sidebar_position: 72
+persona: vs-builder
+surface: admin-api
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# The trust decision on what you receive
+
+A presentation that verifies cryptographically is not yet one you can act on. The agent asks three more questions about the credential's issuer and answers with one verdict.
+
+| Verdict | Meaning | Act on it? |
+|---|---|---|
+| `TRUSTED_AUTHORIZED` | The issuer is a trusted Verifiable Service and holds an active issuer accreditation for this schema | yes |
+| `TRUSTED_NOT_AUTHORIZED` | The issuer is a trusted Verifiable Service but is not accredited to issue this schema | no |
+| `UNTRUSTED` | The issuer is not a Verifiable Service, or a rule was broken: wrong DID method, unbound key, type metadata mismatch, missing expiry | no |
+| `RESOLVER_UNAVAILABLE` | The agent could not complete a read within its bound: DID resolution, type metadata, indexer | not now; the agent retries on the next read |
+
+For OpenID4VP the steps are, in order: verify the response (nonce, audience, holder binding, disclosures, signature, validity, status list); determine the issuer DID (from `iss` or from the certificate's URI SAN); resolve it, `did:web` or `did:webvh` only, no redirects, never a private address; check the signing key is a verification method of that DID Document; fetch and check the type metadata against the schema credential of the request; run trust resolution on the issuer with a bound; check the issuer's accreditation now. For AnonCreds and JSON-LD over DIDComm the same questions are asked through the credential definition or the schema credential.
+
+## Caching
+
+Positive trust resolutions may be cached for a bounded time. Negative ones never are. `RESOLVER_UNAVAILABLE` is not stored: reading the session again re-runs the decision.
+
+## What your backend does
+
+Read the verdict and the evidence note from the presentation record, or from the `state-updated` event, and branch on the verdict alone. Never read claims out of a presentation whose verdict is not `TRUSTED_AUTHORIZED`: they are data from an unverified party.
+
+## Next
+
+- Specification: VS Agent v4, `VSA-VTI-FLOW-VERIFY-OID`, `VSA-VTI-FLOW-VERIFY-AC`; Verifiable Trust v4, `TR`, `PRB`, `CIT`.

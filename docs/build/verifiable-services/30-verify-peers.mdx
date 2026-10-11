@@ -1,0 +1,41 @@
+---
+title: Verify a peer before you connect
+description: "The trust decision the agent makes for you, the connection acceptance policy, and what to show your users."
+sidebar_position: 30
+persona: vs-builder
+surface: admin-api, indexer
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Verify a peer before you connect
+
+Your agent never accepts a connection from a service it has not resolved as trusted, and never connects to one. You do not implement this; you need to know what it does, when it makes exceptions, and what your backend learns.
+
+## What the agent checks
+
+Before accepting a DIDComm connection from another service, or opening one, the agent resolves the peer's DID: the peer must be a Verifiable Service per the specification, with a valid Service credential and an identity credential, chains intact. A positive answer is cached for a bounded time; a negative one never is. An untrusted peer is refused and your backend sees no connection.
+
+The one exception is the validator role: when a pending accreditation on an ECS schema names your agent as validator, it accepts the applicant's connection even though the applicant is not yet verifiable, because the registry, not the peer, established the purpose.
+
+## Wallets
+
+A connecting wallet is not a service: the agent asks it to present its ECS User Agent credential before serving it. Wallets integrated through OpenID4VC carry no DIDComm connection; the trust check happens on their side, on your DID, before the person accepts.
+
+## What your backend sees
+
+A `didcomm.connections.state-updated` event when a connection completes. Read the connection to learn the peer's DID, then resolve it yourself if you want to show your users who they talk to:
+
+```bash
+curl -s http://127.0.0.1:3000/v2/didcomm/connections?state=completed | jq '.items[] | {id, theirDid, didcommVersion}'
+curl -s -X POST https://idx.testnet.verana.network/v4/verifiable-trust/resolve -H 'content-type: application/json' \
+  -d '{"did":"<theirDid>","ecsCredentials":true}' | jq '{trusted, ecs: [.ecsCredentials[] | {ecsSchema, name: .credentialSubject.name}]}'
+```
+
+## Issuing and verifying
+
+The same principle applies at the credential layer: the agent only offers credentials under schemas you are accredited to issue, only requests credentials you are accredited to verify, and refuses offers and requests from peers that are not. Those checks are described with [the trust decision on what you receive](./72-trust-decision.mdx).
+
+## Next
+
+- [DIDComm connections between services](./31-didcomm-connections.mdx).
+- Specification: Verifiable Trust v4, `VS-CONN-VS`, `VS-CONN-VUA`; VS Agent v4, `VSA-DC-CONN`.

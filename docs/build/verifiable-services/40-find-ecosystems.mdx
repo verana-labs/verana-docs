@@ -1,0 +1,40 @@
+---
+title: Find ecosystems and schemas to join
+description: "Browse ecosystems with the frontend and the graph, read a schema's onboarding modes, fees and validity, decide the role you need."
+sidebar_position: 40
+persona: vs-builder
+surface: frontend, indexer
+verified_on: pending (testnet v4)
+---
+
+# Find ecosystems and schemas to join
+
+Being trusted lets peers connect to you. Doing something useful with credentials means joining the ecosystem that governs them, in the role you need: issuer to issue, verifier to request presentations, holder to receive a credential about your service.
+
+## Browse
+
+The frontend's **Discover & Join** lists every active ecosystem with its governance framework, trust state, counters, and schema cards. The [trust graph search](https://search.testnet.verana.network) answers questions across ecosystems: which ones govern a given kind of credential, how many issuers each has.
+
+## Read a schema before you apply
+
+For the schema you need, note three things:
+
+| | Where | What it decides |
+|---|---|---|
+| Onboarding mode for your role | schema card | **Open**: you self-create, instantly. **Ecosystem validation** or **grantor validation**: an onboarding process with a validator, with evidence and fees. |
+| Fees and validity | the validators' trust cards | What you pay to join and for how long the accreditation lasts |
+| Pricing asset | schema card | The v4 frontend pays fees in the native coin only; a schema priced in trust units or fiat is browsable but its paid actions are disabled for now |
+
+Read the ecosystem's governance framework: it states the evidence, the obligations and what gets a participant revoked or slashed.
+
+## From the indexer
+
+```bash
+curl -s 'https://idx.testnet.verana.network/v4/ecosystem/list?trust_data=summary' | jq '.ecosystems[] | {id, did, name: .trust_data.name}'
+curl -s 'https://idx.testnet.verana.network/v4/credential-schema/list?ecosystem_id=<id>' | jq '.schemas[] | {id, title: .json_schema.title, issuer_onboarding_mode, verifier_onboarding_mode, holder_onboarding_mode, pricing_asset}'
+curl -s 'https://idx.testnet.verana.network/v4/participant/list?schema_id=<id>&role=ISSUER_GRANTOR&participant_state=ACTIVE&trust_data=summary' | jq '.participants[] | {id, did, validation_fees}'
+```
+
+## Next
+
+- Open schema: [Join an open schema](./41-join-open-schema.mdx). Validation: [Join through an onboarding process](./42-join-onboarding-process.mdx).

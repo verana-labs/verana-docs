@@ -1,0 +1,42 @@
+---
+title: Revoke credentials
+description: "Token Status Lists for SD-JWT, revocation registries for AnonCreds, and what public JSON-LD credentials do instead."
+sidebar_position: 62
+persona: vs-builder
+surface: admin-api
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Revoke credentials
+
+Each format revokes differently. The verifier's side is the same everywhere: a revoked credential fails the trust decision.
+
+## SD-JWT VC: Token Status Lists
+
+Create a list, register each credential on it at offer time, flip the bit to revoke. The agent serves the list as a signed token at `/oid4vc/status-list/{id}` and re-signs it on every change.
+
+```bash
+curl -s -X POST http://127.0.0.1:3000/v2/openid4vc/status-lists -H 'content-type: application/json' -d '{}' | jq   # returns statusListId and uri
+# at offer time: "statusListId": "<id>", "statusListIndex": 42
+curl -s -X POST http://127.0.0.1:3000/v2/openid4vc/revoke-credential -H 'content-type: application/json' \
+  -d '{"statusListId":"<id>","statusListIndex":42}'
+```
+
+Verifiers fetch the list from the issuer and accept only credentials whose status is valid. A change of your signing certificate re-signs the list with the new chain, which ends the acceptance of every credential the old certificate signed; plan certificate rotation as a re-issuance.
+
+## AnonCreds: revocation registries
+
+```bash
+curl -s -X POST http://127.0.0.1:3000/v2/anoncreds/revoke-credential -H 'content-type: application/json' \
+  -d '{"revocationRegistryDefinitionId":"<revRegId>","revocationRegistryIndex":7}' | jq
+```
+
+The agent publishes the new status list; verifiers that request non-revocation proofs refuse the credential.
+
+## Public JSON-LD credentials: revoke the accreditation
+
+A W3C credential issued over vt-flow to a service has no credential-level revocation in v4. Revoke the holder's accreditation on the registry instead (participant card in the frontend): the holder's agent deletes the credential and removes it from its DID Document, and trust resolution stops accepting it.
+
+## Next
+
+- Specification: VS Agent v4, `VSA-PUB-OID-1`, `VSA-ADM-AC-CR`; Verifiable Trust v4, `VT-CRED-SDJWT-7`.

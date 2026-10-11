@@ -1,0 +1,40 @@
+---
+title: Admin API authentication
+description: "Internal mode versus corporation mode, the account challenge, allowlists, and publishing the admin origin in the DID Document."
+sidebar_position: 101
+persona: vs-builder
+surface: admin-api
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Admin API authentication
+
+## Internal mode
+
+The default. Requests are served without authentication when they come from a trusted network (loopback by default, your cluster or host network if you add it); every other request is refused. Right when your backend runs next to the agent.
+
+## Corporation mode
+
+Set `ADMIN_API_AUTH_MODE=corporation`, `ADMIN_API_PUBLIC_URL` (the public origin of the admin API), and `ADMIN_API_CORPORATION_ALLOWED_ACCOUNTS` (the accounts allowed to call). Trusted networks keep working without authentication; external callers authenticate with their account key:
+
+```bash
+# 1. a nonce for the caller's account
+curl -s -X POST https://admin.agent.example.com/v2/auth/challenge -H 'content-type: application/json' \
+  -d '{"account":"verana1…"}'            # -> nonce, expiresAt, audience
+# 2. sign "vs-agent-admin-auth:<audience>:<nonce>" with the account key (ADR-036), then
+curl -s -X POST https://admin.agent.example.com/v2/auth/token -H 'content-type: application/json' \
+  -d '{"account":"verana1…","pubKey":"<base64>","signature":"<base64>","nonce":"<nonce>"}'   # -> token, expiresAt
+# 3. call with Authorization: Bearer <token>
+```
+
+The challenge never reveals whether the account is allowed; the refusal happens at the token or the call. Tokens live in memory and die with a restart. The agent publishes a `VsAgentAdminAPI` entry in its DID Document so callers discover the origin from the DID.
+
+This is the mode the Verana MCP server and external operator consoles need. Keep the allowlist to the operator accounts that need it.
+
+## Health endpoints
+
+Liveness and readiness are served without authentication in both modes and never answer `401` or `403`.
+
+## Next
+
+- Specification: VS Agent v4, `VSA-ADM-AUTH`, `VSA-ADM-ACCESS`.

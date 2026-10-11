@@ -1,0 +1,140 @@
+---
+title: Deploy on Kubernetes with Helm
+description: "The official chart: values that matter, secrets, ingress and TLS, storage, upgrade and rollback, on any cluster."
+sidebar_position: 12
+persona: vs-builder
+surface: deployment
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Deploy on Kubernetes with Helm
+
+The chart deploys the agent as a StatefulSet with a persistent volume, an optional PostgreSQL sidecar, and a public ingress with TLS through cert-manager. It is published as an OCI chart next to the image. The provider pages that follow only differ in how you get a cluster, an ingress controller and DNS.
+
+## Goal
+
+An agent at `https://agent.example.com`, admin API reachable only inside the cluster (or publicly in corporation mode), secrets in Kubernetes Secrets, one `helm upgrade` per release.
+
+## Prerequisites
+
+- A cluster with an ingress controller (ingress-nginx or the provider's) and cert-manager with a ClusterIssuer, see the provider pages.
+- `helm` 3.8 or later, `kubectl` pointed at the cluster.
+- A DNS record for the hostname pointing at the ingress controller's address.
+
+## Steps
+
+### 1. Create the secrets
+
+The chart creates no Secret. Create one with the agent mnemonic and the database password:
+
+```bash
+kubectl create namespace agents
+kubectl -n agents create secret generic vs-agent-secrets \
+  --from-literal=VERANA_ACCOUNT_MNEMONIC="word1 word2 … word24" \
+  --from-literal=POSTGRES_PASSWORD="$(openssl rand -base64 24)"
+```
+
+### 2. Write the values
+
+```yaml title="values.yaml"
+global:
+  domain: example.com          # ingress host becomes {{ name }}.{{ domain }}
+name: agent                    # -> agent.example.com
+replicas: 1
+
+veranaCorporationId: "42"
+veranaRpcEndpointUrl: https://rpc.testnet.verana.network
+veranaIndexerBaseUrl: https://idx.testnet.verana.network
+veranaChainId: vna-testnet-1
+agentMode: standalone
+trustedEcsEcosystemDids: "did:webvh:…"   # the testnet ECS ecosystem
+publicDidMethod: webvh
+
+adminApiAuthMode: internal     # switch to corporation and set adminApiPublicUrl to expose it
+
+database:
+  enabled: true
+  user: vsagent
+  existingSecret: vs-agent-secrets
+  secretPwdKey: POSTGRES_PASSWORD
+
+storage:
+  size: 2Gi
+  storageClassName: <your storage class>
+
+image:
+  repository: veranalabs/vs-agent
+  tag: "2.0.0"
+
+ingress:
+  tlsSecret: agent-example-com-tls
+  public:
+    enableCors: true
+
+extraEnv:
+  - name: VERANA_ACCOUNT_MNEMONIC
+    valueFrom:
+      secretKeyRef: { name: vs-agent-secrets, key: VERANA_ACCOUNT_MNEMONIC }
+  - name: ECS_CLAIMS_SERVICE_NAME
+    value: My Service
+  - name: ECS_CLAIMS_SERVICE_TYPE
+    value: WEB_PORTAL
+  - name: ECS_CLAIMS_SERVICE_DESCRIPTION
+    value: A verifiable service.
+  - name: ECS_CLAIMS_SERVICE_MINIMUM_AGE_REQUIRED
+    value: "0"
+  - name: ECS_CLAIMS_SERVICE_LOGO_URI
+    value: https://agent.example.com/vt/default/logo.svg
+  - name: ECS_CLAIMS_SERVICE_TERMS_AND_CONDITIONS_URI
+    value: https://agent.example.com/vt/default/terms.html
+  - name: ECS_CLAIMS_SERVICE_PRIVACY_POLICY_URI
+    value: https://agent.example.com/vt/default/privacy.html
+  - name: ECS_CLAIMS_ORG_NAME
+    value: Example Company Ltd
+  - name: ECS_CLAIMS_ORG_LOGO_URI
+    value: https://agent.example.com/vt/default/logo.svg
+  - name: ECS_CLAIMS_ORG_REGISTRY_ID
+    value: "12345678"
+  - name: ECS_CLAIMS_ORG_ADDRESS
+    value: 1 Example Street, Example City
+  - name: ECS_CLAIMS_ORG_COUNTRY_CODE
+    value: CH
+```
+
+The chart derives `PUBLIC_API_BASE_URL` from the ingress host. The cert-manager annotation on the ingress requests the certificate named in `ingress.tlsSecret`; add your ClusterIssuer annotation through the chart's ingress values if it is not the default one.
+
+### 3. Install
+
+```bash
+helm upgrade --install agent oci://registry-1.docker.io/veranalabs/vs-agent-chart \
+  --version 2.0.0 --namespace agents -f values.yaml
+kubectl -n agents rollout status statefulset/agent
+```
+
+## Verify
+
+```bash
+kubectl -n agents port-forward svc/agent 3000:3000 &
+curl -s http://127.0.0.1:3000/v2/agent/health/ready
+curl -s http://127.0.0.1:3000/v2/agent/info | jq
+curl -s https://agent.example.com/.well-known/did.json | jq .id
+```
+
+## Operations
+
+- **Upgrade**: bump `image.tag` and `--version`, `helm upgrade`. **Rollback**: `helm rollback agent`.
+- **OpenID4VC**: put the configuration file in a Secret and set `openid4vc.existingSecret`; the chart mounts it and sets the location variable.
+- **Backups**: the PostgreSQL volume and the agent volume; see [Back up and restore](./102-backup-restore.mdx).
+- **Several agents**: one release per agent, each with its own `name`, secrets and corporation id or mode.
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Pod pending | No storage class or no node fits the requests | Set `storage.storageClassName`, check node capacity |
+| Certificate never ready | ClusterIssuer missing or DNS not propagated | `kubectl describe certificate`, fix the issuer or DNS |
+| Public requests reach the admin API and get `403` | A private ingress points at the admin port in internal mode | Remove it, or switch to corporation mode and set the allowlist |
+
+## Next
+
+Provider pages: [AWS](./13-cloud-aws.mdx), [Google Cloud](./14-cloud-gcp.mdx), [Azure](./15-cloud-azure.mdx), [OVHcloud](./16-cloud-ovh.mdx). Chart reference: the [chart README](https://github.com/verana-labs/vs-agent/tree/main/charts/vs-agent).

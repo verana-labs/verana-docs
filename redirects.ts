@@ -4,6 +4,10 @@
 type RedirectItem = {from: string | string[]; to: string};
 
 export const redirects: RedirectItem[] = [
+  {"from": ["/docs/build/verifiable-services/legacy/overview"], "to": "/docs/build/verifiable-services"},
+  {"from": ["/docs/build/verifiable-services/legacy/ecs-trust-registries"], "to": "/docs/understand/identity/essential-credential-schemas"},
+  {"from": ["/docs/build/verifiable-services/legacy/deploy-first-vs"], "to": "/docs/build/verifiable-services/quickstart"},
+  {"from": ["/docs/build/verifiable-services/legacy/join-ecosystems"], "to": "/docs/build/verifiable-services/find-ecosystems"},
   {"from": ["/docs/understand/ecosystems/exchange-rates"], "to": "/docs/understand/ecosystems/business-model"},
   {"from": ["/docs/understand/ecosystems/participant-tree-and-onboarding"], "to": "/docs/understand/ecosystems/participant-tree-and-accreditation"},
   {"from": ["/docs/understand/identity/verifiable-services-and-user-agents"], "to": "/docs/understand/identity/verifiable-services"},
@@ -181,28 +185,28 @@ export const redirects: RedirectItem[] = [
       "/docs/next/use/verifiable-service-builders/overview",
       "/docs/use/verifiable-service-builders/overview"
     ],
-    "to": "/docs/build/verifiable-services/legacy/overview"
+    "to": "/docs/build/verifiable-services"
   },
   {
     "from": [
       "/docs/next/use/verifiable-service-builders/ecs-trust-registries",
       "/docs/use/verifiable-service-builders/ecs-trust-registries"
     ],
-    "to": "/docs/build/verifiable-services/legacy/ecs-trust-registries"
+    "to": "/docs/understand/identity/essential-credential-schemas"
   },
   {
     "from": [
       "/docs/next/use/verifiable-service-builders/deploy-first-vs",
       "/docs/use/verifiable-service-builders/deploy-first-vs"
     ],
-    "to": "/docs/build/verifiable-services/legacy/deploy-first-vs"
+    "to": "/docs/build/verifiable-services/quickstart"
   },
   {
     "from": [
       "/docs/next/use/verifiable-service-builders/join-ecosystems",
       "/docs/use/verifiable-service-builders/join-ecosystems"
     ],
-    "to": "/docs/build/verifiable-services/legacy/join-ecosystems"
+    "to": "/docs/build/verifiable-services/find-ecosystems"
   },
   {
     "from": [

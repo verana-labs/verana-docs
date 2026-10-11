@@ -1,0 +1,42 @@
+---
+title: Pay per issuance and verification
+description: "When a payment is due, who the beneficiaries are, what the agent records, and how wallets check it."
+sidebar_position: 80
+persona: vs-builder
+surface: admin-api, indexer
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Pay per issuance and verification
+
+Some schemas charge a fee each time a credential is issued or verified. The fee is the sum of what every party above you in the participant tree charges, plus the issuer's verification fee when you verify a credential it issued, plus the network's shares for your trust deposit and for the wallet involved. You settle it by recording a participant session on the registry; wallets check the session exists and refuse an unpaid exchange.
+
+## Who gets paid
+
+```bash
+curl -s 'https://idx.testnet.verana.network/v4/participant/beneficiaries?issuer_participant_id=<yours>' | jq
+curl -s 'https://idx.testnet.verana.network/v4/participant/beneficiaries?verifier_participant_id=<yours>&issuer_participant_id=<the issuer of the credential>' | jq
+```
+
+The response lists the accreditations that receive a share and the amounts in the schema's pricing asset.
+
+## What the agent does
+
+Before an offer or a presentation request under a priced schema, the agent records the session for your accreditation, naming the counterparty's accreditation when there is one, and the wallet's user agent accreditations when the peer is a wallet, so the wallet's reward is attributed. The transaction is signed under the agent's VS operator authorization; the fee is paid in the native coin, converted from trust units through the exchange rate when the schema prices in them.
+
+Sessions are also where a self-issued or flow-issued W3C credential anchors its digest, which is why they exist even on free schemas.
+
+## Read a session
+
+```bash
+curl -s https://idx.testnet.verana.network/v4/participant/participant-session/<id> | jq
+```
+
+## In the frontend
+
+The participant detail card shows a schema's fees in its pricing asset and the beneficiaries preview. In this frontend revision, paid actions are enabled only for schemas priced in the native coin.
+
+## Next
+
+- [Let the agent pay with corporation funds](./81-pay-with-corporation-funds.mdx).
+- Specification: VPR v4, `MOD-PP-MSG-10`, `MOD-PP-QRY-4`; Understand: [The business model](../../understand/ecosystems/business-model.md).
