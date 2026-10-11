@@ -21,7 +21,7 @@ flowchart LR
 
 **W3C JSON-LD.** The format of everything public about services: ECS Service, Organization and Persona credentials, schema credentials, certifications a service publishes. The subject is a DID. The credential is published as a linked presentation in the DID Document. Its issuance time is objective: the issuer anchors the credential's digest on the registry, and the block time of that anchor is when it was issued, which is what the issuer's accreditation is checked against. Issued over vt-flow and DIDComm between agents.
 
-**AnonCreds.** The format of private credentials for people and software instances: ECS User Agent, ECS Badge, and any credential where unlinkability matters. No subject DID; presentations prove claims without revealing the credential. Selective disclosure and predicates (over eighteen without the birth date). Revocation through registries. Exchanged over DIDComm. The link to the schema runs through the credential definition, which names the schema credential.
+**AnonCreds.** The format of private credentials for people and software instances: ECS User Agent, ECS Badge on the DIDComm rail, and any credential where unlinkability matters. No subject DID; presentations prove claims without revealing the credential. Selective disclosure and predicates (over eighteen without the birth date). Revocation through registries. Exchanged over DIDComm. The link to the schema runs through the credential definition, which names the schema credential.
 
 **SD-JWT VC.** The format of OpenID4VC, the rail European-style wallets speak. Selective disclosure by design, holder binding, revocation through Token Status Lists signed by the issuer. The link to the schema runs through type metadata that the ecosystem anchor serves for each schema and that every accredited issuer references, so wallets of different vendors agree on the type.
 
@@ -31,6 +31,7 @@ flowchart LR
 |---|---|
 | Say something public about a service or an organisation | W3C JSON-LD |
 | Identify software or people privately, unlinkably | AnonCreds |
+| Badge a person on an OpenID4VC wallet | SD-JWT VC |
 | Reach wallets built on OpenID4VC | SD-JWT VC |
 | Both wallet populations | issue the same schema over both rails; the playground does |
 

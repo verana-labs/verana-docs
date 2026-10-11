@@ -17,6 +17,6 @@ Verana supports three credential formats. Each is a Verifiable Trust Credential 
 | Issuance time | objective: the JCS digest is anchored on chain, its block time is the issuance time | not objective | not objective |
 | Issuer authorization checked | at the anchored issuance time | now | now (reception time is checked by the wallet) |
 | Revocation | none at credential level in v4: revoke the holder's participant entry | revocation registries | Token Status Lists signed by the issuer |
-| Typical use | ECS Service, Organization, Persona; VTJSCs; any public claim about a service | ECS User Agent, ECS Badge; privacy-preserving personal credentials | wallet-facing credentials in the EU style; the playground DemoCredential |
+| Typical use | ECS Service, Organization, Persona; VTJSCs; any public claim about a service | ECS User Agent, ECS Badge; privacy-preserving personal credentials | ECS Badge; wallet-facing credentials in the EU style; the playground DemoCredential |
 
 Where each is specified: `VT-CRED-W3C`, `VT-CRED-ANON`, `VT-CRED-SDJWT` in the [Verifiable Trust specification](https://verana-labs.github.io/verifiable-trust-spec/versions/v4/).

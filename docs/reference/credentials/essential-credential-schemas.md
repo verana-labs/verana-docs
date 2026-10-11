@@ -13,7 +13,7 @@ Rendered from the JSON schemas published by the [Verifiable Trust specification]
 | Organization | the legal entity | W3C JSON-LD | accredited ECS issuers (onboarding process) | `#vpr-schemas-org-vtc-vp` |
 | Persona | the human-controlled persona | W3C JSON-LD | accredited ECS issuers (onboarding process) | `#vpr-schemas-persona-vtc-vp` |
 | User Agent | a wallet or agent instance | AnonCreds | accredited wallet vendors | none, private |
-| Badge | a human | AnonCreds | any Verifiable Service (OPEN issuer mode, permissionless holders) | none, private |
+| Badge | a human | AnonCreds or SD-JWT VC | any Verifiable Service (OPEN issuer mode, permissionless holders) | none, private |
 
 The ECS ecosystem publishes the matching VTJSCs under the reserved fragments `#vpr-schemas-{service,org,persona,ua,badge}-vtjsc-vp`.
 
@@ -88,7 +88,7 @@ Schema id: `https://verana-labs.github.io/verifiable-trust-spec/schemas/v4/ua.js
 
 ## Badge (`BadgeCredential`)
 
-ECS Badge: identifies a human, for example an employee or member of the organization behind a service; the issuer identifies whom they represent. Private, AnonCreds, never in a DID Document. Attributes are facts, not authorizations.
+ECS Badge: identifies a human, for example an employee or member of the organization behind a service; the issuer identifies whom they represent. Private, AnonCreds or SD-JWT VC, never in a DID Document. Attributes are facts, not authorizations.
 
 Schema id: `https://verana-labs.github.io/verifiable-trust-spec/schemas/v4/badge.json`
 
