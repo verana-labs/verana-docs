@@ -33,7 +33,7 @@ description: The v4 vocabulary of Verana, in plain words.
 
 **Exchange rate.** A governance-owned on-chain rate between two assets, used to convert fees priced in trust units or fiat into the native coin at transaction time.
 
-**Fee grant.** Permission for an operator or an agent to pay transaction fees from the corporation's account, bounded by message types, amounts and periods.
+**Fee grant.** Authorization for an operator or an agent to pay transaction fees from the corporation's account, bounded by message types, amounts and periods.
 
 **Grantor (issuer grantor, verifier grantor).** An ecosystem operator accredited to onboard issuers or verifiers for a schema, so the ecosystem does not validate every applicant itself.
 
