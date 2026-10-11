@@ -6,6 +6,10 @@ sidebar_position: 6
 
 # The business model
 
+:::warning The v4 business model is being reworked
+The fee and trust deposit mechanics on this page are those of v4 as specified and running on testnet. The tokenomics are being redesigned and will change significantly in v5: how fees are priced and settled, how the trust deposit grows and earns, and how rewards flow. This is why the v4 frontend only supports fees in the native coin, and why yield on trust deposits is not surfaced: the parts that will change are not being built out further. Design against the model, not the numbers.
+:::
+
 An ecosystem can run on Verana without charging anything. When it does charge, the registry settles the fees, shares them along the participant tree, and grows every party's trust deposit as a side effect. Three kinds of fees exist, all set by the party that charges them on its own accreditation.
 
 ## Validation fees
@@ -42,7 +46,7 @@ An issuer grantor charges 1000 units to validate an issuer; the issuer pays 1050
 
 ## What the frontend supports today
 
-The v4 frontend prices and pays fees in the network's native coin. Schemas priced in trust units or fiat remain browsable but their fee-bearing actions are disabled until a later revision. Yield on trust deposits is a v5 topic.
+The v4 frontend prices and pays fees in the network's native coin. Schemas priced in trust units or fiat remain browsable but their fee-bearing actions are disabled, because the tokenomics they depend on are being reworked for v5. Yield on trust deposits is part of the same rework.
 
 ## Where next
 

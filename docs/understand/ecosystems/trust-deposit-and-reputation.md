@@ -6,6 +6,10 @@ sidebar_position: 7
 
 # Trust deposit, slashing and reputation
 
+:::warning Being reworked for v5
+The trust deposit mechanics below are those of v4. The tokenomics are being redesigned for v5, and the deposit's growth, yield and slashing economics will change; see the note on [the business model](./business-model.md).
+:::
+
 Every corporation on the registry has one trust deposit. It is not paid in up front; it grows as the corporation acts: a share of every fee it pays and every fee it receives is set aside in it. It cannot be withdrawn in v4. It is the corporation's skin in the game, and it is what an ecosystem or the network can take away when the rules are broken.
 
 ```mermaid
