@@ -4,6 +4,8 @@ description: "What a wallet, messenger or agentic browser does on Verana: three 
 sidebar_position: 3
 ---
 
+import ProofOfTrustExample from '@site/src/components/ProofOfTrustExample';
+
 # Verifiable User Agents and wallets
 
 A Verifiable User Agent is software that acts for a person, a mobile identity wallet, a DIDComm messenger, an agentic browser, and that refuses to trust blindly. Before it connects to a service, accepts a credential or shares one, it asks the network and shows the person the answer.
@@ -29,6 +31,13 @@ The answer to Q1 is shown the same way in every integrated wallet, so people lea
 5. The trust chain behind each credential, issuer to grantor to ecosystem, with the failures, when any, as first-class content.
 
 Wallets keep their own look; the order, the states and the iconography are the shared contract. Nothing is invented: no stars, no scores beyond what resolution returned.
+
+What a person sees for the playground's accredited demo issuer, and for its untrusted demo service:
+
+<ProofOfTrustExample variant="trusted" />
+<ProofOfTrustExample variant="untrusted" />
+
+The [playground](https://playground.testnet.verana.network/personal-wallets) renders these cards live for every demo service, and its component is the reference wallets copy.
 
 ## Two integration tracks
 

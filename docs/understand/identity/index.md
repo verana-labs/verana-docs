@@ -8,7 +8,7 @@ A Verifiable Service proves what it is, who operates it and what it is accredite
 
 1. [Verifiable Services](./verifiable-services.md)
 2. [VS Agent](./vs-agent.md)
-3. [Verifiable User Agents and wallets](./verifiable-user-agents.md)
+3. [Verifiable User Agents and wallets](./verifiable-user-agents.mdx)
 4. [Essential Credential Schemas](./essential-credential-schemas.md)
 5. [Verifiable Trust Credentials](./verifiable-trust-credentials.md)
 6. [Trust resolution and Proof-of-Trust](./trust-resolution.md)
