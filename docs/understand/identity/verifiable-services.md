@@ -44,7 +44,38 @@ The specification requires a wallet to present its ECS User Agent credential bef
 
 **One agent, one DID.** The organisation and its single service share a DID. The agent obtains the organization credential and issues its own service credential. Right for a first deployment or a single-service company.
 
+```mermaid
+flowchart LR
+  ECS[Accredited ECS issuer] -->|issues Organization credential| A
+  subgraph A[One VS Agent, one DID]
+    direction TB
+    O[Organization credential]
+    S[Service credential<br/>issued by this same DID]
+  end
+  W[Wallet or peer] -->|resolves the DID, finds both credentials| A
+```
+
 **Organisation and child services.** An organisation agent holds the organization credential and an issuer accreditation on the Service schema, and issues a Service credential to each child service, which runs its own agent and DID. Trust resolution of a child reaches the parent through the issuer of its Service credential. Right for several services, separate keys, and services that come and go.
+
+```mermaid
+flowchart TB
+  ECS[Accredited ECS issuer] -->|issues Organization credential| P
+  subgraph P[Organisation agent, its own DID]
+    direction LR
+    PO[Organization credential]
+    PI[Issuer accreditation<br/>on the Service schema]
+  end
+  P -->|issues Service credential| C1
+  P -->|issues Service credential| C2
+  subgraph C1[Service agent A, own DID]
+    S1[Service credential<br/>issued by the organisation]
+  end
+  subgraph C2[Service agent B, own DID]
+    S2[Service credential<br/>issued by the organisation]
+  end
+  W[Wallet or peer] -->|resolves A, follows the issuer of its Service credential| C1
+  W -.->|finds the operator here| P
+```
 
 ## Where next
 
