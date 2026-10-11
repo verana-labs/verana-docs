@@ -25,6 +25,10 @@ flowchart LR
 
 **SD-JWT VC.** The format of OpenID4VC, the rail European-style wallets speak. Selective disclosure by design, holder binding, revocation through Token Status Lists signed by the issuer. The link to the schema runs through type metadata that the ecosystem anchor serves for each schema and that every accredited issuer references, so wallets of different vendors agree on the type.
 
+:::info Coming in v5: mdoc (ISO 18013-5 and 23220)
+A fourth format is planned for v5: mdoc, the ISO mobile document format used by mobile driving licences and the EU Digital Identity Wallet. It will travel over OpenID4VC like SD-JWT VC and be bound to a schema credential the same way, so the trust decision stays the one described here. Until then, mdoc credentials cannot be Verifiable Trust Credentials.
+:::
+
 ## Which one when
 
 | Need | Format |
