@@ -4,6 +4,7 @@
 type RedirectItem = {from: string | string[]; to: string};
 
 export const redirects: RedirectItem[] = [
+  {"from": ["/docs/understand/start-here/why-verifiable-trust"], "to": "/docs/understand/start-here/what-is-verana"},
   {"from": ["/docs/reference/cli/how-tos/corporation/create-a-corporation"], "to": "/docs/reference/cli/veranad/co"},
   {"from": ["/docs/reference/cli/how-tos/corporation/delegation/grant-operator-authorization"], "to": "/docs/reference/cli/veranad/de"},
   {"from": ["/docs/reference/cli/how-tos/corporation/delegation/intro"], "to": "/docs/reference/cli/veranad/de"},
@@ -891,7 +892,7 @@ export const redirects: RedirectItem[] = [
       "/docs/next/learn/verifiable-trust/why",
       "/docs/learn/verifiable-trust/why"
     ],
-    "to": "/docs/understand/start-here/why-verifiable-trust"
+    "to": "/docs/understand/start-here/what-is-verana"
   },
   {
     "from": [
