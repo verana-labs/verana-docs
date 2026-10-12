@@ -27,7 +27,7 @@ services:
     ports: ["3000:3000"]
     environment:
       MCP_VERANA_MNEMONIC: "the operator account mnemonic"   # secret
-      VERANA_CORPORATION: "42"
+      VERANA_CORPORATION: "<your corporation id>"
       VERANA_RPC: https://rpc.testnet.verana.network
       VERANA_INDEXER: https://idx.testnet.verana.network
       VERANA_GRAPH: https://graph.testnet.verana.network      # optional; graph tools appear when set

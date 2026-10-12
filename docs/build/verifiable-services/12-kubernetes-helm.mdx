@@ -42,12 +42,12 @@ global:
 name: agent                    # -> agent.example.com
 replicas: 1
 
-veranaCorporationId: "42"
+veranaCorporationId: "<your corporation id>"   # from the Corporation page of the frontend
 veranaRpcEndpointUrl: https://rpc.testnet.verana.network
 veranaIndexerBaseUrl: https://idx.testnet.verana.network
 veranaChainId: vna-testnet-1
 agentMode: standalone
-trustedEcsEcosystemDids: "did:webvh:…"   # the testnet ECS ecosystem
+trustedEcsEcosystemDids: "<the testnet ECS ecosystem DID>"   # see Environments and endpoints
 publicDidMethod: webvh
 
 adminApiAuthMode: internal     # switch to corporation and set adminApiPublicUrl to expose it
