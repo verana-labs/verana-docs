@@ -7,7 +7,7 @@ sidebar_position: 1
 
 | | devnet | testnet | mainnet |
 |---|---|---|---|
-| Chain id | `vna-devnet-1` | `vna-testnet-1` | `vna-mainnet-1` (planned, Q1 2027) |
+| Chain id | `vna-devnet-1` | `vna-testnet-1` | `vna-mainnet-1` (planned for 2027) |
 | Version | v4 | v4 from 13 October 2026 | |
 | Stability | reset without notice | stable within a version; coins have no value | |
 | Node RPC | `https://rpc.devnet.verana.network` | `https://rpc.testnet.verana.network` | |

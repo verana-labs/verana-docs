@@ -46,7 +46,7 @@ Governance of the network, and of the ECS ecosystem that anchors identity, is th
 | Specifications | Verifiable Trust v4 and Verifiable Public Registry v4 are stable; component specifications are at draft stage and tracked in verana-spec |
 | Testnet | v4 from 13 October 2026, with public indexer, frontend, faucet and playground |
 | Devnet | v4, used for integration work |
-| Mainnet | planned for the first quarter of 2027 |
+| Mainnet | planned for 2027 |
 
 ## Where next
 
