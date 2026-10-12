@@ -16,4 +16,4 @@ Public instances:
 | Network | Base URL |
 |---|---|
 | devnet | `https://graph.devnet.verana.network` |
-| testnet | published with the v4 testnet upgrade |
+| testnet | `https://graph.testnet.verana.network` |
