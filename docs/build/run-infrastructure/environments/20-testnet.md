@@ -13,6 +13,9 @@
 | **RPC (canonical)** | https://rpc.testnet.verana.network |
 | **API (canonical)** | https://api.testnet.verana.network |
 | **Indexer** | https://idx.testnet.verana.network |
+| **Trust graph** | https://graph.testnet.verana.network |
+| **Search** | https://search.testnet.verana.network |
+| **ECS ecosystem DID** | `did:web:ecs-ecosystem.testnet.verana.network` |
 | **Faucet** | https://faucet.testnet.verana.network (also the frontend's Get VNA action) |
 | **Explorer** | https://explorer.testnet.verana.network |
 | **Frontend** | https://app.testnet.verana.network |
