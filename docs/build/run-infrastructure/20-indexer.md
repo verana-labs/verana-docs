@@ -36,7 +36,7 @@ The repository's `.env.example` lists the tuning variables (pool sizes, timeouts
 docker run -d --name verana-indexer --env-file .env -p 3001:3001 veranalabs/verana-indexer:<version>
 ```
 
-Or with Helm, from the chart in the repository, with the same values in a Secret and a ConfigMap. The first start migrates the database and begins replay from genesis (or from a snapshot, when the deployment provides one); on a chain with history this takes hours. The API serves what is indexed so far; the `GET /v4/indexer/status` endpoint says whether it is crawling and how far it is.
+Or with Helm, from the chart in the repository; a complete values file is in [verana-deploy-examples](https://github.com/verana-labs/verana-deploy-examples/tree/main/indexer/helm). The first start migrates the database and begins replay from genesis (or from a snapshot, when the deployment provides one); on a chain with history this takes hours. The API serves what is indexed so far; the `GET /v4/indexer/status` endpoint says whether it is crawling and how far it is.
 
 ## Verify
 

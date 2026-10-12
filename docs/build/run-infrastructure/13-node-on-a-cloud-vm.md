@@ -9,7 +9,7 @@ verified_on: pending
 
 # Node on a cloud VM
 
-A node runs on a plain virtual machine; Kubernetes adds nothing for a single validator. Terraform for each provider is being assembled in [verana-deploy-examples](https://github.com/verana-labs/verana-deploy-examples) under `node/`; this page gives the sizing.
+A node runs on a plain virtual machine; Kubernetes adds nothing for a single validator. Terraform for each provider is in [verana-deploy-examples](https://github.com/verana-labs/verana-deploy-examples/tree/main/node/vm): a shared cloud-init that installs the published binary, restores the latest snapshot and starts the systemd service, and one folder per provider for the VM, the data volume, the firewall and a static address. This page gives the sizing.
 
 | | Full node (RPC for your own services) | Validator |
 |---|---|---|

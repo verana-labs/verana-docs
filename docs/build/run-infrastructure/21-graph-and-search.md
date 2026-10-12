@@ -34,7 +34,7 @@ Run the migrations once (`pnpm migrate` in the repository, or the chart's job). 
 curl -s -X POST http://localhost:3100/v4/graph/search -H 'content-type: application/json' -d '{"surface":"Ecosystem","q":"","limit":3}' | jq
 ```
 
-The Helm chart is in the [verana-graph repository](https://github.com/verana-labs/verana-graph/tree/main/charts).
+The Helm chart is in the [verana-graph repository](https://github.com/verana-labs/verana-graph/tree/main/charts); values for it and for the search chart are in [verana-deploy-examples](https://github.com/verana-labs/verana-deploy-examples/tree/main/graph/helm).
 
 ## The search UI
 

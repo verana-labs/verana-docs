@@ -254,6 +254,10 @@ The `-p <host>:<container>` flag exposes the container's listener (default `PORT
 
 ### Method 3: Kubernetes Deployment
 
+:::tip Helm chart
+The repository also ships a Helm chart (`charts/`), published as `oci://registry-1.docker.io/veranalabs/verana-frontend-chart`; a portable values file for it is in [verana-deploy-examples](https://github.com/verana-labs/verana-deploy-examples/tree/main/frontend/helm). The raw manifest below is the older path.
+:::
+
 #### 1. Prepare the Deployment File
 
 The repository includes a Kubernetes deployment template at `kubernetes/verana-frontend-deployment.yaml`. You'll need to replace the environment variable placeholders:
