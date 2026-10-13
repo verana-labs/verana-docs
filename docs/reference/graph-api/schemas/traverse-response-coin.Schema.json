@@ -1,0 +1,1 @@
+{"schema":{"type":"string","pattern":"^[0-9]+[a-z][a-z0-9]*$","description":"Cosmos coin amount-denom pair, e.g. `10000000uvna`.","title":"traverse_response_Coin"},"schemaType":"response"}

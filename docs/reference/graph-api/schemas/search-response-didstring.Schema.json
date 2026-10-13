@@ -1,0 +1,1 @@
+{"schema":{"type":"string","pattern":"^did:","title":"search_response_DidString"},"schemaType":"response"}

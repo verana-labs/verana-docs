@@ -1,0 +1,69 @@
+---
+id: get-corporation-history
+title: "Get Corporation History (v4)"
+description: "Activity timeline for a Corporation (IDX-CO-QRY-4), ordered by ActivityItem.id descending (newest-first) by default. Each entry carries only the diff (changed fields). msg is one of CreateCorporation, UpdateCorporation, AddCGFDocument, IncreaseCGFActiveVersion."
+sidebar_label: "Get Corporation History (v4)"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get Corporation History (v4)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/corporation/history/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Activity timeline for a Corporation (IDX-CO-QRY-4), ordered by ActivityItem.id descending (newest-first) by default. Each entry carries only the diff (changed fields). msg is one of CreateCorporation, UpdateCorporation, AddCGFDocument, IncreaseCGFActiveVersion.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./get-corporation-history.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./get-corporation-history.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./get-corporation-history.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,1 @@
+{"schema":{"type":"object","additionalProperties":false,"required":["ecosystemId"],"properties":{"ecosystemId":{"type":"integer","minimum":0,"description":"Stable VPR id of the Ecosystem."}},"title":"traverse_request_EcosystemIdInput"},"schemaType":"response"}

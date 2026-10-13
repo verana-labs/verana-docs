@@ -1,54 +1,51 @@
-# Website
+# docs.verana.io
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+The Verana documentation: understand the open trust layer, build on it, look things up. Built with [Docusaurus](https://docusaurus.io/).
 
-## Created verana-docs
+## Structure
 
-Inside that directory, you can run several commands:
- 
-### Starts the development server.
-
-```bash
-npm start
 ```
-### Bundles your website into static files for production.
+docs/                     v4, the current version, served at the root
+  understand/             concepts, organised by the three pillars (ecosystems, identity, discovery)
+  build/                  guides by job: Verifiable Services with VS Agent, ecosystems with the Frontend,
+                          personal wallets, AI agents and MCP, running the infrastructure
+  reference/              generated API references, parameters, schemas; legacy command-line pages
+versioned_docs/version-v3 v3, old, served under /v3
+openapi/                  OpenAPI documents fetched from the component repositories (scripts/fetch-openapi.sh)
+examples/                 every code sample shown in a guide, and the nightly checks that run them on testnet
+templates/                page templates
+redirects.ts              old URLs to their v4 page
+```
+
+Versions: v4 is `current`. When v5 work starts, run `npm run docusaurus docs:version v4`; `docs/` then becomes v5 under `/next` and v4 fixes go to `versioned_docs/version-v4`.
+
+## Writing
+
+- Concept pages (Understand) carry no field names, commands or API paths. One diagram minimum, in Mermaid.
+- Guides (Build) follow `templates/guide.md`: Goal, Prerequisites, Steps, Verify, Troubleshooting, Next. Code comes from `examples/`.
+- Front matter `rework: legacy | draft` shows a banner; remove it when a page is final.
+- Copy rules: say participants and accreditations, not permissions; say onboarding process, never validation process (the modes are `ECOSYSTEM_ONBOARDING_PROCESS`, `GRANTOR_ONBOARDING_PROCESS`, `ISSUER_ONBOARDING_PROCESS`); no em-dashes; Verana with a capital V.
+
+## Reference generation
 
 ```bash
+npm run fetch-openapi     # pull the OpenAPI documents from the component repositories
+npm run regen-api-docs    # regenerate docs/reference/*-api from openapi/
+```
+
+Generated pages are committed. A weekly workflow fetches, regenerates and opens a pull request when something changed.
+
+## Develop
+
+```bash
+npm install
+npm start                 # http://localhost:3000
 npm run build
+npm run typecheck
 ```
 
-### Serves the built website locally.
+Legacy pages still carry PlantUML diagrams rendered through kroki.io at build time; they go away as the pages are rewritten in Mermaid.
 
-```bash
-npm run serve
-```
+## Deploy
 
-### Publishes the website to GitHub pages.
-
-```bash
-npm run deploy
-```
-
-We recommend that you begin by typing:
-
-```bash
-cd my-website
-npm start
-```
-
-
-
-## What to do when webpack is waiting for the PlantUML/Mermaid renderer defined in remarkKroki (docusaurus.config.ts (lines 54-61))?
-
-When that happens Every ```plantuml block in the docs is sent to https://kroki.testnet.verana.network/ to be rendered before the site can finish compiling.
-With the flaky tethered connection that host isn’t reachable, so those HTTP requests never complete and the progress bar sits forever around 50 % while showing whichever .docusaurus/...json file is currently queued.
-Next steps:
-
-Verify that you can reach https://kroki.testnet.verana.network (browser or curl). If it doesn’t load on tethering, the build will keep hanging.
-If you can’t reach it, temporarily comment out the remarkPlugins block or point it to a Kroki instance you can access (e.g. run docker run --rm -p 8000:8000 yuzutech/kroki locally and change the URL to http://localhost:8000).
-
-
-
-```
-docker run --rm -p 8000:8000 yuzutech/kroki
-```
+Pushes to `main` build and publish to GitHub Pages (`.github/workflows/deploy.yml`). Pull requests build only.

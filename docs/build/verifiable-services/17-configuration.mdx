@@ -1,0 +1,50 @@
+---
+title: Configuration walk-through
+description: "The environment variables that embody a decision, grouped by the decision: identity, mode, admin exposure, claims, OpenID4VC, indexer scope."
+sidebar_position: 17
+persona: vs-builder
+surface: deployment
+verified_on: pending
+---
+
+# Configuration walk-through
+
+The [reference](../../reference/vs-agent/environment-variables.md) lists every variable. This page walks through the ones that carry a decision, in the order you meet them.
+
+## Who the agent is
+
+`VERANA_CORPORATION_ID` is the corporation whose accreditations the agent will act on. `VERANA_ACCOUNT_MNEMONIC` is the agent's own account; the corporation names it as VS operator on each accreditation it should handle. The agent resolves the rest of the corporation (policy address, DID) from the indexer at start.
+
+## Where the agent lives
+
+`PUBLIC_API_BASE_URL` and `AGENT_PUBLIC_DID_METHOD` fix the DID, once. `VERANA_RPC_ENDPOINT_URL`, `VERANA_INDEXER_BASE_URL` and `VERANA_CHAIN_ID` point it at a network; the testnet values are on [Environments and endpoints](../run-infrastructure/environments/10-environments.md).
+
+## How it becomes trusted
+
+`AGENT_MODE=standalone`: the agent is an organisation (or persona) itself. It needs `TRUSTED_ECS_ECOSYSTEM_DIDS`, the organisation claims (`ECS_CLAIMS_ORG_*` or `ECS_CLAIMS_PERSONA_*`) and the service claims (`ECS_CLAIMS_SERVICE_*`, all required).
+
+`AGENT_MODE=delegated`: a parent Verifiable Service issues this agent's Service credential and carries the organisation credential. It needs `AGENT_DELEGATED_PARENT_VS_DID` and no claims. See [Organisation with child services](./22-child-services.mdx).
+
+Claims that point at resources (`*_URI`) are fetched by the agent to compute digests. Until you have your own, point them at the agent's placeholders under `/vt/default/`. Changing a resource later changes its digest, which invalidates the credential that carries it; plan for a re-issuance when you rebrand.
+
+## Who may call the admin API
+
+`ADMIN_API_AUTH_MODE=internal` (default) serves only `ADMIN_API_TRUSTED_NETWORKS`. Fine when your backend is on the same host or cluster.
+
+`ADMIN_API_AUTH_MODE=corporation` additionally serves external callers that authenticate with an account signature and are listed in `ADMIN_API_CORPORATION_ALLOWED_ACCOUNTS`, at `ADMIN_API_PUBLIC_URL`, which the agent also publishes in its DID Document. Required for the Verana MCP server and for operator consoles outside the cluster. See [Admin API authentication](./101-admin-auth.mdx).
+
+## What the agent watches
+
+`VERANA_INDEXER_SUBSCRIPTION_SCOPE=did` (default): events about its own DID. `corporation`: every event of the corporation, useful when one agent serves several DIDs or you want corporation-wide notifications in your backend. `VERANA_INDEXER_DEFAULT_HANDLERS_OVERRIDE` turns off the agent's built-in reaction to chosen events when your backend takes over; the events still arrive as `vpr.notification`.
+
+## What it tells your backend
+
+`EVENTS_WEBHOOK_URL` and `EVENTS_WEBHOOK_API_KEY`: one webhook for everything. See [React to events](./100-events.mdx).
+
+## OpenID4VC
+
+`OID4VC_CONFIG_FILE_LOCATION` switches the issuer and verifier capabilities on. Start with `{}` (development signing); move to configured signing with your own certificate before production. See [Issue credentials with OpenID4VC](./60-issue-openid4vc.mdx).
+
+## Logs
+
+`AGENT_LOG_LEVEL=info` while you learn, `warn` in production; `ADMIN_API_LOG_LEVEL=info`.

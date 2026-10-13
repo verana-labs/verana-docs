@@ -1,0 +1,63 @@
+---
+title: Issue credentials with AnonCreds over DIDComm
+description: "Create a credential definition on the ecosystem's AnonCreds schema, offer a credential by QR code, follow the exchange."
+sidebar_position: 61
+persona: vs-builder
+surface: admin-api
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Issue credentials with AnonCreds over DIDComm
+
+AnonCreds credentials are private and unlinkable: the holder proves claims without revealing the credential, and selective disclosure is built in. They travel over DIDComm, to wallets such as Hologram Messaging. Your agent is the AnonCreds registry for the objects it creates.
+
+## Prerequisites
+
+- An active **Issuer** accreditation for the schema, with the agent as VS operator.
+- The schema credential id (VTJSC URL). The ecosystem anchor has already published the AnonCreds schema of that VTJSC; your credential definition builds on it.
+
+## Steps
+
+### 1. Create a credential definition
+
+```bash
+curl -s -X POST http://127.0.0.1:3000/v2/anoncreds/credential-definitions -H 'content-type: application/json' \
+  -d '{"relatedJsonSchemaCredentialId":"https://ecosystem.example/vt/schemas-membership-jsc.json","supportRevocation":true}' | jq
+```
+
+The response names the credential definition id and the attributes (the schema's properties). With revocation enabled, create a revocation registry:
+
+```bash
+curl -s -X POST http://127.0.0.1:3000/v2/anoncreds/revocation-registries -H 'content-type: application/json' \
+  -d '{"credentialDefinitionId":"<id>","maximumCredentialNumber":1000}' | jq
+```
+
+### 2. Offer a credential
+
+```bash
+curl -s -X POST http://127.0.0.1:3000/v2/didcomm/credential-offer -H 'content-type: application/json' -d '{
+  "credentialDefinitionId": "<credentialDefinitionId>",
+  "claims": [ {"name":"memberName","value":"Jane Doe"}, {"name":"memberId","value":"M-1234"}, {"name":"since","value":"2026-01-15"} ],
+  "revocationRegistryDefinitionId": "<revRegId>",
+  "didcommVersion": "v2"
+}' | jq '{credentialExchangeId, shortUrl}'
+```
+
+Without a `connectionId` the agent returns an invitation and a short URL to show as a QR code; with one, it offers on the existing connection. The wallet resolves your DID and checks your accreditation before showing the offer.
+
+### 3. Follow the exchange
+
+```bash
+curl -s http://127.0.0.1:3000/v2/didcomm/credential-exchanges/<id> | jq '{state, connectionId}'
+```
+
+States follow Issue Credential 2.0. Set `autoAccept` on the offer to let the agent complete the protocol without a call per step; otherwise accept the request when the `didcomm.credential-exchanges.state-updated` event reports it.
+
+## Verify
+
+A Hologram Messaging install on testnet receives the credential after showing your Proof-of-Trust; the exchange reaches `done`.
+
+## Next
+
+- [Revoke credentials](./62-revoke.mdx).
+- Specification: VS Agent v4, AnonCreds scope, `VSA-PUB-AC`; Verifiable Trust v4, `VT-CRED-ANON`.

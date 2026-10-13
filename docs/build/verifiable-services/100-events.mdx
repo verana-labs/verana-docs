@@ -1,0 +1,38 @@
+---
+title: React to events
+description: "Wire the webhook, handle the envelope, deduplicate, and recover state from the records."
+sidebar_position: 100
+persona: vs-builder
+surface: admin-api
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# React to events
+
+Your backend learns what happened through one webhook. Set `EVENTS_WEBHOOK_URL` (and a key in `EVENTS_WEBHOOK_API_KEY`); the agent posts every event there as a JSON envelope.
+
+```json
+{ "id": "…", "type": "vt.flows.state-updated", "timestamp": "2026-10-20T10:00:00Z", "data": { "participantSessionId": "…", "flowState": "COMPLETED", "previousState": "CRED_OFFERED" } }
+```
+
+## Rules for a consumer
+
+- Answer `2xx` quickly; do the work asynchronously.
+- Deduplicate on `id`: a retry can deliver twice.
+- Do not depend on order or on completeness. An event says a record changed; read the record from the Admin API when you need the truth, and reconcile from the `list` methods after a restart.
+- Branch on `type`. The grammar is `scope.module.event`; `*-received` carries an inbound message, `state-updated` carries the record plus `previousState`.
+- Treat `vpr.notification` as a chain event: it carries the indexer event and the current state of the affected entity. Missed ones are recovered from the indexer's events endpoint.
+
+## The events you will handle first
+
+| Type | Why |
+|---|---|
+| `didcomm.connections.state-updated` | A peer connected; read `theirDid` and decide what to offer |
+| `vt.flows.state-updated` | Your accreditations and credentials move; `COMPLETED`, `PARTICIPANT_REVOKED`, `OOB_PENDING` matter most |
+| `didcomm.credential-exchanges.state-updated`, `openid4vc.credential-exchanges.state-updated` | An issuance progressed; accept the request if you did not set `autoAccept` |
+| `didcomm.presentations.state-updated`, `openid4vc.presentations.state-updated` | A presentation arrived; read the verdict, then the claims |
+| `didcomm.basic-messages.message-received` | A message to answer |
+
+## Next
+
+- Reference: [Events](../../reference/vs-agent/events.md).

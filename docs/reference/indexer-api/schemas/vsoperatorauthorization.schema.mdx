@@ -1,0 +1,32 @@
+---
+id: vsoperatorauthorization
+title: "VSOperatorAuthorization"
+description: "A corporation's VS-operator authorization container, holding one ParticipantAuthorizationRecord per controlled Participant (IDX-DE-QRY-2)."
+sidebar_label: "VSOperatorAuthorization"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":0,"corporation_id":0,"vs_operator":"string","records":[{"participant_id":0,"msg_types":["string"],"spend_limit":[{"denom":"string","amount":"string"}],"remaining_spend":[{"denom":"string","amount":"string"}],"fee_spend_limit":[{"denom":"string","amount":"string"}],"with_feegrant":true,"expiration":"2024-07-29T15:51:28.071Z","period":"string"}]}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"VSOperatorAuthorization"}
+>
+</Heading>
+
+
+
+A corporation's VS-operator authorization container, holding one ParticipantAuthorizationRecord per controlled Participant (IDX-DE-QRY-2).
+
+<Schema
+  {...require("./vsoperatorauthorization.Schema.json")}
+>
+  
+</Schema>
+            

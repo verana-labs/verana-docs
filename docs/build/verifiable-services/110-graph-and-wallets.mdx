@@ -1,0 +1,36 @@
+---
+title: See your service in the graph and in wallets
+description: "Search and traverse your DID in the trust graph, understand what wallets display, and improve your claims."
+sidebar_position: 110
+persona: vs-builder
+surface: indexer
+verified_on: pending (testnet v4)
+---
+
+# See your service in the graph and in wallets
+
+Once trusted, your service is discoverable. This is how to look at yourself the way others do.
+
+## In the graph
+
+```bash
+curl -s -X POST https://graph.testnet.verana.network/v4/graph/search -H 'content-type: application/json' \
+  -d '{"surface":"Did","q":"Example Company","limit":5}' | jq '.items[] | {did, snippet}'
+curl -s -X POST https://graph.testnet.verana.network/v4/graph/traverse -H 'content-type: application/json' \
+  -d '{"query":"A1","input":{"did":"did:webvh:…"}}' | jq
+```
+
+Search returns a snippet card: your service and operator claims, your accreditations, your endpoints. The trust summary traversal (`A1`) shows the chain behind each credential. The [search UI](https://search.testnet.verana.network) renders the same.
+
+## In wallets
+
+Every integrated wallet renders the same five blocks: the verdict, your service (name, type, logo, description), who operates it (name, country, registry id), your other credentials, and the chain behind each. What people see is your claims; give them a square logo that reads at 40 pixels, a description that says what the service does, real terms and privacy pages.
+
+## Improving
+
+A claim change means a new credential: update the configuration and obtain a new Organization credential or re-issue the Service credential. The agent handles the republication; the indexer re-evaluates on your next trigger.
+
+## Next
+
+- Understand: [The trust graph](../../understand/discovery/trust-graph.md).
+- Reference: [Graph API](../../reference/graph-api/index.md).

@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"repaid_amount":{"type":"integer","description":"Amount repaid"},"repaid_ts":{"type":"string","format":"date-time","description":"Repayment timestamp"},"repaid_by":{"type":"string","description":"Account that performed the repayment"}},"title":"RepaymentEvent"},"schemaType":"response"}

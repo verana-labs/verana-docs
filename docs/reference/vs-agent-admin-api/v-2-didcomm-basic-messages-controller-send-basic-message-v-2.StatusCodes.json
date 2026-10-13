@@ -1,0 +1,1 @@
+{"responses":{"201":{"description":"The message record","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","description":"Identifier of the sent message","example":"a1b2c3d4-5678-90ab-cdef-1234567890ab"}},"required":["id"],"title":"SentMessageDto"}}}},"404":{"description":"No connection with the given id"}}}

@@ -1,0 +1,44 @@
+---
+title: Request presentations over DIDComm
+description: "Present Proof 2.0 for AnonCreds and JSON-LD credentials, selective disclosure, non-revocation, callbacks."
+sidebar_position: 71
+persona: vs-builder
+surface: admin-api
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Request presentations over DIDComm
+
+For wallets on the DIDComm rail, presentations run over Present Proof 2.0. You ask for specific attributes of a credential definition (AnonCreds) or of a schema credential (JSON-LD); the holder reveals only those.
+
+## Prerequisites
+
+- An active **Verifier** accreditation for the schema, with the agent as VS operator.
+
+## Steps
+
+```bash
+curl -s -X POST http://127.0.0.1:3000/v2/didcomm/presentation-request -H 'content-type: application/json' -d '{
+  "requestedCredentials": [ { "credentialDefinitionId": "<credDefId>", "attributes": ["memberName","memberId"] } ],
+  "requireNonRevocation": true,
+  "autoAccept": true,
+  "didcommVersion": "v2"
+}' | jq '{proofExchangeId, shortUrl}'
+```
+
+Without a connection the agent returns an invitation and a short URL for a QR code; with `connectionId` it requests on the existing connection. For a JSON-LD credential, name the `jsonSchemaCredentialId` instead of a credential definition.
+
+```bash
+curl -s http://127.0.0.1:3000/v2/didcomm/presentations/<proofExchangeId> | jq '{state, verified, claims: .revealedAttributes, trust}'
+```
+
+The agent verifies the proof, then runs the trust decision on the issuer of each credential presented: the issuer must be a trusted Verifiable Service holding an active issuer accreditation for the schema now. With `autoAccept` off, accept the presentation on the `didcomm.presentations.state-updated` event.
+
+## Verify
+
+Request a credential issued by the playground's accredited demo issuer from Hologram Messaging on testnet: `verified` is true and the trust verdict is `TRUSTED_AUTHORIZED`.
+
+## Next
+
+- [The trust decision on what you receive](./72-trust-decision.mdx).
+- Specification: VS Agent v4, `VSA-ADM-DC-PR`, `VSA-VTI-FLOW-VERIFY-AC`.

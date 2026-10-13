@@ -1,0 +1,69 @@
+---
+id: find-beneficiaries
+title: "Find Beneficiaries"
+description: "Compute the beneficiary Participants for a credential transaction. Given an issuer Participant and/or a verifier Participant, returns every ancestor Participant in the involved tree branch(es) that participates in the fee-distribution flow. At least one of the two ids must be provided."
+sidebar_label: "Find Beneficiaries"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Find Beneficiaries"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/participant/beneficiaries"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Compute the beneficiary Participants for a credential transaction. Given an issuer Participant and/or a verifier Participant, returns every ancestor Participant in the involved tree branch(es) that participates in the fee-distribution flow. At least one of the two ids must be provided.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./find-beneficiaries.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./find-beneficiaries.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./find-beneficiaries.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,36 @@
+---
+title: Back up and restore
+description: "What state is critical, how to back it up, and how to prove a restore works."
+sidebar_position: 102
+persona: operator
+surface: deployment
+verified_on: pending
+---
+
+# Back up and restore
+
+Losing the agent's state loses its keys, its DID and every accreditation bound to it. Treat backups as part of the deployment, not an afterthought.
+
+## What to back up
+
+| State | Where | Contains |
+|---|---|---|
+| Wallet and records | PostgreSQL | keys, credentials, connections, flows, exchanges |
+| Agent data directory | the `/root/.afj` volume | DID log, tails files, local state |
+| Configuration | `.env` or Helm values and Secrets | the mnemonic above all |
+
+Redis holds queues and caches and needs no backup.
+
+## How
+
+- PostgreSQL: `pg_dump` on a schedule, or your provider's managed backups, encrypted at rest.
+- The volume: snapshot it with your platform (CSI snapshots on Kubernetes, provider snapshots for a VM), at the same cadence.
+- Secrets: in your secret manager, with the mnemonic also in offline custody.
+
+## Restore
+
+Restore the database and the volume into a fresh deployment with the same `PUBLIC_API_BASE_URL`, the same mnemonic and the same corporation id. The agent loads the persisted DID and resumes. Prove it once in a staging namespace before you need it: readiness `200`, `info` returns the same DID, resolve returns trusted.
+
+## Next
+
+- [Production checklist](./18-production-checklist.mdx).

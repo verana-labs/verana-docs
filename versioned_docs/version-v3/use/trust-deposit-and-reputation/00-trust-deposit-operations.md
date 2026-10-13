@@ -18,7 +18,7 @@ NODE_RPC=https://rpc.testnet.verana.network
 *These variables are required to target the correct environment (testnet, mainnet, or local). Adjust values accordingly.*
 
 > **Prerequisite:** Ensure the `veranad` binary is installed and up-to-date.  
-> See [Install or Update Veranad Binary](/docs/next/run/network/run-a-node/prerequisites).
+> See [Install or Update Veranad Binary](/docs/build/run-infrastructure/run-a-node/prerequisites).
 
 ---
 

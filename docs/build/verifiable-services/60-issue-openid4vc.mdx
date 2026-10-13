@@ -1,0 +1,70 @@
+---
+title: Issue credentials with OpenID4VC
+description: "Enable the issuer capability, create a credential offer for an SD-JWT VC, hand it to a wallet, follow the exchange."
+sidebar_position: 60
+persona: vs-builder
+surface: admin-api
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Issue credentials with OpenID4VC
+
+OpenID4VCI is the rail of the European-style wallets. Your agent acts as the credential issuer: it publishes issuer metadata, serves the token and credential endpoints, and signs SD-JWT VCs with its issuer certificate. Your backend only creates offers.
+
+## Prerequisites
+
+- An active **Issuer** accreditation for the schema, with the agent as VS operator ([join](./41-join-open-schema.mdx)).
+- OpenID4VC enabled: `OID4VC_CONFIG_FILE_LOCATION` pointing at a configuration file, `{}` for development signing.
+- The schema credential id (the VTJSC URL) of the schema, from the ecosystem anchor's DID Document or from the indexer.
+- A wallet that speaks OpenID4VCI and is integrated with Verana, for example one of the [listed wallets](https://playground.testnet.verana.network/personal-wallets).
+
+## Steps
+
+### 1. Check the issuer metadata
+
+```bash
+curl -s https://agent.example.com/.well-known/openid-credential-issuer | jq '{credential_issuer, display, credential_configurations_supported: (.credential_configurations_supported | keys)}'
+```
+
+One credential configuration per schema you are accredited for, with the `vct` the ecosystem anchor serves, so wallets of different vendors agree on the type.
+
+### 2. Create an offer
+
+```bash
+curl -s -X POST http://127.0.0.1:3000/v2/openid4vc/credential-offer -H 'content-type: application/json' -d '{
+  "jsonSchemaCredentialId": "https://ecosystem.example/vt/schemas-membership-jsc.json",
+  "claims": { "memberName": "Jane Doe", "memberId": "M-1234", "since": "2026-01-15" },
+  "ttlSeconds": 900
+}' | jq
+```
+
+The response has `credentialExchangeId` and `url`, the credential offer URL. Show it as a QR code or a link; the wallet opens it with its `openid-credential-offer` scheme.
+
+### 3. The wallet's side
+
+The wallet resolves your DID, checks you are trusted and accredited to issue this schema (the Verana questions Q1 and Q2), and shows the Proof-of-Trust before the person accepts. It then fetches the token and the credential from your agent.
+
+### 4. Follow the exchange
+
+```bash
+curl -s http://127.0.0.1:3000/v2/openid4vc/credential-exchanges/<credentialExchangeId> | jq '{state, createdAt, updatedAt}'
+```
+
+Or listen to `openid4vc.credential-exchanges.state-updated` events.
+
+## Revocation
+
+Pass `statusListId` and `statusListIndex` in the offer to register the credential on one of your Token Status Lists; see [Revoke credentials](./62-revoke.mdx).
+
+## Verify
+
+Issue the credential to a listed wallet on testnet: the wallet shows your Proof-of-Trust with the Q2 verdict and the credential lands in it. The exchange record reaches its final state.
+
+## Production
+
+Replace development signing with configured signing: your own P-256 certificate chain, leaf carrying your DID as a URI SAN, published under `assertionMethod` in your DID Document before startup. See [Configuration](./17-configuration.mdx).
+
+## Next
+
+- [Request presentations with OpenID4VP](./70-verify-openid4vp.mdx).
+- Specification: VS Agent v4, OpenID4VC scope; Verifiable Trust v4, `VT-CRED-SDJWT`.

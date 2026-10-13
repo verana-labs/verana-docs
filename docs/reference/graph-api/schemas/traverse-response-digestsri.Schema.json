@@ -1,0 +1,1 @@
+{"schema":{"type":"string","pattern":"^sha(256|384|512)-","description":"Subresource Integrity digest in the standard `algo-base64` form.","title":"traverse_response_DigestSri"},"schemaType":"response"}

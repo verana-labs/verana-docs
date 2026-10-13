@@ -1,0 +1,32 @@
+---
+id: search-response-didsnippet
+title: "search_response_DidSnippet"
+description: "A `Did` hit snippet: the always-present [TG-FCT-6a] core plus the [TG-FCT-6b] field groups selected by the request's `snippet` projection ([TG-FCT-6c]; default set: `service`, `operator`, `corporation`, `endpoints`). An unselected group is omitted entirely, never `null`. Within a returned group, a field with no value MUST be present with value `null`, not omitted. Implementations MAY surface additional fields."
+sidebar_label: "search_response_DidSnippet"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"did":"string","lastObservedAtTime":"2024-07-29T15:51:28.071Z","isTrustExpired":true,"trusted":true,"isCorporation":true,"isEcosystem":true,"service":{"name":"string","type":"string","description":"string","logoUri":"string","logoDigestSri":"string"},"operator":{"name":"string","logoUri":"string","logoDigestSri":"string","countryCode":"string","registryId":"string","address":"string"},"corporation":{"id":0,"deposit":"string","slashedEvents":0,"lastSlashedAtTime":"2024-07-29T15:51:28.071Z","slashedValue":"string"},"endpoints":[{"id":"string","type":"string","serviceEndpoint":"string"}],"ecosystems":[{"id":0,"archived":true,"participants":{},"schemas":[{"id":0,"title":"string","archived":true,"participants":{}}]}],"participations":{"total":0,"ecosystemCount":0,"byRole":{},"entries":[{"id":0,"credentialSchemaId":0,"schemaTitle":"string","ecosystemId":0}]},"credentials":{"total":0,"entries":[{"id":"string","credentialSchemaId":0,"schemaTitle":"string","ecosystemId":0,"attributes":"Unknown Type: object,null"}]}}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"search_response_DidSnippet"}
+>
+</Heading>
+
+
+
+A `Did` hit snippet: the always-present [TG-FCT-6a] core plus the [TG-FCT-6b] field groups selected by the request's `snippet` projection ([TG-FCT-6c]; default set: `service`, `operator`, `corporation`, `endpoints`). An unselected group is omitted entirely, never `null`. Within a returned group, a field with no value MUST be present with value `null`, not omitted. Implementations MAY surface additional fields.
+
+<Schema
+  {...require("./search-response-didsnippet.Schema.json")}
+>
+  
+</Schema>
+            

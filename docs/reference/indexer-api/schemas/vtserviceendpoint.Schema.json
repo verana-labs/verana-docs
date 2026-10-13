@@ -1,0 +1,1 @@
+{"schema":{"type":"object","required":["id","type","serviceEndpoint"],"properties":{"id":{"type":"string","pattern":"^did:"},"type":{"type":"string"},"serviceEndpoint":{"oneOf":[{"type":"string"},{"type":"object"}]},"accept":{"type":"array","items":{"type":"string"}}},"title":"VtServiceEndpoint"},"schemaType":"response"}

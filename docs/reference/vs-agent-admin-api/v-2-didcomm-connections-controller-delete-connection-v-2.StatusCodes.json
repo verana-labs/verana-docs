@@ -1,0 +1,1 @@
+{"responses":{"204":{"description":"The connection record is deleted"},"404":{"description":"No connection with the given id"}}}

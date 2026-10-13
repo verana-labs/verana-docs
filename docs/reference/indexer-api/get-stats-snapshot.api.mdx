@@ -1,0 +1,69 @@
+---
+id: get-stats-snapshot
+title: "Get Stats Snapshot"
+description: "Return the current value of every tracked metric for one entity (the whole network, an Ecosystem, a Credential Schema, or a Participant sub-tree) at the block selected by the At-Block-Height header, or the latest indexed block when omitted. Participant counts read from the entity_participant_changes log; the other metrics read from the height-versioned entity tables. Replaces GET /v4/metrics/all."
+sidebar_label: "Get Stats Snapshot"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get Stats Snapshot"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/stats/snapshot"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Return the current value of every tracked metric for one entity (the whole network, an Ecosystem, a Credential Schema, or a Participant sub-tree) at the block selected by the At-Block-Height header, or the latest indexed block when omitted. Participant counts read from the entity_participant_changes log; the other metrics read from the height-versioned entity tables. Replaces GET /v4/metrics/all.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./get-stats-snapshot.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./get-stats-snapshot.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./get-stats-snapshot.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

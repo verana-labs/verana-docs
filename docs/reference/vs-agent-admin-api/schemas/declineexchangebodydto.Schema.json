@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"reason":{"type":"string","description":"Text for the problem report. The agent sends the report to the peer.","example":"The operator refused the exchange"}},"title":"DeclineExchangeBodyDto"},"schemaType":"response"}

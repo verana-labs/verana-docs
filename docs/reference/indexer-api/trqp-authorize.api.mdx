@@ -1,0 +1,67 @@
+---
+id: trqp-authorize
+title: "TRQP Authorize (IDX-TRQP-QRY-1)"
+description: "Trust Registry Query Protocol v2 authorization predicate (ecosystem -> corporation). Answers whether entity_id (a corporation DID) is authorized by authority_id (an ecosystem DID) for action on resource (a VPR schema URI) at a given time. Derived from ACTIVE Participant entries. Request/response use the upstream ToIP TSWG TRQP schemas verbatim; the response additionally carries an optional top-level `verana` breadcrumb object as described by the Verana TRQP profile descriptor (GET /v4/trqp/v2/profile)."
+sidebar_label: "TRQP Authorize (IDX-TRQP-QRY-1)"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"TRQP Authorize (IDX-TRQP-QRY-1)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/v4/trqp/v2/authorization"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Trust Registry Query Protocol v2 authorization predicate (ecosystem -&gt; corporation). Answers whether entity_id (a corporation DID) is authorized by authority_id (an ecosystem DID) for action on resource (a VPR schema URI) at a given time. Derived from ACTIVE Participant entries. Request/response use the upstream ToIP TSWG TRQP schemas verbatim; the response additionally carries an optional top-level `verana` breadcrumb object as described by the Verana TRQP profile descriptor (GET /v4/trqp/v2/profile).
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./trqp-authorize.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./trqp-authorize.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

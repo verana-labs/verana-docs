@@ -1,0 +1,40 @@
+---
+title: Publish and maintain linked presentations
+description: "What the agent publishes in your DID Document, under which fragments, and how it keeps them consistent with its store."
+sidebar_position: 51
+persona: vs-builder
+surface: admin-api
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Publish and maintain linked presentations
+
+A linked presentation is a signed presentation of one credential, served at a URL and declared in your DID Document. It is how the public credentials of a service become visible. The agent manages them; this page explains what it does so you can read your DID Document.
+
+## What is published
+
+- Every ECS credential the agent holds (Service, Organization or Persona), under the reserved fragments `#vpr-schemas-service-vtc-vp`, `#vpr-schemas-org-vtc-vp`, `#vpr-schemas-persona-vtc-vp`.
+- Every credential received through a flow, under a fragment of the form `#vpr-schemas-<qualifier>-vtc-vp`.
+- For an ecosystem anchor, the schema credential of each schema, `#vpr-schemas-<qualifier>-vtjsc-vp`.
+- With `did:webvh`, the Service credential is additionally exposed under the method's `#whois` entry, in addition to the required one.
+
+## How it is maintained
+
+| Event | Action |
+|---|---|
+| New credential | Entry added, DID Document republished, re-resolution triggered |
+| Updated credential (renewal, validator update) | Entry replaced |
+| Revocation of the credential or of the accreditation behind it | Entry removed, credential deleted |
+| Change of a claim resource (logo, terms) | Nothing automatic: the credential still carries the old digest; obtain a new credential |
+
+## Read your document
+
+```bash
+curl -s https://agent.example.com/.well-known/did.json | jq '.service[] | select(.type=="LinkedVerifiablePresentation") | {id, serviceEndpoint}'
+```
+
+Each endpoint returns a JSON presentation holding the credential. Verifiers fetch them during trust resolution.
+
+## Next
+
+- Specification: Verifiable Trust v4, `VT-CRED-W3C-LINKED-VP`; VS Agent v4, `VSA-VT-LVP`, `VSA-PUB-VT`.

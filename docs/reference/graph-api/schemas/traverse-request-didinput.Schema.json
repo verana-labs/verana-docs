@@ -1,0 +1,1 @@
+{"schema":{"type":"object","additionalProperties":false,"required":["did"],"properties":{"did":{"description":"Anchor DID for the query.","type":"string","pattern":"^did:","title":"traverse_request_DidString"}},"title":"traverse_request_DidInput"},"schemaType":"response"}

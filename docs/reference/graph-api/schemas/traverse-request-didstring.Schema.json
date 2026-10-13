@@ -1,0 +1,1 @@
+{"schema":{"type":"string","pattern":"^did:","description":"DID URI.","title":"traverse_request_DidString"},"schemaType":"response"}

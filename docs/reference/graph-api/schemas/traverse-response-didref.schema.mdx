@@ -1,0 +1,32 @@
+---
+id: traverse-response-didref
+title: "traverse_response_DidRef"
+description: "Minimal Did reference. `isTrustExpired` is the [[TG-ACT-3]] visibility flag; per [[TG-QRY-3]] every entity reference MUST carry the visibility flags applicable to its type, and it is always computable as `expiresAtTime` non-null and `< now`."
+sidebar_label: "traverse_response_DidRef"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"did":"string","lastObservedAtTime":"2024-07-29T15:51:28.071Z","isTrustExpired":true,"trusted":true,"corporationId":0}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"traverse_response_DidRef"}
+>
+</Heading>
+
+
+
+Minimal Did reference. `isTrustExpired` is the [[TG-ACT-3]] visibility flag; per [[TG-QRY-3]] every entity reference MUST carry the visibility flags applicable to its type, and it is always computable as `expiresAtTime` non-null and `< now`.
+
+<Schema
+  {...require("./traverse-response-didref.Schema.json")}
+>
+  
+</Schema>
+            

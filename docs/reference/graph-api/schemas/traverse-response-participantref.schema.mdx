@@ -1,0 +1,32 @@
+---
+id: traverse-response-participantref
+title: "traverse_response_ParticipantRef"
+description: "Minimal Participant reference. `state` carries the current lifecycle state; non-`ACTIVE` records are retained while referenced per [[TG-ACT-1]] and are returned by traversal with their state. `validatorParticipantId` anchors the `VALIDATED_BY: Participant → Participant` edge (the parent node in the permission tree); it is `null` if and only if `role = ECOSYSTEM` (the chain root, per [[TG-EDGE-4]])."
+sidebar_label: "traverse_response_ParticipantRef"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":0,"didId":"string","vsOperator":"string","credentialSchemaId":0,"ecosystemId":0,"weight":"string","issuedCredentials":0,"verifiedCredentials":0,"validatorParticipantId":0,"lastObservedAtTime":"2024-07-29T15:51:28.071Z"}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"traverse_response_ParticipantRef"}
+>
+</Heading>
+
+
+
+Minimal Participant reference. `state` carries the current lifecycle state; non-`ACTIVE` records are retained while referenced per [[TG-ACT-1]] and are returned by traversal with their state. `validatorParticipantId` anchors the `VALIDATED_BY: Participant → Participant` edge (the parent node in the permission tree); it is `null` if and only if `role = ECOSYSTEM` (the chain root, per [[TG-EDGE-4]]).
+
+<Schema
+  {...require("./traverse-response-participantref.Schema.json")}
+>
+  
+</Schema>
+            

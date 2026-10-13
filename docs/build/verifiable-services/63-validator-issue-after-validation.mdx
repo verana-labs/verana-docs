@@ -1,0 +1,63 @@
+---
+title: Act as validator and issue after validation
+description: "The validator side of vt-flow: receive applications, collect evidence, edit claims, validate on chain, issue."
+sidebar_position: 63
+persona: vs-builder
+surface: admin-api, frontend
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Act as validator and issue after validation
+
+When your accreditation lets you validate others (an ecosystem root, a grantor, or an issuer onboarding holders), applicants' agents connect to yours. Your backend, or an operator in the frontend, decides; the agent carries the protocol and the transaction.
+
+## The flow from your side
+
+| Flow state | Meaning | Your action |
+|---|---|---|
+| `AWAITING_OR` | An applicant's pending entry names you; its request has not arrived or was rejected | Wait |
+| `VALIDATING` | The request arrived; the agent verified the applicant is who the registry says | Review |
+| `OOB_PENDING` | You sent a link; the applicant is completing it | Wait, then `start-validation` |
+| `VALIDATED_PENDING_CLAIMS` | Role holder, entry validated, claims missing or invalid | Edit the claims, validate again |
+| `AWAITING_VALIDATION_TX` | The agent has no authorization to sign the validation | An operator signs it in the frontend |
+| `COMPLETED` | Credential issued (holder role) | Done |
+
+## Steps
+
+```bash
+# what is waiting
+curl -s http://127.0.0.1:3000/v2/vt/flows?role=validator | jq '.items[] | {participantSessionId, flowState, applicantDid}'
+
+# send the applicant to your evidence portal
+curl -s -X POST http://127.0.0.1:3000/v2/vt/flows/<id>/oob-link -H 'content-type: application/json' \
+  -d '{"url":"https://portal.example.com/apply/abc","description":"Upload your registration certificate","expiresAt":"2026-11-01T00:00:00Z"}'
+
+# when the evidence is in, resume
+curl -s -X POST http://127.0.0.1:3000/v2/vt/flows/<id>/start-validation
+
+# for a holder: set the claims of the credential you will issue
+curl -s -X PUT http://127.0.0.1:3000/v2/vt/flows/<id>/claims -H 'content-type: application/json' \
+  -d '{"claims":{"memberName":"Jane Doe","memberId":"M-1234"}}'
+
+# validate: fees for the applicant's future operations, optional end date
+curl -s -X POST http://127.0.0.1:3000/v2/vt/flows/<id>/validate -H 'content-type: application/json' \
+  -d '{"issuanceFees":0,"verificationFees":0,"effectiveUntil":"2027-10-01T00:00:00Z"}'
+
+# or refuse
+curl -s -X POST http://127.0.0.1:3000/v2/vt/flows/<id>/reject -H 'content-type: application/json' \
+  -d '{"code":"vt-flow.validation-refused","description":"The certificate does not match the applicant."}'
+```
+
+`validate` has the agent sign the on-chain validation when its VS operator authorization covers it; otherwise the flow waits in `AWAITING_VALIDATION_TX` for an operator, who finds it in the frontend's **Pending tasks**. For a holder role the agent then issues the credential over the connection.
+
+## In the frontend
+
+Pending tasks lists the same applications grouped by ecosystem and schema, with the applicant's Proof-of-Trust, and offers the on-chain actions (validate with fees and end date, cancel). Evidence collected by your agent or your portal is not shown there; the frontend shows what is on chain.
+
+## Later
+
+You can revoke the holder's entry from the frontend; the applicant's agent receives the update and removes the credential. You can issue an updated credential on the still-open connection.
+
+## Next
+
+- Specification: VS Agent v4, `VSA-ADM-VT-FL`, `VSA-VTI-FLOW-OP` validator gates, `VSA-VTI-FLOW-OP-ISSUE`.

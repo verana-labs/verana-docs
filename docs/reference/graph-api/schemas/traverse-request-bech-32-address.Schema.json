@@ -1,0 +1,1 @@
+{"schema":{"type":"string","pattern":"^verana1[a-z0-9]+$","description":"Cosmos bech32 address with the `verana` HRP. Used for the per-Participant `vsOperator` account and for `Corporation.policyAddress`.","title":"traverse_request_Bech32Address"},"schemaType":"response"}

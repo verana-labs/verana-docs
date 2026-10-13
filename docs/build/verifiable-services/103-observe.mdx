@@ -1,0 +1,33 @@
+---
+title: Observe and troubleshoot
+description: "Logs, levels, readiness, and the failures you will meet."
+sidebar_position: 103
+persona: operator
+surface: deployment
+verified_on: pending
+---
+
+# Observe and troubleshoot
+
+## Probes and logs
+
+Liveness `GET /v2/agent/health/live` and readiness `GET /v2/agent/health/ready` on the admin port, unauthenticated. Two log streams: the agent (`AGENT_LOG_LEVEL`, DIDComm, flows, indexer processing, DID and credential operations) and the admin API (`ADMIN_API_LOG_LEVEL`). Ship them to your log system; alert on repeated transaction failures.
+
+## Common failures
+
+| Symptom | Likely cause | Where to look |
+|---|---|---|
+| Not ready after start | Indexer unreachable or far behind | agent log, `VERANA_INDEXER_BASE_URL`, the indexer's status endpoint |
+| `trusted: false` for your own DID | A credential expired or a resource digest changed; an accreditation ended | resolve response `invalidCredentialIds`; the frontend's Agents page |
+| Transactions fail with an authorization error | No VS operator record for the entry, or limits exhausted | the entry's record in the frontend; agent balance |
+| A flow stuck in `OR_SENT` | The validator's agent is unreachable | the validator's DID Document and endpoints |
+| Wallets refuse your offers | You hold no active issuer accreditation for the schema | indexer participant list for your DID |
+| OpenID4VP sessions end in error | Nonce or audience mismatch, or the status list check failed | the presentation record |
+
+## Watch your own trust
+
+Resolve your DID on a schedule and alert when `trusted` flips or `expiresAtTime` approaches. The docs' nightly checks do exactly that for the standing documentation agent.
+
+## Next
+
+- [Upgrade VS Agent](./104-upgrade.mdx).

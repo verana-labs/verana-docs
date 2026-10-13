@@ -1,0 +1,32 @@
+---
+id: search-response-corporationsnippet
+title: "search_response_CorporationSnippet"
+description: "A `Corporation` hit snippet: the [TG-FCT-6a] core plus the [TG-FCT-6b] Corporation-surface groups selected by the projection (default set: `trust`, `didCard`). An unselected group is omitted entirely, never `null`."
+sidebar_label: "search_response_CorporationSnippet"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"id":0,"did":"string","lastObservedAtTime":"2024-07-29T15:51:28.071Z","trust":{"policyAddress":"string","deposit":"string","slashedEvents":0,"lastSlashedAtTime":"2024-07-29T15:51:28.071Z","slashedValue":"string"},"governance":{"version":0,"activeSince":"2024-07-29T15:51:28.071Z","documents":[{"language":"string","url":"string","digestSri":"string"}]},"ecosystems":{"total":0,"entries":[{"id":0,"archived":true}]},"dids":{"total":0,"entries":[{"did":"string","trusted":true,"isTrustExpired":true}]},"didCard":{"did":"string","trusted":true,"isTrustExpired":true,"service":{"name":"string","type":"string","description":"string","logoUri":"string","logoDigestSri":"string"},"operator":{"name":"string","logoUri":"string","logoDigestSri":"string","countryCode":"string","registryId":"string","address":"string"}}}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"search_response_CorporationSnippet"}
+>
+</Heading>
+
+
+
+A `Corporation` hit snippet: the [TG-FCT-6a] core plus the [TG-FCT-6b] Corporation-surface groups selected by the projection (default set: `trust`, `didCard`). An unselected group is omitted entirely, never `null`.
+
+<Schema
+  {...require("./search-response-corporationsnippet.Schema.json")}
+>
+  
+</Schema>
+            

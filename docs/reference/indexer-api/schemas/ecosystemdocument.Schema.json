@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"id":{"type":"integer"},"gfv_id":{"type":"integer"},"created":{"type":"string","format":"date-time"},"language":{"type":"string"},"url":{"type":"string"},"digest_sri":{"type":"string"}},"title":"EcosystemDocument"},"schemaType":"response"}

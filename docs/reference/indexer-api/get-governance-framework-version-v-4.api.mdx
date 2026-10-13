@@ -1,0 +1,69 @@
+---
+id: get-governance-framework-version-v-4
+title: "Get Governance Framework Version (v4)"
+description: "Retrieve a GovernanceFrameworkVersion by its chain-assigned global ID with its nested documents (IDX-GF-QRY-1). Aligned with VPR MOD-GF-QRY-1. Exactly one of ecosystem_id (EGF) and corporation_id (CGF) is set. Rows indexed before the chain-id capture need a reindex to be reachable by ID."
+sidebar_label: "Get Governance Framework Version (v4)"
+hide_title: true
+hide_table_of_contents: true
+api: eJztWMFu2zgQ/ZUBTzYgO0nh7sE9tXGS+lC0m6bZXQRBQIsji61EquTIjmHo3xdDSbZjK2kCZE/bkwGRw5k38/hm6LUgOfdifCMu7AKdkSbGcydzXFr3Q9xGQqGPnS5IWyPG4hLJaVwgSOjYf43Oa2tgtgJNHuJUajOQ3uu5QQXzzM5kBtMJLDWlYYdBT6hA2bjM0ZCH3nTy9+DifPDn5T+Dk/4Q3me1bbC4/nIJnz5PNutDOLuXMWUrsAbBJoCx9StPmN9pBb2zi/M+SKMgtq6wTjKEsHDKC9qDRxrCpV160EbhPSqYYWIdAqXYBK8VxLKg0iEYRAUSHIbNQBZmCA5lnMpZhox5OhmKSNgCa19TJcZijvR4oq5HIhKF5K+EjquwFkbmKMZCKxEJzSkvJKUiEg5/ltqhEmNyJUbCxynmUozXglZFsDCEc3QiEol1uaT60x8jUe0X8SrFp6o3nUDvYemitnYydtZ7OLs4D4nlRIoq2gRdOEzQOVR3mTTzUs6xBfGzRLd6gCKRme+C4clpMz8MeppwvSJwSKUzYE22CnVquQPaAKXaQ+salikaKBx6NPQOLKXoltojyCzbMm43/Pc0+JDZ+MfgI+p5Sm3sKUoV8noQ/MMIP4Z9TIyAFlLtyTodyww8SUKQBBJ8gbFOdAwzdgVpcDWEv+pg7UIrzneN0geEjbEHTbCUvsYVFuqjmLfhrEQb7VNUfE6M3mszbw62uSbaPzeThJ423A9uhvCp9MTMllBYr0kvEBpmgbEEeB8jKm3m9SUpnatz39yfXUziSZLm2ui8zMX4uKpuObe+sMaj581vjo/55yWsFZGIrSE0xJayKDIdh1t49N2z+fowFjv7jjFXuXB8Z0nXzhfNgR0bHwb0lPh0yE4tOAfutHrOHd73fdoprU9ear5SuzE+z60ps4z1rZWdh2F8Xhqmwll7LPQ8EugkYYlgaRAPk/CKPk+3B2+9nrZeHUpCdSgrO96UJByQzpENDovexldFQsZ8De68NjE+88h9ECxnG8nZHiGdkyyLmjD3v6bm6yRwjzsbAZ1O3gFbQmIduI62uN8SOTfzZPG6dX2Cw8F/w+QXV3jTkbpaTemy7hak5+jpzjvdsVxFgjQxnK7ZadKk9Xokql9s3U4DVSSChN7VEtqZ1v2BzNtsgWpTq9oSehinFj3s9bS6efiS9RFVP4DYtrWbzT3Yi+P2efFfNiLOiKtIjLpk/INUcIk/S249A5iahcy0gu0QtGmCr6fo6Jx1XUzZ03PeBjl6zzQJ2qXwGSX4eHX1JXTP0kMw2S13ODRI773Miwx34hEH4MeQ6VwT5E0PniEtEQ2chH5ycvxmJNqoRsfHbZJHh0l+4hJxE09saRQH9barQlNDbJzBV3QLdFBD+B9Uo4Hta9jhO9g4zDhqk/i3deKrSORIqW1m/DDHUyrG4mgxOppv0j9I2vwfzZGO1lpVPBYFD/W8H6RHHB12+Ga0Sq0nwROSNokN+Bss1+ikkTAN997B+y/TQ3E4+3rFC0HReV5rbGqtcOPtzOKhd3bajyB2qNCQ5jSEenronX7tR8xR0rEupCEfATlmqMIwInroXU36EeT8Nox9FMjauOCPkifBTYMVJ8M3wxOuQWE95TJwpxnAL5B29B823IWWvL3FqL+Pcr0l5u/n6a+fp831IbynoyKT2uz0v5rCN2LBOtNFYv4cyD7WiptCIOf4RqzXM+nxm8uqij/Xrz1mt9Ke3T/yZNot3X/1vnsE8Q9cPfZgXcisZINw6xbS6XpmeRGa3mXTVPvwuq/tR+C086RZ7QJoYWolqtsqal+yL4Py+1l78Kx9glGH/yFs6RSt201xjMXu2kE/Zept+svF2ZWoqn8By77Z0Q==
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get Governance Framework Version (v4)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/governance-framework/get/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retrieve a GovernanceFrameworkVersion by its chain-assigned global ID with its nested documents (IDX-GF-QRY-1). Aligned with VPR MOD-GF-QRY-1. Exactly one of ecosystem_id (EGF) and corporation_id (CGF) is set. Rows indexed before the chain-id capture need a reindex to be reachable by ID.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./get-governance-framework-version-v-4.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./get-governance-framework-version-v-4.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./get-governance-framework-version-v-4.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

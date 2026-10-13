@@ -33,7 +33,7 @@ Validators are responsible for committing new blocks to the blockchain through a
 > **Prerequisite:** Ensure the `veranad` binary is installed and up-to-date.  
 > See [Install or Update Veranad Binary](./prerequisites#1-install-or-update-the-veranad-binary).
 
-> **Tip:** If you have not created an account yet, see [Create and Fund an Account](   -> linking to /docs/next/run/network/run-a-node/prerequisites#create-and-fund-an-account).
+> **Tip:** If you have not created an account yet, see [Create and Fund an Account](   -> linking to /docs/build/run-infrastructure/run-a-node/prerequisites#create-and-fund-an-account).
 
 - A running full node (see [Join Testnet](./50-join-testnet.md))
 - At least 1,000,000 VNA tokens for self-delegation

@@ -1,0 +1,1 @@
+{"schema":{"type":"object","required":["yes_count","no_count","abstain_count","no_with_veto_count"],"properties":{"yes_count":{"type":"string"},"no_count":{"type":"string"},"abstain_count":{"type":"string"},"no_with_veto_count":{"type":"string"}},"title":"GroupTally"},"schemaType":"response"}

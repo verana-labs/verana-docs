@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"address":{"type":"string","description":"Bech32 address of the member"},"weight":{"type":"string","description":"Voting weight (decimal string)"},"metadata":{"type":"string","nullable":true,"description":"Optional member metadata"}},"title":"CorporationMember"},"schemaType":"response"}

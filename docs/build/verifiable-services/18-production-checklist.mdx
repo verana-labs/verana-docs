@@ -1,0 +1,23 @@
+---
+title: Production checklist
+description: "Before real users depend on your agent: exposure, keys, backups, monitoring, pinning, DID integrity."
+sidebar_position: 18
+persona: vs-builder
+surface: deployment
+verified_on: pending
+---
+
+# Production checklist
+
+- **TLS in front of the public listener**, certificate renewal automated. The DID Document is fetched over HTTPS by everyone.
+- **Admin API not on the public ingress**, or in corporation mode with a short allowlist. Trusted networks never include the address of a public proxy.
+- **The mnemonic in a secret store**, never in an image, a repository or a chat. One mnemonic per agent.
+- **Backups** of the PostgreSQL database and the agent volume, tested by a restore into a staging namespace. Losing them loses the keys and the DID, and with them every accreditation.
+- **`PUBLIC_API_BASE_URL` under change control.** A change creates no new DID, it stops the agent; a wrong value in a redeploy is the most common outage.
+- **Image tag pinned** to a release. Upgrades read the changelog and happen in staging first.
+- **Monitoring**: readiness probe wired to the orchestrator, log shipping, alerts on repeated transaction failures and on `trusted: false` for your own DID (the nightly check of the [docs examples](https://github.com/verana-labs/verana-docs/tree/main/examples) shows how).
+- **Claim resources stable**: logo, terms and privacy policy served from a place you control, with cache headers; their digests are in your credentials.
+- **Fee grant from the corporation** so the agent's account does not need topping up, with limits that bound a runaway. See [Pay with corporation funds](./81-pay-with-corporation-funds.mdx).
+- **Configured OpenID4VC signing** with your own certificate when you issue SD-JWT credentials; development signing is self-signed.
+- **One replica** per agent today; the agent holds state in its database but does not coordinate replicas.
+- **A plan for revocation**: who may revoke which accreditation of yours, what your backend does on `PARTICIPANT_REVOKED`.

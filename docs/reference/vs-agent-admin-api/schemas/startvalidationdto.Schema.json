@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"comment":{"type":"string","description":"The text the applicant reads."}},"title":"StartValidationDto"},"schemaType":"response"}

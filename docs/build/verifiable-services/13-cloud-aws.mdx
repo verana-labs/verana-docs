@@ -1,0 +1,27 @@
+---
+title: On AWS (EKS)
+description: "Get an EKS cluster, an ingress controller, cert-manager and Route 53 ready for the Helm install."
+sidebar_position: 13
+persona: vs-builder
+surface: deployment
+verified_on: pending
+---
+
+# On AWS (EKS)
+
+Everything specific to AWS happens before the [Helm install](./12-kubernetes-helm.mdx): a cluster, an ingress controller behind a load balancer, cert-manager, and a DNS record. Terraform for all of it is in [verana-deploy-examples](https://github.com/verana-labs/verana-deploy-examples/tree/main/vs-agent/aws-eks) (VPC, EKS, EBS CSI with a `gp3` storage class, ingress-nginx behind a Network Load Balancer, cert-manager, Route 53 record); its README states whether it has been verified. The steps below are the CLI path to the same result.
+
+## Steps
+
+1. **Cluster.** Create an EKS cluster with one managed node group of two small nodes (`t3.medium` is enough for a few agents) and the EBS CSI driver add-on, which provides the `gp3` storage class the agent volume uses. With eksctl: `eksctl create cluster --name agents --region eu-west-1 --nodes 2 --node-type t3.medium` then `eksctl create addon --name aws-ebs-csi-driver --cluster agents`.
+2. **Ingress controller.** Install ingress-nginx with a Service of type `LoadBalancer`; AWS provisions a Network Load Balancer. Read its DNS name from the Service.
+3. **DNS.** In Route 53, create a CNAME (or alias) `agent.example.com` to the load balancer name.
+4. **cert-manager.** Install cert-manager and a `ClusterIssuer` for Let's Encrypt with the HTTP-01 solver on class `nginx`.
+5. **Storage class.** Set `storage.storageClassName: gp3` in your values.
+6. Continue with [Deploy on Kubernetes with Helm](./12-kubernetes-helm.mdx).
+
+## Notes
+
+- Keep the admin API internal (the default). Your backend runs in the same cluster or VPC and reaches `agent.agents.svc:3000`.
+- Secrets: store the mnemonic in AWS Secrets Manager and sync it with External Secrets Operator, or create the Kubernetes Secret from your pipeline.
+- Cost: two small nodes and one NLB are the whole bill for a handful of agents.

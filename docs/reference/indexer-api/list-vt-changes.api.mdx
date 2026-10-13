@@ -1,0 +1,69 @@
+---
+id: list-vt-changes
+title: "List Changes (IDX-VT-QRY-2)"
+description: "WebSocket-companion catch-up for the Verifiable Trust subscribe stream. Returns the same change envelopes as the `/v4/verifiable-trust/subscribe` WS `block` messages, compressed: blocks with no subscribed change are omitted. Use after a disconnection or a detected gap, looping with `nextFromBlock` until it is `null`."
+sidebar_label: "List Changes (IDX-VT-QRY-2)"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List Changes (IDX-VT-QRY-2)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/verifiable-trust/changes"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+WebSocket-companion catch-up for the Verifiable Trust subscribe stream. Returns the same change envelopes as the `/v4/verifiable-trust/subscribe` WS `block` messages, compressed: blocks with no subscribed change are omitted. Use after a disconnection or a detected gap, looping with `nextFromBlock` until it is `null`.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./list-vt-changes.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./list-vt-changes.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./list-vt-changes.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

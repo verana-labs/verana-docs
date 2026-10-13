@@ -1,0 +1,41 @@
+---
+title: Expose MCP, A2A and web endpoints
+description: "Add consumable endpoints to your DID Document, and understand why peers use them only after trust resolution."
+sidebar_position: 32
+persona: vs-builder
+surface: admin-api
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Expose MCP, A2A and web endpoints
+
+Your DID Document can declare any endpoint through which your service is consumed: an MCP server, an A2A endpoint, a website, anything an ecosystem defines. Peers find them there, after they resolved your DID as trusted. DIDComm stays the channel over which they obtain whatever your endpoint requires to let them in.
+
+## Add an endpoint
+
+```bash
+curl -s -X POST http://127.0.0.1:3000/v2/vt/service-endpoints -H 'content-type: application/json' \
+  -d '{"type":"MCP","serviceEndpoint":"https://mcp.example.com/mcp"}'
+curl -s -X POST http://127.0.0.1:3000/v2/vt/service-endpoints -H 'content-type: application/json' \
+  -d '{"type":"LinkedDomains","serviceEndpoint":"https://www.example.com/"}'
+curl -s http://127.0.0.1:3000/v2/vt/service-endpoints | jq '.items'
+```
+
+The agent republishes the DID Document after each change and triggers re-resolution. The agent-managed entries (DIDComm, linked presentations, admin API, AnonCreds registry) cannot be edited this way; the agent refuses.
+
+## What a peer does with them
+
+1. Resolves your DID; stops if not trusted.
+2. Opens a DIDComm session and, over it, obtains the token, credential or key your endpoint needs.
+3. Calls the endpoint with that material, in that endpoint's own protocol.
+
+So the MCP or A2A protocol never has to carry trust itself. If your endpoint needs no token, step 2 is still where the peer learned to trust it.
+
+## Type names
+
+`MCP` and `A2A` are the type strings the specification uses as examples; ecosystems may standardise others. `LinkedDomains` is the W3C well-known type for a website. The requirement is DID Core service syntax.
+
+## Next
+
+- [Build an AI agent as a Verifiable Service](./90-ai-agent.mdx).
+- Specification: Verifiable Trust v4, `VS-SVC-3` to `VS-SVC-7`; VS Agent v4, `VSA-ADM-VT-SE`.

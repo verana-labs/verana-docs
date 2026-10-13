@@ -1,0 +1,32 @@
+---
+id: search-response-governanceframeworksummary
+title: "search_response_GovernanceFrameworkSummary"
+description: "Inline governance-framework summary (`cgf` / `egf` per [TG-DEREF-2a] / [TG-DEREF-2b]): active version, activation time, and document metadata — never document bodies. `activeSince` is required-present per the [TG-FCT-6b] null-not-omitted rule (`null` when the upstream inline object omits it), even though the persisted entity-table shape writes it as optional."
+sidebar_label: "search_response_GovernanceFrameworkSummary"
+hide_title: true
+hide_table_of_contents: true
+schema: true
+sample: {"version":0,"activeSince":"2024-07-29T15:51:28.071Z","documents":[{"language":"string","url":"string","digestSri":"string"}]}
+custom_edit_url: null
+---
+
+import Schema from "@theme/Schema";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"search_response_GovernanceFrameworkSummary"}
+>
+</Heading>
+
+
+
+Inline governance-framework summary (`cgf` / `egf` per [TG-DEREF-2a] / [TG-DEREF-2b]): active version, activation time, and document metadata — never document bodies. `activeSince` is required-present per the [TG-FCT-6b] null-not-omitted rule (`null` when the upstream inline object omits it), even though the persisted entity-table shape writes it as optional.
+
+<Schema
+  {...require("./search-response-governanceframeworksummary.Schema.json")}
+>
+  
+</Schema>
+            

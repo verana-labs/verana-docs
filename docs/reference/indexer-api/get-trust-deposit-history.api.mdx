@@ -1,0 +1,69 @@
+---
+id: get-trust-deposit-history
+title: "Get Trust Deposit activity timeline"
+description: "Retrieve the activity timeline for a Trust Deposit row, ordered by id descending (newest-first). Returns only changed values in the changes field. Paginates on ActivityItem.id via min_id/max_id/limit/sort."
+sidebar_label: "Get Trust Deposit activity timeline"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/reference/indexer-api/verana-indexer-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get Trust Deposit activity timeline"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v4/trust-deposit/history/{corporation_id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retrieve the activity timeline for a Trust Deposit row, ordered by id descending (newest-first). Returns only changed values in the changes field. Paginates on ActivityItem.id via min_id/max_id/limit/sort.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./get-trust-deposit-history.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./get-trust-deposit-history.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./get-trust-deposit-history.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

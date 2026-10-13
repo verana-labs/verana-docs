@@ -1,0 +1,35 @@
+---
+title: Join an open schema
+description: "Self-create an issuer or verifier accreditation, with the agent as VS operator so it can act."
+sidebar_position: 41
+persona: vs-builder
+surface: frontend
+verified_on: pending (testnet v4)
+---
+
+# Join an open schema
+
+When a schema's mode for your role is open, your corporation creates the accreditation itself. No validator, no evidence, effective as soon as its window starts.
+
+## Steps
+
+1. In the frontend, **Discover & Join**, the ecosystem, the schema, the role (**Issuer** or **Verifier**). The wizard shows **Self-create**.
+2. Enter your agent's DID. Keep the effective window the wizard proposes, or set one. If you will charge fees for what you issue or verify, set them now or leave zero.
+3. Advanced: set the agent's account as **VS operator** with the message types it will need: recording sessions, triggering re-resolution. This is frozen for the life of the entry.
+4. Sign. The accreditation appears in the frontend's Agents page and the agent sees it through the indexer.
+
+## Verify
+
+```bash
+curl -s 'https://idx.testnet.verana.network/v4/participant/list?did=<your did>&participant_state=ACTIVE' | jq '.participants[] | {id, role, schema_id, effective_until}'
+```
+
+## Notes
+
+- Open does not mean unaccountable: the ecosystem can still revoke or slash the entry under its governance framework, and the entry grows your trust deposit like any other.
+- Wallets check the entry at every offer or request; create it before you issue or verify.
+
+## Next
+
+- [Issue credentials with OpenID4VC](./60-issue-openid4vc.mdx) or [with AnonCreds](./61-issue-anoncreds.mdx); [request presentations](./70-verify-openid4vp.mdx).
+- Specification: VPR v4, `MOD-PP-MSG-14`.

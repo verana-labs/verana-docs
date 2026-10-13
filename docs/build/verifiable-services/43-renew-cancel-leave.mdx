@@ -1,0 +1,30 @@
+---
+title: Renew, cancel, leave
+description: "Renewal before expiry, cancelling a pending application, and what a revocation does to your credentials."
+sidebar_position: 43
+persona: vs-builder
+surface: frontend, admin-api
+verified_on: pending (testnet v4)
+---
+
+# Renew, cancel, leave
+
+## Renew
+
+An accreditation obtained through an onboarding process has an effective end. Renew before it, from the participant card in the frontend: the entry goes back to pending with the same validator while staying active, your agent resends an onboarding request, the validator validates again. The governance framework says what a renewal requires. The frontend flags accreditations that expire soon.
+
+## Cancel a pending application
+
+From the participant card: cancelling a never-validated application terminates it and refunds the escrowed fee. Cancelling a pending renewal returns the entry to validated.
+
+## Leave
+
+Your corporation can revoke its own accreditation. The validator and the ecosystem can too. Whatever the origin, the agent reacts the same way: the flow moves to `PARTICIPANT_REVOKED`, credentials that depended on the entry are deleted from its store and removed from the DID Document, and the agent re-publishes. A self-issued credential anchored on a revoked issuer accreditation disappears as well.
+
+## What your backend should do
+
+Listen to `vt.flows.state-updated` with `PARTICIPANT_REVOKED` or `PARTICIPANT_SLASHED`, and to `vpr.notification`, and stop offering the affected service. A slashed entry resumes only after the corporation repays the slashed amount from the frontend.
+
+## Next
+
+- Specification: VPR v4, `MOD-PP-MSG-2`, `MOD-PP-MSG-6`, `MOD-PP-MSG-9`; VS Agent v4, `VSA-VT-LVP-3`.

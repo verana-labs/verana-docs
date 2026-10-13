@@ -1,0 +1,53 @@
+---
+title: Join through an onboarding process
+description: "Apply with the frontend, let the agent run the flow with the validator, complete out-of-band steps, get validated."
+sidebar_position: 42
+persona: vs-builder
+surface: frontend, admin-api
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+# Join through an onboarding process
+
+When a schema requires an onboarding process for your role, you apply on the registry and your agent runs the conversation with the validator's agent. The pattern is the one of the [ECS Organization credential](./20-ecs-organization-credential.mdx), for any schema and any role.
+
+## Steps
+
+### 1. Apply
+
+Frontend, **Discover & Join**, the ecosystem, the schema, the role. The wizard lists the validators of the required kind (the ecosystem's root, or grantors) as trust cards with fees. Choose one, enter your agent's DID, set the agent's account as **VS operator**, review the cost (fee to escrow, deposit share, network fee), sign.
+
+### 2. The agent runs the flow
+
+Your agent connects to the validator and sends the onboarding request. For schemas other than ECS it sends no claims: the validator collects what it needs through its own process, often an out-of-band link.
+
+```bash
+curl -s http://127.0.0.1:3000/v2/vt/flows | jq '.items[] | {participantSessionId, flowState, connectionState, oobLink: .oob}'
+```
+
+When the state is `OOB_PENDING`, the flow record carries the link and its description: a form, a document upload, an identity check on the validator's site. Complete it; the validator resumes.
+
+### 3. Validation
+
+The validator sets your accreditation to validated on the registry. For issuer and verifier roles the flow is complete there; for the holder role the validator then issues the credential, which your agent publishes.
+
+## Verify
+
+The accreditation is `ACTIVE` in the indexer and on the frontend's Agents page; the flow is `VALIDATED` (issuer, verifier) or `COMPLETED` (holder).
+
+## Renewal
+
+Before the effective end, renew from the participant card in the frontend: a new process starts with the same validator while the current accreditation stays active. See [Renew, cancel, leave](./43-renew-cancel-leave.mdx).
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| `AWAITING_OP` | The agent has not seen the pending entry | Check the DID and VS operator on the entry; check the indexer subscription |
+| The validator refused the connection | Your agent is not trusted and the schema is not an ECS schema | Become trusted first |
+| `OOB_PENDING` with an expired link | You missed the validator's deadline | Ask the validator to resend, or cancel and re-apply |
+| Rejected with a reason | The validator's decision, per its governance framework | Address the reason, re-apply |
+
+## Next
+
+- Specification: vt-flow protocol 1.0; VS Agent v4, `VSA-VTI-FLOW-OP`.

@@ -1,0 +1,25 @@
+---
+title: On OVHcloud (Managed Kubernetes)
+description: "What Verana itself runs on: an OVHcloud Public Cloud project, a Managed Kubernetes cluster, an ingress, cert-manager and OVH DNS."
+sidebar_position: 16
+persona: vs-builder
+surface: deployment
+verified_on: pending
+---
+
+# On OVHcloud (Managed Kubernetes)
+
+The Verana testnet services run on OVHcloud Managed Kubernetes, so this is the most exercised path. Terraform for all of it is in [verana-deploy-examples](https://github.com/verana-labs/verana-deploy-examples/tree/main/vs-agent/ovh-mks) (Managed Kubernetes cluster, node pool, ingress-nginx, cert-manager, OVHcloud DNS record); its README states whether it has been verified. The steps below are the CLI path to the same result.
+
+## Steps
+
+1. **Cluster.** In a Public Cloud project, create a Managed Kubernetes cluster in your region with a node pool of two `b3-8` nodes. Download the kubeconfig. The cluster ships the `csi-cinder-high-speed` storage class, which is the chart's default.
+2. **Ingress controller.** Install ingress-nginx with a `LoadBalancer` Service; OVHcloud provisions a load balancer with a public IP.
+3. **DNS.** In the OVHcloud DNS zone, create an A record `agent.example.com` to that IP.
+4. **cert-manager.** Install cert-manager and a Let's Encrypt `ClusterIssuer` with the HTTP-01 solver on class `nginx`.
+5. Continue with [Deploy on Kubernetes with Helm](./12-kubernetes-helm.mdx); the storage class default already matches.
+
+## Notes
+
+- Secrets: OVHcloud has no managed secret store integrated with Kubernetes; create Secrets from your pipeline or run External Secrets Operator against a vault you operate.
+- A single VPS with [Docker Compose](./11-docker-compose.mdx) is the cheaper option for one agent.

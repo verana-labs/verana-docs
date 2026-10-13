@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"slashed_amount":{"type":"integer","description":"Amount slashed"},"slashed_ts":{"type":"string","format":"date-time","description":"Slash timestamp"},"slashed_by":{"type":"string","description":"Account that performed the slash"}},"title":"SlashEvent"},"schemaType":"response"}

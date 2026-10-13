@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"type":{"type":"string","description":"New consumable service type.","example":"MCP"},"serviceEndpoint":{"type":"object","description":"New service endpoint: a URI string, an object, or an array of those (per DID-CORE).","example":"https://mcp.agent.example.com"}},"title":"UpdateServiceEndpointDto"},"schemaType":"response"}
