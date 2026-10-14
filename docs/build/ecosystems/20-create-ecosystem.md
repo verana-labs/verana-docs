@@ -4,7 +4,7 @@ description: "The ecosystem entry: DID, language, governance framework version o
 sidebar_position: 20
 persona: ecosystem-builder
 surface: frontend
-verified_on: pending (testnet v4)
+verified_on: 2026-10-14 (testnet v0.10.6, frontend 0.18)
 ---
 
 # Create an ecosystem and publish its governance framework
@@ -17,11 +17,27 @@ verified_on: pending (testnet v4)
 
 ## Steps
 
-1. **Ecosystems** page, **Create ecosystem**. Enter the DID, the primary language, and the governance framework document URL; the frontend computes its digest. Review the cost, sign (or propose).
-2. The ecosystem appears in your list as controlled. Its page shows the governance framework with version one active, the empty schema list, and configuration actions.
-3. **Later versions**: in the governance framework section, add documents to the next version, one per language, then activate. The active version is frozen; participants are bound by it.
-4. **Rotate the DID** if the anchor moves: the ecosystem's DID can be updated by its controller.
-5. **Archive** when the ecosystem retires: it stays readable, existing accreditations run to their end, nobody new can join. Unarchive is possible.
+1. **Ecosystems** page, **Create Ecosystem**. Enter the DID, the primary language, and the governance framework document URL; the frontend computes its digest. **Create Ecosystem**, review the cost in the confirmation dialog, sign (or propose).
+
+<Screenshot name="ecosystems/create-form" alt="The Create Ecosystem form" />
+
+2. The frontend opens the new ecosystem. Its page shows the basic information, the DID, the governance framework with version one active, the empty schema list, and the configuration actions.
+
+<Screenshot name="ecosystems/detail" alt="A new ecosystem page" />
+
+3. **Later versions**: in **EGF Documents**, **Add New EGF Document** for the next version, one per language, then **Increase Active EGF**. The active version is frozen; participants are bound by it.
+
+<Screenshot name="ecosystems/egf-add-form" alt="The form to add an ecosystem governance framework document" />
+
+4. **Edit Configuration** changes the DID if the anchor moves: the ecosystem's DID can be updated by its controller.
+
+<Screenshot name="ecosystems/edit-config" alt="The Edit Configuration form of an ecosystem" />
+
+5. **Archive** when the ecosystem retires: it stays readable, existing accreditations run to their end, nobody new can join. **Unarchive** is possible.
+
+The **Ecosystems** page lists the ecosystems your corporation controls, with their schemas and figures.
+
+<Screenshot name="ecosystems/list" alt="The Ecosystems page listing the corporation's ecosystem" />
 
 ## Verify
 
@@ -34,4 +50,4 @@ The [trust graph](https://search.testnet.verana.network) lists the ecosystem onc
 ## Next
 
 - [Run the ecosystem anchor](./21-ecosystem-anchor.md), then [define credential schemas](./30-credential-schemas.md).
-- Specification: VPR v4, `MOD-ES-MSG-1` to `MOD-ES-MSG-3`, Governance Framework module.
+- Specification: VPR v4, `MOD-ES-MSG-1` to `MOD-ES-MSG-3`, Governance Framework module; Frontend v4, `VFE-PAGE-ES`.

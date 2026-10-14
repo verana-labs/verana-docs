@@ -4,7 +4,7 @@ description: "Members, weights, decision policy, DID, language and the first gov
 sidebar_position: 10
 persona: ecosystem-builder
 surface: frontend
-verified_on: pending (testnet v4)
+verified_on: 2026-10-14 (testnet v0.10.6, frontend 0.18)
 ---
 
 # Create a corporation
@@ -13,25 +13,51 @@ Every resource on the registry belongs to a corporation. Creating one is the fir
 
 ## Prerequisites
 
-- A browser wallet for Cosmos chains (Keplr or Leap) connected to the frontend on testnet, with a little balance from the faucet (Account page, **Get VNA**).
+- A browser wallet connected to the frontend on testnet, with a little balance from the faucet (**Account**, **Get VNA**). See [Get started](./05-get-started.md).
 - A DID for the corporation. Its anchor agent's DID is the natural choice; any resolvable DID you control works.
 - A first corporation governance framework document (how your organisation reaches decisions) at a stable URL. For a first corporation a one-page document is enough.
 
 ## Steps
 
-1. Connect the wallet. With no corporation to act for, the frontend offers **Create new corporation**; it is also in the corporation selector and on the Corporation page.
-2. **Identity**: the DID, the primary language, the governance framework document URL. The frontend computes the document's digest from the URL.
-3. **Members and policy**: the member accounts and their voting weights, and the decision policy: a threshold of weight or a percentage, a voting period, a minimum execution delay. A single member with threshold one is fine to start; you can change it later by proposal.
-4. **Review**: the cost preview, and the reminder that the creating account keeps no privilege: governance belongs to the group. Sign.
-5. The frontend re-discovers your corporations and offers the guided next step: propose an operator authorization for your own account, so you can act without a vote for every transaction. Accept it; see [Operators, proposals and fee grants](./11-operators-proposals.md).
+With no corporation to act for, the frontend offers **Create new Corporation** on the dashboard and the Corporation page; it is also in the corporation selector. The wizard has four steps.
 
-## Fund the policy address
+<StepThrough>
+<Step title="Identity" shot="corporation/wizard-identity">
 
-The corporation pays nothing itself until it grants fees to operators or agents, but it is good practice to send the policy address some coins now. The Corporation page shows the address with a copy button.
+The corporation DID, the language of its governance framework, and the URL of the framework document. The frontend fetches the document and computes its digest; the URL must be reachable from the browser.
+
+</Step>
+<Step title="Members" shot="corporation/wizard-members">
+
+The member accounts and their voting weights (your account is the first member), the **threshold** of weight a proposal needs, and the **voting period** in seconds. The hint under the fields says how many members must agree. A single member with threshold one is fine to start; you can change members and policy later by proposal.
+
+</Step>
+<Step title="Review" shot="corporation/wizard-review">
+
+Everything you entered, the reminder that the creating account keeps no privilege (governance belongs to the group), and the **Policy funding** in uvna: coins sent to the corporation's policy address in the same transaction. Fund it now if the corporation will pay fees for its operators or agents. **Sign & create corporation**.
+
+</Step>
+<Step title="Confirm" shot="corporation/wizard-confirm">
+
+The confirmation dialog shows the transaction, the network fee and who pays it. Confirm, then approve in the wallet.
+
+</Step>
+<Step title="Operator grant" shot="corporation/wizard-grant">
+
+The corporation exists. The last step offers the guided first proposal: **Grant me operator authorization**, so your account can act for the corporation without a vote for every transaction. With threshold one it executes at once. You can skip it and do it later from the Corporation page; see [Operators, proposals and fee grants](./11-operators-proposals.md).
+
+</Step>
+</StepThrough>
+
+1 VNA is 1,000,000 uvna. Amounts typed in fields labelled uvna are in base units.
 
 ## Verify
 
-The Corporation page shows the id, DID, policy address, members and policy, and the first governance framework version active. The indexer lists it:
+The Corporation page shows the id, DID, policy address, members and policy, the first governance framework version active, and the activity of the corporation. The selector in the header now acts for it.
+
+<Screenshot name="corporation/overview" alt="The Corporation page overview after creation" />
+
+The indexer lists it:
 
 ```bash
 curl -s 'https://idx.testnet.verana.network/v4/corporation/list?did=<your did>' | jq

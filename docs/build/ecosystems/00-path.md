@@ -30,14 +30,15 @@ flowchart LR
 
 ## In the frontend, in order
 
+0. New to the frontend? [Get started](./05-get-started.md): connect a wallet, get testnet VNA, find your way around.
 1. [Create a corporation](./10-create-corporation.md), then [operators and proposals](./11-operators-proposals.md).
 2. Deploy the [ecosystem anchor](./21-ecosystem-anchor.md): a VS Agent whose DID will be the ecosystem's DID. Make it a trusted Verifiable Service like any other.
 3. [Create the ecosystem](./20-create-ecosystem.md) with that DID and your governance framework.
 4. [Define credential schemas](./30-credential-schemas.md). The anchor publishes their schema credentials automatically.
 5. [Create root participants and grantors](./31-root-participants-grantors.md).
-6. Announce, and [validate applicants](./40-validate-applicants.md) as they come.
+6. Announce, and [validate applicants](./40-validate-applicants.md) as they come. Applicants use [Discover & Join](./35-join-an-ecosystem.md).
 7. [Design the fee model](./50-fee-model.md) and watch the tree.
 
 ## Where to look while you build
 
-The frontend's **Ecosystems** page lists what your corporation controls; each ecosystem page shows its schemas and participant trees; **Pending tasks** shows what waits for you. The [trust graph](https://search.testnet.verana.network) shows your ecosystem as the public sees it.
+The frontend's **Ecosystems** page lists what your corporation controls; each ecosystem page shows its schemas and participant trees; **Pending Tasks** shows what waits for you. The [trust graph](https://search.testnet.verana.network) shows your ecosystem as the public sees it.

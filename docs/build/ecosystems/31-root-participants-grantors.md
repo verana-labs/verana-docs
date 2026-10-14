@@ -4,7 +4,7 @@ description: "Create the root of each schema's tree with its fees, accredit gran
 sidebar_position: 31
 persona: ecosystem-builder
 surface: frontend
-verified_on: pending (testnet v4)
+verified_on: 2026-10-14 (testnet v0.10.6, frontend 0.18)
 ---
 
 # Root participants and grantors
@@ -13,7 +13,23 @@ A schema's participant tree starts with a root: the ecosystem's own accreditatio
 
 ## Create the root
 
-Schema page or participants view, **Create root participant**: the ecosystem DID, the effective window (a start in the near future, an optional end), and the three fees the ecosystem charges at the root: validation (what a grantor or direct applicant pays to be validated by the ecosystem), issuance and verification (what issuers and verifiers below pay per operation). Zero means free. Sign.
+Schema page, **Participants**: the participant tree, empty until the root exists. **New Participant** creates the root:
+
+- the ecosystem DID;
+- the effective window: a start (empty means now) and an optional end;
+- the three fees the ecosystem charges at the root: validation (what a grantor or direct applicant pays to be validated by the ecosystem), issuance and verification (what issuers and verifiers below pay per operation). Fees are in uvna, the base unit: 1 VNA is 1,000,000 uvna. Zero means free.
+
+Sign.
+
+<Screenshot name="participants/create-root-form" alt="The New Participant form for the root of a schema" />
+
+The root heads the tree, with the **Issuers** and **Verifiers** branches below it, each showing its onboarding mode and a **join** action for applicants.
+
+<Screenshot name="participants/tree-root" alt="The participant tree with the ecosystem root" />
+
+:::note Unresolvable services
+The tree hides participants whose DID does not resolve, which is the case for a new entry until its agent publishes the DID document. Tick **Unresolvable services** to show them.
+:::
 
 ## Accredit grantors
 
