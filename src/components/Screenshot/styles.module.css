@@ -1,0 +1,67 @@
+.figure {
+  margin: 1.25rem 0 1.75rem;
+}
+
+.zoom {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  background: none;
+  overflow: hidden;
+  cursor: zoom-in;
+  box-shadow: var(--ifm-global-shadow-lw);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.zoom:hover,
+.zoom:focus-visible {
+  border-color: var(--ifm-color-primary);
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.caption {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-700);
+  text-align: center;
+}
+
+.lightbox {
+  max-width: 96vw;
+  max-height: 96vh;
+  padding: 0;
+  border: none;
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-background-color);
+  cursor: zoom-out;
+  overflow: auto;
+}
+
+.lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.full {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.hint {
+  position: sticky;
+  bottom: 0;
+  display: block;
+  padding: 0.35rem;
+  font-size: 0.8rem;
+  text-align: center;
+  color: var(--ifm-color-emphasis-700);
+  background: var(--ifm-background-surface-color);
+}

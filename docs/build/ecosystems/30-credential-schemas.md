@@ -4,7 +4,7 @@ description: "Author the JSON schema, choose the onboarding modes, validity peri
 sidebar_position: 30
 persona: ecosystem-builder
 surface: frontend
-verified_on: pending (testnet v4)
+verified_on: 2026-10-14 (testnet v0.10.6, frontend 0.18)
 ---
 
 # Define a credential schema
@@ -45,14 +45,22 @@ The [five Essential Credential Schemas](../../reference/credentials/essential-cr
 | Verifier onboarding mode | same | Who may ask people for this credential. Open is common for low-sensitivity credentials. |
 | Holder onboarding mode | issuer onboarding process, permissionless | Issuer onboarding process gives each holder an entry the issuer can revoke; required for credentials issued to services. Permissionless for credentials issued to people. |
 | Validity periods | days per role, zero for none | How often grantors, issuers, verifiers and holders must renew |
-| Pricing asset | native coin (frontend today), trust unit, fiat | The unit of every fee on this schema |
+| Pricing asset | native coin (the frontend sets it), trust unit, fiat | The unit of every fee on this schema. The frontend creates schemas priced in VNA, and keeps the fee-bearing actions of schemas priced in another asset disabled, with a notice. |
 | Digest algorithm | sha384 or sha512 | Used to anchor public credentials |
 
 Everything except the validity periods is immutable; the frontend warns before you sign.
 
 ## Steps
 
-Ecosystem page, **Credential schemas**, **New schema**: paste the JSON schema (validated in the browser, bounded by the network's size limit), set the modes, periods and algorithm, sign. The anchor publishes the schema credential, type metadata and AnonCreds schema within a block or two.
+Ecosystem page, **Credential Schemas**, **New Schema**: set the onboarding modes, the digest algorithm and the validity periods in days, paste the JSON schema (validated in the browser, bounded by the network's size limit), and sign. The anchor publishes the schema credential, type metadata and AnonCreds schema within a block or two.
+
+<Screenshot name="schemas/create-form" alt="The Create New Credential Schema form" />
+
+The schema then appears on the ecosystem page with its modes and figures, and opens on its own page with the JSON schema and its activity.
+
+<Screenshot name="ecosystems/detail-with-schema" alt="The ecosystem page with its first credential schema" />
+
+<Screenshot name="schemas/detail" alt="A credential schema page" />
 
 ## Verify
 
