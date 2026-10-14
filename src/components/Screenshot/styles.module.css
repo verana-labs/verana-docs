@@ -65,3 +65,17 @@
   color: var(--ifm-color-emphasis-700);
   background: var(--ifm-background-surface-color);
 }
+
+:global(.markdown) .figure {
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+:global([data-theme]) :global(.markdown) .image,
+:global([data-theme]) :global(.markdown) .full {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
