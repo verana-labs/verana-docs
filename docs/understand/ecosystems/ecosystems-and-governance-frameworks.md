@@ -28,7 +28,7 @@ The ecosystem DID is the trust root of everything the ecosystem governs. It issu
 
 The ecosystem governance framework is the written law of the ecosystem: its mission, the credential schemas it governs, how one joins and in which role, what evidence a validator asks for, what it costs, what behaviour gets a participant revoked or slashed, how disputes are handled. The registry holds versions of it, each version with one document per language, identified by URL and content digest so nobody can alter a published text unnoticed. Only the active version binds participants; future versions are prepared and then activated.
 
-The governance framework is a commitment to the participants and to the wallets that will trust the ecosystem's credentials. The Verana Council publishes templates, and the ECS ecosystem's own framework is the first example.
+The governance framework is a commitment to the participants and to the wallets that will trust the ecosystem's credentials. The Verana Council publishes the [Template EGF](https://github.com/verana-labs/verana-council-gov/tree/main/template-egf), a scaffold any ecosystem may use without Council approval, and the [ECS ecosystem's own framework](https://github.com/verana-labs/verana-council-gov/tree/main/ecs-egf) is the first example. Both rest on the [Network Governance Framework](https://github.com/verana-labs/verana-council-gov/tree/main/network-gf), the rules every ecosystem on the network supplements and must not contradict.
 
 ## Who controls an ecosystem
 

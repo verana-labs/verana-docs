@@ -15,7 +15,7 @@ Every resource on the registry belongs to a corporation. Creating one is the fir
 
 - A browser wallet connected to the frontend on testnet, with a little balance from the faucet (**Account**, **Get VNA**). See [Get started](./05-get-started.md).
 - A DID for the corporation. Its anchor agent's DID is the natural choice; any resolvable DID you control works.
-- A first corporation governance framework document (how your organisation reaches decisions) at a stable URL. For a first corporation a one-page document is enough.
+- A first corporation governance framework document (how your organisation reaches decisions and who may sign for it) at a stable URL. The Verana Council's [Template CGF](https://github.com/verana-labs/verana-council-gov/tree/main/template-cgf) is a scaffold with a short form; for a first corporation on testnet a one-page document is enough.
 
 ## Steps
 

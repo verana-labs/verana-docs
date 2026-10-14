@@ -23,7 +23,8 @@ flowchart LR
 
 ## Before the frontend
 
-- **Write the governance framework.** Mission, the credentials you govern, who may join in which role and on what evidence, fees, obligations, what gets a participant revoked or slashed, how disputes are handled. The Verana Council publishes templates; the ECS ecosystem's framework is a worked example. Publish it at a stable URL; you will register its digest.
+- **Write the corporation governance framework.** How your organisation decides and who may sign for it. The Verana Council's [Template CGF](https://github.com/verana-labs/verana-council-gov/tree/main/template-cgf) is a scaffold with a short form for a first corporation. Publish it at a stable URL; a corporation cannot be created without it.
+- **Write the ecosystem governance framework.** Mission, the credentials you govern, who may join in which role and on what evidence, fees, obligations, what gets a participant revoked or slashed, how disputes are handled. The Verana Council's [Template EGF](https://github.com/verana-labs/verana-council-gov/tree/main/template-egf) is a scaffold, and the [ECS ecosystem's framework](https://github.com/verana-labs/verana-council-gov/tree/main/ecs-egf) is a worked example. Publish it at a stable URL; you will register its digest.
 - **Design the schemas.** For each credential: the claims as a JSON schema, the onboarding mode per role, validity periods, the pricing asset. Changing a schema later means a new schema, so decide carefully; changing validity periods is allowed.
 - **Decide the tree.** Will you validate every issuer yourself, or accredit grantors who do it in their region or sector? Will holders have entries (so issuers can revoke) or stay permissionless?
 - **Decide the money.** Free, or validation fees, or pay per issuance and verification. Priced in the native coin for now in the frontend.

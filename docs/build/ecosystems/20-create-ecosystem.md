@@ -13,7 +13,7 @@ verified_on: 2026-10-14 (testnet v0.10.6, frontend 0.18)
 
 - A corporation with an operator authorization covering the ecosystem and governance framework messages, or members ready to vote.
 - The ecosystem's DID: the DID of its [anchor agent](./21-ecosystem-anchor.md), deployed and trusted.
-- The ecosystem governance framework version one, published at a stable URL.
+- The ecosystem governance framework version one, published at a stable URL. The Verana Council's [Template EGF](https://github.com/verana-labs/verana-council-gov/tree/main/template-egf) is a scaffold for writing it, and the [ECS ecosystem's framework](https://github.com/verana-labs/verana-council-gov/tree/main/ecs-egf) is a worked example; see the [builder's path](./00-path.md).
 
 ## Steps
 
