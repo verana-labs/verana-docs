@@ -21,6 +21,17 @@ Documentation explains and guides; the specifications decide. When a page here a
 | Playground | Site specification and the wallet integration guidelines | [verana-spec/playground](https://github.com/verana-labs/verana-spec/tree/main/playground) |
 | Trust Registry Query Protocol | ToIP TRQP, served by the indexer | [trustoverip.github.io/tswg-trust-registry-protocol](https://trustoverip.github.io/tswg-trust-registry-protocol/) |
 
+## Governance documents
+
+The Verana Council maintains the governance documents of the network in [verana-council-gov](https://github.com/verana-labs/verana-council-gov). They are not specifications: where a governance document states a protocol fact, the specification prevails. They are drafts for co-authoring by the Council's Founding Members until ratification.
+
+| Document | What it is | Where |
+|---|---|---|
+| Network Governance Framework | The rules every ecosystem and corporation on the network must respect: the Council's powers and limits, obligations of corporations and ecosystems, economics, sanctions | [network-gf](https://github.com/verana-labs/verana-council-gov/tree/main/network-gf) |
+| ECS Ecosystem Governance Framework | The Council's own EGF for the five Essential Credential Schemas; the worked example of an EGF | [ecs-egf](https://github.com/verana-labs/verana-council-gov/tree/main/ecs-egf) |
+| Template EGF | A scaffold for an ecosystem writing its governance framework. Optional; implies no Council endorsement | [template-egf](https://github.com/verana-labs/verana-council-gov/tree/main/template-egf) |
+| Template CGF | A scaffold for the corporation governance framework every corporation anchors at creation, with a short form for corporations that control no ecosystem. Optional; implies no Council endorsement | [template-cgf](https://github.com/verana-labs/verana-council-gov/tree/main/template-cgf) |
+
 ## How the docs cite them
 
 Requirement identifiers appear in the form the specifications use: `VS-REQ-3`, `TR-4`, `MOD-PP-MSG-1`, `VSA-ADM-AUTH`, `IDX-VT-QRY-1`, `TG-FCT-3`, `VMS-TOOLS-LEDGER`. Each guide ends with the clauses it rests on.

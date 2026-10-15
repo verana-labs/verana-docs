@@ -11,6 +11,8 @@ verified_on: 2026-10-14 (testnet v0.10.6, frontend 0.18)
 
 The corporation's governance framework states how the organisation decides and who represents it. Version one is created with the corporation. Later versions are prepared, then activated.
 
+The Verana Council's [Template CGF](https://github.com/verana-labs/verana-council-gov/tree/main/template-cgf) is a scaffold for writing it: the organisation behind the corporation, its decision policy, its operators, its keys, how it amends the framework. Using it is optional and implies no Council endorsement; most corporations need only its short form.
+
 1. Corporation page, **Governance**: the versions, each with its documents per language, URL and digest, and the period each version was active.
 2. **Add New CGF Document**: target the next version (the active one plus one), choose the language, paste the URL; the frontend computes the digest. Add one document per language.
 3. **Increase Active CGF**: the next version becomes active once it has a document in the corporation's primary language; until then the button says which language is missing. Only future versions are editable; the active one is frozen.

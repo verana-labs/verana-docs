@@ -13,7 +13,7 @@ description: The v4 vocabulary of Verana, in plain words.
 
 **Corporation.** The actor of the registry: a legal or organizational entity, realized on chain as a group of accounts with a decision policy. Its policy address signs for it, directly through proposals or through authorized operators. It controls zero or more ecosystems and owns zero or more participant entries.
 
-**Corporation governance framework (CGF).** The versioned documents that govern a corporation itself.
+**Corporation governance framework (CGF).** The versioned documents that govern a corporation itself: who it is, how it decides, who may sign for it. Version one is anchored when the corporation is created. The Verana Council publishes a [Template CGF](https://github.com/verana-labs/verana-council-gov/tree/main/template-cgf).
 
 **Credential schema.** A registry entry owned by an ecosystem: a JSON schema plus the policy that governs it (onboarding modes per role, validity periods, pricing asset, digest algorithm). Immutable except for the validity periods.
 
@@ -25,7 +25,7 @@ description: The v4 vocabulary of Verana, in plain words.
 
 **Ecosystem.** A registry entry controlled by a corporation: a DID, a governance framework, credential schemas, and the tree of participants accredited for them. The Verana word for what other communities call a trust registry.
 
-**Ecosystem governance framework (EGF).** The versioned documents that state the rules of an ecosystem: who may join, how, at what price, what is slashed.
+**Ecosystem governance framework (EGF).** The versioned documents that state the rules of an ecosystem: who may join, how, at what price, what is slashed. The Verana Council publishes a [Template EGF](https://github.com/verana-labs/verana-council-gov/tree/main/template-egf); the ECS ecosystem's framework is the worked example.
 
 **ECS ecosystem.** The ecosystem that publishes the five Essential Credential Schemas on a network and accredits their issuers. The trust root of every Proof-of-Trust.
 

@@ -45,7 +45,7 @@ A VS Agent needs a narrower power: to act for one accreditation at a time. When 
 
 ## The corporation's own governance
 
-A corporation publishes its own governance framework, the documents that say how it reaches decisions and who may represent it, versioned like an ecosystem's. The first version is created with the corporation.
+A corporation publishes its own governance framework, the documents that say how it reaches decisions and who may represent it, versioned like an ecosystem's. The first version is created with the corporation. The Verana Council's [Template CGF](https://github.com/verana-labs/verana-council-gov/tree/main/template-cgf) is a scaffold for it, with a short form for corporations that control no ecosystem.
 
 ## Where next
 
