@@ -66,7 +66,7 @@ With threshold one and a single member, a proposal you submit executes at once. 
 
 ## Agents are different
 
-An agent's authorization is not granted here. It is declared on each accreditation when you create or apply for it, as the VS operator with its message types and optional fee grant. The Operators tab's **Agent Authorizations** section and the **Agents** page show them read only. See [Join an ecosystem](./35-join-an-ecosystem.md) and [Pay with corporation funds](../verifiable-services/81-pay-with-corporation-funds.mdx).
+An agent's authorization is not granted here. It is declared on each accreditation when you create or apply for it, as the VS operator with its message types and optional fee grant. The frontend's join form does not declare one; it is set from the command line. The Operators tab's **Agent Authorizations** section and the **Agents** page show them read only. See [Pay with corporation funds](../verifiable-services/81-pay-with-corporation-funds.mdx#how-it-is-declared).
 
 <Screenshot name="corporation/tab-operators-agents" alt="The Operators tab with an operator and an agent authorization" />
 

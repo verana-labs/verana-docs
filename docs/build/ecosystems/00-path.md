@@ -37,7 +37,7 @@ flowchart LR
 3. [Create the ecosystem](./20-create-ecosystem.md) with that DID and your governance framework.
 4. [Define credential schemas](./30-credential-schemas.md). The anchor publishes their schema credentials automatically.
 5. [Create root participants and grantors](./31-root-participants-grantors.md).
-6. Announce, and [validate applicants](./40-validate-applicants.md) as they come. Applicants use [Discover & Join](./35-join-an-ecosystem.md).
+6. Announce, and [validate applicants](./40-validate-applicants.md) as they come. Applicants [join from the schema's participant tree](./35-join-an-ecosystem.md), under the participant they want as validator.
 7. [Design the fee model](./50-fee-model.md) and watch the tree.
 
 ## Where to look while you build
