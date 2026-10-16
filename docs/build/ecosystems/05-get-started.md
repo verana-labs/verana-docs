@@ -79,7 +79,7 @@ The navigation follows what the acting corporation can do.
 | **Corporation** | Members, governance framework, trust deposit, operators and proposals of the acting corporation. |
 | **Ecosystems** | The ecosystems your corporation controls, their governance frameworks, schemas and participant trees. |
 | **Agents** | The Verifiable Services your corporation operates and their accreditations. |
-| **Discover & Join** | Every ecosystem on the network, and the wizard to join one. See [Join an ecosystem](./35-join-an-ecosystem.md). |
+| **Discover & Join** | Every ecosystem on the network. You join one from a schema's participant tree. See [Join an ecosystem](./35-join-an-ecosystem.md). |
 | **Pending Tasks** | Applications waiting for your validation. The badge counts them. See [Validate applicants](./40-validate-applicants.md). |
 | **Settings** | Language, theme and the endpoints the frontend uses. |
 
