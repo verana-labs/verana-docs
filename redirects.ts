@@ -927,7 +927,7 @@ export const redirects: RedirectItem[] = [
       "/docs/next/run/other-component-deployment/verana-visualizer",
       "/docs/run/other-component-deployment/verana-visualizer"
     ],
-    "to": "/docs/build/run-infrastructure"
+    "to": "/docs/build/run-infrastructure/visualizer"
   }
 ];
 
