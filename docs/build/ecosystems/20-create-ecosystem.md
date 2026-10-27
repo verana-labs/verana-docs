@@ -35,7 +35,7 @@ verified_on: 2026-10-14 (testnet v0.10.6, frontend 0.18)
 
 5. **Archive** when the ecosystem retires: it stays readable, existing accreditations run to their end, nobody new can join. **Unarchive** is possible.
 
-The **Ecosystems** page lists the ecosystems your corporation controls, with their schemas and figures.
+The **Ecosystems** page lists the ecosystems your corporation owns or joined, with their schemas and figures.
 
 <Screenshot name="ecosystems/list" alt="The Ecosystems page listing the corporation's ecosystem" />
 

@@ -4,7 +4,7 @@ description: "Grant and revoke operator authorizations, scope them by message ty
 sidebar_position: 11
 persona: ecosystem-builder
 surface: frontend
-verified_on: 2026-10-14 (testnet v0.10.6, frontend 0.18)
+verified_on: 2026-10-27 (testnet v0.10.6, frontend 0.19.1)
 ---
 
 # Operators, proposals and fee grants
@@ -34,11 +34,11 @@ Granting operators is itself a governance action, so the common case opens a pro
 
 ## Proposals
 
-Corporation page, **Proposals**: the list with status, filters and the tally against the threshold; expand a proposal to see the messages it executes and the votes. Vote yes or no, execute an accepted proposal, or withdraw your own. The navigation badge counts proposals awaiting your vote.
+Corporation page, **Proposals**: the list with status, filters and the tally against the threshold; expand a proposal to see the messages it executes and the votes. Vote yes, no, abstain or veto, execute an accepted proposal, or withdraw your own. An accepted proposal shows **Executable from** until the policy's minimum execution period has passed. The Pending Tasks badge counts proposals awaiting your vote along with the applications to validate.
 
 <Screenshot name="corporation/tab-proposals" alt="The Proposals tab with an accepted proposal" />
 
-The **Members** tab shows the members and their weights, the threshold and the voting period in force.
+The **Members** tab shows the members and their weights and the decision policy in force.
 
 <Screenshot name="corporation/tab-members" alt="The Members tab" />
 
@@ -57,7 +57,7 @@ The same grant form as on the Operators tab, as a proposal.
 </Step>
 <Step title="Decision policy" shot="corporation/proposal-policy">
 
-**Update decision policy**: the threshold and the voting period.
+**Update decision policy**: a threshold of weight or a percentage of the total weight, the voting period and the minimum execution period, both in seconds.
 
 </Step>
 </StepThrough>
@@ -66,7 +66,7 @@ With threshold one and a single member, a proposal you submit executes at once. 
 
 ## Agents are different
 
-An agent's authorization is not granted here. It is declared on each accreditation when you create or apply for it, as the VS operator with its message types and optional fee grant. The frontend's join form does not declare one; it is set from the command line. The Operators tab's **Agent Authorizations** section and the **Agents** page show them read only. See [Pay with corporation funds](../verifiable-services/81-pay-with-corporation-funds.mdx#how-it-is-declared).
+An agent's authorization is not granted here. It is declared on each accreditation when you create or apply for it, as the VS operator with its message types and optional fee grant, in the join form's **Advanced: VS operator delegation** section. The Operators tab's **Agent Authorizations** section and the **Agents** page show them read only. See [Pay with corporation funds](../verifiable-services/81-pay-with-corporation-funds.mdx#how-it-is-declared).
 
 <Screenshot name="corporation/tab-operators-agents" alt="The Operators tab with an operator and an agent authorization" />
 

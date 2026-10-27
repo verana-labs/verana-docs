@@ -14,10 +14,10 @@ When a schema's mode for your role is open, your corporation creates the accredi
 ## Steps
 
 1. In the frontend, open the schema's participant tree and **join** the **Issuers** or **Verifiers** folder marked **open** under the participant you join, usually the ecosystem's root. Accept the governance framework.
-2. Enter your agent's DID. Set the effective window or leave it empty (start now, no end). An issuer can set the fees it will charge now, or leave them empty.
+2. Enter your agent's DID. Set the effective window or leave it empty (start now, no end). An issuer can set the validation and verification fees it will charge, in VNA, or leave them empty.
 3. Sign. The accreditation appears in the tree and on the frontend's Agents page, and the agent sees it through the indexer. See [Join an ecosystem](../ecosystems/35-join-an-ecosystem.md) for the screens.
 
-The join form does not set a VS operator, so the agent gets no authorization to record sessions or trigger re-resolution for this entry. To give it one, with the message types it will need, self-create the accreditation from the command line instead: see [Let the agent pay with corporation funds](./81-pay-with-corporation-funds.mdx#how-it-is-declared). The VS operator is frozen for the life of the entry.
+To let the agent record sessions for this entry, open **Advanced: VS operator delegation** in the same form and name the agent's account as VS operator with the message types it needs: see [Let the agent pay with corporation funds](./81-pay-with-corporation-funds.mdx#how-it-is-declared). The VS operator is frozen for the life of the entry.
 
 ## Verify
 

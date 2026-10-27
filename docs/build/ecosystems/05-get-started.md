@@ -4,7 +4,7 @@ description: "Connect a wallet, get testnet VNA, pick the corporation you act fo
 sidebar_position: 5
 persona: ecosystem-builder
 surface: frontend
-verified_on: 2026-10-14 (testnet v0.10.6, frontend 0.18)
+verified_on: 2026-10-27 (testnet v0.10.6, frontend 0.19.1)
 ---
 
 # Get started with the frontend
@@ -59,12 +59,12 @@ The faucet limits are per account: 10 VNA by default, 50 VNA per hour, 300 VNA p
 
 On Verana every resource belongs to a **corporation**, a group of member accounts that decides by proposal and lets operators act for it. Your account can be a member or an operator of several corporations; the frontend always acts for one of them, the **acting corporation**.
 
-- With no corporation, the dashboard and the Corporation page offer **Create new Corporation**. See [Create a corporation](./10-create-corporation.md).
+- With no corporation, the dashboard offers **Create your corporation** and the selector **Create new Corporation**; the pages that need a corporation stay hidden until then. See [Create a corporation](./10-create-corporation.md).
 - With several, the frontend asks which one to act for the first time you connect.
 
 <Screenshot name="tour/choose-corporation" alt="The corporation chooser shown when the account operates several corporations" />
 
-Switch at any time from the selector in the header. It lists your corporations with your role in each (operator, member and your voting weight), and refreshes the list after you create or join one. Switching resets any open form, so nothing you typed is sent for the wrong corporation.
+Switch at any time from the selector in the header. It lists your corporations with your role in each (operator, member and your voting weight) and their pending tasks and votes, and refreshes the list after you create or join one. Switching resets any open form, so nothing you typed is sent for the wrong corporation.
 
 <Screenshot name="tour/corporation-selector" alt="The acting corporation selector in the header" />
 
@@ -77,10 +77,10 @@ The navigation follows what the acting corporation can do.
 | **Dashboard** | Network figures and the shortcuts to start building or joining. |
 | **Account** | Your balance, Get VNA, and the corporations you belong to. |
 | **Corporation** | Members, governance framework, trust deposit, operators and proposals of the acting corporation. |
-| **Ecosystems** | The ecosystems your corporation controls, their governance frameworks, schemas and participant trees. |
+| **Ecosystems** | The ecosystems your corporation owns or joined, their governance frameworks, schemas and participant trees. |
 | **Agents** | The Verifiable Services your corporation operates and their accreditations. |
 | **Discover & Join** | Every ecosystem on the network. You join one from a schema's participant tree. See [Join an ecosystem](./35-join-an-ecosystem.md). |
-| **Pending Tasks** | Applications waiting for your validation. The badge counts them. See [Validate applicants](./40-validate-applicants.md). |
+| **Pending Tasks** | Applications waiting for your validation and proposals waiting for your vote. The badge counts both. See [Validate applicants](./40-validate-applicants.md). |
 | **Settings** | Language, theme and the endpoints the frontend uses. |
 
 <Screenshot name="tour/dashboard" alt="The dashboard of a corporation operator" />
@@ -93,7 +93,7 @@ Every action button carries a small icon that says how it will run: a lightning 
 
 ## Settings
 
-**Settings** sets the language (English or Spanish) and the theme, and shows the chain and the endpoints this frontend talks to. The footer shows the versions of the network, the indexer and the frontend, with a green dot when each is reachable.
+**Settings** sets the language (English or Spanish) and the theme (system, light or dark), and shows the chain and the endpoints this frontend talks to, the graph included. The footer shows the versions of the network, the indexer, the graph and the frontend, each with its state: synced, syncing, indexing, stalled, down or unreachable.
 
 <Screenshot name="tour/settings" alt="The Settings page" />
 

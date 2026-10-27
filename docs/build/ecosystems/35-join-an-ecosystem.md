@@ -4,7 +4,7 @@ description: "Find the ecosystem, open the schema's participant tree, join under
 sidebar_position: 35
 persona: ecosystem-builder
 surface: frontend
-verified_on: 2026-10-16 (testnet v0.10.6, frontend 0.18 with frontend#549 and frontend#550)
+verified_on: 2026-10-27 (testnet v0.10.6, frontend 0.19.1)
 ---
 
 # Join an ecosystem
@@ -19,7 +19,7 @@ This is the other side of the tree: your corporation applies to issue, verify or
 
 ## Find the ecosystem
 
-**Discover & Join** lists every ecosystem on the network with its controller, its active schemas and its figures. Search by name or DID, sort, hide the ecosystems you own or already take part in, and open the governance framework with **EGF** before you commit. Each schema card shows its onboarding modes and validity periods. **View Ecosystem** opens the ecosystem page.
+**Discover & Join** lists every ecosystem on the network with its trust state, its active schemas, its figures and the roles your corporation already holds in it. Search by DID, id, service or organization name, sort by **Newest first** or **Locked trust value**, show archived or untrusted ecosystems, and, with a corporation acting, hide the ecosystems you own or already take part in. Search and filters cover the whole list, not only the page you see. Open the governance framework with **EGF** before you commit. Each schema card shows its onboarding modes and validity periods, and its **Join** button opens the schema's participant tree. **View Ecosystem** opens the ecosystem page.
 
 <Screenshot name="join/discover" alt="Discover & Join listing an ecosystem with its credential schema" />
 
@@ -27,9 +27,9 @@ This is the other side of the tree: your corporation applies to issue, verify or
 
 ## Open the participant tree
 
-On the ecosystem page, the **Participants** action of a schema card opens that schema's participant tree; the schema page has the same **Participants** button.
+On the ecosystem page, **View Participants** on a schema card opens that schema's participant tree, as does **Join** on Discover.
 
-The tree starts at the ecosystem's root participant. Under each participant sit folders for the roles that can join below it: **Issuers** and **Verifiers** under the root, or **Issuer Grantors** and **Verifier Grantors** when the schema uses grantors, then **Holders** under each issuer. Each folder shows its onboarding mode, **onboarding process** or **open**, and a **join** action.
+The tree starts at the ecosystem's root participant. Under each participant sit folders for the roles that can join below it: **Issuers** and **Verifiers** under the root, or **Issuer Grantors** and **Verifier Grantors** when the schema uses grantors, then **Holders** under each issuer. Each folder shows its onboarding mode, **onboarding process**, **open**, or **permissionless** for holders, and a **join** action.
 
 <Screenshot name="join/tree" alt="The participant tree of a schema with its role folders, their onboarding mode and the join action" />
 
@@ -47,12 +47,12 @@ The join dialog opens on the ecosystem governance framework in force, in the lan
 </Step>
 <Step title="Onboarding process: your DID" shot="join/tree-op-form">
 
-For a role with an onboarding process, enter the **DID** that will hold the accreditation. The form shows what the transaction needs on top of the network fee: the validator's validation fees, escrowed until it decides, and your trust deposit. **Confirm & Start Onboarding Process**.
+For a role with an onboarding process, enter the **DID** that will hold the accreditation. The form shows what the transaction needs on top of the network fee: the validator's validation fees, escrowed until it decides, and your trust deposit. If your agent should sign for this participant, open **Advanced: VS operator delegation**, see [below](#vs-operator). **Confirm & Start Onboarding Process**.
 
 </Step>
 <Step title="Open role: DID, window and fees" shot="join/tree-self-create">
 
-For an open role you create the participant yourself: the **DID**, the effective window (an empty start means now, an empty end means no end date) and, for an issuer, the fees you will charge, in uvna. **Confirm & Self Create Participant**.
+For an open role you create the participant yourself: the **DID**, the effective window (an empty start means now, an empty end means no end date) and, for an issuer, the validation and verification fees you will charge, in VNA (up to 6 decimals, empty means free). The same **Advanced: VS operator delegation** section is there. **Confirm & Self Create Participant**.
 
 </Step>
 </StepThrough>
@@ -72,7 +72,9 @@ The confirmation dialog shows the transaction, the network fee and who pays it, 
 
 <Screenshot name="participants/card-own" alt="The participant card of an active issuer, seen by its own corporation" />
 
-The join form does not set a VS operator: an accreditation created from the tree has none, so your agent cannot sign for it under a VS operator authorization. See [Let the agent pay with corporation funds](../verifiable-services/81-pay-with-corporation-funds.mdx) for how to declare one.
+## VS operator
+
+When your corporation runs a VS Agent for this participant, open **Advanced: VS operator delegation** in the join form: the agent's account, the messages it may run for this participant (session recording for issuers and verifiers, validation for issuers and grantors, re-resolution for holders), an optional spend limit in uvna with its period in days, and whether your corporation pays the agent's network fees, with a fee budget. Leave it closed to sign and pay for this participant yourselves. It is frozen at creation: to change it, revoke the participant and create it again. See [Let the agent pay with corporation funds](../verifiable-services/81-pay-with-corporation-funds.mdx).
 
 ## Holders
 

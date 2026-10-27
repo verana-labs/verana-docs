@@ -17,4 +17,4 @@ The Verana Frontend is the console of a corporation: members and operators, ecos
 | Money | [design the fee model](./50-fee-model.md) |
 | Identity for your sector | [offer identity schemas for your sector](./60-identity-schemas-for-your-sector.md) |
 
-Guides are written against the frontend 0.18 and the v4 testnet; `verified_on` in each front matter says when they were last run end to end. The screenshots come from a demo corporation and ecosystem on testnet, and follow the light or dark theme of these docs; click one to enlarge it.
+Guides are written against the frontend 0.19 and the v4 testnet; `verified_on` in each front matter says when they were last run end to end. The screenshots come from a demo corporation and ecosystem on testnet, and follow the light or dark theme of these docs; click one to enlarge it.

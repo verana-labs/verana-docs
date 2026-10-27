@@ -42,4 +42,4 @@ flowchart LR
 
 ## Where to look while you build
 
-The frontend's **Ecosystems** page lists what your corporation controls; each ecosystem page shows its schemas and participant trees; **Pending Tasks** shows what waits for you. The [trust graph](https://search.testnet.verana.network) shows your ecosystem as the public sees it.
+The frontend's **Ecosystems** page lists the ecosystems your corporation owns or joined; each ecosystem page shows its schemas and participant trees; **Pending Tasks** shows what waits for you. The [trust graph](https://search.testnet.verana.network) shows your ecosystem as the public sees it.

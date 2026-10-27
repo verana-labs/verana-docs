@@ -44,9 +44,9 @@ The agent pays its own transaction fees until the corporation grants it a fee gr
 
 ### 3. Apply for the ECS Organization credential
 
-In the frontend, with your corporation acting, find the ECS ecosystem in **Discover & Join**, open it and open the participant tree of its **Organization** schema. Under **Issuers** are the accredited issuers that validate organisations on testnet; tick **Business Rules** to read their fees. Choose one and **join** the **Holders** folder under it: accept the governance framework, enter your agent's DID, confirm. This creates the pending accreditation on the registry, with that issuer as validator, and escrows the fee. See [Join an ecosystem](../ecosystems/35-join-an-ecosystem.md) for the screens.
+In the frontend, with your corporation acting, find the ECS ecosystem in **Discover & Join**, open it and open the participant tree of its **Organization** schema. Under **Issuers** are the accredited issuers that validate organisations on testnet; tick **Business Rules** to read their fees. Choose one and **join** the **Holders** folder under it: accept the governance framework, enter your agent's DID, and under **Advanced: VS operator delegation** name the agent's account as VS operator with the re-resolution message, then confirm. This creates the pending accreditation on the registry, with that issuer as validator, and escrows the fee. See [Join an ecosystem](../ecosystems/35-join-an-ecosystem.md) for the screens.
 
-The join form does not set a VS operator, so the agent gets no authorization to act for this accreditation, for example to ask the indexer to re-resolve it. To give it one, create the accreditation from the command line with the agent's account as VS operator instead: see [Let the agent pay with corporation funds](./81-pay-with-corporation-funds.mdx#how-it-is-declared).
+Without a VS operator the agent gets no authorization to act for this accreditation, for example to ask the indexer to re-resolve it: see [Let the agent pay with corporation funds](./81-pay-with-corporation-funds.mdx#how-it-is-declared).
 
 Your agent sees the event through the indexer, connects to the validator's agent, and sends the onboarding request with the organisation claims from your `.env`. The validator reviews the evidence it asks for, on testnet usually a light check, and validates. The agent receives the credential and publishes it in its DID Document. Follow the flow:
 
@@ -58,7 +58,7 @@ The flow ends in `COMPLETED`.
 
 ### 4. Issue the ECS Service credential to yourself
 
-The ECS Service schema is open to issuers: your corporation self-creates the issuer accreditation for your agent's DID, with the agent's account as VS operator. Because the frontend's join form cannot set the VS operator, self-create it from the command line as described in [Let the agent pay with corporation funds](./81-pay-with-corporation-funds.mdx#how-it-is-declared); joining the **Issuers** folder of the schema's participant tree creates the same accreditation without it. As soon as the accreditation is active, the agent issues the Service credential to itself from the service claims in your `.env`, anchors its digest on the registry, and publishes it. No validator is involved.
+The ECS Service schema is open to issuers: your corporation self-creates the issuer accreditation for your agent's DID, with the agent's account as VS operator. In the frontend, **join** the **Issuers** folder of the schema's participant tree and set the VS operator under **Advanced: VS operator delegation**; the command line works too, see [Let the agent pay with corporation funds](./81-pay-with-corporation-funds.mdx#how-it-is-declared). As soon as the accreditation is active, the agent issues the Service credential to itself from the service claims in your `.env`, anchors its digest on the registry, and publishes it. No validator is involved.
 
 ### 5. Check that you are trusted
 

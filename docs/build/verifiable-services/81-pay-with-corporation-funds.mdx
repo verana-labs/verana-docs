@@ -15,7 +15,7 @@ An agent's own account can pay its transaction fees, but topping up a service ac
 
 The record is declared in the transaction that creates the accreditation: the start of its onboarding process, or the self-create for an open role. That transaction names the agent's account as VS operator, lists the message types the agent may send for the entry, and can enable a fee grant with a spending limit per period. The record is frozen for the life of the entry; to change it, revoke the entry and create it again.
 
-The frontend does not declare one. Joining from the participant tree ([Join an ecosystem](../ecosystems/35-join-an-ecosystem.md)) creates the accreditation without a VS operator, and there is no setting for it in the join form. To declare one, create the accreditation from the command line instead, signed by an operator of your corporation: `veranad tx pp start-participant-op` or `veranad tx pp self-create-participant`, with `--corporation` and the `--vs-operator` flags. See the [CLI reference](../../reference/cli/veranad/05-pp.md).
+In the frontend, open **Advanced: VS operator delegation** in the join form of the participant tree, see [Join an ecosystem](../ecosystems/35-join-an-ecosystem.md#vs-operator). From the command line, signed by an operator of your corporation: `veranad tx pp start-participant-op` or `veranad tx pp self-create-participant`, with `--corporation` and the `--vs-operator` flags. See the [CLI reference](../../reference/cli/veranad/05-pp.md).
 
 :::warning Use the agent's own account
 The VS operator must not be an account that already holds an operator authorization of your corporation; the chain refuses the pair. Give the agent its own account.
