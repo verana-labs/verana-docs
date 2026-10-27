@@ -34,7 +34,7 @@ curl -s -X POST https://idx.testnet.verana.network/v4/verifiable-trust/resolve \
 
 ## Make the indexer look again
 
-The indexer re-evaluates on its own when a transaction touches your DID. After you changed your DID Document without a transaction (a new endpoint, a republished credential), ask it: the agent does this itself after each publication, and you can do it from the frontend (the participant detail card offers **Trigger resolver**) or let the agent's VS operator authorization cover it. The message carries no state; it emits an event the indexer listens to.
+The indexer re-evaluates on its own when a transaction touches your DID. After you changed your DID Document without a transaction (a new endpoint, a republished credential), ask it: the agent does this itself after each publication when its VS operator authorization or an operator grant covers the message. The frontend has no button for it. The message carries no state; it emits an event the indexer listens to.
 
 ## See yourself where others see you
 
