@@ -14,9 +14,12 @@ sidebar_position: 2
 
 Testnet is where the guides in this documentation are verified, and where the playground, the demo ecosystems and the listed wallets run. Its coin is free from the faucet. Endpoints, chain identifiers and peers are in [Environments and endpoints](../../build/run-infrastructure/environments/10-environments.md).
 
+The services that come with devnet and testnet (the ECS ecosystem, the playground, the demos) each belong to a corporation: [Who runs what on devnet and testnet](./who-runs-what.md).
+
 Mainnet will be launched by the founding validators of the Verana Council after a security audit of the registry modules and of the trust resolution path.
 
 ## Where next
 
+- [Who runs what on devnet and testnet](./who-runs-what.md).
 - [Versions and roadmap](./versions-and-roadmap.md).
 - Build: [Run the infrastructure](../../build/run-infrastructure/index.md).
