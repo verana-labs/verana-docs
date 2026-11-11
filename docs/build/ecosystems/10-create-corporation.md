@@ -19,7 +19,7 @@ Every resource on the registry belongs to a corporation. Creating one is the fir
 
 ## Steps
 
-With no corporation to act for, the frontend offers **Create new Corporation** on the dashboard and the Corporation page; it is also in the corporation selector. The wizard has four steps.
+With no corporation to act for, the frontend offers **Create your corporation** on the dashboard and **Create new Corporation** in the corporation selector; the Corporation, Ecosystems, Agents and Pending Tasks pages stay hidden until you act for one. The wizard has four steps.
 
 <StepThrough>
 <Step title="Identity" shot="corporation/wizard-identity">
@@ -29,7 +29,7 @@ The corporation DID, the language of its governance framework, and the URL of th
 </Step>
 <Step title="Members" shot="corporation/wizard-members">
 
-The member accounts and their voting weights (your account is the first member), the **threshold** of weight a proposal needs, and the **voting period** in seconds. The hint under the fields says how many members must agree. A single member with threshold one is fine to start; you can change members and policy later by proposal.
+The member accounts and their voting weights (your account is the first member), the **decision policy**, a threshold of weight or a percentage of the total weight, the **voting period** and the **minimum execution period**, in seconds. The hint under the fields says how many members must agree. A single member with threshold one is fine to start; you can change members and policy later by proposal.
 
 </Step>
 <Step title="Review" shot="corporation/wizard-review">

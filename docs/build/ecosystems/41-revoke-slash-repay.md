@@ -19,7 +19,7 @@ Any ancestor in the tree, the owner, or the ecosystem controller can revoke an a
 
 ## Slash
 
-Slashing takes from the participant's trust deposit the part that corresponds to its activity in your ecosystem, and suspends the accreditation until the amount is repaid. It is irreversible and public; the frontend asks for a reason and warns. Your governance framework should state the process: assess harm, give the participant a chance to make amends, then slash. Participant card, **Slash Deposit**: the amount in uvna and the reason. The frontend simulates the slash first and refuses an amount above the participant's deposit.
+Slashing takes from the participant's trust deposit the part that corresponds to its activity in your ecosystem, and suspends the accreditation until the amount is repaid. It is irreversible and public; the frontend asks for a reason and warns. Your governance framework should state the process: assess harm, give the participant a chance to make amends, then slash. Participant card, **Slash Deposit**: the amount in VNA and the reason. The frontend simulates the slash first and refuses an amount above the participant's deposit.
 
 <Screenshot name="participants/slash-modal" alt="The Slash Deposit dialog" />
 

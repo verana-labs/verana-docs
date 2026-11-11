@@ -17,7 +17,7 @@ Schema page, **Participants**: the participant tree, empty until the root exists
 
 - the ecosystem DID;
 - the effective window: a start (empty means now) and an optional end;
-- the three fees the ecosystem charges at the root: validation (what a grantor or direct applicant pays to be validated by the ecosystem), issuance and verification (what issuers and verifiers below pay per operation). Fees are in uvna, the base unit: 1 VNA is 1,000,000 uvna. Zero means free.
+- the three fees the ecosystem charges at the root: validation (what a grantor or direct applicant pays to be validated by the ecosystem), issuance and verification (what issuers and verifiers below pay per operation). Fees are in VNA, up to 6 decimals; zero or empty means free.
 
 Sign.
 
