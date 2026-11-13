@@ -20,8 +20,8 @@ The Verana team runs it at `app.testnet.verana.network` and `app.devnet.verana.n
 
 | Artifact | Name | Tags |
 |---|---|---|
-| Container image | `veranalabs/verana-front` on Docker Hub | `v0.18.0` and `latest` for releases, `v0.18.0-dev.N` for pre-releases of `main` |
-| Helm chart | `oci://registry-1.docker.io/veranalabs/verana-frontend-chart` | the release tag, `v0.18.0`; it runs the image of the same tag by default |
+| Container image | `veranalabs/verana-front` on Docker Hub | `v0.19.1` and `latest` for releases, `v0.19.1-dev.N` for pre-releases of `main` |
+| Helm chart | `oci://registry-1.docker.io/veranalabs/verana-frontend-chart` | the release tag, `v0.19.1`; it runs the image of the same tag by default |
 
 The image listens on port 3000.
 
@@ -45,6 +45,7 @@ The image is built once and configured at start: every `NEXT_PUBLIC_*` variable 
 |---|---|---|
 | `NEXT_PUBLIC_VERANA_FAUCET_URL` | empty | Faucet origin (for example `https://faucet.testnet.verana.network`). Empty hides **Get VNA** on the Account page. |
 | `NEXT_PUBLIC_VERANA_VISUALIZER_URL` | empty | Visualizer origin, for the visualizer links on participants. |
+| `NEXT_PUBLIC_VERANA_GRAPH_URL` | empty | Verana Graph origin (for example `https://graph.testnet.verana.network`), shown in Settings and the footer with its state. Empty hides it. |
 | `NEXT_PUBLIC_VERANA_SIGN_DIRECT_MODE` | `true` | `true` signs in Direct mode, `false` in Amino (legacy JSON) mode. |
 | `NEXT_PUBLIC_LOW_BALANCE_WARN_UVNA` | `1000000` | Balance, in uvna, under which the frontend warns before a transaction. |
 | `NEXT_PUBLIC_SESSION_LIFETIME_SECONDS` | `86400` | How long the wallet connection is remembered before the user has to connect again. |
@@ -64,7 +65,7 @@ docker run -d --name verana-frontend -p 3000:3000 \
   -e 'NEXT_PUBLIC_VERANA_EXPLORER_URL=https://explorer.testnet.verana.network/Verana%20Testnet' \
   -e NEXT_PUBLIC_VERANA_FAUCET_URL=https://faucet.testnet.verana.network \
   -e NEXT_PUBLIC_VERANA_SIGN_DIRECT_MODE=false \
-  veranalabs/verana-front:v0.18.0
+  veranalabs/verana-front:v0.19.1
 ```
 
 Open `http://localhost:3000`. Serve it over TLS behind your reverse proxy for anything public.
@@ -91,7 +92,7 @@ env:
 
 ```bash
 helm install verana-frontend oci://registry-1.docker.io/veranalabs/verana-frontend-chart \
-  --version v0.18.0 -n verana --create-namespace -f values-testnet.yaml
+  --version v0.19.1 -n verana --create-namespace -f values-testnet.yaml
 ```
 
 The chart's own [values reference](https://github.com/verana-labs/verana-frontend/blob/main/charts/README.md) lists the image, service, ingress, resources and node selector settings; `charts/values-devnet.yaml` and `charts/values-testnet.yaml` in the repository are the values the Verana team starts from. To see the manifests without installing, `helm template` the same command.
@@ -112,7 +113,7 @@ The repository ships an `.env` for devnet; put your overrides in `.env.local`, w
 
 ## Check it works
 
-- The footer shows the network, indexer and frontend versions with a green dot each: the RPC and the indexer answer.
+- The footer shows the network, indexer, graph and frontend versions, each **synced**: the RPC, the indexer and the graph answer and keep up.
 - The dashboard shows the block height and the network figures.
 - **Settings** lists the chain id and every endpoint the frontend uses.
 - Connect a wallet: it asks to add the chain the first time.

@@ -20,10 +20,13 @@ sidebar_position: 1
 | Faucet | `https://faucet.devnet.verana.network` | `https://faucet.testnet.verana.network` | |
 | Explorer | `https://explorer.devnet.verana.network` | `https://explorer.testnet.verana.network` | |
 | Playground | | `https://playground.testnet.verana.network` | |
-| ECS ecosystem DID | `did:web:ecs-ecosystem.devnet.verana.network` | `did:web:ecs-ecosystem.testnet.verana.network` | |
+| ECS ecosystem DID (the Verana Council's VS Agent) | `did:webvh:QmS9A72aycFgQV18yAQ5yByhFuuAw4CWmCMfskd8YzczwG:council.devnet.verana.network` | `did:webvh:QmaG8Zk91utJCRpHZ6ruVKwedNEWXUm1vnXvttf6pENZHM:council.testnet.verana.network` | |
+| Verana Foundation VS Agent | `https://foundation.devnet.verana.network` | `https://foundation.testnet.verana.network` | |
 
 A local chain for development uses the conventional chain id `vna-local-1`; the helper script of [Run an isolated local node](../run-a-node/20-local-node-isolated.md) initialises it as `vna-testnet-1`, so pass that chain id when you talk to it.
 
 Testnet endpoints are those of the v4 testnet from 13 October 2026; the graph, search and ECS ecosystem entries go live with the upgrade.
+
+Who controls the ECS ecosystem, who owns the playground and the demos, and how to get your Organization credential on these networks: [Who runs what on devnet and testnet](../../../understand/network/who-runs-what.md).
 
 Each network page carries the peers, the chain parameters and the registry parameters: [devnet](./15-devnet.md), [testnet](./20-testnet.md), [mainnet](./30-mainnet.md).

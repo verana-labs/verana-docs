@@ -15,7 +15,7 @@
 | **Indexer** | https://idx.testnet.verana.network |
 | **Trust graph** | https://graph.testnet.verana.network |
 | **Search** | https://search.testnet.verana.network |
-| **ECS ecosystem DID** | `did:web:ecs-ecosystem.testnet.verana.network` |
+| **ECS ecosystem DID** (the Verana Council's VS Agent, see [Who runs what](../../../understand/network/who-runs-what.md)) | `did:webvh:QmaG8Zk91utJCRpHZ6ruVKwedNEWXUm1vnXvttf6pENZHM:council.testnet.verana.network` |
 | **Faucet** | https://faucet.testnet.verana.network (also the frontend's Get VNA action) |
 | **Explorer** | https://explorer.testnet.verana.network |
 | **Frontend** | https://app.testnet.verana.network |

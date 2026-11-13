@@ -16,7 +16,7 @@
 | **Trust graph** | https://graph.devnet.verana.network |
 | **Search** | https://search.devnet.verana.network |
 | **Faucet** | https://faucet.devnet.verana.network |
-| **ECS ecosystem DID** | `did:web:ecs-ecosystem.devnet.verana.network` |
+| **ECS ecosystem DID** (the Verana Council's VS Agent, see [Who runs what](../../../understand/network/who-runs-what.md)) | `did:webvh:QmS9A72aycFgQV18yAQ5yByhFuuAw4CWmCMfskd8YzczwG:council.devnet.verana.network` |
 | **Explorer** | https://explorer.devnet.verana.network |
 | **Frontend** | https://app.devnet.verana.network |
 
