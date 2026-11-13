@@ -4,7 +4,7 @@ title: Run the infrastructure
 
 # Run the infrastructure
 
-Everything in Verana can be run by anyone: the node, the indexer (which includes trust resolution), the trust graph and its search UI, the frontend, the faucet.
+Everything in Verana can be run by anyone: the node, the indexer (which includes trust resolution), the trust graph and its search UI, the frontend, the visualizer, the faucet.
 
 | Guide | Status |
 |---|---|
@@ -15,5 +15,6 @@ Everything in Verana can be run by anyone: the node, the indexer (which includes
 | [Run the graph and search](./21-graph-and-search.md) | new |
 | [Run the frontend](./frontend.md) | draft |
 | [Run the faucet](./23-faucet.md) | new |
+| [Run the visualizer](./24-visualizer.md) | new |
 | [Run the explorer](./explorer.md) | draft |
 | [Governance proposals and upgrades](./governance/10-proposals.md) | draft |

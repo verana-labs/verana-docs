@@ -16,6 +16,7 @@ sidebar_position: 1
 | Trust graph | `https://graph.devnet.verana.network` | `https://graph.testnet.verana.network` | |
 | Search | `https://search.devnet.verana.network` | `https://search.testnet.verana.network` | |
 | Frontend | `https://app.devnet.verana.network` | `https://app.testnet.verana.network` | |
+| Visualizer | `https://vis.devnet.verana.network` | `https://vis.testnet.verana.network` | |
 | Faucet | `https://faucet.devnet.verana.network` | `https://faucet.testnet.verana.network` | |
 | Explorer | `https://explorer.devnet.verana.network` | `https://explorer.testnet.verana.network` | |
 | Playground | | `https://playground.testnet.verana.network` | |
