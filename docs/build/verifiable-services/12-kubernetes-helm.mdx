@@ -64,7 +64,7 @@ storage:
 
 image:
   repository: veranalabs/vs-agent
-  tag: "2.0.0"
+  tag: "v2.0.0-dev.116"      # a tag from hub.docker.com/r/veranalabs/vs-agent/tags
 
 ingress:
   tlsSecret: agent-example-com-tls
@@ -107,7 +107,7 @@ The chart derives `PUBLIC_API_BASE_URL` from the ingress host. The cert-manager 
 
 ```bash
 helm upgrade --install agent oci://registry-1.docker.io/veranalabs/vs-agent-chart \
-  --version 2.0.0 --namespace agents -f values.yaml
+  --version v2.0.0-dev.116 --namespace agents -f values.yaml
 kubectl -n agents rollout status statefulset/agent
 ```
 
@@ -117,7 +117,7 @@ kubectl -n agents rollout status statefulset/agent
 kubectl -n agents port-forward svc/agent 3000:3000 &
 curl -s http://127.0.0.1:3000/v2/agent/health/ready
 curl -s http://127.0.0.1:3000/v2/agent/info | jq
-curl -s https://agent.example.com/.well-known/did.json | jq .id
+curl -s https://agent.example.com/.well-known/did.jsonl | tail -1 | jq -r .state.id   # the same DID, from the internet
 ```
 
 ## Operations
