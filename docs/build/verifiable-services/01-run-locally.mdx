@@ -1,0 +1,129 @@
+---
+title: Run VS Agent on your computer
+description: "Run VS Agent on your laptop with Docker, reach it from the internet through an ngrok tunnel, and make it trusted on testnet before you deploy on a server."
+sidebar_position: 0
+persona: vs-builder
+surface: deployment, admin-api, frontend
+verified_on: pending (testnet v4, VS Agent 2.0)
+---
+
+import CodeBlock from '@theme/CodeBlock';
+import Compose from '!!raw-loader!@site/examples/vs-01-run-locally/docker-compose.yml';
+import Env from '!!raw-loader!@site/examples/vs-01-run-locally/.env.example';
+import Check from '!!raw-loader!@site/examples/vs-00-quickstart/check-trusted.sh';
+
+# Run VS Agent on your computer
+
+Start here, before you rent a server. Docker runs VS Agent, its database and its cache on your machine; an ngrok tunnel gives the agent the public HTTPS origin that wallets, peer agents and the indexer need to reach it. On testnet the agent behaves like a deployed one: it creates its DID, obtains its ECS credentials and resolves as trusted.
+
+This setup is for learning and testing. The DID is bound to the tunnel's hostname, so the agent you later deploy under your own domain has a new DID, and the trust steps are redone for it.
+
+## Goal
+
+A VS Agent on your computer whose DID, `did:webvh:<scid>:<your-ngrok-domain>`, resolves from the internet and, after the last step, resolves as trusted on testnet.
+
+## Prerequisites
+
+- Docker Desktop (macOS, Windows) or Docker Engine with the Compose plugin (Linux), and about 2 GB of free memory.
+- On an arm64 machine (Apple Silicon, arm64 Linux), amd64 emulation: the published image is built for amd64. Docker Desktop on a Mac emulates it out of the box (**Settings**, **General**, **Use Rosetta for x86_64/amd64 emulation**); on arm64 Linux, install it once with `docker run --privileged --rm tonistiigi/binfmt --install amd64`.
+- A free [ngrok](https://ngrok.com) account, with the ngrok agent installed and authenticated (`ngrok config add-authtoken <token>`).
+- `veranad` to generate the agent's account ([install the binary](../run-infrastructure/run-a-node/12-prerequisites.md#1-install-or-update-the-veranad-binary)), plus `curl` and `jq`.
+- For the trust steps: a browser wallet (Keplr or Leap) with a funded testnet account and a corporation on testnet that the account can act for, as in the [quickstart](./00-quickstart.mdx#prerequisites).
+
+## Steps
+
+### 1. Start a tunnel on a fixed hostname
+
+The agent derives its DID from `PUBLIC_API_BASE_URL` on its first start and refuses to start once that value changes. A tunnel that gets a new random hostname each run therefore cannot carry a VS Agent. Every free ngrok account comes with one static domain: find yours in the ngrok dashboard under **Domains**, for example `quiet-otter-example.ngrok-free.app`, and use it every time.
+
+In a terminal of its own, point the tunnel at the agent's public port and leave it running:
+
+```bash
+ngrok http 3001 --url https://quiet-otter-example.ngrok-free.app
+```
+
+Older ngrok agents spell the flag `--domain quiet-otter-example.ngrok-free.app`.
+
+Only port 3001 goes through the tunnel. Port 3000, the admin API, stays on your computer: whoever reaches it controls the agent and its account.
+
+Another tunnel works if it gives you a stable HTTPS hostname, for example a Cloudflare named tunnel on a domain you own; quick tunnels that print a new hostname per run do not.
+
+### 2. Lay out the files
+
+Create a directory with two files. The Compose file, which binds both agent ports to localhost:
+
+<CodeBlock language="yaml" title="examples/vs-01-run-locally/docker-compose.yml">{Compose}</CodeBlock>
+
+The environment, copied to `.env`. Replace `quiet-otter-example.ngrok-free.app` with your domain everywhere, and set your corporation id:
+
+<CodeBlock language="bash" title="examples/vs-01-run-locally/.env.example">{Env}</CodeBlock>
+
+`TRUSTED_ECS_ECOSYSTEM_DIDS` is the testnet value from [Environments and endpoints](../run-infrastructure/environments/10-environments.md). The `*_URI` claims point at placeholders the agent serves itself; see [Configuration walk-through](./17-configuration.mdx#how-it-becomes-trusted) before you replace them.
+
+### 3. Create the agent's account
+
+The agent signs its own transactions with `VERANA_ACCOUNT_MNEMONIC`. Generate a fresh account for it:
+
+```bash
+veranad keys add local-agent --keyring-backend test
+```
+
+The command prints the address and the mnemonic. Put the mnemonic in `.env`, keep the address (the agent also logs it at start), and never commit the file. Send the address a few test coins from your wallet: the faucet only funds an account that signs its challenge, which is your wallet's, not the agent's.
+
+### 4. Start the agent
+
+```bash
+docker compose up -d
+docker compose logs -f vs-agent
+```
+
+The first start creates the DID and publishes its DID Document; later starts load them from the volumes. Under emulation the first start takes a minute or two longer.
+
+### 5. Make it trusted
+
+Continue with the [quickstart](./00-quickstart.mdx) from [step 3, Apply for the ECS Organization credential](./00-quickstart.mdx#3-apply-for-the-ecs-organization-credential), to [step 5, Check that you are trusted](./00-quickstart.mdx#5-check-that-you-are-trusted). Every admin API command there runs unchanged against `http://127.0.0.1:3000`.
+
+Keep the computer awake and the tunnel running while the onboarding process is underway: the validator's agent talks to yours over DIDComm, through the tunnel.
+
+## Verify
+
+On your computer, then from the internet:
+
+```bash
+curl -s http://127.0.0.1:3000/v2/agent/health/ready   # 200 once the agent caught up with the indexer
+curl -s http://127.0.0.1:3000/v2/agent/info | jq      # did, version
+curl -s https://quiet-otter-example.ngrok-free.app/.well-known/did.jsonl | tail -1 | jq -r .state.id   # the same DID, through the tunnel
+```
+
+`did.jsonl` is the DID log of `did:webvh`; its last entry is the current DID Document. The agent also serves `did.json`, the plain `did:web` form of the same document, whose `id` starts with `did:web:`.
+
+After step 5, the trust check reports `trusted: true`:
+
+<CodeBlock language="bash" title="examples/vs-00-quickstart/check-trusted.sh">{Check}</CodeBlock>
+
+## Stop, restart, start over
+
+- **Stop**: `docker compose stop`, then stop ngrok. While stopped, nobody can reach the agent or fetch its DID Document.
+- **Restart**: start ngrok on the same domain first, then `docker compose start`. The agent keeps its keys, DID and credentials in the volumes and catches up with the indexer.
+- **Start over**: `docker compose down -v` deletes the volumes, and with them the keys, the DID and the credentials. The next start creates a new DID, and the trust steps start again for it.
+
+## Move to a server
+
+When everything works, deploy on a server under your own domain: [Docker Compose on one VM](./11-docker-compose.mdx) or [Kubernetes with Helm](./12-kubernetes-helm.mdx). The `.env` carries over, except `PUBLIC_API_BASE_URL` and the `*_URI` claims. Generate a new mnemonic for the server agent, so that two agents never sign with the same account, and apply for its credentials with its new DID.
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| `docker compose up` fails with "port is already allocated" | Another program on your computer listens on 3000 or 3001, often a web development server | Change the host side of the mapping, for example `127.0.0.1:3010:3000`, and use that port in the commands; for the public port, point ngrok at the new port |
+| The agent exits at once with `exec format error` | An arm64 machine without amd64 emulation | Enable emulation, see the prerequisites |
+| Agent exits saying the DID location differs | ngrok runs on another hostname, or `PUBLIC_API_BASE_URL` was edited | Restart ngrok on your static domain and restore the original value |
+| `did.jsonl` through the tunnel answers with an ngrok error page | The tunnel runs but the agent does not answer on port 3001 | Check `docker compose ps` and the logs; the tunnel must target the host port of the public API |
+| After sleep or a network change, the logs show connection timeouts while your computer is online | Docker lost its outbound route | `docker compose down && docker compose up -d`; the volumes are kept |
+| No flow shows up in `/v2/vt/flows` after you joined | The agent was stopped when the accreditation was created and did not pick it up | `docker compose restart vs-agent`; the agent looks for pending accreditations at start |
+| A browser shows ngrok's warning page instead of your logo or terms | The ngrok free plan answers some browser requests with an interstitial page | Host those resources at another stable HTTPS URL, before the credentials are issued: changing a URI later changes its digest |
+
+## Next
+
+- [Verify a peer before you connect](./30-verify-peers.mdx), [open DIDComm connections](./31-didcomm-connections.mdx), then [issue](./60-issue-openid4vc.mdx) and [verify](./70-verify-openid4vp.mdx) credentials, all against your local agent.
+- [What VS Agent needs to run](./10-requirements.mdx), before you deploy on a server.
