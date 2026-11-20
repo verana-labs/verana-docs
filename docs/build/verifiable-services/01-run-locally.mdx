@@ -68,7 +68,7 @@ The agent signs its own transactions with `VERANA_ACCOUNT_MNEMONIC`. Generate a 
 veranad keys add local-agent --keyring-backend test
 ```
 
-The command prints the address and the mnemonic. Put the mnemonic in `.env`, keep the address (the agent also logs it at start), and never commit the file. Send the address a few test coins from your wallet: the faucet only funds an account that signs its challenge, which is your wallet's, not the agent's.
+The command prints the address and the mnemonic. Put the mnemonic in `.env`, keep the address (a fresh agent also logs it at start, in a warning that the account is unfunded), and never commit the file. Send the address a few test coins from your wallet: the faucet only funds an account that signs its challenge, which is your wallet's, not the agent's.
 
 ### 4. Start the agent
 
