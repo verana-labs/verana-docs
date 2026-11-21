@@ -6,7 +6,7 @@ title: Verifiable Services with VS Agent
 
 VS Agent is the agent runtime that turns a service or an AI agent into a Verifiable Service: it holds the DID and the credentials, speaks DIDComm and OpenID4VC, resolves trust, and operates on the registry for your corporation. These guides are written against VS Agent 2.0 and the v4 testnet; each states the surface it uses and how to verify its result.
 
-Start with the [quickstart](./00-quickstart.mdx), then follow the path:
+Start on your own computer with [Run VS Agent on your computer](./01-run-locally.mdx): no server, only Docker and an ngrok tunnel. Then take the [quickstart](./00-quickstart.mdx) on a public host, and follow the path:
 
 | Step | Guides |
 |---|---|
