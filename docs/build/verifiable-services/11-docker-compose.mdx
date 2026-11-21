@@ -60,7 +60,7 @@ The first start creates the DID and publishes the DID Document; later starts loa
 ```bash
 curl -s http://127.0.0.1:3000/v2/agent/health/ready          # 200
 curl -s http://127.0.0.1:3000/v2/agent/info | jq              # did, version
-curl -s https://agent.example.com/.well-known/did.json | jq .id  # the same DID, from the internet
+curl -s https://agent.example.com/.well-known/did.jsonl | tail -1 | jq -r .state.id   # the same DID, from the internet
 ```
 
 The DID Document must be reachable over HTTPS from outside the VM, otherwise nobody can resolve you.
