@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"size":{"type":"number","minimum":1024,"maximum":16777216,"default":131072,"description":"Number of entries of the list. The default is large so that a list reveals little about the number of credentials the issuer has issued.","example":131072}},"title":"OpenId4VcCreateStatusListBodyDto"},"schemaType":"response"}

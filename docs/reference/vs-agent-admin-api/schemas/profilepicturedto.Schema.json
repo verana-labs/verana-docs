@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"mimeType":{"type":"string","description":"Media type of the content","example":"image/png"},"links":{"description":"URLs the content can be fetched from","type":"array","items":{"type":"string"}},"base64":{"type":"string","description":"The content, base64 encoded"}},"title":"ProfilePictureDto"},"schemaType":"response"}

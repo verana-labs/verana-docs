@@ -1,0 +1,70 @@
+---
+id: v-2-didcomm-invitations-controller-create-invitation-v-2
+title: "Create an invitation"
+description: "Without `connectionId`, creates a standalone Out-of-Band invitation that names the DID of the agent, with no label, no image and no attachment, and returns it with its short URL. With `connectionId`, sends the invitation on that connection: a v1 connection carries the Out-of-Band 1.1 message, and a v2 connection carries the Out-of-Band 2.0 invitation in the `application/didcomm-plain+json` attachment of a Media Sharing share-media message. Without `did`, that invitation opens a single-use sub-connection to this agent, correlated through `parentConnectionId`. With `did`, it refers the peer to that service and creates no record."
+sidebar_label: "Create an invitation"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/reference/vs-agent-admin-api/api-documentation
+custom_edit_url: null
+hide_send_button: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Create an invitation"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/v2/didcomm/invitations"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Without `connectionId`, creates a standalone Out-of-Band invitation that names the DID of the agent, with no label, no image and no attachment, and returns it with its short URL. With `connectionId`, sends the invitation on that connection: a v1 connection carries the Out-of-Band 1.1 message, and a v2 connection carries the Out-of-Band 2.0 invitation in the `application/didcomm-plain+json` attachment of a Media Sharing share-media message. Without `did`, that invitation opens a single-use sub-connection to this agent, correlated through `parentConnectionId`. With `did`, it refers the peer to that service and creates no record.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./v-2-didcomm-invitations-controller-create-invitation-v-2.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./v-2-didcomm-invitations-controller-create-invitation-v-2.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./v-2-didcomm-invitations-controller-create-invitation-v-2.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

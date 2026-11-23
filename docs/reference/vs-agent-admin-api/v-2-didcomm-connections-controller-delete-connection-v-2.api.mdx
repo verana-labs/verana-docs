@@ -1,11 +1,11 @@
 ---
 id: v-2-didcomm-connections-controller-delete-connection-v-2
 title: "Delete a connection"
-description: "Deletes a connection record, and drops the routing it held on its mediator when it had one. The connections opened from invitations sent on it stay, each with its `parentConnectionId`."
+description: "Terminates the DIDComm connection: notifies the other party and deletes the connection record."
 sidebar_label: "Delete a connection"
 hide_title: true
 hide_table_of_contents: true
-api: eJzVU01r20AQ/SvLnFpY24njOK1uJfbBUEopcS/BJBPtyFoq7Sq7IydG6L+XkUQip6H02pO08z3vzWvAUEyDrdh6BwmsqCCmqFCl3jlKxawCpT4YrdAZZYKvouKcVPA1W7dXllVOhVHeKctRlWQssg/qKSfXOVF8NFU3OY2qRuUrcmRUFnyprDtYxt4eyXFfTUXGo1aEaa6eLOddg/sKAzm+fqm0MfdT0OArCti/IYGf85U1qS/L17h47R0HXxQU7ky356vv7jAHDRUGLIkpREhuG3BYEiSQjjqBhkCPtQ1kIOFQkwYruFXIOeg3YG63m5XyWYfWCE72qm8PGmKaU4mQNEDPWFaF9LvI8NNltlxMLq/OryaLy+V88nCRpZN5+nl5kS2XmOESNPCxkujIwbo9tO1ORouVd5GiFJyfLeRzOtIpBwOzysZhIgOthsV7id/8OK8jQ9ba24OwbKBtNTDuBTg4zGemBx92Gkri3AslL0t3YCUwe42bje5i1owBbwUkCoeek53AnXkZjy13aH35vlErn9Yluf6A/qDhvQip13vPp2eghWPGlCFpZJHKRy7RSZvhBnpdnMjibZ+mK0KO/28ZDWfF9MyzqkDr5CTqUMiCPXFCsCw/UKxHAomgITnRy05D7iNLVtM8YKRtKNpWzI81hWPP6QGDxQeh87YBY6P8G0gyLCL9BeUPPwYpflT/ILV3FxuM6I5yFFjU8gINv+j4Vvntrh0d82r9dX2zhrb9DXsg0qo=
+api: eJy9U0uL2zAQ/itiTi0om10n8ba+lTiHQCmlbHpZwqJY41jUlrzSON1g/N/L2N5NmobSU0+WR/P4HqMWNIbMm5qMs5DAA/rKWEUYBBUo0nW6dFUlMmctZpyTCOvI5GZMcFSgF7XydBTKaqGxxNfiU5HwmDmvb0CCq9Erjq01JPA9So3OXFUt33LD0lnyrizRPw3dTndPhwgk1MqrCgl9gOSxBasqhARO09YaJHh8boxHDQn5BiUYZlcrKkBeUN5s1qlw+SVkciMZkBCyAisFSQv4oqq65HmzXH1Y5PF8sri/u5/MF3E02c3ybBJlH+NZHscqVzFIoGPN2YG8sXvoui1DC7WzAQM3jG7n/Llw4Zp6woQRkYZOwvxa4Rd3XvfTUNHT2psDWmE0dJ0EUnsWDg7RVA/iw1ZChVQ4tuSNdC9WAtNT3vTUO0zbc8E7Fgn9YfBky3LnjuGRoV6tT1/XInVZU6Gl3v4/bLiWwf2G27ubW5DsMamMIGmZSO0CVcrymHEH0h67UGciXM5p+yZo6X8s+2g+4QtN61IZy8Y1vmQYg7xsA0McjZBnaxxAQvLbVm8lFC4QV7XtTgXc+LLrOPzcoD8Oyh+UN2rHoj+2oE3gs4YkV2XAv2jx7tv4YN6Lf3gQV4mNQWWPbJ0qG/4DCT/wePk+u213tnLp6vPqYQVd9wvKwJGw
 sidebar_class_name: "delete api-method"
 info_path: docs/reference/vs-agent-admin-api/api-documentation
 custom_edit_url: null
@@ -38,7 +38,7 @@ import Translate from "@docusaurus/Translate";
 
 
 
-Deletes a connection record, and drops the routing it held on its mediator when it had one. The connections opened from invitations sent on it stay, each with its `parentConnectionId`.
+Terminates the DIDComm connection: notifies the other party and deletes the connection record.
 
 <Heading
   id={"request"}

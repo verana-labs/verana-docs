@@ -1,0 +1,1 @@
+{"schema":{"type":"object","additionalProperties":false,"required":["id"],"description":"Reference to a `CredentialSchema` record that is not yet materialised, per [TG-FCT-6b].","properties":{"id":{"type":"integer","minimum":0}},"title":"search_response_IdOnlyRef"},"schemaType":"response"}
