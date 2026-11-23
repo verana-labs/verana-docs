@@ -13,9 +13,9 @@ Your governance framework says what a participant must do and what happens when 
 
 ## Revoke
 
-Any ancestor in the tree, the owner, or the ecosystem controller can revoke an accreditation. The entry stops counting at once; credentials that depended on it are no longer accepted by verifiers, and the participant's agent removes them from its DID Document. Participant card, **Revoke Participant**. The dialog warns that it cannot be undone.
+Any ancestor in the tree, the owner, or the ecosystem controller can revoke an accreditation. The entry stops counting at once; credentials that depended on it are no longer accepted by verifiers, and the participant's agent removes them from its DID Document. Participant card, **Revoke Participant**. The confirmation dialog warns that it cannot be undone.
 
-<Screenshot name="participants/revoke-modal" alt="The Revoke Participant dialog" />
+<Screenshot name="participants/revoke-modal" alt="The confirmation dialog of Revoke Participant" />
 
 ## Slash
 

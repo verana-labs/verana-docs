@@ -20,7 +20,7 @@ Each action button carries an icon: a lightning bolt for operator mode (you hold
 Corporation page, **Operators**. The list shows the active operators with the number of message types each holds; expand one to see them. Below it, **Grant operator authorization**:
 
 1. Paste the operator's account.
-2. Pick the message types. They are grouped by module (corporation, ecosystem, governance framework, credential schema, participant, trust deposit); **Select all** and **Clear** help. The counter says how many are selected.
+2. Pick the message types. They are grouped by module (corporation, ecosystem, governance framework, credential schema, participant, trust deposit, digest); **Select all** and **Clear** help. The counter says how many are selected.
 3. Optionally open **Expiration, spend limits and fee grant**: an expiry date, a spend limit per period, and a fee grant so the corporation pays the operator's network fees, with its own budget.
 4. **Grant**.
 

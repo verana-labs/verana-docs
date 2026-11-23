@@ -17,19 +17,19 @@ verified_on: 2026-10-14 (testnet v0.10.6, frontend 0.18)
 
 ## Steps
 
-1. **Ecosystems** page, **Create Ecosystem**. Enter the DID, the primary language, and the governance framework document URL; the frontend computes its digest. **Create Ecosystem**, review the cost in the confirmation dialog, sign (or propose).
+1. **Ecosystems** page, **Create Ecosystem**. Enter the DID, the primary language, and the governance framework document URL; the frontend computes its digest before you sign. **Confirm**, review the cost in the confirmation dialog, sign (or propose).
 
 <Screenshot name="ecosystems/create-form" alt="The Create Ecosystem form" />
 
-2. The frontend opens the new ecosystem. Its page shows the basic information, the DID, the governance framework with version one active, the empty schema list, and the configuration actions.
+2. The frontend opens the new ecosystem. Its tabs show the basic information and the configuration actions (**Overview**), the governance framework with version one active (**Governance**) and the empty schema list (**Credential Schemas**).
 
 <Screenshot name="ecosystems/detail" alt="A new ecosystem page" />
 
-3. **Later versions**: in **EGF Documents**, **Add New EGF Document** for the next version, one per language, then **Increase Active EGF**. The active version is frozen; participants are bound by it.
+3. **Later versions**: on the **Governance** tab, **Add New EGF Document** for the next version, one per language, then **Increase Active EGF**. The active version is frozen; participants are bound by it.
 
 <Screenshot name="ecosystems/egf-add-form" alt="The form to add an ecosystem governance framework document" />
 
-4. **Edit Configuration** changes the DID if the anchor moves: the ecosystem's DID can be updated by its controller.
+4. **Edit Configuration**, on **Overview**, makes the DID editable in place if the anchor moves: the ecosystem's DID can be updated by its controller.
 
 <Screenshot name="ecosystems/edit-config" alt="The Edit Configuration form of an ecosystem" />
 
