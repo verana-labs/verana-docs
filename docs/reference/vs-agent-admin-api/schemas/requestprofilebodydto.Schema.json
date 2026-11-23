@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"connectionId":{"type":"string","description":"Connection to send the request on","example":"conn-1234-5678"},"query":{"description":"Profile fields of interest, every field when absent","type":"array","items":{"type":"string"}}},"required":["connectionId"],"title":"RequestProfileBodyDto"},"schemaType":"response"}

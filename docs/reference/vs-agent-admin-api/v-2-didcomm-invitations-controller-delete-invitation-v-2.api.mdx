@@ -1,0 +1,70 @@
+---
+id: v-2-didcomm-invitations-controller-delete-invitation-v-2
+title: "Delete an invitation"
+description: "Deletes an invitation record. The agent stops accepting the invitation, and its short URL answers 404. A connection that the invitation produced keeps its `invitationId`."
+sidebar_label: "Delete an invitation"
+hide_title: true
+hide_table_of_contents: true
+api: eJzVU8Fu2zAM/RWBpw0QkizIybdiySFAMQxFuksRtKrExEJtSRVpd4Ghfx9kG42bBgN23MkWKfLpPT52YJB0tIGtd1DAGitkJKGcsK61rHJcRNQ+mpnYlSjUER0LYh9IKK0xsHVHwSVOCqRQzgjLJKj0kcX93a1Qjt4wklgtVjNxI7R3DnXfnUvFFw1EiN40Go14QQzUt3o6p7fmaQYSfMA4nqGAX8u1NdrX9fb9Hn33jqOvKoyPpmd2zj22S5AQVFQ1MkaC4qEDp2qEAqZIICHia2MjGig4NijBZqWC4hLkhXxbg47twWIU/nDJaVBRsBfDW0AC6RJrBUUHfAoZmThad4SU9hmWgneElPPLxSp/PsLtrgJYGgEMJAmra4U//LTuzXLZP/ZoW3TCGkhJAqtjFgXa5dwMwsJeQo1c+iz3O4deiALm53vzc2+ad1MxU+aMsR303mcpD76nb7nK/G9+bsXa66ZGN9R8kvjajdxvyH6bLUCC9o6VZii6TCR44lq5DDPOd3D5R5NfAnV9F3T8v23F6CTG3zwPlbIuu6CJVaY0zCrPNNMdpyonfieQUHyw/15C6YlzVdc9K8L7WKWUw68NxtMwxlZFq57zBB86MJbyv4HioCrCv+j65W7crK/iXzfnKssxqNwpm0JVTT6BhBc8XW512qeJmdeb281uAyn9ARLEx0I=
+sidebar_class_name: "delete api-method"
+info_path: docs/reference/vs-agent-admin-api/api-documentation
+custom_edit_url: null
+hide_send_button: true
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+import Translate from "@docusaurus/Translate";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Delete an invitation"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/v2/didcomm/invitations/{invitationId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Deletes an invitation record. The agent stops accepting the invitation, and its short URL answers 404. A connection that the invitation produced keeps its `invitationId`.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+>
+  <Translate id="theme.openapi.request.title">Request</Translate>
+</Heading>
+
+<ParamsDetails
+  {...require("./v-2-didcomm-invitations-controller-delete-invitation-v-2.ParamsDetails.json")}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  {...require("./v-2-didcomm-invitations-controller-delete-invitation-v-2.RequestSchema.json")}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  {...require("./v-2-didcomm-invitations-controller-delete-invitation-v-2.StatusCodes.json")}
+>
+  
+</StatusCodes>
+
+
+      

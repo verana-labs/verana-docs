@@ -304,22 +304,6 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: "category",
-      label: "Metrics",
-      link: {
-        type: "doc",
-        id: "reference/indexer-api/metrics",
-      },
-      items: [
-        {
-          type: "doc",
-          id: "reference/indexer-api/get-global-metrics",
-          label: "Get Global Current Metrics (deprecated)",
-          className: "menu__list-item--deprecated api-method get",
-        },
-      ],
-    },
-    {
-      type: "category",
       label: "Exchange Rate",
       link: {
         type: "doc",
@@ -838,12 +822,6 @@ const sidebar: SidebarsConfig = {
           type: "doc",
           id: "reference/indexer-api/schemas/pendingflatresponse",
           label: "PendingFlatResponse",
-          className: "schema",
-        },
-        {
-          type: "doc",
-          id: "reference/indexer-api/schemas/globalmetricsresponse",
-          label: "GlobalMetricsResponse",
           className: "schema",
         },
         {

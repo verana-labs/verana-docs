@@ -1,0 +1,1 @@
+{"schema":{"type":"object","properties":{"token":{"type":"string","description":"Bearer token for the Authorization header"},"expiresAt":{"type":"string","description":"ISO 8601 UTC datetime after which the token is rejected"}},"required":["token","expiresAt"],"title":"TokenResponseDto"},"schemaType":"response"}

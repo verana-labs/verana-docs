@@ -1,0 +1,1 @@
+{"schema":{"type":"object","additionalProperties":false,"required":["id"],"description":"Reference to a `CredentialSchema`, `Ecosystem` or `Corporation` record that is not yet materialised, per [[TG-QRY-3]].","properties":{"id":{"type":"integer","minimum":0}},"title":"traverse_response_IdOnlyRef"},"schemaType":"response"}

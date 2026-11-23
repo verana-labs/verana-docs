@@ -192,6 +192,12 @@ const sidebar: SidebarsConfig = {
         },
         {
           type: "doc",
+          id: "reference/graph-api/schemas/search-response-idonlyref",
+          label: "search_response_IdOnlyRef",
+          className: "schema",
+        },
+        {
+          type: "doc",
           id: "reference/graph-api/schemas/search-response-didcard",
           label: "search_response_DidCard",
           className: "schema",
@@ -506,6 +512,12 @@ const sidebar: SidebarsConfig = {
           type: "doc",
           id: "reference/graph-api/schemas/traverse-response-credentialanyref",
           label: "traverse_response_CredentialAnyRef",
+          className: "schema",
+        },
+        {
+          type: "doc",
+          id: "reference/graph-api/schemas/traverse-response-idonlyref",
+          label: "traverse_response_IdOnlyRef",
           className: "schema",
         },
         {
