@@ -53,7 +53,7 @@ The corporation exists. The last step offers the guided first proposal: **Grant 
 
 ## Verify
 
-The Corporation page shows the id, DID, policy address, members and policy, the first governance framework version active, and the activity of the corporation. The selector in the header now acts for it.
+The Corporation page shows the id, DID, policy address (with a copy button), balance, members and policy, and the activity of the corporation; its **Governance** tab shows the first governance framework version active. The selector at the top of the sidebar now acts for it.
 
 <Screenshot name="corporation/overview" alt="The Corporation page overview after creation" />
 

@@ -20,7 +20,7 @@ When a corporation applies for an accreditation that names your ecosystem (or on
 
 ## Steps
 
-1. Select the application. Its participant card opens below: the granted service and its provider, the key metadata (DID, corporation, ecosystem, VS operator, deposit), the onboarding process with the fees and deposit escrowed, and the activity.
+1. Select the application. Its participant card opens in a panel on the right: the granted service and its provider, the key metadata (DID, corporation, ecosystem, VS operator, deposit), the onboarding process with the fees and deposit escrowed, and the activity.
 
 <Screenshot name="validate/task-card" alt="The participant card of a pending application" />
 
@@ -51,7 +51,7 @@ When your agent holds the VS operator authorization covering validation, `valida
 
 ## Later
 
-From the participant card: move the end date, revoke, or slash (irreversible, with a reason) when the governance framework is breached. See [Revoke, slash and repay](./41-revoke-slash-repay.md).
+From the participant card: move the end date (**Adjust Participant**), revoke, or slash (irreversible, with a reason) when the governance framework is breached. See [Revoke, slash and repay](./41-revoke-slash-repay.md).
 
 ## Verify
 

@@ -19,7 +19,7 @@ This is the other side of the tree: your corporation applies to issue, verify or
 
 ## Find the ecosystem
 
-**Discover & Join** lists every ecosystem on the network with its trust state, its active schemas, its figures and the roles your corporation already holds in it. Search by DID, id, service or organization name, sort by **Newest first** or **Locked trust value**, show archived or untrusted ecosystems, and, with a corporation acting, hide the ecosystems you own or already take part in. Search and filters cover the whole list, not only the page you see. Open the governance framework with **EGF** before you commit. Each schema card shows its onboarding modes and validity periods, and its **Join** button opens the schema's participant tree. **View Ecosystem** opens the ecosystem page.
+**Discover & Join** lists every ecosystem on the network with its trust state, its active schemas, its figures and the roles your corporation already holds in it. Search by DID, id, service or organization name, sort by **Newest first** or **Locked trust value**, show archived or untrusted ecosystems, and, with a corporation acting, hide the ecosystems you own or already take part in. While the list is not fully loaded, sorting and filters apply to the loaded results only, and the page says so. Open the governance framework with **EGF** before you commit. Each schema card shows its onboarding modes and validity periods, and its **Join** button opens the schema's participant tree. **View Ecosystem** opens the ecosystem page.
 
 <Screenshot name="join/discover" alt="Discover & Join listing an ecosystem with its credential schema" />
 
@@ -27,13 +27,13 @@ This is the other side of the tree: your corporation applies to issue, verify or
 
 ## Open the participant tree
 
-On the ecosystem page, **View Participants** on a schema card opens that schema's participant tree, as does **Join** on Discover.
+On the ecosystem page, the tree icon (**View Participants**) on a schema card of the **Credential Schemas** tab opens that schema's participant tree, as does **Join** on Discover.
 
 The tree starts at the ecosystem's root participant. Under each participant sit folders for the roles that can join below it: **Issuers** and **Verifiers** under the root, or **Issuer Grantors** and **Verifier Grantors** when the schema uses grantors, then **Holders** under each issuer. Each folder shows its onboarding mode, **onboarding process**, **open**, or **permissionless** for holders, and a **join** action.
 
 <Screenshot name="join/tree" alt="The participant tree of a schema with its role folders, their onboarding mode and the join action" />
 
-Where you join is your choice of validator. The folder you pick sits under one participant, and that participant validates your application, or anchors your entry for an open role. To join as issuer under a grantor rather than under the ecosystem, open the grantor's node and join its **Issuers** folder. Tick **Business Rules** to compare the fees of the candidates, and **Unresolvable services** to show participants whose DID does not resolve yet.
+Where you join is your choice of validator. The folder you pick sits under one participant, and that participant validates your application, or anchors your entry for an open role. To join as issuer under a grantor rather than under the ecosystem, open the grantor's node and join its **Issuers** folder. Under **Display**, tick **Business Rules** to compare the fees of the candidates, and **Unresolvable services** to show participants whose DID does not resolve yet.
 
 **join** is offered under an active participant only. Without a wallet it asks you to connect; without an acting corporation it is disabled and its tooltip says why. Its icon says how it will run: a lightning bolt when your operator authorization covers the message, a gavel when it opens a proposal for the corporation's members.
 

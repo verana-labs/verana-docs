@@ -17,21 +17,21 @@ Every screenshot on these pages switches with the docs theme (the toggle at the 
 
 ## Connect a wallet
 
-You need a Cosmos browser wallet, [Keplr](https://www.keplr.app) or [Leap](https://www.leapwallet.io). Without a wallet the frontend is read only: you can browse the dashboard and **Discover & Join**.
+You need a Cosmos browser wallet, [Keplr](https://www.keplr.app) or [Leap](https://www.leapwallet.io). Without a wallet the frontend is read only: you can browse the dashboard, **Discover & Join** and **Settings**.
 
 <Screenshot name="tour/dashboard-guest" alt="The dashboard before a wallet is connected" caption="Before connecting: network figures and the public pages only." />
 
-Click **Connect** at the top right and pick your wallet. The wallet asks you to approve the Verana chain the first time.
+Click **Connect Wallet** at the top right and pick your wallet. The wallet asks you to approve the Verana chain the first time.
 
 <Screenshot name="tour/connect-wallet" alt="The wallet selection dialog" />
 
-Once connected, the header shows the network (`vna-testnet-1`), the corporation you act for, the settings, the theme toggle and your account. A fresh account has no corporation yet, so the dashboard offers to create one.
+Once connected, the header shows the search, the network (`vna-testnet-1`), the theme toggle, the settings and your account, and the sidebar on the left holds the corporation you act for and the pages. A fresh account has no corporation yet, so the dashboard offers to create one.
 
 <Screenshot name="tour/dashboard-connected" alt="The dashboard of a connected account without a corporation" />
 
 ## Get VNA
 
-Every transaction costs a small network fee in VNA, and some actions lock a trust deposit. On testnet and devnet the **Account** page tops your account up from the faucet. It also shows your address (with a QR code and an explorer link), your balance, and the corporations you belong to.
+Every transaction costs a small network fee in VNA, and some actions lock a trust deposit. On testnet and devnet the **Account** page tops your account up from the faucet. It also shows your address (with a QR code and an explorer link), your balance, and the corporations you belong to, and **Send VNA** transfers VNA to another account or to a corporation.
 
 <Screenshot name="tour/account" alt="The Account page of a new account" />
 
@@ -64,13 +64,13 @@ On Verana every resource belongs to a **corporation**, a group of member account
 
 <Screenshot name="tour/choose-corporation" alt="The corporation chooser shown when the account operates several corporations" />
 
-Switch at any time from the selector in the header. It lists your corporations with your role in each (operator, member and your voting weight) and their pending tasks and votes, and refreshes the list after you create or join one. Switching resets any open form, so nothing you typed is sent for the wrong corporation.
+Switch at any time from the selector at the top of the sidebar. It lists your corporations with your role in each (operator, member and your voting weight) and their pending tasks and votes, and refreshes the list after you create or join one. Switching resets any open form, so nothing you typed is sent for the wrong corporation.
 
-<Screenshot name="tour/corporation-selector" alt="The acting corporation selector in the header" />
+<Screenshot name="tour/corporation-selector" alt="The acting corporation selector at the top of the sidebar" />
 
 ## Find your way around
 
-The navigation follows what the acting corporation can do.
+The navigation follows what the acting corporation can do. The pages are in the sidebar; **Search** in the header (or Cmd+K, Ctrl+K) finds pages, ecosystems and credential schemas, and switches the theme.
 
 | Page | What it is for |
 |---|---|
@@ -93,7 +93,7 @@ Every action button carries a small icon that says how it will run: a lightning 
 
 ## Settings
 
-**Settings** sets the language (English or Spanish) and the theme (system, light or dark), and shows the chain and the endpoints this frontend talks to, the graph included. The footer shows the versions of the network, the indexer, the graph and the frontend, each with its state: synced, syncing, indexing, stalled, down or unreachable.
+**Settings** sets the language (English or Spanish) and the theme (system, light or dark), and shows the chain and the endpoints this frontend talks to, the graph included. The **Status** block at the bottom of the sidebar shows the versions of the network, the indexer, the graph and the frontend, each with a coloured dot for its state, and a word when it is not healthy: syncing, stalled, down or unreachable.
 
 <Screenshot name="tour/settings" alt="The Settings page" />
 

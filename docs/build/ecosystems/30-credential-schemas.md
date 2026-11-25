@@ -52,11 +52,11 @@ Everything except the validity periods is immutable; the frontend warns before y
 
 ## Steps
 
-Ecosystem page, **Credential Schemas**, **New Schema**: set the onboarding modes, the digest algorithm and the validity periods in days, paste the JSON schema (validated in the browser, bounded by the network's size limit), and sign. The anchor publishes the schema credential, type metadata and AnonCreds schema within a block or two.
+Ecosystem page, **New Schema**. The wizard has four steps: **Schema**, paste the JSON schema (validated in the browser, bounded by the network's size limit); **Onboarding**, the three onboarding modes and the digest algorithm; **Validity**, the validity periods in days; **Review**, then **Confirm** and sign. The anchor publishes the schema credential, type metadata and AnonCreds schema within a block or two.
 
 <Screenshot name="schemas/create-form" alt="The Create New Credential Schema form" />
 
-The schema then appears on the ecosystem page with its modes and figures, and opens on its own page with the JSON schema and its activity.
+The schema then appears in the ecosystem's **Credential Schemas** tab with its modes and figures, and opens on its own page with the JSON schema and its activity.
 
 <Screenshot name="ecosystems/detail-with-schema" alt="The ecosystem page with its first credential schema" />
 
